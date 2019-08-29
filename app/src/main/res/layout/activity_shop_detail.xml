@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/my_color_white">
+
+    <RelativeLayout
+        android:id="@+id/shop_detail_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_shop_banner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_200dp"
+            android:background="@color/my_color_E10020"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_72dp"
+            android:layout_alignBottom="@id/iv_shop_banner"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10">
+
+            <ImageView
+                android:id="@+id/iv_shop_detail"
+                android:layout_width="@dimen/bj_52dp"
+                android:layout_height="@dimen/bj_52dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/tv_shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bj_10dp"
+                android:layout_toRightOf="@id/iv_shop_detail"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="家富足道养生馆"
+                android:textColor="@color/my_color_white"
+                android:textSize="@dimen/wz_16sp" />
+
+            <com.hqmy.market.view.widgets.ratingbar.BaseRatingBar
+                android:id="@+id/rb_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj_10dp"
+                android:layout_marginRight="8dp"
+                android:layout_toRightOf="@id/iv_shop_detail"
+                app:srb_isIndicator="true"
+                app:srb_numStars="5"
+                app:srb_rating="5"
+                app:srb_starHeight="10dp"
+                app:srb_starPadding="2dp"
+                app:srb_starWidth="@dimen/bj_10dp" />
+
+            <TextView
+                android:id="@+id/tv_shop_follow_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/iv_shop_detail"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingTop="@dimen/bj_5dp"
+                android:paddingRight="@dimen/dp_10"
+                android:text="关注量: 0"
+                android:textColor="@color/my_color_white"
+                android:textSize="@dimen/wz_12sp" />
+
+            <TextView
+                android:id="@+id/tv_shop_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv_shop_detail"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/bg_white_shape_no_solid"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingTop="@dimen/bj_3dp"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingBottom="@dimen/bj_3dp"
+                android:text="关注店铺"
+                android:textColor="@color/my_color_white"
+                android:textSize="@dimen/wz_12sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/shop_detail_srl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/shop_detail_top_layout">
+
+        <com.hqmy.market.view.widgets.autoview.CustomView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bj_72dp"
+                    android:layout_marginLeft="@dimen/bj_10dp"
+                    android:layout_marginTop="@dimen/bj_10dp"
+                    android:layout_marginRight="@dimen/bj_10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_shop_detail_location"
+                        android:layout_width="@dimen/bj_20dp"
+                        android:layout_height="@dimen/bj_20dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_location_red" />
+
+                    <ImageView
+                        android:id="@+id/iv_shop_detail_phone"
+                        android:layout_width="@dimen/bj_20dp"
+                        android:layout_height="@dimen/bj_20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_customer_phone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/bj_10dp"
+                        android:layout_marginRight="@dimen/bj_10dp"
+                        android:layout_toLeftOf="@id/iv_shop_detail_phone"
+                        android:layout_toRightOf="@id/iv_shop_detail_location"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_shop_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/my_color_black"
+                            android:textSize="@dimen/wz_14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_shop_distance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/bj_10dp"
+                            android:textColor="@color/my_color_666666"
+                            android:textSize="@dimen/wz_12sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/bj_10dp"
+                    android:layout_marginRight="@dimen/bj_10dp"
+                    android:background="@color/my_color_f5f5f5" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/bj_30dp"
+                    android:layout_marginTop="@dimen/bj_10dp"
+                    android:layout_marginRight="@dimen/bj_30dp"
+                    android:layout_marginBottom="@dimen/bj_10dp"
+                    android:layout_toLeftOf="@id/iv_shop_detail_phone"
+                    android:layout_toRightOf="@id/iv_shop_detail_location"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_shop_yingye_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="9:30-凌晨00:00营业"
+                        android:textColor="@color/my_color_black"
+                        android:textSize="@dimen/wz_14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_shop_have"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/bj_10dp"
+                        android:text="WIFI       停车位"
+                        android:textColor="@color/my_color_666666"
+                        android:textSize="@dimen/wz_12sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/bj_10dp"
+                    android:layout_marginRight="@dimen/bj_10dp"
+                    android:background="@color/my_color_f5f5f5" />
+
+                <LinearLayout
+                    android:id="@+id/shop_detail_notice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/bj_10dp"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:layout_marginRight="@dimen/bj_10dp"
+                    android:background="@drawable/bg_666666_shape_no_corner"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/bj_10dp"
+                        android:paddingTop="@dimen/bj_10dp"
+                        android:text="温馨提示"
+                        android:textColor="@color/my_color_black"
+                        android:textSize="@dimen/wz_14sp" />
+
+                    <com.hqmy.market.view.widgets.autoview.NoScrollWebView
+                        android:id="@+id/shop_detail_webView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj_10dp"
+                        android:layout_marginRight="@dimen/bj_10dp"
+                        android:layout_marginBottom="@dimen/bj_5dp" />
+                </LinearLayout>
+
+                <com.hqmy.market.view.widgets.autoview.NoScrollListView
+                    android:id="@+id/recyclerView_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@color/white"
+                    android:dividerHeight="@dimen/bj_10dp"
+                    android:layout_margin="@dimen/bj_10dp" />
+
+                <com.hqmy.market.view.widgets.autoview.SortingLayout
+                    android:id="@+id/sorting_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+
+                <com.hqmy.market.view.widgets.autoview.NoScrollListView
+                    android:id="@+id/shop_detail_listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@color/my_color_666666"
+                    android:dividerHeight="1px" />
+            </LinearLayout>
+        </com.hqmy.market.view.widgets.autoview.CustomView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/shop_topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_65dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/transparent"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/bj_25dp"
+        android:paddingBottom="@dimen/bj_10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/shop_layout_back"
+                android:layout_width="@dimen/bj_50dp"
+                android:layout_height="@dimen/bj_29dp"
+                android:layout_alignParentLeft="true">
+
+                <ImageView
+                    android:layout_width="@dimen/bj_29dp"
+                    android:layout_height="@dimen/bj_29dp"
+                    android:layout_marginLeft="5dp"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_back_white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/shop_layout_share"
+                android:layout_width="@dimen/bj_56dp"
+                android:layout_height="@dimen/bj_29dp"
+                android:layout_alignParentRight="true"
+                android:gravity="right">
+
+                <ImageView
+                    android:layout_width="@dimen/bj_29dp"
+                    android:layout_height="@dimen/bj_29dp"
+                    android:layout_marginLeft="5dp"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_share_white" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/find"
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:layout_centerHorizontal="true"
+                android:layout_toStartOf="@+id/shop_layout_share"
+                android:layout_toEndOf="@+id/shop_layout_back"
+                android:background="@drawable/consume_find_bg"
+                android:drawableRight="@mipmap/ic_find"
+                android:drawablePadding="13dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="请输入关键字"
+                android:textColor="@color/my_color_white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/bj_25dp">
+
+    <include layout="@layout/layout_title_view" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_210dp">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/iv_paid_viewing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/fee_icon"
+            android:visibility="gone" />
+         <RelativeLayout
+             android:id="@+id/rl_watch"
+             android:visibility="gone"
+             android:layout_width="@dimen/bj_40dp"
+             android:background="@drawable/watch_shape"
+             android:layout_centerInParent="true"
+             android:layout_height="@dimen/bj_40dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/bofang" />
+         </RelativeLayout>
+    </RelativeLayout>
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/stl_learn_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:background="#FFFFFF"
+        android:paddingLeft="@dimen/bj_10dp"
+        android:paddingRight="@dimen/bj_10dp"
+        tl:tl_indicator_color="#E10020"
+        tl:tl_indicator_height="1.5dp"
+        tl:tl_indicator_width_equal_title="true"
+        tl:tl_tab_padding="0dp"
+        tl:tl_tab_space_equal="true"
+        tl:tl_textSelectColor="#e10020"
+        tl:tl_textUnselectColor="#ff333333"
+        tl:tl_textsize="15sp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_learn_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

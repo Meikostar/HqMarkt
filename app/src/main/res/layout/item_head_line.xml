@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/my_color_FFFFFF"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/bj_10dp">
+    <ImageView
+        android:id="@+id/iv_item_head_line_icon"
+        android:layout_width="@dimen/bj_100dp"
+        android:layout_height="@dimen/bj_100dp"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_marginRight="@dimen/bj_10dp"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:layout_alignParentRight="true"
+        android:scaleType="centerCrop"
+        android:textColor="#ff999999"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/tv_item_head_line_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_item_head_line_icon"
+        android:layout_toLeftOf="@id/iv_item_head_line_icon"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_marginRight="@dimen/bj_10dp"
+        android:layout_alignParentLeft="true"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="爱心头条测试2"
+        android:textColor="@color/my_color_black"
+        android:textSize="@dimen/wz_14sp" />
+    <TextView
+        android:id="@+id/tv_item_head_line_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_item_head_line_icon"
+        android:layout_toLeftOf="@id/iv_item_head_line_icon"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_marginRight="@dimen/bj_10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/bj_20dp"
+        android:text="2019年5月15日"
+        android:textSize="12sp"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/iv_item_head_line_icon"
+        android:layout_toLeftOf="@id/iv_item_head_line_icon"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_item_head_line_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/bj_10dp"
+            android:text="管理员"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_look_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/bj_10dp"
+            android:drawableLeft="@mipmap/ic_already_read"
+            android:drawablePadding="@dimen/bj_5dp"
+            android:gravity="center_vertical"
+            android:text="56"
+            android:textSize="12sp" />
+    </RelativeLayout>
+</RelativeLayout>

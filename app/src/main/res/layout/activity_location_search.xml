@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/my_color_FFFFFF"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/bj_25dp">
+    <include layout="@layout/layout_title_view"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_1dp"
+        android:background="#F5F5F5" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/my_color_f5f5f5">
+    <EditText
+        android:id="@+id/et_search_location"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_50dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_20dp"
+        android:layout_marginTop="@dimen/bj_20dp"
+        android:layout_marginBottom="@dimen/bj_20dp"
+        android:background="@drawable/bg_white_shape"
+        android:gravity="center"
+        android:text="搜索"
+        android:textColorHint="@color/my_color_999999"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lc_recycleview"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@color/my_color_white"
+        android:overScrollMode="never"/>
+    </LinearLayout>
+</LinearLayout>

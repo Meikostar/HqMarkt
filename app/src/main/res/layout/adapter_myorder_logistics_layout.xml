@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/bj_10dp"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:background="@color/my_color_white"
+        android:padding="@dimen/bj_15dp">
+
+        <ImageView
+            android:id="@+id/img_logistics_logo"
+            android:layout_width="@dimen/bj_85dp"
+            android:layout_height="@dimen/bj_85dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bj_28dp"
+            android:layout_marginRight="@dimen/bj_10dp"
+            android:src="@mipmap/img_default_1" />
+
+        <TextView
+            android:id="@+id/tv_goods_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/img_logistics_logo"
+            android:maxLines="2"
+            android:textColor="@color/my_color_050000"
+            android:textSize="@dimen/wz_14sp" />
+
+        <TextView
+            android:id="@+id/tv_goods_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_goods_name"
+            android:layout_marginTop="@dimen/bj_10dp"
+            android:layout_toRightOf="@id/img_logistics_logo"
+            android:textColor="@color/my_color_050000"
+            android:textSize="@dimen/wz_14sp" />
+
+        <TextView
+            android:id="@+id/tv_goods_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img_logistics_logo"
+            android:layout_toRightOf="@id/img_logistics_logo"
+            android:textColor="@color/pldroid_streaming_red"
+            android:textSize="@dimen/wz_14sp" />
+
+        <TextView
+            android:id="@+id/tv_goods_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img_logistics_logo"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/my_color_050000"
+            android:textSize="@dimen/wz_14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_5dp"
+        android:background="@color/white"
+        android:padding="@dimen/bj_15dp">
+
+        <TextView
+            android:id="@+id/tv_express_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_35dp"
+            android:text="物流公司："
+            android:textColor="@color/my_color_999999"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_express_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_express_name_title"
+            android:textColor="#12a108"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_express_no_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_express_name_title"
+            android:layout_marginLeft="@dimen/bj_35dp"
+            android:layout_marginTop="@dimen/bj_12dp"
+            android:text="物流单号："
+            android:textColor="@color/my_color_999999"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_express_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_express_name_title"
+            android:layout_marginTop="@dimen/bj_12dp"
+            android:layout_toRightOf="@+id/tv_express_no_title"
+            android:textColor="#12a108"
+            android:textSize="@dimen/sp_14" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_logistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_5dp"
+        android:paddingLeft="@dimen/bj_24dp"
+        android:paddingRight="@dimen/bj_24dp"
+        android:paddingTop="@dimen/bj_12dp"
+        android:paddingBottom="@dimen/bj_12dp"
+        android:background="@color/white"
+        android:focusableInTouchMode="false"
+        android:nestedScrollingEnabled="false" />
+</LinearLayout>

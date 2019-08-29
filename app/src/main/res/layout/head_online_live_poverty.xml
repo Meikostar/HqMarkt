@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/bj_10dp"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/bj_10dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_online_live_poverty"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/bj_5dp"
+        android:paddingRight="@dimen/bj_5dp"
+        android:layout_height="@dimen/bj_44dp">
+
+        <TextView
+            android:id="@+id/tv_online_live_poverty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+           android:layout_marginLeft="@dimen/bj_5dp"
+            android:textColor="#ff333333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/arr_right"
+            android:drawablePadding="@dimen/bj_10dp"
+            android:layout_marginRight="@dimen/bj_5dp"
+            android:text="进入频道"
+            android:textColor="#ff999999"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:background="@color/white"
+        android:paddingLeft="@dimen/bj_5dp"
+        android:paddingRight="@dimen/bj_5dp"
+        android:id="@+id/rcl_online_live_poverty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false" />
+</LinearLayout>

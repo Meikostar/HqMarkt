@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/bj_24dp">
+
+    <include layout="@layout/layout_title_view" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_10dp"
+        android:background="#F5F5F5" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="@dimen/bj_17dp"
+        android:layout_marginRight="@dimen/bj_10dp"
+        android:background="@mipmap/my_earnings_bg">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bj_25dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前余额"
+                android:textColor="#ffffffff"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/tv_earnings_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/bj_18dp"
+                android:text=""
+                android:textColor="#ffffffff"
+                android:textSize="33sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_19dp"
+        android:layout_marginTop="@dimen/bj_37dp"
+        android:layout_marginRight="@dimen/bj_19dp"
+        android:layout_marginBottom="42dp">
+
+        <TextView
+            android:id="@+id/tv_earnings_recharge"
+            android:layout_width="@dimen/bj_0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_recharge_bg"
+            android:gravity="center"
+            android:text="充值"
+            android:textColor="#ffffffff"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_earnings_withdraw"
+            android:layout_width="@dimen/bj_0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/bj_37dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_withdraw_bg"
+            android:gravity="center"
+            android:text="提现"
+            android:textColor="#ffe10020"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f5f5f5" />
+</LinearLayout>

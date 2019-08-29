@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <include layout="@layout/layout_title_view" />
+    <View
+        android:id="@+id/line_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_1dp"
+        android:background="#F5F5F5" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshlayout_hd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/bj_50dp">
+            <com.scwang.smartrefresh.header.MaterialHeader
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_hd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants"
+                android:focusable="true"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bj_100dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/my_color_f1f1f1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bj_50dp"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/et_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/bj_34dp"
+                        android:layout_marginLeft="@dimen/bj_20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_dddddd_17"
+                        android:drawableLeft="@mipmap/xiepinlun"
+                        android:drawablePadding="@dimen/bj_7dp"
+                        android:gravity="start|center_vertical"
+                        android:hint="此刻的想法..."
+                        android:paddingLeft="@dimen/bj_20dp"
+                        android:paddingRight="@dimen/bj_10dp"
+                        android:textColorHint="#ff999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_send_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/bj_15dp"
+                        android:paddingRight="@dimen/bj_20dp"
+                        android:text="发送"
+                        android:textColor="#ffff1313"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/my_color_f1f1f1"/>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_mopi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/bj_15dp">
+
+        <TextView
+            android:id="@+id/tv_mopi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="磨皮"
+            android:textColor="@color/my_color_333333"
+            android:textSize="@dimen/wz_15sp" />
+
+        <SeekBar
+            android:id="@+id/mopiLevel_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_toRightOf="@+id/tv_mopi"
+            android:max="100"
+            android:progress="100" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_mopi"
+        android:padding="@dimen/bj_15dp">
+
+        <TextView
+            android:id="@+id/tv_meibai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="美白"
+            android:textColor="@color/my_color_333333"
+            android:textSize="@dimen/wz_15sp" />
+
+        <SeekBar
+            android:id="@+id/meibaiLevel_seekBar"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_toRightOf="@+id/tv_meibai"
+            android:max="100"
+            android:progress="100" />
+    </RelativeLayout>
+</RelativeLayout>

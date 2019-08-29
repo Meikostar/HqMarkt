@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/my_color_white"
+    android:orientation="vertical"
+    android:paddingBottom="1dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/my_color_F5F5F5"
+        android:orientation="horizontal">
+    <CheckBox
+        android:id="@+id/cb_shop_cart"
+        style="@style/checkbox.theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:padding="@dimen/bj_5dp" />
+    <TextView
+        android:id="@+id/tv_dianpu_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_40dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/bj_10dp"
+        android:drawableLeft="@mipmap/order_store"
+        android:drawablePadding="@dimen/bj_10dp"
+        android:text="自营店铺"
+        android:textColor="@color/my_color_838383"
+        android:textSize="@dimen/wz_14sp" />
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_shop_cart_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/bj_10dp"
+        android:paddingRight="@dimen/bj_10dp"
+        android:focusable="true"/>
+</LinearLayout>

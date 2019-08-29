@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_hot_recent_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/bj_12dp"
+    android:paddingRight="@dimen/bj_12dp"
+    android:paddingTop="@dimen/bj_3dp"
+    android:paddingBottom="@dimen/bj_3dp"
+    android:layout_toLeftOf="@+id/iv_clear"
+    android:singleLine="true"
+    android:background="@drawable/shape_radius_3_f7f7f7"
+    android:textColor="@color/my_color_666666"
+    android:textSize="@dimen/wz_15sp" />

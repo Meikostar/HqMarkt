@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="bottom"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingTop="@dimen/bj_20dp"
+        android:text="选择分享方式"
+        android:textColor="#ff333333"
+        android:textSize="17sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/btn_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/bj_11dp"
+            android:drawableTop="@mipmap/share_wechat"
+            android:gravity="center"
+            android:minWidth="70dp"
+            android:text="微信好友"
+            android:textColor="@color/my_color_666666"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/btn_pyq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:drawablePadding="@dimen/bj_11dp"
+            android:drawableTop="@mipmap/share_pyq"
+            android:gravity="center"
+            android:minWidth="70dp"
+            android:text="朋友圈"
+            android:textColor="@color/my_color_666666"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+
+    <View style="@style/line_1" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/my_color_333333"
+        android:textSize="@dimen/wz_17sp" />
+</LinearLayout>

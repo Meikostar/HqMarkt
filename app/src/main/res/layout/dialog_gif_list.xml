@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_1dp"
+        android:layout_marginTop="@dimen/bj_20dp"
+        android:background="#e6e6e6" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_53dp">
+
+        <TextView
+            android:id="@+id/tv_pay_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="@dimen/bj_11dp"
+            android:drawableLeft="@mipmap/jinbip"
+            android:drawablePadding="@dimen/bj_5dp"
+            android:textColor="#f5b93a"
+            android:textSize="@dimen/sp_16" />
+
+        <Button
+            android:id="@+id/yes"
+            android:layout_width="@dimen/bj_90dp"
+            android:layout_height="@dimen/bj_31dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj_12dp"
+            android:background="@drawable/bg_gif_shape"
+            android:gravity="center"
+            android:text="赠送"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16" />
+    </RelativeLayout>
+</LinearLayout>

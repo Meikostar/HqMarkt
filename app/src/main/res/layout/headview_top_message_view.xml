@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/my_color_FFFFFF"
+    android:orientation="vertical">
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_44dp"
+        android:layout_marginTop="@dimen/bj_24dp"
+        android:background="@color/my_color_white">
+           <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/bj_8dp"
+              android:text="消息"
+              android:layout_centerInParent="true"
+              android:textColor="@color/my_color_black"
+              android:textSize="@dimen/wz_18sp" />
+          <ImageView
+              android:id="@+id/iv_message_actionbar_add"
+              android:layout_width="@dimen/bj_19dp"
+              android:layout_height="@dimen/bj_19dp"
+              android:layout_alignParentRight="true"
+              android:layout_marginRight="@dimen/bj_20dp"
+              android:layout_centerVertical="true"
+              android:background="@mipmap/actionbar_add" />
+          <ImageView
+              android:id="@+id/iv_message_contacts"
+              android:layout_width="@dimen/bj_20dp"
+              android:layout_height="@dimen/bj_20dp"
+              android:layout_toLeftOf="@id/iv_message_actionbar_add"
+              android:layout_marginRight="@dimen/bj_20dp"
+              android:layout_centerVertical="true"
+              android:background="@mipmap/contacts_list" />
+      </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+       <RelativeLayout
+        android:id="@+id/ll_search_friend_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_40dp"
+        android:layout_marginBottom="@dimen/bj_6dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_20dp"
+        android:layout_marginTop="@dimen/bj_6dp"
+        android:background="@drawable/bg_f5f5f5_shape">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawablePadding="@dimen/bj_5dp"
+            android:gravity="center"
+            android:text="搜索"
+            android:textColor="@color/my_color_535353"
+            android:textSize="@dimen/wz_14sp" />
+     </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

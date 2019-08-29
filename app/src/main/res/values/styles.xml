@@ -1,0 +1,154 @@
+<resources>
+    <!--自定义progressDialog-->
+    <style name="progress_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <!--全屏透明，有任务栏电量时间...-->
+    <style name="NoTitleTranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+    <!-- 自定义提示dialog样式 -->
+    <style name="dialog_with_alpha" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <!-- 右上角popupwindow -->
+    <style name="AnimationPreview">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <style name="line_1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/my_color_e5e5e5</item>
+    </style>
+    <style name="tv_userInfo_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/wz_15sp</item>
+        <item name="android:textColor">@color/my_color_2E2E2E</item>
+    </style>
+    <style name="ll_userInfo_item_child">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/bj_50dp</item>
+        <item name="android:layout_marginLeft">@dimen/bj_15dp</item>
+        <item name="android:layout_marginRight">@dimen/bj_15dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="bottomAnimStyle" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+    <style name="rightAnimStyle" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_right</item>
+    </style>
+    <!-- 透明对话框 -->
+    <style name="transparent_style_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+    <style name="btn_confirm">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/bj_40dp</item>
+        <item name="android:background">@drawable/btn_packet_confirm_shape</item>
+        <item name="android:textSize">@dimen/wz_15sp</item>
+        <item name="android:textColor">@color/my_color_white</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="btn_packet_confirm">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/bj_40dp</item>
+        <item name="android:background">@drawable/btn_packet_confirm_shape</item>
+        <item name="android:textSize">@dimen/wz_14sp</item>
+        <item name="android:textColor">@color/my_color_FFFFFF</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="community_tab_button_blue_style" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">@dimen/wz_18sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/community_tab_button_text_color</item>
+    </style>
+    <style name="MyTabLayoutTextAppearanceInverse">
+        <item name="android:textSize">@dimen/wz_16sp</item>
+    </style>
+
+    <style name="divider_horizontal_f5f5f5_5">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/bj_5dp</item>
+        <item name="android:background">@color/my_color_f5f5f5</item>
+    </style>
+
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_buttom_out</item>
+    </style>
+
+    <declare-styleable name="RedDotLayout">
+        <attr name="red_background" format="color" />
+        <attr name="red_radius" format="dimension" />
+        <attr name="red_text" format="string" />
+        <attr name="red_textColor" format="color" />
+        <attr name="red_location" format="integer" />
+        <attr name="red_textSize" format="dimension" />
+    </declare-styleable>
+
+    <!-- 自定义loading dialog 透明无边框-->
+    <style name="loading_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- 自定义提示dialog样式1 -->
+    <style name="dialog_with_alpha1" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--<item name="android:backgroundDimAmount">0.6</item>-->
+    </style>
+
+    <style name="checkbox.theme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/radio_check_state</item>
+    </style>
+
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="leftMenuId" format="reference" />
+        <attr name="rightMenuId" format="reference" />
+        <attr name="contentId" format="reference" />
+    </declare-styleable>
+
+    <style name="shop_cart_button_style" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">@dimen/wz_16sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/cart_top_text_color</item>
+        <item name="android:background">@drawable/cart_radio_group_seletor</item>
+    </style>
+
+</resources>

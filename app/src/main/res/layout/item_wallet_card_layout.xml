@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/bj_10dp"
+    android:layout_marginLeft="@dimen/bj_10dp"
+    android:layout_marginRight="@dimen/bj_10dp"
+    android:layout_marginBottom="@dimen/bj_5dp"
+    android:background="@drawable/shape_bank_bg_normal">
+
+    <com.hqmy.market.view.widgets.EasySwipeMenuLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:contentView="@+id/card_content"
+        app:rightMenuView="@+id/card_content_del">
+
+
+        <RelativeLayout
+            android:id="@+id/card_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/bj_15dp"
+            android:paddingRight="@dimen/bj_15dp">
+
+            <ImageView
+                android:id="@+id/img_card_bg"
+                android:layout_width="match_parent"
+                android:layout_height="110dp" />
+
+            <ImageView
+                android:id="@+id/img_card_logo"
+                android:layout_width="@dimen/bj_40dp"
+                android:layout_height="@dimen/bj_40dp"
+                android:layout_marginLeft="@dimen/bj_10dp"
+                android:layout_marginTop="@dimen/bj_20dp"
+                android:layout_marginRight="@dimen/bj_10dp" />
+
+            <TextView
+                android:id="@+id/tv_card_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/img_card_logo"
+                android:layout_toRightOf="@id/img_card_logo"
+                android:textColor="@color/my_color_white"
+                android:textSize="@dimen/wz_18sp" />
+
+            <TextView
+                android:id="@+id/tv_card_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_card_name"
+                android:layout_marginTop="@dimen/bj_5dp"
+                android:layout_toRightOf="@id/img_card_logo"
+                android:textColor="@color/my_color_white"
+                android:textSize="@dimen/wz_12sp" />
+
+            <TextView
+                android:id="@+id/tv_card_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_card_type"
+                android:layout_marginTop="@dimen/bj_5dp"
+                android:layout_toRightOf="@id/img_card_logo"
+                android:textColor="@color/my_color_white"
+                android:textSize="@dimen/wz_16sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/card_content_del"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="63dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="@color/my_color_white"
+                android:textSize="16sp"
+                android:background="@color/my_color_d60029"
+                />
+        </LinearLayout>
+    </com.hqmy.market.view.widgets.EasySwipeMenuLayout>
+</LinearLayout>

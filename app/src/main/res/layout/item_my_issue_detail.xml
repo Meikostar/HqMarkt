@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/bj_16dp"
+    android:layout_marginRight="25dp"
+    android:paddingTop="@dimen/bj_10dp"
+    android:paddingBottom="@dimen/bj_10dp">
+
+    <com.hqmy.market.view.widgets.CircleImageView
+        android:id="@+id/iv_item_my_issue_detail_icon"
+        android:layout_width="@dimen/bj_35dp"
+        android:layout_height="@dimen/bj_35dp"
+        android:src="@mipmap/user_avatar_normal" />
+
+    <TextView
+        android:id="@+id/tv_item_my_issue_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/iv_item_my_issue_detail_icon"
+        android:text="大刘"
+        android:textColor="#ff212121"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_item_my_issue_detail_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_my_issue_detail_name"
+        android:layout_alignLeft="@+id/tv_item_my_issue_detail_name"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:text="保佑，平安！"
+        android:textColor="#ff333333"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_item_my_issue_detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_my_issue_detail_content"
+        android:layout_alignLeft="@+id/tv_item_my_issue_detail_name"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:text="5-20  18:30"
+        android:textColor="#ff999999"
+        android:textSize="10sp" />
+</RelativeLayout>

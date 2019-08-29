@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingTop="24dp">
+
+    <include layout="@layout/layout_title_view" />
+
+    <View
+        style="@style/divider_horizontal_f5f5f5_5"
+        android:layout_height="@dimen/bj_10dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@mipmap/enterprise_profile" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/bj_20dp"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/bj_20dp"
+                android:lineSpacingMultiplier="1.4"
+                android:text="爱心是一片冬日的阳光，使饥寒交迫的人感到人间的温暖；爱心是沙漠中的一泓清泉，使身处绝境的人重新看到生活的希望；爱心是一首飘荡在夜空里的歌谣，使孤苦无依的人得到心灵的慰藉；爱心洒落在久旱的土地上的甘霖，使心灵枯萎的人感到情感的滋润。爱心是一股撞开冰闸的春水，使铁石心肠受到震撼。爱心是一座亮在黑夜的灯塔，使迷途航船找到港湾。爱心是一瓢纷洒在春天的小雨，使落寞孤寂的人享受心灵的滋润。爱心是一泪流淌在夏夜的清泉，使燥热不寐的人领略诗般的恬静。爱心是一柄撑起在雨夜的小伞，使漂泊异乡的人得到亲情的荫庇。爱心是一道飞架在天边的彩虹，使满目阴霾的人见到世界的美丽。爱心是一杯泼洒在头顶的冰水，使高热发昏的人得能冷静地思索。爱心是一块衔含在嘴里的奶糖，使久饮黄连的人尝到生活的甘甜。爱心是头顶温顺美丽的阳光，使黑暗的角落撒满阳光；爱心是脚下一条条通向家的石子路，使离家的孩子感受到家的温暖；爱心是满天迷人的星星，使迷途的旅人找到家的路。"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

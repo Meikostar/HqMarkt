@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/my_color_F5F5F5"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="@dimen/bj_23dp">
+
+        <include layout="@layout/layout_title_view" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_entity_store_item"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:background="@color/white"
+        android:padding="@dimen/bj_10dp">
+
+        <TextView
+            android:id="@+id/tv_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/tv_product_price"
+            android:background="@color/white"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/my_color_333333"
+            android:textSize="@dimen/wz_16sp" />
+
+        <TextView
+            android:id="@+id/tv_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/my_color_333333"
+            android:textSize="@dimen/wz_16sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EEEEEE" />
+
+    <RelativeLayout
+        android:id="@+id/rl_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_entity_store_item"
+        android:background="@color/white"
+        android:padding="@dimen/bj_10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@color/white"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="小计"
+            android:textColor="@color/my_color_333333"
+            android:textSize="@dimen/wz_16sp" />
+
+        <TextView
+            android:id="@+id/tv_product_price_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/my_color_FABB48"
+            android:textSize="@dimen/wz_16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_coupon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_entity_store_item"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:background="@color/white"
+        android:padding="@dimen/bj_10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@color/white"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="积分优惠券"
+            android:textColor="@color/my_color_333333"
+            android:textSize="@dimen/wz_16sp" />
+
+        <TextView
+            android:id="@+id/tv_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@drawable/arrow_right"
+            android:drawablePadding="@dimen/bj_10dp"
+            android:text="无可用优惠券"
+            android:textColor="@color/my_color_FABB48"
+            android:textSize="@dimen/wz_16sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EEEEEE" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/bj_10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@color/white"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="订单总价"
+            android:textColor="@color/my_color_333333"
+            android:textSize="@dimen/wz_16sp" />
+
+        <TextView
+            android:id="@+id/tv_product_price_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/red_dark"
+            android:textSize="@dimen/wz_16sp" />
+        <TextView
+            android:id="@+id/tv_dis_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_product_price_3"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/red_dark"
+            android:textSize="@dimen/wz_16sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_to_pay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_45dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginTop="@dimen/bj_100dp"
+        android:layout_marginRight="@dimen/bj_20dp"
+        android:background="@color/red_dark"
+        android:gravity="center"
+        android:text="去支付"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16" />
+</LinearLayout>

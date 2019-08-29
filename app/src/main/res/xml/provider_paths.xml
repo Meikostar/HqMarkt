@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path
+        name="download"
+        path="." />
+    <external-path
+        name="external_files"
+        path="." />
+    <external-path
+        name="files_root"
+        path="Android/data/com/pgyersdk" />
+    <external-path
+        name="external_storage_root"
+        path="." />
+    <external-path
+        name="image"
+        path="image/" />
+
+</paths><!-- From: file:/my/Pgyer/pgyer_sdk_as/app/src/main/res/xml/provider_paths.xml -->

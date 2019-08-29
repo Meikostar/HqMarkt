@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingTop="@dimen/bj_23dp"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title_view" />
+
+    <View style="@style/divider_horizontal_f5f5f5_5" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/bg_qrcode"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/bj_40dp"
+            android:text="加入爱心工程"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wz_17sp" />
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="35dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的邀请码"
+                android:textColor="@color/my_color_333333"
+                android:textSize="@dimen/wz_12sp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/bj_14dp"
+                android:text="加入爱心工程大家家族，让爱心传递下去"
+                android:textColor="@color/my_color_FC6B00"
+                android:textSize="@dimen/wz_13sp" />
+
+            <ImageView
+                android:id="@+id/img_qrcode"
+                android:layout_width="@dimen/bj_120dp"
+                android:layout_height="@dimen/bj_120dp"
+                android:layout_marginTop="@dimen/bj_20dp"
+                android:src="@mipmap/img_default_1" />
+
+            <TextView
+                android:id="@+id/btn_save_qcode"
+                android:layout_width="@dimen/bj_150dp"
+                android:layout_height="@dimen/bj_30dp"
+                android:layout_marginTop="@dimen/bj_20dp"
+                android:background="@drawable/bg_red_shape_no_corner"
+                android:gravity="center"
+                android:text="保存二维码"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_friend"
+            android:layout_width="@dimen/bj_160dp"
+            android:layout_height="@dimen/bj_40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/bj_30dp"
+            android:background="@drawable/shape_radius_20_fff"
+            android:text="已邀请好友>"
+            android:textColor="@color/my_color_FC6B00" />
+    </RelativeLayout>
+
+
+</LinearLayout>

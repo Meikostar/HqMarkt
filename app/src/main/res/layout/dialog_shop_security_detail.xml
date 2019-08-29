@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/my_color_white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="商家保障说明"
+            android:textColor="@color/my_color_333333"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_dialog_shop_security_clean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/search_item_clean" />
+    </RelativeLayout>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/my_color_EBEBEB" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_18dp"
+        android:orientation="horizontal">
+
+        <com.shehuan.niv.NiceImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/bj_15dp"
+            android:src="@color/my_color_008CD6"
+            app:corner_radius="10dp"  />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_10dp"
+            android:gravity="center"
+            android:text="正品保障"
+            android:textColor="@color/my_color_333333"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_30dp"
+        android:layout_marginRight="@dimen/bj_30dp"
+        android:gravity="center"
+        android:text="商家正品直邮，100%正品保障"
+        android:textColor="@color/my_color_333333"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_18dp"
+        android:orientation="horizontal">
+
+        <com.shehuan.niv.NiceImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/bj_15dp"
+            android:src="@color/my_color_008CD6"
+            app:corner_radius="10dp"  />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_10dp"
+            android:gravity="center"
+            android:text="不支持取消订单"
+            android:textColor="@color/my_color_333333"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_30dp"
+        android:layout_marginRight="@dimen/bj_30dp"
+        android:gravity="left"
+        android:text="依照大叔叔跨境直邮商家规定，一旦订单下单成功后，即不允许无理由取消订单"
+        android:textColor="@color/my_color_333333"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_18dp"
+        android:orientation="horizontal">
+
+        <com.shehuan.niv.NiceImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/bj_15dp"
+            android:src="@color/my_color_008CD6"
+            app:corner_radius="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_10dp"
+            android:gravity="center"
+            android:text="到货时间"
+            android:textColor="@color/my_color_333333"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_30dp"
+        android:layout_marginRight="@dimen/bj_30dp"
+        android:gravity="left"
+        android:text="依照大多数跨境直邮商家规定，非商品本身质量问题，不支持退款申请"
+        android:textColor="@color/my_color_333333"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/iv_dialog_shop_security_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_45dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/my_color_008CD6"
+        android:gravity="center"
+        android:text="确 定"
+        android:textColor="@color/my_color_white"
+        android:textSize="@dimen/wz_15sp" />
+
+
+</LinearLayout>

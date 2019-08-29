@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:orientation="vertical">
+
+    <!--公告-->
+    <include layout="@layout/head_online_live_notice" />
+
+    <!--精准扶贫-->
+    <include layout="@layout/head_online_live_poverty" />
+
+    <!--双创课堂-->
+    <include layout="@layout/head_online_live_double_classroom" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_44dp"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_44dp"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/bj_10dp"
+            android:text="生活直播"
+            android:textColor="#ff333333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_online_live_life"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/arr_right"
+            android:drawablePadding="@dimen/bj_10dp"
+            android:text="进入频道"
+            android:textColor="#ff999999"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+
+</LinearLayout>

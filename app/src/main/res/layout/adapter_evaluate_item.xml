@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ll_commodity_comments"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_40dp"
+        android:orientation="horizontal">
+
+        <com.hqmy.market.view.widgets.ratingbar.BaseRatingBar
+            android:id="@+id/rb_evaluate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bj_15dp"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/tv_evaluate_1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:srb_numStars="5"
+            app:srb_starHeight="14dp"
+            app:srb_starPadding="5dp"
+            app:srb_starWidth="@dimen/bj_15dp" />
+
+        <TextView
+            android:id="@+id/tv_commodity_comments_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/bj_15dp"
+            android:layout_marginRight="@dimen/bj_10dp"
+            android:gravity="center_vertical"
+            android:text="麦****海"
+            android:textColor="@color/my_color_666666"
+            android:textSize="@dimen/wz_11sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_commodity_comments_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:padding="@dimen/bj_10dp"
+        android:textColor="@color/my_color_black"
+        android:textSize="@dimen/wz_12sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/bj_10dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EEEEEE" />
+</LinearLayout>

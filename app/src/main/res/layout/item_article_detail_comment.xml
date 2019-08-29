@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/bj_16dp"
+    android:layout_marginRight="25dp"
+    android:paddingTop="@dimen/bj_10dp"
+    android:paddingBottom="@dimen/bj_10dp">
+
+    <com.hqmy.market.view.widgets.CircleImageView
+        android:id="@+id/iv_item_article_detail_icon"
+        android:layout_width="@dimen/bj_35dp"
+        android:layout_height="@dimen/bj_35dp"
+        android:src="@mipmap/user_avatar_normal"/>
+
+    <TextView
+        android:id="@+id/tv_item_article_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/iv_item_article_detail_icon"
+        android:textColor="#ff212121"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_item_article_detail_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_article_detail_name"
+        android:layout_alignLeft="@+id/tv_item_article_detail_name"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:textColor="#ff333333"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_item_article_detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_article_detail_content"
+        android:layout_alignLeft="@+id/tv_item_article_detail_name"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:textColor="#ff999999"
+        android:textSize="10sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/iv_praise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_praise"/>
+       <TextView
+            android:id="@+id/tv_item_article_dianzan_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_5dp"
+            android:text="0"
+            android:textColor="#ff999999"
+            android:textSize="10sp" />
+    </LinearLayout>
+</RelativeLayout>

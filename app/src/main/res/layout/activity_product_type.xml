@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/bj_24dp">
+    <include layout="@layout/layout_title_view" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_10dp"
+        android:background="@color/my_color_F5F5F5"/>
+    <ListView
+        android:id="@+id/product_type_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/bj_10dp"
+        android:background="@color/my_color_F5F5F5"
+        android:dividerHeight="@dimen/bj_2dp"
+        android:divider="@null"/>
+</LinearLayout>

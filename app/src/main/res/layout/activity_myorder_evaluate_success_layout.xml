@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/bj_23dp">
+
+    <include layout="@layout/layout_title_view" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.header.MaterialHeader
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/my_color_f5f5f5"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_10dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/bj_33dp"
+                    android:paddingBottom="@dimen/bj_41dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/consume_default_two" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/bj_20dp"
+                        android:text="评价成功"
+                        android:textColor="#e60012"
+                        android:textSize="@dimen/rc_dimen_size_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/bj_10dp"
+                        android:text="感谢您的评价"
+                        android:textColor="#212121"
+                        android:textSize="@dimen/rc_dimen_size_12" />
+
+                    <TextView
+                        android:id="@+id/tv_finish"
+                        android:layout_width="@dimen/bj_110dp"
+                        android:layout_height="@dimen/bj_35dp"
+                        android:layout_marginTop="@dimen/bj_17dp"
+                        android:background="@drawable/bg_grey_finish"
+                        android:gravity="center"
+                        android:text="完成"
+                        android:textColor="#212121"
+                        android:textSize="@dimen/wz_15sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bj_30dp"
+                    android:layout_marginTop="@dimen/bj_10dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/bj_16dp"
+                    android:text="猜你喜欢"
+                    android:textColor="#e60012"
+                    android:textSize="@dimen/wz_15sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingLeft="@dimen/bj_10dp"
+                    android:paddingRight="@dimen/bj_10dp" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

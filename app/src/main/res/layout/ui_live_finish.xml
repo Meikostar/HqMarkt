@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/online_finish_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/bj_100dp"
+        android:text="直播已结束"
+        android:textColor="@color/white"
+        android:textSize="19sp" />
+
+    <ImageView
+        android:id="@+id/img_user_header"
+        android:layout_width="@dimen/bj_56dp"
+        android:layout_height="@dimen/bj_56dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/bj_45dp"
+        android:src="@mipmap/icon_user_default" />
+
+    <TextView
+        android:id="@+id/tv_home_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/bj_16dp"
+        android:textColor="@color/my_color_666666"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:text="完成一次精彩的直播"
+        android:textColor="@color/my_color_666666"
+        android:textSize="13sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_50dp">
+
+        <TextView
+            android:id="@+id/tv_dian_zan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#e10020"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_people_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#e10020"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_play_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#e10020"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="点赞"
+            android:textColor="#e6e6e6"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="观看人数"
+            android:textColor="#e6e6e6"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="直播时长"
+            android:textColor="#e6e6e6"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_go_home"
+        android:layout_width="250dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/bj_60dp"
+        android:background="@drawable/btn_go_home"
+        android:gravity="center"
+        android:text="返回首页"
+        android:textColor="#cccccc"
+        android:textSize="16sp" />
+</LinearLayout>

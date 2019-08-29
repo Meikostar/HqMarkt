@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="103dp"
+    android:layout_marginLeft="@dimen/bj_10dp"
+    android:layout_marginRight="@dimen/bj_10dp"
+    android:background="@mipmap/card_bag_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/iv_card_bag_icon"
+            android:layout_width="@dimen/bj_26dp"
+            android:layout_height="@dimen/bj_26dp"
+            android:layout_marginLeft="@dimen/bj_15dp"
+            android:src="@mipmap/card_bag_icon" />
+
+        <TextView
+            android:id="@+id/tv_card_bag_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_10dp"
+            android:layout_toRightOf="@+id/iv_card_bag_icon"
+            android:text="优宠会员卡"
+            android:textColor="#ffb16f29"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_card_bag_icon"
+            android:layout_alignLeft="@+id/tv_card_bag_name"
+            android:layout_marginTop="@dimen/bj_10dp"
+            android:text="优宠宠物店东门店"
+            android:textColor="#ffb16f29"
+            android:textSize="16sp" />
+    </RelativeLayout>
+</RelativeLayout>

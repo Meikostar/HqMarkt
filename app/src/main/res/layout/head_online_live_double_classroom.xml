@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/bj_10dp"
+    android:paddingRight="@dimen/bj_10dp"
+    android:paddingBottom="@dimen/bj_20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_44dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="双创课堂"
+            android:textColor="#ff333333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_online_live_double_classroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/arr_right"
+            android:drawablePadding="@dimen/bj_10dp"
+            android:text="进入频道"
+            android:textColor="#ff999999"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <com.hqmy.market.view.widgets.NoScrollGridView
+        android:id="@+id/gv_online_live_double_classroom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="16dp"
+        android:numColumns="2"
+        android:verticalSpacing="15dp">
+
+    </com.hqmy.market.view.widgets.NoScrollGridView>
+</LinearLayout>

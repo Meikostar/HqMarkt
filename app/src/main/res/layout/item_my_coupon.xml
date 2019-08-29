@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/bj_10dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/cb_shop_cart_all_sel"
+        android:layout_width="@dimen/bj_28dp"
+        android:layout_height="@dimen/bj_28dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="@dimen/bj_10dp"
+        android:padding="@dimen/bj_5dp"
+        android:src="@drawable/selector_coupon_circle"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_70dp"
+        android:layout_toRightOf="@+id/cb_shop_cart_all_sel"
+        android:background="#FBF2E8"
+        android:padding="@dimen/bj_10dp">
+
+        <TextView
+            android:id="@+id/tv_coupon_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/red_dark"
+            android:textSize="@dimen/wz_14sp" />
+
+        <TextView
+            android:id="@+id/tv_coupon_expire_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/red_dark"
+            android:textSize="@dimen/wz_12sp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/bj_24dp">
+
+    <include layout="@layout/layout_title_view" />
+
+    <View
+        style="@style/divider_horizontal_f5f5f5_5"
+        android:layout_height="@dimen/bj_10dp" />
+
+    <ImageView
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/bj_37dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/bj_14dp"
+        android:text="环球贸易  V1.6.5.1"
+        android:textColor="#ff333333"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_15dp"
+        android:layout_marginTop="@dimen/bj_38dp"
+        android:layout_marginRight="@dimen/bj_15dp"
+        android:lineSpacingMultiplier="1.4"
+        android:text="所谓爱心是指同情怜悯之心态包丨包括相应的一定行动，它是一种奉献精神，更是关怀、爱护人的思想感情，包括于所有情感之中。当对象为人类时，往往与”阶级友爱“或”同胞情“相对应，指超阶级的或超国的、基于彼此都是人类这一认识的同情怜悯，当对象为非人类时，则往往基于彼此都是动物或生命这一认识的同情怜悯。爱心的深层含义就是保护所有的动植物。"
+        android:textColor="#ff666666"
+        android:textSize="15sp" />
+</LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/my_color_f6f6f6"
+    android:orientation="vertical">
+
+    <include layout="@layout/action_bar" />
+
+    <TextView
+        android:id="@+id/tv_area_parent_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_40dp"
+        android:layout_marginLeft="@dimen/bj_15dp"
+        android:gravity="center_vertical"
+        android:text="中国"
+        android:textSize="@dimen/wz_15sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

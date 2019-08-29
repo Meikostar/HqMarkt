@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header_baby_detail_bottom_layout"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:layout_alignParentBottom="true"
+    android:background="@color/my_color_white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/layout_save"
+        android:layout_width="0dp"
+        android:layout_weight="0.75"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/bj_5dp"
+            android:src="@mipmap/ic_product_save"/>
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/bj_5dp"
+            android:text="收藏"
+            android:textColor="@color/my_color_black"
+            android:textSize="@dimen/wz_12sp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_baby_service"
+        android:layout_width="@dimen/bj_0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.05"
+        android:drawableTop="@mipmap/ic_chat"
+        android:drawablePadding="@dimen/bj_3dp"
+        android:gravity="center"
+        android:text="私聊"
+        android:textColor="@color/my_color_black"
+        android:textSize="@dimen/wz_12sp" />
+
+    <TextView
+        android:id="@+id/tv_baby_submit"
+        android:layout_width="@dimen/bj_0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:background="@color/my_color_E10020"
+        android:gravity="center"
+        android:text="立即购买"
+        android:textColor="@color/my_color_white"
+        android:textSize="@dimen/wz_17sp" />
+</LinearLayout>

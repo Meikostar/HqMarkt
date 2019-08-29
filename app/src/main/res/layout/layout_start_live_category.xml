@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/bj_10dp"
+    android:paddingRight="@dimen/bj_10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_25dp"
+        android:layout_marginBottom="@dimen/bj_33dp"
+        android:text="直播课程分类"
+        android:textColor="#ff333333"
+        android:textSize="16sp" />
+
+    <com.hqmy.market.view.widgets.NoScrollGridView
+        android:id="@+id/gv_start_live_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="13dp"
+        android:numColumns="3"
+        android:verticalSpacing="20dp">
+
+    </com.hqmy.market.view.widgets.NoScrollGridView>
+</LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_red_packet_open"
+        android:layout_width="@dimen/bj_180dp"
+        android:layout_height="230dp"
+        android:layout_centerInParent="true"
+        android:background="@mipmap/red_packet_open">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="点击拆开红包"
+            android:textColor="@color/my_color_FABB48"
+            android:textSize="@dimen/wz_18sp"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

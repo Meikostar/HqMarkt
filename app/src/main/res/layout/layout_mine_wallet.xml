@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    tools:targetApi="lollipop"
+    android:layout_width="match_parent"
+    android:layout_height="238dp"
+    android:stateListAnimator="@drawable/lift_on_touch"
+    android:layout_marginLeft="@dimen/bj_12dp"
+    android:layout_marginRight="@dimen/bj_12dp"
+    android:layout_marginBottom="8dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="7dp"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="238dp">
+        <LinearLayout
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_52dp">
+
+            <TextView
+                android:layout_marginLeft="@dimen/bj_15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/bj_51dp"
+                android:gravity="center_vertical"
+                android:text="我的服务"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bj_1dp"
+                android:background="#eeeeee"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/bj_23dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+
+
+            <LinearLayout
+                android:id="@+id/ll_sm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/bj_27dp"
+                    android:layout_height="@dimen/bj_21dp"
+                    android:src="@drawable/mine_7" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_6dp"
+                    android:text="实名认证"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/bj_26dp"
+                    android:layout_height="@dimen/bj_23dp"
+                    android:src="@drawable/mine_8" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_6dp"
+                    android:text="我的店铺"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_kf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/bj_26dp"
+                    android:layout_height="@dimen/bj_23dp"
+                    android:src="@drawable/mine_9" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_6dp"
+                    android:text="帮助客服"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_yh"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/bj_26dp"
+                    android:layout_height="@dimen/bj_23dp"
+                    android:src="@drawable/mine_10" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_6dp"
+                    android:text="银行卡"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_state"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="()"
+                android:textColor="#e31436"
+                android:textSize="11sp"
+                android:visibility="invisible" />
+            <TextView
+                android:id="@+id/tv_sh"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="()"
+                android:textColor="#e31436"
+                android:textSize="11sp"
+                android:visibility="invisible" />
+            <TextView
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <TextView
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:gravity="center">
+
+
+
+            <LinearLayout
+                android:id="@+id/ll_ewm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/bj_27dp"
+                    android:layout_height="@dimen/bj_21dp"
+                    android:src="@drawable/mine_11" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_6dp"
+                    android:text="分销二维码"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_hy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/bj_26dp"
+                    android:layout_height="@dimen/bj_23dp"
+                    android:src="@drawable/mine_12" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_6dp"
+                    android:text="二级会员"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/bj_26dp"
+                    android:layout_height="@dimen/bj_23dp"
+                    android:src="@drawable/mine_13" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_6dp"
+                    android:text="我的收益"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
+

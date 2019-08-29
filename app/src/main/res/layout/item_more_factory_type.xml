@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/my_color_white"
+    android:layout_marginTop="@dimen/bj_10dp"
+    android:clickable="true"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_factoty_type_home"
+        android:layout_width="@dimen/bj_68dp"
+        android:layout_height="@dimen/bj_68dp"
+        android:gravity="center"
+        android:textSize="@dimen/wz_14sp"
+        android:textColor="@color/my_color_black"/>
+</RelativeLayout>

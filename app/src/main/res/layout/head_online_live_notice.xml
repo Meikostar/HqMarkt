@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bj_35dp"
+    android:layout_margin="@dimen/dp_10"
+    android:background="@drawable/shape_radius_18_ffffff"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/bj_15dp"
+    android:paddingRight="@dimen/bj_15dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/notice" />
+
+    <com.hqmy.market.view.widgets.UPMarqueeView
+        android:id="@+id/tv_upmarquee_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp" />
+
+</LinearLayout>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    tools:targetApi="lollipop"
+    android:layout_width="match_parent"
+    android:layout_height="134dp"
+    android:stateListAnimator="@drawable/lift_on_touch"
+    android:layout_marginLeft="@dimen/bj_12dp"
+    android:layout_marginRight="@dimen/bj_12dp"
+    android:layout_marginBottom="8dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="6dp"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false"
+>
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="134dp">
+
+        <LinearLayout
+            android:layout_marginTop="26dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom">
+
+            <LinearLayout
+                android:id="@+id/ll_order_daifukuan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.hqmy.market.view.widgets.RedDotLayout
+                    android:id="@+id/re_order_daifukuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingTop="@dimen/bj_9dp"
+
+                    android:paddingRight="@dimen/bj_9dp"
+                    app:red_location="2"
+                    app:red_radius="7dp">
+
+                    <ImageView
+                        android:id="@+id/iv_order_daifukuan"
+                        android:layout_width="23dp"
+                        android:layout_height="@dimen/bj_21dp"
+                        android:src="@drawable/mine_2" />
+                </com.hqmy.market.view.widgets.RedDotLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:drawablePadding="@dimen/bj_5dp"
+                    android:text="待付款"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_order_daifahuo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.hqmy.market.view.widgets.RedDotLayout
+                    android:id="@+id/re_order_daifahuo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingTop="@dimen/bj_9dp"
+                    android:paddingRight="@dimen/bj_9dp"
+                    app:red_location="2"
+                    app:red_radius="7dp">
+
+                    <ImageView
+                        android:id="@+id/iv_order_daifahuo"
+                        android:layout_width="@dimen/bj_23dp"
+                        android:layout_height="@dimen/bj_21dp"
+                        android:src="@drawable/mine_3" />
+                </com.hqmy.market.view.widgets.RedDotLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:text="待发货"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_order_daishouhuo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.hqmy.market.view.widgets.RedDotLayout
+                    android:id="@+id/re_order_daishouhuo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingTop="@dimen/bj_9dp"
+                    android:paddingRight="@dimen/bj_9dp"
+                    app:red_location="2"
+                    app:red_radius="7dp">
+
+                    <ImageView
+                        android:id="@+id/iv_order_daishouhuo"
+                        android:layout_width="@dimen/bj_22dp"
+                        android:layout_height="@dimen/bj_22dp"
+                        android:src="@drawable/mine_4" />
+                </com.hqmy.market.view.widgets.RedDotLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="待收货"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_order_daipingjia"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.hqmy.market.view.widgets.RedDotLayout
+                    android:id="@+id/re_order_daipingjia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingTop="@dimen/bj_8dp"
+                    android:paddingRight="@dimen/bj_8dp"
+                    app:red_location="2"
+                    app:red_radius="7dp">
+
+                    <ImageView
+                        android:id="@+id/iv_order_daipingjia"
+                        android:layout_width="@dimen/bj_23dp"
+                        android:layout_height="@dimen/bj_23dp"
+                        android:src="@drawable/mine_5" />
+                </com.hqmy.market.view.widgets.RedDotLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:text="待评价"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_refund_after_sales"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.hqmy.market.view.widgets.RedDotLayout
+                    android:id="@+id/re_order_tuikuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingTop="@dimen/bj_9dp"
+                    android:paddingRight="@dimen/bj_9dp"
+                    app:red_location="2"
+                    app:red_radius="7dp">
+
+                    <ImageView
+                        android:id="@+id/iv_order_tuikuan"
+                        android:layout_width="@dimen/bj_22dp"
+                        android:layout_height="@dimen/bj_23dp"
+                        android:src="@drawable/mine_6" />
+                </com.hqmy.market.view.widgets.RedDotLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:text="退款/售后"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="95dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="查看所有订单"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_marginLeft="@dimen/bj_5dp"
+                android:src="@drawable/arrow_right"
+                android:layout_width="8dp"
+                android:layout_height="@dimen/bj_13dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+

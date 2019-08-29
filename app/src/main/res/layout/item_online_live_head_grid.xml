@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/item_online_live_grid"
+        android:layout_width="match_parent"
+        android:layout_height="107dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img_default_topic" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_8dp"
+        android:ellipsize="end"
+        android:lines="2"
+        android:text="创业教育：创业教父马云的管理鸡汤，教你管理企业..."
+        android:textColor="#ff333333"
+        android:textSize="14sp" />
+</LinearLayout>

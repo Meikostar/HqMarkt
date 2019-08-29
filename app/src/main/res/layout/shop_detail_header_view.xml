@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_72dp"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_marginRight="@dimen/bj_10dp">
+        <ImageView
+            android:id="@+id/iv_shop_detail_location"
+            android:layout_width="@dimen/bj_20dp"
+            android:layout_height="@dimen/bj_20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:src="@mipmap/ic_location_red"/>
+        <ImageView
+            android:id="@+id/iv_shop_detail_phone"
+            android:layout_width="@dimen/bj_20dp"
+            android:layout_height="@dimen/bj_20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_customer_phone"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/iv_shop_detail_location"
+            android:layout_toLeftOf="@id/iv_shop_detail_phone"
+            android:layout_marginLeft="@dimen/bj_10dp"
+            android:layout_marginRight="@dimen/bj_10dp">
+            <TextView
+                android:id="@+id/tv_shop_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/my_color_black"
+                android:text="足道管足道管足道管足道管足道管足道管足道管足道管"
+                android:textSize="@dimen/wz_14sp"/>
+            <TextView
+                android:id="@+id/tv_shop_distance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/my_color_666666"
+                android:textSize="@dimen/wz_12sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/my_color_666666"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_marginRight="@dimen/bj_10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/iv_shop_detail_location"
+        android:layout_toLeftOf="@id/iv_shop_detail_phone"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_marginRight="@dimen/bj_10dp">
+        <TextView
+            android:id="@+id/tv_shop_yingye_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/my_color_black"
+            android:textSize="@dimen/wz_14sp"/>
+        <TextView
+            android:id="@+id/tv_shop_have"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/my_color_666666"
+            android:textSize="@dimen/wz_12sp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/my_color_666666"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_marginRight="@dimen/bj_10dp"/>
+
+    <com.hqmy.market.view.widgets.autoview.SortingLayout
+        android:id="@+id/sorting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+</LinearLayout>

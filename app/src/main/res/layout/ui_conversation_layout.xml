@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="24dp"
+    android:fitsSystemWindows="true"
+    android:background="@color/my_color_FFFFFF">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/convesation_top"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <ImageView
+                android:id="@+id/convesation_back"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:paddingRight="25dp"
+                android:src="@mipmap/arrow_topbar"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/convesation_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:maxWidth="220dp"
+                android:singleLine="true"
+                android:textColor="@color/my_color_212121"
+                android:textSize="19sp" />
+
+            <RelativeLayout
+                android:id="@+id/convesation_right"
+                android:layout_width="@dimen/bj_50dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:layout_alignParentRight="true"
+                android:gravity="right">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/group_chat_more" />
+            </RelativeLayout>
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/my_color_F0F0F0" />
+        <FrameLayout
+            android:id="@+id/conversation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</RelativeLayout>

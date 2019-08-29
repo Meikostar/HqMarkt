@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/my_color_F5F5F5"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include
+        android:id="@+id/ll_headview_top_message_view"
+        layout="@layout/headview_top_message_view" />
+    <include
+        android:id="@+id/layout_main_bottom"
+        layout="@layout/layout_bottom"/>
+    <com.hqmy.market.view.widgets.autoview.AutoViewPager
+        android:id="@+id/main_viewpager"
+        android:layout_below="@+id/ll_headview_top_message_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_main_bottom"/>
+</RelativeLayout>

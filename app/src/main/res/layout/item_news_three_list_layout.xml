@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/news_three_layout_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/bj_10dp"
+            android:paddingRight="@dimen/bj_10dp">
+
+            <ImageView
+                android:id="@+id/iv_bottom"
+                android:layout_width="@dimen/bj_155dp"
+                android:layout_height="@dimen/bj_95dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/tv_bottom_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv_bottom"
+                android:layout_marginTop="@dimen/bj_5dp"
+                android:layout_marginLeft="@dimen/bj_10dp"
+                android:layout_toRightOf="@id/iv_bottom"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="健康是最大的幸福"
+                android:textColor="@color/my_color_black"
+                android:textSize="@dimen/wz_16sp" />
+
+            <TextView
+                android:id="@+id/tv_bottom_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/iv_bottom"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/bj_10dp"
+                android:layout_toRightOf="@id/iv_bottom"
+                android:gravity="right"
+                android:text="2小时前"
+                android:textColor="@color/my_color_666666"
+                android:textSize="@dimen/wz_14sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_bottom_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_bottom_title"
+                android:layout_marginTop="@dimen/bj_5dp"
+                android:layout_toRightOf="@id/iv_bottom"
+                android:layout_alignLeft="@id/tv_bottom_title"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:text="健康是最大的幸福健康是最大的幸福健康是最大的幸福健康是最大的幸福健康是最大的幸福健康是最大的幸福健康是最大的幸福健康是最大的幸福"
+                android:textColor="@color/my_color_666666"
+                android:textSize="@dimen/wz_14sp" />
+        </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/bj_15dp">
+
+    <ImageView
+        android:id="@+id/iv_order_goods_icon"
+        android:layout_width="@dimen/bj_100dp"
+        android:layout_height="@dimen/bj_100dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tv_order_goods_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_toRightOf="@+id/iv_order_goods_icon"
+        android:maxLines="2"
+        android:textColor="#ff333333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_order_goods_price"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_order_goods_icon"
+        android:layout_toRightOf="@+id/iv_order_goods_icon"
+        android:textColor="#ff333333"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_order_goods_num"
+        android:layout_alignBottom="@+id/iv_order_goods_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="#ff999999"
+        android:textSize="12sp" />
+</RelativeLayout>

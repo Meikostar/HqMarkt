@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/my_color_f5f5f5"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:background="@drawable/mine_bg"
+                android:id="@+id/rl_mine_user_info"
+                android:layout_width="match_parent"
+                android:layout_height="223dp">
+
+                <ImageView
+                    android:id="@+id/iv_setting"
+                    android:layout_width="21dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="@dimen/bj_22dp"
+                    android:layout_marginTop="29dp"
+                    android:src="@drawable/mine_sz" />
+
+
+
+
+
+                <ImageView
+                    android:layout_marginTop="31dp"
+                    android:id="@+id/iv_user_msg"
+                    android:layout_width="21dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/bj_23dp"
+                    android:src="@drawable/home_message" />
+
+                <ImageView
+                    android:id="@+id/iv_user_red_point"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_alignTop="@+id/iv_user_msg"
+                    android:layout_alignRight="@+id/iv_user_msg"
+                    android:layout_marginTop="-3dp"
+                    android:layout_marginRight="-3dp"
+                    android:src="@drawable/shape_red_point" />
+
+            </RelativeLayout>
+
+          <LinearLayout
+              android:layout_marginTop="97dp"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+              <include layout="@layout/layout_mine_guess_like" />
+
+              <include layout="@layout/layout_mine_order" />
+              <ImageView
+                  android:layout_width="match_parent"
+                  android:layout_height="@dimen/bj_89dp"
+                  android:layout_marginLeft="@dimen/bj_12dp"
+                  android:layout_marginRight="12dp"
+                  android:layout_marginBottom="10dp"
+                  android:id="@+id/iv_banner"/>
+
+              <include layout="@layout/layout_mine_wallet" />
+          </LinearLayout>
+
+            <FrameLayout
+                android:layout_marginTop="64dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="69dp"
+                android:layout_height="69dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/white_circle"/>
+                <com.hqmy.market.view.widgets.CircleImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/civ_user_avatar"
+                    android:layout_width="66.5dp"
+                    android:layout_height="66.5dp"
+                    android:src="@mipmap/ic_head_img"
+                    app:border_color="#FFFFFF" />
+
+            </FrameLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

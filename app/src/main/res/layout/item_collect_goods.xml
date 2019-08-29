@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/bj_10dp"
+    android:paddingTop="@dimen/bj_15dp"
+    android:paddingRight="@dimen/bj_10dp"
+    android:paddingBottom="@dimen/bj_15dp">
+
+    <ImageView
+        android:id="@+id/iv_collect_goods_icon"
+        android:layout_width="@dimen/bj_140dp"
+        android:layout_height="@dimen/bj_140dp"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tv_collect_goods_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_collect_goods_icon"
+        android:layout_marginLeft="@dimen/bj_15dp"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:layout_toRightOf="@+id/iv_collect_goods_icon"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textColor="#ff333333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_collect_goods_store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_collect_goods_title"
+        android:layout_alignBottom="@+id/iv_collect_goods_icon"
+        android:layout_marginBottom="@dimen/bj_10dp"
+        android:textColor="#ff999999"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_collect_goods_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_collect_goods_store"
+        android:layout_alignLeft="@+id/tv_collect_goods_title"
+        android:layout_marginBottom="@dimen/bj_19dp"
+        android:textColor="#ffe10020"
+        android:textSize="15sp" />
+</RelativeLayout>

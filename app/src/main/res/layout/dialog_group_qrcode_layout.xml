@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/img_qrcode"
+        android:layout_width="214dp"
+        android:layout_height="214dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_5dp"
+        android:text="扫码进群"
+        android:textColor="@color/my_color_white"
+        android:textSize="@dimen/wz_14sp" />
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="@dimen/bj_25dp"
+        android:layout_height="@dimen/bj_25dp"
+        android:layout_marginTop="@dimen/bj_15dp"
+        android:src="@mipmap/icon_white_close" />
+</LinearLayout>

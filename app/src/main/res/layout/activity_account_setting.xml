@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/bj_24dp">
+
+    <include layout="@layout/layout_title_view" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_1dp"
+        android:background="@color/my_color_F5F5F5"/>
+
+
+
+    <TextView
+        android:id="@+id/tv_ls"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_48dp"
+        android:layout_centerVertical="true"
+        android:drawableRight="@mipmap/arr_right"
+        android:gravity="center|start"
+        android:paddingLeft="@dimen/bj_15dp"
+        android:paddingRight="@dimen/bj_15dp"
+        android:text="收入流水" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/bj_15dp"
+        android:layout_marginRight="@dimen/bj_15dp"
+        android:background="#F5F5F5" />
+    <TextView
+        android:id="@+id/tv_dz"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_48dp"
+        android:layout_centerVertical="true"
+        android:drawableRight="@mipmap/arr_right"
+        android:gravity="center|start"
+        android:paddingLeft="@dimen/bj_15dp"
+        android:paddingRight="@dimen/bj_15dp"
+        android:text="收货地址" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/bj_15dp"
+        android:layout_marginRight="@dimen/bj_15dp"
+        android:background="#F5F5F5" />
+    <TextView
+        android:id="@+id/tv_dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_48dp"
+        android:layout_centerVertical="true"
+        android:drawableRight="@mipmap/arr_right"
+        android:gravity="center|start"
+        android:paddingLeft="@dimen/bj_15dp"
+        android:paddingRight="@dimen/bj_15dp"
+        android:text="店铺服务协议" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/bj_15dp"
+        android:layout_marginRight="@dimen/bj_15dp"
+        android:background="#F5F5F5" />
+    <TextView
+        android:id="@+id/tv_bbx"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_48dp"
+        android:layout_centerVertical="true"
+        android:drawableRight="@mipmap/arr_right"
+        android:gravity="center|start"
+        android:paddingLeft="@dimen/bj_15dp"
+        android:paddingRight="@dimen/bj_15dp"
+        android:text="版本信息" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/bj_15dp"
+        android:layout_marginRight="@dimen/bj_15dp"
+        android:background="#F5F5F5" />
+    <RelativeLayout
+        android:id="@+id/rl_sex_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_48dp"
+        android:paddingLeft="@dimen/bj_15dp"
+        android:paddingRight="@dimen/bj_15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="清除缓存" />
+
+        <TextView
+            android:id="@+id/tv_hc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/arr_right"
+            android:drawablePadding="@dimen/bj_15dp"
+            android:text="kb" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F5F5F5">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_43dp"
+            android:layout_marginLeft="@dimen/bj_15dp"
+            android:layout_marginRight="@dimen/bj_15dp"
+            android:background="@drawable/shape_radius_5_e10020"
+            android:id="@+id/tv_exit_login"
+            android:layout_marginTop="35dp"
+
+            android:gravity="center"
+            android:text="退出登录"
+            android:textColor="#ffffffff"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_address_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:paddingLeft="@dimen/bj_10dp"
+    android:paddingBottom="@dimen/bj_10dp">
+
+    <TextView
+        android:id="@+id/tv_consignee_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_15dp"
+        android:text="李晨"
+        android:textColor="#ff212121"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_consignee_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_consignee_name"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_toRightOf="@+id/tv_consignee_name"
+        android:text="13500006666"
+        android:textColor="#ff212121"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_consignee_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_consignee_name"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_toRightOf="@+id/tv_consignee_phone"
+        android:text="默认地址"
+        android:textColor="#F02840"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_consignee_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_consignee_name"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:text="广东省深圳市南山区科技园中国开发院"
+        android:textColor="#ff838383"
+        android:textSize="12sp" />
+
+    <CheckBox
+        android:id="@+id/cb_consignee_select_status"
+        android:layout_width="@dimen/bj_20dp"
+        android:layout_height="@dimen/bj_20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/bj_15dp"
+        android:button="@null"
+        android:visibility="gone" />
+
+</RelativeLayout>

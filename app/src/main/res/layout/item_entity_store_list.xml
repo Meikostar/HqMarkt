@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_entity_store_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/bj_10dp">
+
+    <ImageView
+        android:id="@+id/iv_entity_store"
+        android:layout_width="@dimen/bj_100dp"
+        android:layout_height="@dimen/bj_100dp"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tv_entity_store_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_toRightOf="@+id/iv_entity_store"
+        android:layout_alignTop="@id/iv_entity_store"
+        android:text="亭毓源亮肤精华"
+        android:textColor="@color/my_color_black"
+        android:textSize="16sp" />
+
+     <RelativeLayout
+         android:id="@+id/layout_location"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="@dimen/bj_20dp"
+         android:layout_toRightOf="@+id/iv_entity_store"
+         android:layout_below="@id/tv_entity_store_name">
+         <ImageView
+             android:layout_width="@dimen/bj_16dp"
+             android:layout_height="@dimen/bj_16dp"
+             android:layout_centerVertical="true"
+             android:layout_alignParentLeft="true"
+             android:src="@mipmap/ic_location_red"/>
+         <TextView
+             android:id="@+id/tv_entity_store_location"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_toRightOf="@id/iv_shop_detail_location"
+             android:layout_marginLeft="@dimen/bj_20dp"
+             android:textColor="@color/my_color_999999"
+             android:textSize="14sp"/>
+     </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_entity_store_brief"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_location"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:layout_toRightOf="@+id/iv_entity_store"
+        android:textColor="@color/my_color_E10020"
+        android:textSize="12sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_entity_store_brief"
+        android:layout_toRightOf="@+id/iv_entity_store">
+      <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+         <TextView
+            android:id="@+id/tv_label_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_marginTop="@dimen/bj_10dp"
+            android:layout_toRightOf="@+id/iv_entity_store"
+            android:textColor="@color/my_color_E10020"
+            android:textSize="12sp" />
+         <TextView
+            android:id="@+id/tv_label_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/bj_10dp"
+            android:layout_below="@+id/tv_label_one"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_toRightOf="@+id/iv_entity_store"
+            android:textColor="@color/my_color_E10020"
+            android:textSize="12sp" />
+     </LinearLayout>
+        <TextView
+            android:id="@+id/tv_entity_store_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/bj_10dp"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/my_color_999999"
+            android:textSize="12sp" />
+    </RelativeLayout>
+</RelativeLayout>

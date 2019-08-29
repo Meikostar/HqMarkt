@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/bj_23dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10">
+
+        <EditText
+            android:id="@+id/et_search_room"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bj_30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj_20dp"
+            android:layout_toLeftOf="@+id/rl_onlive_live_oplayer"
+            android:layout_weight="1"
+            android:background="@drawable/shape_radius_15_f7f7f7"
+            android:drawableLeft="@mipmap/search"
+            android:drawablePadding="@dimen/bj_10dp"
+            android:hint="搜索房间号"
+            android:paddingLeft="@dimen/bj_10dp"
+            android:textColorHint="#ffa8a8ad"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/bj_10dp"
+            android:paddingRight="@dimen/bj_10dp"
+            android:text="取消"
+            android:textColor="@color/my_color_333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/bj_10dp"
+            android:paddingRight="@dimen/bj_10dp"
+            android:text="确定"
+            android:textColor="@color/my_color_333333"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_10dp"
+        android:background="#f7f7f7" />
+
+    <LinearLayout
+        android:id="@+id/part1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/bj_15dp"
+            android:text="热门搜索"
+            android:textColor="@color/my_color_666666"
+            android:textSize="@dimen/wz_15sp" />
+
+        <com.hqmy.market.view.widgets.RecommendViewGroup
+            android:id="@+id/recommendViewGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/bj_15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_10dp"
+            android:background="#f7f7f7" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/bj_15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最近搜索"
+                android:textColor="@color/my_color_666666"
+                android:textSize="@dimen/wz_15sp" />
+
+            <TextView
+                android:id="@+id/tv_clear_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="清空"
+                android:textColor="@color/my_color_666666"
+                android:textSize="@dimen/wz_15sp" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/bj_15dp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone" />
+</LinearLayout>

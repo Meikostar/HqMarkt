@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bj_55dp"
+    android:background="@color/my_color_white">
+
+    <ImageView
+        android:id="@+id/iv_new_friend_user_icon"
+        android:layout_width="@dimen/bj_45dp"
+        android:layout_height="@dimen/bj_45dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:src="@mipmap/icon_user_default" />
+
+    <TextView
+        android:id="@+id/tv_new_friend_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj_85dp"
+        android:maxLength="15"
+        android:text="昵称"
+        android:textColor="#333333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_new_friend_user_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/bj_25dp"
+        android:maxLength="15"
+        android:text="已添加"
+        android:textColor="@color/my_color_AFAFAF"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/but_new_friend_user_status"
+        style="@style/btn_confirm"
+        android:layout_width="@dimen/bj_65dp"
+        android:layout_height="@dimen/bj_25dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/bj_20dp"
+        android:text="同意"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@id/tv_new_friend_user_name"
+        android:background="@color/my_color_F5F5F5" />
+</RelativeLayout>
+

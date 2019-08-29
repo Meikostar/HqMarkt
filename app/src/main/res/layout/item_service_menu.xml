@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bj_70dp"
+    android:gravity="center"
+    android:minHeight="@dimen/bj_70dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/bj_25dp" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_5dp"
+        android:text="商家入驻"
+        android:textColor="#ff333333"
+        android:textSize="12sp" />
+</LinearLayout>

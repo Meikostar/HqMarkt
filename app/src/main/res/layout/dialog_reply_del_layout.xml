@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/my_color_F0F0F0"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_reply_del"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_50dp"
+        android:background="@color/my_color_white"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="@color/my_color_black"
+        android:textSize="@dimen/wz_14sp" />
+
+
+    <TextView
+        android:id="@+id/tv_reply_del_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_50dp"
+        android:layout_marginTop="@dimen/bj_5dp"
+        android:background="@color/my_color_white"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/my_color_black"
+        android:textSize="@dimen/wz_14sp" />
+
+</LinearLayout>

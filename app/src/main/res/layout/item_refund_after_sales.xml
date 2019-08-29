@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_35dp">
+
+        <TextView
+            android:id="@+id/tv_item_order_store_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:drawableLeft="@mipmap/order_store"
+            android:drawablePadding="@dimen/bj_5dp"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#F5F5F5" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/item_order_goods_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_17dp"
+        android:nestedScrollingEnabled="false" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_48dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_1dp"
+            android:layout_marginLeft="@dimen/bj_17dp"
+            android:background="#ffe5e5e5" />
+
+        <TextView
+            android:id="@+id/tv_itme_refund_after_sales_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bj_17dp"
+            android:drawableLeft="@mipmap/refund"
+            android:drawablePadding="@dimen/bj_5dp"
+            android:textColor="#ff000000"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_item_refund_after_sales_detail"
+            android:layout_width="@dimen/bj_80dp"
+            android:layout_height="@dimen/bj_35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj_17dp"
+            android:background="@drawable/shape_radius_4_f60004"
+            android:gravity="center"
+            android:text="查看详情"
+            android:textColor="#fff60004"
+            android:textSize="15sp" />
+    </RelativeLayout>
+</LinearLayout>

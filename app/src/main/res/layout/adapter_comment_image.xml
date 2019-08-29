@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.shehuan.niv.NiceImageView android:id="@+id/iv_commodity_comments_img"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bj_100dp"
+    android:layout_margin="@dimen/bj_5dp"
+    android:layout_weight="1"
+    android:scaleType="centerCrop"
+    app:corner_bottom_left_radius="5dp"
+    app:corner_bottom_right_radius="5dp"
+    app:corner_top_left_radius="5dp"
+    app:corner_top_right_radius="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" />

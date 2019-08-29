@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bj_44dp"
+    android:layout_margin="@dimen/bj_10dp"
+    android:background="@drawable/audio_shape">
+
+    <ImageView
+        android:id="@+id/iv_yinpin"
+        android:layout_width="@dimen/bj_31dp"
+        android:layout_height="@dimen/bj_31dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:src="@mipmap/yinpin" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj_6dp"
+        android:layout_marginRight="@dimen/bj_6dp"
+        android:layout_toRightOf="@+id/iv_yinpin"
+        android:maxEms="6"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_toRightOf="@+id/tv_title"
+        android:src="@mipmap/yinpinjindu" />
+
+    <ImageView
+        android:id="@+id/btn_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/bj_10dp"
+        android:src="@mipmap/load"
+        android:visibility="gone"/>
+</RelativeLayout>

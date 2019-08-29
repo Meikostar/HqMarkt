@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/my_color_F5F5F5"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/group_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_68dp"
+        android:paddingTop="@dimen/bj_34dp"
+        android:background="@color/my_color_FFFFFF">
+        <ImageView
+            android:id="@+id/iv_title_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/bj_15dp"
+            android:paddingRight="@dimen/bj_15dp"
+            android:src="@mipmap/arrow_topbar" />
+        <TextView
+            android:id="@+id/add_friend_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="群聊"
+            android:textColor="@color/my_color_black"
+            android:textSize="@dimen/wz_18sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_40dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginTop="@dimen/bj_6dp"
+        android:layout_marginRight="@dimen/bj_20dp"
+        android:layout_marginBottom="@dimen/bj_6dp"
+        android:background="@drawable/bg_white_shape">
+
+        <TextView
+            android:id="@+id/tv_search_contacts_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="搜索"
+            android:textColor="@color/my_color_535353"
+            android:textSize="@dimen/wz_14sp" />
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/my_color_white" />
+</LinearLayout>

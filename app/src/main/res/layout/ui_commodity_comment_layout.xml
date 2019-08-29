@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingTop="@dimen/bj_23dp"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title_view" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EEEEEE" />
+
+    <RelativeLayout
+        android:id="@+id/ll_evaluate_view_notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/bj_10dp">
+
+        <TextView
+            android:id="@+id/tv_item_consume_push_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:singleLine="true"
+            android:text="评价(0)"
+            android:textColor="@color/my_color_999999"
+            android:textSize="@dimen/wz_12sp" />
+
+        <TextView
+            android:id="@+id/tv_item_consume_push_comments_scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:singleLine="true"
+            android:text="0%"
+            android:textColor="@color/my_color_d60029"
+            android:textSize="@dimen/wz_12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tv_item_consume_push_comments_scale"
+            android:singleLine="true"
+            android:text="好评 "
+            android:textColor="@color/my_color_999999"
+            android:textSize="@dimen/wz_12sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EEEEEE" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/bj_10dp" />
+</LinearLayout>

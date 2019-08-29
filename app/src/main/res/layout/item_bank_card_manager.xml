@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/bj_10dp"
+    android:layout_marginTop="@dimen/bj_10dp"
+    android:layout_marginRight="@dimen/bj_10dp"
+    android:background="@drawable/shape_bank_bg_normal"
+    android:paddingLeft="@dimen/bj_15dp"
+    android:paddingTop="@dimen/bj_15dp"
+    android:paddingBottom="@dimen/bj_15dp">
+
+    <ImageView
+        android:id="@+id/iv_item_bank_card_icon"
+        android:layout_width="@dimen/bj_40dp"
+        android:layout_height="@dimen/bj_40dp"
+        android:src="@mipmap/bank_card_icon_normal" />
+
+    <TextView
+        android:id="@+id/iv_item_bank_card_bank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_15dp"
+        android:layout_toRightOf="@+id/iv_item_bank_card_icon"
+        android:text="招商银行"
+        android:textColor="#ffffffff"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/iv_item_bank_card_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_item_bank_card_bank"
+        android:layout_alignLeft="@+id/iv_item_bank_card_bank"
+        android:layout_marginTop="5dp"
+        android:text="储蓄卡"
+        android:textColor="#ffffffff"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/iv_item_bank_card_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_item_bank_card_type"
+        android:layout_alignLeft="@+id/iv_item_bank_card_bank"
+        android:layout_marginTop="15dp"
+        android:text="**** **** **** 0876"
+        android:textColor="#ffffffff"
+        android:textSize="18sp" />
+</RelativeLayout>

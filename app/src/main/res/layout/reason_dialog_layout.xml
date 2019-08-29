@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_48dp"
+        android:background="@color/my_color_white"
+        android:gravity="center"
+        android:text="退货原因"
+        android:textColor="@color/my_color_black"
+        android:textSize="@dimen/wz_17sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/my_color_white"
+        android:paddingBottom="@dimen/bj_20dp" />
+
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_48dp"
+        android:background="@color/my_color_d60029"
+        android:text="关闭"
+        android:textColor="@color/my_color_white"
+        android:textSize="@dimen/wz_18sp" />
+</LinearLayout>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/brand_shop_detail_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_brand_shop_detail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_154dp"
+            android:background="@color/my_color_E10020"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_72dp"
+            android:layout_alignBottom="@id/iv_brand_shop_detail"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10">
+
+            <ImageView
+                android:id="@+id/iv_brand_shop_detail_logo"
+                android:layout_width="@dimen/bj_52dp"
+                android:layout_height="@dimen/bj_52dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/tv_shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bj_10dp"
+                android:layout_toRightOf="@id/iv_brand_shop_detail_logo"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="家富足道养生馆"
+                android:textColor="@color/my_color_white"
+                android:textSize="@dimen/wz_16sp" />
+
+            <com.hqmy.market.view.widgets.ratingbar.BaseRatingBar
+                android:id="@+id/rb_brand_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj_10dp"
+                android:layout_marginRight="8dp"
+                android:layout_toRightOf="@id/iv_brand_shop_detail_logo"
+                app:srb_isIndicator="true"
+                app:srb_numStars="5"
+                app:srb_rating="5"
+                app:srb_starHeight="10dp"
+                app:srb_starPadding="2dp"
+                app:srb_starWidth="@dimen/bj_10dp" />
+
+            <TextView
+                android:id="@+id/tv_shop_follow_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/iv_brand_shop_detail_logo"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingTop="@dimen/bj_5dp"
+                android:paddingRight="@dimen/dp_10"
+                android:text="关注量: 0"
+                android:textColor="@color/my_color_white"
+                android:textSize="@dimen/wz_12sp" />
+
+            <TextView
+                android:id="@+id/tv_shop_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv_brand_shop_detail_logo"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/bg_white_shape_no_solid"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingTop="@dimen/bj_3dp"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingBottom="@dimen/bj_3dp"
+                android:text="+关注店铺"
+                android:textColor="@color/my_color_white"
+                android:textSize="@dimen/wz_12sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/brand_shop_detail_tv_find"
+        android:layout_width="263dp"
+        android:layout_height="29dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:background="@drawable/factory_find_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="请输入关键字"
+        android:textColor="@color/my_color_999999"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:background="@color/my_color_white"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/bj_10dp">
+
+        <View
+            android:layout_width="@dimen/bj_5dp"
+            android:layout_height="@dimen/bj_20dp"
+            android:layout_marginLeft="@dimen/bj_5dp"
+            android:layout_marginRight="@dimen/bj_5dp"
+            android:background="@color/my_color_E10020" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新品驾到"
+            android:textColor="@color/my_color_E10020"
+            android:textSize="@dimen/wz_16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gv_brand_shop_detail_new"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/bj_5dp"
+        android:paddingRight="@dimen/bj_5dp" />
+    <!--<com.zhangjiajie.love.view.widgets.autoview.NoScrollGridView-->
+    <!--android:id="@+id/gv_brand_shop_detail_new"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/my_color_white"-->
+    <!--android:paddingLeft="@dimen/bj_5dp"-->
+    <!--android:paddingRight="@dimen/bj_5dp"-->
+    <!--android:scrollbars="none"-->
+    <!--android:horizontalSpacing="@dimen/bj_1dp"-->
+    <!--android:numColumns="3"-->
+    <!--android:verticalSpacing="@dimen/bj_5dp" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/my_color_white"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/bj_10dp">
+
+        <View
+            android:layout_width="@dimen/bj_5dp"
+            android:layout_height="@dimen/bj_20dp"
+            android:layout_marginLeft="@dimen/bj_5dp"
+            android:layout_marginRight="@dimen/bj_5dp"
+            android:background="@color/my_color_E10020" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="本店推荐"
+            android:textColor="@color/my_color_E10020"
+            android:textSize="@dimen/wz_16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <com.hqmy.market.view.widgets.autoview.SortingLayout
+        android:id="@+id/sorting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+</LinearLayout>

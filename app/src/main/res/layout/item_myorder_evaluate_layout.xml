@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bj_140dp"
+    android:minHeight="@dimen/bj_140dp"
+    android:padding="@dimen/dp_10"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/tv_evaluate_logo"
+        android:layout_width="@dimen/bj_85dp"
+        android:layout_height="@dimen/bj_85dp"
+        android:layout_marginRight="@dimen/dp_10"/>
+
+    <TextView
+        android:id="@+id/tv_evaluate_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_evaluate_logo"
+        android:layout_toRightOf="@id/tv_evaluate_logo"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textColor="#050000"
+        android:layout_toLeftOf="@+id/tv_evaluate_money"
+        android:textSize="@dimen/wz_12sp" />
+
+    <TextView
+        android:id="@+id/tv_evaluate_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/bj_8dp"
+        android:textColor="#050000"
+        android:textSize="@dimen/wz_12sp" />
+    <TextView
+        android:id="@+id/tv_order_goods_params"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_evaluate_des"
+        android:layout_toLeftOf="@+id/tv_evaluate_number"
+        android:layout_marginTop="@dimen/bj_8dp"
+        android:layout_toRightOf="@id/tv_evaluate_logo"
+        android:textColor="#8b8b8b"
+        android:textSize="@dimen/wz_12sp" />
+
+
+    <TextView
+        android:id="@+id/tv_evaluate_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_evaluate_des"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/bj_8dp"
+        android:textColor="#8b8b8b"
+        android:textSize="@dimen/wz_12sp" />
+
+    <TextView
+        android:id="@+id/tv_evaluate_discuss"
+        android:layout_width="@dimen/bj_75dp"
+        android:layout_height="@dimen/bj_25dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_radius_4_f60004"
+        android:gravity="center"
+        android:textColor="@color/my_color_d60029"
+        android:textSize="@dimen/wz_13sp" />
+</RelativeLayout>

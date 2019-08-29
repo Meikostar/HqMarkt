@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bj_48dp"
+    android:paddingLeft="@dimen/dp_10"
+    android:background="@color/white"
+    android:paddingRight="@dimen/dp_10">
+
+    <RelativeLayout
+        android:id="@+id/rl_onlive_live_oplayer"
+        android:layout_width="@dimen/bj_85dp"
+        android:layout_height="@dimen/bj_30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/shape_oplayer_bg">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableLeft="@mipmap/oplayer"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="我要开播"
+            android:textColor="#ffffffff"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/et_search_room"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_30dp"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/bj_20dp"
+        android:layout_toLeftOf="@+id/rl_onlive_live_oplayer"
+        android:background="@drawable/shape_radius_15_f7f7f7"
+        android:drawableLeft="@mipmap/search"
+        android:drawablePadding="@dimen/bj_10dp"
+        android:hint="搜索房间号"
+        android:paddingLeft="@dimen/bj_10dp"
+        android:textColorHint="#ffa8a8ad"
+        android:textSize="14sp" />
+</RelativeLayout>
