@@ -6,6 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hqmy.market.bean.BaseDto;
+import com.hqmy.market.bean.FootInfoDto;
+import com.hqmy.market.bean.NewListItemDto;
+import com.hqmy.market.view.adapter.ConsumePushAdapter;
+import com.hqmy.market.view.adapter.FootPushAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -23,6 +28,7 @@ import com.hqmy.market.view.widgets.autoview.EmptyView;
 import com.hqmy.market.view.widgets.dialog.BaseDialog;
 import com.hqmy.market.view.widgets.dialog.ConfirmDialog;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +48,8 @@ public class MyFootprintActivity extends BaseActivity {
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    private MyFootprintAdapter mAdapter;
-    private int mPage = 1;
+    private FootPushAdapter mAdapter;
+    private int             mPage = 1;
     @Override
     public int getLayoutId() {
         return R.layout.activity_my_foot_print;
@@ -80,10 +86,11 @@ public class MyFootprintActivity extends BaseActivity {
             }
         });
     }
+    private List<BaseDto> goodsLists = new ArrayList<BaseDto>();
 
     private void initListView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new MyFootprintAdapter();
+        mAdapter = new FootPushAdapter(goodsLists,this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -92,13 +99,13 @@ public class MyFootprintActivity extends BaseActivity {
         Map<String, String> map = new HashMap<>();
         map.put("filter[have_footprint_type]", "SMG\\Mall\\Models\\MallProduct");
         map.put("group_by_date", "1");
-        map.put("include", "object.object");
-        map.put("object_filter[type]", "lm,gc,st");
-        map.put("page", mPage + "");
-        map.put("per_page","100");
-        DataManager.getInstance().userFootprints(new DefaultSingleObserver<HttpResult<List<MyOrderDto>>>() {
+        map.put("include", "have_footprint.have_footprint");
+//        map.put("object_filter[type]", "lm,gc,st");
+//        map.put("page", mPage + "");
+//        map.put("per_page","100");
+        DataManager.getInstance().userFootprints(new DefaultSingleObserver<HttpResult<List<FootInfoDto>>>() {
             @Override
-            public void onSuccess(HttpResult<List<MyOrderDto>> httpResult) {
+            public void onSuccess(HttpResult<List<FootInfoDto>> httpResult) {
                 dissLoadDialog();
                 setData(httpResult);
             }
@@ -112,13 +119,13 @@ public class MyFootprintActivity extends BaseActivity {
         }, map);
     }
 
-    private void setData(HttpResult<List<MyOrderDto>> httpResult) {
-        if (httpResult == null || httpResult.getData() == null) {
+    private void setData(HttpResult<List<FootInfoDto>> httpResult) {
+        if (httpResult == null || httpResult.getData() == null||httpResult.getData().get(0).have_footprint.data.get(0)==null) {
             return;
         }
-
+        List<BaseDto> baseDto = httpResult.getData().get(0).have_footprint.data;
         if (mPage <= 1) {
-            mAdapter.setNewData(httpResult.getData());
+            mAdapter.setNewData(baseDto);
             if (httpResult.getData() == null || httpResult.getData().size() == 0) {
                 mAdapter.setEmptyView(new EmptyView(this));
             }
@@ -127,7 +134,7 @@ public class MyFootprintActivity extends BaseActivity {
         } else {
             mRefreshLayout.finishLoadMore();
             mRefreshLayout.setEnableRefresh(true);
-            mAdapter.addData(httpResult.getData());
+            mAdapter.addData(baseDto);
         }
 
         if (httpResult.getMeta() != null && httpResult.getMeta().getPagination() != null) {

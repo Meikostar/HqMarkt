@@ -1,7 +1,9 @@
 package com.hqmy.market.view.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -103,8 +105,17 @@ public class ShippingAddressActivity extends BaseActivity {
                 delete.setBackground(new ColorDrawable(Color.rgb(0xdf, 0x44, 0x3b)));
                 delete.setWidth((int) getResources().getDimension(R.dimen.bj_60dp));
                 delete.setTitle("删除");
+                delete.setId(1);
                 delete.setTitleSize(13);
                 delete.setTitleColor(Color.WHITE);
+                SwipeMenuItem bj = new SwipeMenuItem(ShippingAddressActivity.this);
+                bj.setBackground(new ColorDrawable(Color.rgb(0xaa, 0xaa, 0xaa)));
+                bj.setWidth((int) getResources().getDimension(R.dimen.bj_60dp));
+                bj.setTitle("编辑");
+                bj.setTitleSize(13);
+                bj.setId(-1);
+                bj.setTitleColor(Color.WHITE);
+                menu.addMenuItem(bj);
                 menu.addMenuItem(delete);
             }
 
@@ -114,7 +125,17 @@ public class ShippingAddressActivity extends BaseActivity {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 AddressDto addressDto = mAddressDatas.get(position);
-                delAddress(String.valueOf(addressDto.getId()));
+
+                if(menu.getMenuItem(index).getId()==1){
+                    delAddress(String.valueOf(addressDto.getId()));
+                }else {
+                    Intent intent = new Intent(ShippingAddressActivity.this,AddShippingAddressActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("address",addressDto);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+
                 return false;
             }
         });

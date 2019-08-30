@@ -63,7 +63,7 @@ public class AccountSettingActivity extends BaseActivity {
     public void initView() {
 
         mTitleText.setText("设置");
-
+        tvHc.setText(com.zhongchuang.canting.utils.DataCleanManager.getExternalCacheSize(AccountSettingActivity.this));
     }
 
 
@@ -95,6 +95,8 @@ public class AccountSettingActivity extends BaseActivity {
                 gotoActivity(ShippingAddressActivity.class);
                 break;
             case R.id.tv_ls://流水
+                gotoActivity(IncomeActivity.class);
+
                 break;
             case R.id.tv_dp://服务协议
                 gotoUserInfoActivity();
@@ -103,7 +105,36 @@ public class AccountSettingActivity extends BaseActivity {
                 gotoUserInfoActivity();
                 break;
             case R.id.tv_hc://缓存
+                showLoadDialog();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        com.zhongchuang.canting.utils.DataCleanManager.deleteFolderFile(getExternalCacheDir().getPath(), true);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (com.zhongchuang.canting.utils.DataCleanManager.getExternalCacheSize(AccountSettingActivity.this).equals("0.0Byte")) {
 
+                                    ToastUtil.showToast("已清除");
+                                } else {
+                                    ToastUtil.showToast("清除" + "(" + com.zhongchuang.canting.utils.DataCleanManager.getExternalCacheSize(AccountSettingActivity.this) + ")");
+                                    tvHc.setText(com.zhongchuang.canting.utils.DataCleanManager.getExternalCacheSize(AccountSettingActivity.this));
+
+                                }
+                                dissLoadDialog();
+
+                            }
+                        });
+                    }
+                }).start();
+
+                com.zhongchuang.canting.utils.DataCleanManager.clearAllCache(AccountSettingActivity.this);
+                try {
+                    String size = com.zhongchuang.canting.utils.DataCleanManager.getTotalCacheSize(AccountSettingActivity.this);
+                    tvHc.setText(size);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case R.id.tv_exit_login:
@@ -139,9 +170,7 @@ public class AccountSettingActivity extends BaseActivity {
 
     private void gotoUserInfoActivity() {
         Intent intent = new Intent(this, UserInfoActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("userInfo", mPersonalInfoDto);
-        intent.putExtras(bundle);
+
         startActivityForResult(intent, 100);
     }
 
@@ -150,17 +179,9 @@ public class AccountSettingActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == 0 && data != null) {
             PersonalInfoDto personalInfoDto = (PersonalInfoDto) data.getSerializableExtra("userInfo");
-            if (personalInfoDto != null) {
-                mPersonalInfoDto = personalInfoDto;
-                setUserInfo();
-            }
+
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

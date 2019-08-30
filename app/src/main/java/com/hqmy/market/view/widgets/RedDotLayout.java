@@ -21,7 +21,7 @@ import com.hqmy.market.R;
 
 public class RedDotLayout extends RelativeLayout {
     //红点里的文本
-    private String text = "0";
+    private String text = "";
     //背景颜色：默认为红色
     private int background = Color.RED;
     //圆点的半径：默认为30dp

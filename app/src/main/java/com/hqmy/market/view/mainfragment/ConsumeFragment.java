@@ -39,6 +39,7 @@ import com.hqmy.market.view.adapter.ConsumePushAdapter;
 import com.hqmy.market.view.adapter.Homedapter;
 import com.hqmy.market.view.mainfragment.consume.ProductSearchActivity;
 import com.hqmy.market.view.mainfragment.consume.SelectCityActivity;
+import com.hqmy.market.view.widgets.RecyclerItemDecoration;
 import com.hqmy.market.view.widgets.autoview.CustomView;
 import com.hqmy.market.view.widgets.autoview.EmptyView;
 import com.hqmy.market.view.widgets.autoview.NoScrollGridView;
@@ -153,8 +154,8 @@ public class ConsumeFragment extends BaseFragment {
         getTopBanner();
         getMiddleBanner();
         getHeadLines();
-        getHomeRecommendList();
-        findGoodLists();
+//        getHomeRecommendList();
+//        findGoodLists();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -253,6 +254,14 @@ public class ConsumeFragment extends BaseFragment {
 
 
         mConsumePushAdapter = new ConsumePushAdapter(goodsLists, getActivity());
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getActivity(), 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        consumePushRecy.addItemDecoration(new RecyclerItemDecoration(6, 2));
+        consumePushRecy.setLayoutManager(gridLayoutManager2);
         consumePushRecy.setAdapter(mConsumePushAdapter);
 
     }
@@ -438,6 +447,7 @@ public class ConsumeFragment extends BaseFragment {
             public void onSuccess(HttpResult<List<NewListItemDto>> result) {
                 dissLoadDialog();
                 setData(result);
+                refreshLayout.finishLoadMore();
             }
 
             @Override
@@ -461,7 +471,7 @@ public class ConsumeFragment extends BaseFragment {
                 mConsumePushAdapter.setEmptyView(new EmptyView(this.getActivity()));
             }
             refreshLayout.finishRefresh();
-            refreshLayout.setEnableLoadMore(true);
+
 
 
     }

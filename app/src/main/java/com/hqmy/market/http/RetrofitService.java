@@ -26,6 +26,7 @@ import com.hqmy.market.bean.CouponBean;
 import com.hqmy.market.bean.CouponDto;
 import com.hqmy.market.bean.DynamicBean;
 import com.hqmy.market.bean.ExpressList;
+import com.hqmy.market.bean.FootInfoDto;
 import com.hqmy.market.bean.FriendListItemDto;
 import com.hqmy.market.bean.FriendPageDto;
 import com.hqmy.market.bean.GiftBean;
@@ -66,6 +67,7 @@ import com.hqmy.market.bean.ScoreIncomeBean;
 import com.hqmy.market.bean.ServiceMenuBean;
 import com.hqmy.market.bean.ShopCartInfoDto;
 import com.hqmy.market.bean.ShopCartListItemDto;
+import com.hqmy.market.bean.ShopInfoDto;
 import com.hqmy.market.bean.TagBean;
 import com.hqmy.market.bean.TopicDetailDto;
 import com.hqmy.market.bean.TopicListItemDto;
@@ -153,7 +155,7 @@ public interface RetrofitService {
      * 获取用户信息
      */
     @GET("api/base/user")
-    Single<HttpResult<PersonalInfoDto>> getUserInfo(@Header("Authorization") String token);
+    Single<HttpResult<PersonalInfoDto>> getUserInfo(@Header("Authorization") String token,@Query("include") String include);
 
     /**
      * 用户地址列表
@@ -535,6 +537,15 @@ public interface RetrofitService {
     Single<HttpResult<NewsDetailDto>> getNewsDetail(@Path("type") String type, @Path("id") String id, @Query("include") String include);
 
     /**
+     * 商家信息
+     * @param id
+     * @return
+     */
+    @GET("api/sellers/{id}")
+    Single<HttpResult<ShopInfoDto>> getShopInfo(@Header("Authorization") String token, @Path("id") String id);
+
+
+    /**
      * 获取评价列表
      */
     @GET("api/package/comments/query")
@@ -732,7 +743,7 @@ public interface RetrofitService {
      * 我的足迹
      */
     @GET("api/package/user/footprints")
-    Single<HttpResult<List<MyOrderDto>>> userFootprints(@Header("Authorization") String token, @QueryMap Map<String, String> map);
+    Single<HttpResult<List<FootInfoDto>>> userFootprints(@Header("Authorization") String token, @QueryMap Map<String, String> map);
 
     /**
      * 支付生成订单号

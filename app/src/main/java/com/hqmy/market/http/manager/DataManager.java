@@ -27,6 +27,7 @@ import com.hqmy.market.bean.CouponBean;
 import com.hqmy.market.bean.CouponDto;
 import com.hqmy.market.bean.DynamicBean;
 import com.hqmy.market.bean.ExpressList;
+import com.hqmy.market.bean.FootInfoDto;
 import com.hqmy.market.bean.FriendListItemDto;
 import com.hqmy.market.bean.FriendPageDto;
 import com.hqmy.market.bean.GiftBean;
@@ -67,6 +68,7 @@ import com.hqmy.market.bean.ScoreIncomeBean;
 import com.hqmy.market.bean.ServiceMenuBean;
 import com.hqmy.market.bean.ShopCartInfoDto;
 import com.hqmy.market.bean.ShopCartListItemDto;
+import com.hqmy.market.bean.ShopInfoDto;
 import com.hqmy.market.bean.TagBean;
 import com.hqmy.market.bean.TopicDetailDto;
 import com.hqmy.market.bean.TopicListItemDto;
@@ -223,7 +225,7 @@ public class DataManager {
      * @param observer
      */
     public void getUserInfo(DefaultSingleObserver<PersonalInfoDto> observer) {
-        Single<PersonalInfoDto> observable = retrofitService.getUserInfo(getToken())
+        Single<PersonalInfoDto> observable = retrofitService.getUserInfo(getToken(),"seller,real_name")
                 .map(new HttpResultData<>(null));
         subscribe(observable, observer);
     }
@@ -821,6 +823,15 @@ public class DataManager {
     }
 
     /**
+     * 店铺信息
+     */
+    public void getShopInfo(DefaultSingleObserver<HttpResult<ShopInfoDto>> observer, String id) {
+        Single<HttpResult<ShopInfoDto>> observable = retrofitService.getShopInfo(getToken(), id)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+    /**
      * 获取新闻详情
      */
     public void getNewsDetail(DefaultSingleObserver<HttpResult<NewsDetailDto>> observer, String type, String id) {
@@ -906,7 +917,7 @@ public class DataManager {
      * 店铺详情--最下面列表
      */
     public void getStProductList(DefaultSingleObserver<HttpResult<List<NewListItemDto>>> observer, String mall_type,HashMap<String, String> map) {
-        Single<HttpResult<List<NewListItemDto>>> observable = retrofitService.getStProductList(mall_type,map)
+        Single<HttpResult<List<NewListItemDto>>> observable = retrofitService.getStProductList("default",map)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -915,7 +926,7 @@ public class DataManager {
      * 爱心工厂分类
      */
     public void getGcTypeProductList(DefaultSingleObserver<HttpResult<List<ProductDto>>> observer, String mall_type, String cateId) {
-        Single<HttpResult<List<ProductDto>>> observable = retrofitService.getGcTypeProductList(mall_type, cateId)
+        Single<HttpResult<List<ProductDto>>> observable = retrofitService.getGcTypeProductList("default", cateId)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -924,7 +935,7 @@ public class DataManager {
      * 商品搜索结果
      */
     public void getSearchResultProductList(DefaultSingleObserver<HttpResult<List<ProductDto>>> observer, String mall_type, String title) {
-        Single<HttpResult<List<ProductDto>>> observable = retrofitService.getSearchResultProductList(mall_type, title)
+        Single<HttpResult<List<ProductDto>>> observable = retrofitService.getSearchResultProductList("default", title)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -933,7 +944,7 @@ public class DataManager {
      * 修改购物车商品个数
      */
     public void modifyShoppingCart(DefaultSingleObserver<HttpResult<ShopCartListItemDto>> observer, String mall_type, String rowId, String qty) {
-        Single<HttpResult<ShopCartListItemDto>> observable = retrofitService.modifyShoppingCart(getToken(), mall_type, rowId, qty)
+        Single<HttpResult<ShopCartListItemDto>> observable = retrofitService.modifyShoppingCart(getToken(), "default", rowId, qty)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -1067,8 +1078,8 @@ public class DataManager {
     /**
      * 我的足迹
      */
-    public void userFootprints(DefaultSingleObserver<HttpResult<List<MyOrderDto>>> observer, Map<String, String> map) {
-        Single<HttpResult<List<MyOrderDto>>> observable = retrofitService.userFootprints(getToken(), map)
+    public void userFootprints(DefaultSingleObserver<HttpResult<List<FootInfoDto>>> observer, Map<String, String> map) {
+        Single<HttpResult<List<FootInfoDto>>> observable = retrofitService.userFootprints(getToken(), map)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }

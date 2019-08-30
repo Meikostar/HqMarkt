@@ -123,6 +123,10 @@ public class AddShippingAddressActivity extends BaseActivity {
             Toast.makeText(this, "请输入手机号码", Toast.LENGTH_LONG).show();
             return;
         }
+//        if (mobile.length()!=11) {
+//            Toast.makeText(this, "请输入手机号码", Toast.LENGTH_LONG).show();
+//            return;
+//        }
         if (TextUtils.isEmpty(area)) {
             Toast.makeText(this, "请选择省区", Toast.LENGTH_LONG).show();
             return;

@@ -1,10 +1,10 @@
 package com.hqmy.market.bean;
 
 public class CountStatisticsBean {
-    private String favorites_count;
-    private String followings_count;
-    private String posts_count;
-    private String comments_count;
+    public String favorites_count;
+    public String followings_count;
+    public String posts_count;
+    public String comments_count;
 
     public String getFavorites_count() {
         return favorites_count;

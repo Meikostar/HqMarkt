@@ -16,10 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="#F5F5F5"
-        tl:tl_indicator_height="@dimen/bj_0dp"
+        tl:tl_indicator_color="@color/my_color_zs"
+        tl:tl_indicator_width_equal_title="true"
+        tl:tl_indicator_height="3dp"
+        tl:tl_indicator_gravity="BOTTOM"
+        tl:tl_indicator_corner_radius="@dimen/bj_1dp"
+        tl:tl_indicator_margin_bottom="@dimen/bj_8dp"
         tl:tl_tab_padding="22dp"
         tl:tl_tab_space_equal="true"
-        tl:tl_textSelectColor="#FFE51C23"
+        tl:tl_textSelectColor="#666"
         tl:tl_textUnselectColor="#FF101010" />
 
     <android.support.v4.view.ViewPager

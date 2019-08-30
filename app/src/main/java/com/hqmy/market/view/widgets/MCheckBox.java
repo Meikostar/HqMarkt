@@ -1,4 +1,4 @@
-package com.zhongchuang.canting.widget;
+package com.hqmy.market.view.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,7 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.zhongchuang.canting.R;
+import com.hqmy.market.R;
 
 
 /***
@@ -82,7 +82,7 @@ public class MCheckBox extends LinearLayout {
     public void setUncheckView() {
         isChecked=false;
         if(rsid==-1){
-            check.setImageResource(R.drawable.choose);
+            check.setImageResource(R.mipmap.icon_collection_check_sel);
         }else {
             check.setImageResource(rsid);
         }
@@ -95,7 +95,7 @@ public class MCheckBox extends LinearLayout {
     public void setCheckedView() {
         isChecked=true;
         if(choose==-1){
-            check.setImageResource(R.drawable.unchoose);
+            check.setImageResource(R.mipmap.icon_collection_check_default);
         }else {
             check.setImageResource(choose);
         }

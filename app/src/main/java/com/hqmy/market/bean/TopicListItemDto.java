@@ -20,10 +20,13 @@ public class TopicListItemDto implements Serializable {
     private String shares;
     private String click;
     private List<String> tag_list;
+    public List<String> labels;
     private String isLiked;
     private String favoriters_count;
     private String comments_count;
     private String likers_count;
+    public String market_price;
+    public boolean isChoose;
     private TopicUserDto user;
 
     private boolean flag2;

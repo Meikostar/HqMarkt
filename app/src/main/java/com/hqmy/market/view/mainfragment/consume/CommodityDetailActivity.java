@@ -257,7 +257,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                 LogUtil.i(TAG, "--RxLog-Thread: onError()");
                 dissLoadDialog();
             }
-        }, mType, goodsId,map);
+        }, "default", goodsId,map);
     }
 
     /**
@@ -285,7 +285,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                 LogUtil.i(TAG, "--RxLog-Thread: onError()");
                 dissLoadDialog();
             }
-        }, mType, goodsId,map);
+        }, "default", goodsId,map);
     }
 
     /**
@@ -371,7 +371,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             public void onError(Throwable throwable) {
                 dissLoadDialog();
             }
-        }, mall_type, map);
+        }, "default", map);
     }
 
     private void getCommentsList() {

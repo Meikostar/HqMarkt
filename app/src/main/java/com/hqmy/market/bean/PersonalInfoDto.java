@@ -12,7 +12,12 @@ public class PersonalInfoDto implements Serializable {
     private String updated_at;
     private String sex;
     private String im_token;
+    public String status;
     private String isFollowing;
+    public BaseDto1 real_name;//实名认证
+    public BaseDto1 seller;
+
+    public boolean is_live;
 
     public String getId() {
         return id;

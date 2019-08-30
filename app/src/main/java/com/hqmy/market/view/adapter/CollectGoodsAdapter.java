@@ -1,37 +1,111 @@
 package com.hqmy.market.view.adapter;
 
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hqmy.market.R;
 import com.hqmy.market.bean.TopicListItemDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.common.utils.ScreenSizeUtil;
+import com.hqmy.market.view.widgets.MCheckBox;
 
 public class CollectGoodsAdapter extends BaseQuickAdapter<TopicListItemDto, BaseViewHolder> {
     public CollectGoodsAdapter() {
-        super(R.layout.collect_good_item, null);
+        super(R.layout.item_collect_goods, null);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, TopicListItemDto item) {
-        if (item.getImgs() != null && item.getImgs().size()>0){
-            GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_collect_goods_icon), Constants.WEB_IMG_URL_UPLOADS + item.getImgs().get(0));
+        if (item.getCover() != null){
+            GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_collect_goods_icon), Constants.WEB_IMG_URL_UPLOADS + item.getCover());
         }else {
             GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_collect_goods_icon), R.drawable.glide_default_picture);
         }
-        if (item.isFlag2()){
-            //积分商品
-            helper.setText(R.id.tv_collect_goods_price, item.getScore()+"积分");
+
+        if(!TextUtils.isEmpty(item.getPrice())){
+            helper.setText(R.id.tv_price,  item.getPrice());
+        }
+        MCheckBox choose = helper.getView(R.id.iv_choose);
+        if(type!=0){
+            choose.setVisibility(View.VISIBLE);
         }else {
-            helper.setText(R.id.tv_collect_goods_price, "￥" + item.getPrice());
+            choose.setVisibility(View.GONE);
         }
-        helper .setText(R.id.tv_collect_goods_title, item.getTitle());
-        if (item.getShop() != null && item.getShop().getData() != null) {
-            helper.setText(R.id.tv_collect_goods_store, item.getShop().getData().getShop_name());
-        } else {
-            helper.setText(R.id.tv_collect_goods_store, "联盟商场自营");
+        choose.setOnCheckChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    item.isChoose=true;
+                }else {
+                    item.isChoose=false;
+                }
+                notifyDataSetChanged();
+            }
+        });
+        FrameLayout frameLayout = helper.getView(R.id.fl_line);
+        LinearLayout llab = helper.getView(R.id.ll_lab);
+        View line = helper.getView(R.id.line);
+        if(!TextUtils.isEmpty(item.market_price)){
+            frameLayout.setVisibility(View.VISIBLE);
+
+            String name = item.market_price;
+            TextPaint textPaint = new TextPaint();
+            textPaint.setTextSize(12);
+            int with = (int) textPaint.measureText(name);
+            FrameLayout.LayoutParams linearParams =(FrameLayout.LayoutParams) line.getLayoutParams(); //取控件textView当前的布局参数 linearParams.height = 20;// 控件的高强制设成20
+
+            linearParams.width = ScreenSizeUtil.dp2px(with+11);// 控件的宽强制设成30
+
+            line.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
+            helper.setText(R.id.market_price,item.market_price);
+        }else {
+            frameLayout.setVisibility(View.GONE);
         }
-        helper.addOnClickListener(R.id.content)
-                .addOnClickListener(R.id.tv_deleted);
+        if(!TextUtils.isEmpty(item.getTitle())){
+            helper .setText(R.id.tv_title, item.getTitle());
+        }
+
+
+        if(item.labels!=null&&item.labels.size()>0){
+            llab.setVisibility(View.VISIBLE);
+            helper.setText(R.id.tv_text1,item.labels.get(0));
+            helper.setVisible(R.id.tv_text2,false);
+            helper.setVisible(R.id.tv_text3,false);
+            helper.setVisible(R.id.tv_text4,false);
+            if(item.labels.size()==2){
+                helper.setText(R.id.tv_text2,item.labels.get(1));
+                helper.setVisible(R.id.tv_text2,true);
+                helper.setVisible(R.id.tv_text3,false);
+                helper.setVisible(R.id.tv_text4,false);
+            }else if(item.labels.size()==3){
+                helper.setText(R.id.tv_text2,item.labels.get(1));
+                helper.setText(R.id.tv_text3,item.labels.get(2));
+                helper.setVisible(R.id.tv_text2,true);
+                helper.setVisible(R.id.tv_text3,true);
+                helper.setVisible(R.id.tv_text4,false);
+
+            }else if(item.labels.size()>=4){
+                helper.setText(R.id.tv_text2,item.labels.get(1));
+                helper.setText(R.id.tv_text3,item.labels.get(2));
+                helper.setText(R.id.tv_text4,item.labels.get(3));
+                helper.setVisible(R.id.tv_text2,true);
+                helper.setVisible(R.id.tv_text3,true);
+                helper.setVisible(R.id.tv_text4,true);
+
+            }
+        }else {
+            llab.setVisibility(View.INVISIBLE);
+        }
+    }
+    private int type;
+    public void setType(int type){
+        this.type=type;
     }
 }

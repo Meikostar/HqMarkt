@@ -14,6 +14,10 @@ public class ExtDto implements Serializable {
     public String slogan;
     public String name;
     public String logo;
+    public String title;
+    public String icon;
+    public ExtDto category;
+    public ExtDto data;
     private String services;
     private String open_time;
 

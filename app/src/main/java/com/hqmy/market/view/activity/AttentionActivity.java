@@ -27,7 +27,7 @@ public class AttentionActivity extends BaseActivity {
     SlidingTabLayout mTabLayout;
     @BindView(R.id.viewpager)
     ViewPager        mViewPager;
-    private String[] titles = {"店铺",  "社区"};
+    private String[] titles = {"店铺",  "直播"};
 
     @Override
     public int getLayoutId() {
@@ -36,7 +36,7 @@ public class AttentionActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mTitleText.setText("关注");
+        mTitleText.setText("我的关注");
 
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new AttentionStoreFragment());

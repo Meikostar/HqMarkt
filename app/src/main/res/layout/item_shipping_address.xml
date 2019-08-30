@@ -35,7 +35,7 @@
         android:layout_marginLeft="@dimen/bj_10dp"
         android:layout_toRightOf="@+id/tv_consignee_phone"
         android:text="默认地址"
-        android:textColor="#F02840"
+        android:textColor="@color/my_color_zs"
         android:textSize="12sp" />
 
     <TextView

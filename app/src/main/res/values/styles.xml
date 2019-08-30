@@ -109,6 +109,12 @@
         <attr name="red_textSize" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="MCheckBox">
+        <attr name="isCheckeds" format="boolean"/>
+        <attr name="drawables" format="reference|color"/>
+        <attr name="drawablechoose" format="reference|color"/>
+        <attr name="canNoClick" format="boolean"/>
+    </declare-styleable>
     <!-- 自定义loading dialog 透明无边框-->
     <style name="loading_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>

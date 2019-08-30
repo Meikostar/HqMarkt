@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card"
+
     tools:targetApi="lollipop"
     android:layout_width="match_parent"
     android:layout_height="238dp"
@@ -147,20 +147,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="()"
+                android:text=""
                 android:textColor="#e31436"
-                android:textSize="11sp"
-                android:visibility="invisible" />
+                android:textSize="11sp" />
             <TextView
                 android:id="@+id/tv_sh"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="()"
+                android:text=""
                 android:textColor="#e31436"
-                android:textSize="11sp"
-                android:visibility="invisible" />
+                android:textSize="11sp" />
             <TextView
                 android:gravity="center"
                 android:layout_weight="1"
