@@ -198,27 +198,27 @@ public class OrderFragment extends BaseFragment {
         HashMap<String, String> map = new HashMap<>();
         switch (type) {
             case Constants.TREE_ORDER_TYPE_ALL:
-                map.put("include", "shop,refundInfo,items.product,items.vcode");
+                map.put("include", "shop,shopUser,items.product,shipment,refundInfo");
                 break;
             case Constants.TREE_ORDER_TYPE_PAYMENT://待支付
                 map.put("filter[status]", "created");
-                map.put("include", "shop,items.product,items.vcode");
+                map.put("include", "shop,shopUser,items.product,shipment,refundInfo");
                 break;
             case Constants.TREE_ORDER_TYPE_DELIVERY://待发货
                 map.put("filter[status]", "paid");
-                map.put("include", "shop,refundInfo,items.product,items.vcode");
+                map.put("include", "shop,shopUser,items.product,shipment,refundInfo");
                 break;
             case Constants.TREE_ORDER_TYPE_RECEIVE://待收货
                 map.put("filter[status]", "shipping");
-                map.put("include", "shop,items.product,items.vcode");
+                map.put("include", "shop,shopUser,items.product,shipment,refundInfo");
                 break;
             case Constants.TREE_ORDER_TYPE_EVALUATE://待评价
                 map.put("filter[status]", "shipped");
-                map.put("include", "shop,items.product,items.vcode");
+                map.put("include", "shop,shopUser,items.product,shipment,refundInfo");
                 break;
         }
         map.put("page", currentPage + "");
-        map.put("filter[type]", "gc,lm,st");
+//        map.put("api_nested_no_data", "1");
         DataManager.getInstance().getAllUserOrders(new DefaultSingleObserver<HttpResult<List<MyOrderDto>>>() {
             @Override
             public void onSuccess(HttpResult<List<MyOrderDto>> httpResult) {

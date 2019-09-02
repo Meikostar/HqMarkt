@@ -15,7 +15,8 @@
             android:layout_width="@dimen/bj_30dp"
             android:layout_height="@dimen/bj_30dp" />
         <TextView
-            android:id="@+id/tv_item_order_store_name"
+            android:layout_marginLeft="52dp"
+            android:id="@+id/tv_shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -24,7 +25,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_item_order_status"
+            android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -94,8 +95,8 @@
             android:layout_marginRight="@dimen/bj_15dp"
             android:background="@drawable/shape_radius_4_f60004"
             android:gravity="center"
-            android:textColor="#ff666666"
-            android:textSize="15sp"
+            android:textColor="#333"
+            android:textSize="13sp"
             android:visibility="visible" />
 
         <TextView
@@ -107,11 +108,11 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/bj_28dp"
             android:layout_marginRight="@dimen/bj_17dp"
-            android:background="@drawable/shape_radius_4_f60004"
+            android:background="@drawable/shape_radius_5_red"
             android:gravity="center"
 
-            android:textColor="#fff60004"
-            android:textSize="15sp" />
+            android:textColor="#fff"
+            android:textSize="13sp" />
 
 
     </LinearLayout>

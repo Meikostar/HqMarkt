@@ -1,17 +1,17 @@
 package com.hqmy.market.view.activity;
 
+import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadSampleListener;
-import com.liulishuo.filedownloader.FileDownloader;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.bean.PersonalInfoDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.LogUtil;
@@ -20,23 +20,45 @@ import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.ShareUtil;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadSampleListener;
+import com.liulishuo.filedownloader.FileDownloader;
 
 import java.io.File;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MyQRcodeActivity extends BaseActivity {
-    @BindView(R.id.img_qrcode)
-    ImageView imgQrcode;
-    @BindView(R.id.btn_save_qcode)
-    TextView btnSaveQcode;
-    @BindView(R.id.btn_friend)
-    Button btnFriend;
-    @BindView(R.id.tv_title_text)
-    TextView tvTitleText;
 
-    String shareUrl ;
+
+    String shareUrl;
+    @BindView(R.id.iv_title_back)
+    ImageView      ivTitleBack;
+    @BindView(R.id.iv_img)
+    ImageView      iv_img;
+
+    @BindView(R.id.tv_title_text)
+    TextView       tvTitleText;
+    @BindView(R.id.tv_title_right)
+    TextView       tvTitleRight;
+    @BindView(R.id.layout_top)
+    RelativeLayout layoutTop;
+    @BindView(R.id.tv_name)
+    TextView       tvName;
+    @BindView(R.id.tv_tgm)
+    TextView       tvTgm;
+    @BindView(R.id.img_qrcode)
+    ImageView      imgQrcode;
+    @BindView(R.id.ll_code)
+    LinearLayout   llCode;
+    @BindView(R.id.btn_save_qcode)
+    TextView       btnSaveQcode;
+    @BindView(R.id.ll_save)
+    LinearLayout   llSave;
+    @BindView(R.id.ll_share)
+    LinearLayout   llShare;
 
     @Override
     public void initListener() {
@@ -50,34 +72,52 @@ public class MyQRcodeActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        tvTitleText.setText("我的推广");
-        shareUrl = Constants.BASE_URL+"api/package/user/invitation_img?user_id="+ ShareUtil.getInstance().getString(Constants.USER_ID,"");
-        GlideUtils.getInstances().loadNormalImg(this,imgQrcode, Constants.BASE_URL+"api/package/user/invitation_img?user_id="+ ShareUtil.getInstance().getString(Constants.USER_ID,""));
+        tvTitleText.setText("分销二维码");
+        shareUrl = Constants.BASE_URL + "api/package/user/invitation_img?user_id=" + ShareUtil.getInstance().getString(Constants.USER_ID, "");
+        GlideUtils.getInstances().loadNormalImg(this, imgQrcode, Constants.BASE_URL + "api/package/user/invitation_img?user_id=" + ShareUtil.getInstance().getString(Constants.USER_ID, ""));
     }
 
     @Override
     public void initData() {
-        getUserCount();
+        getUserInfo();
     }
 
-    public void getUserCount() {
-        DataManager.getInstance().getUserCount(new DefaultSingleObserver<HttpResult<String>>() {
+    private void setUserInfo() {
+        GlideUtils.getInstances().loadUserRoundImg(this, iv_img, mPersonalInfoDto.getAvatar());
+        tvName.setText(mPersonalInfoDto.getName());
+    }
+    private PersonalInfoDto mPersonalInfoDto;
+    private void getUserInfo() {
+        DataManager.getInstance().getUserInfo(new DefaultSingleObserver<PersonalInfoDto>() {
             @Override
-            public void onSuccess(HttpResult<String> result) {
-                btnFriend.setText("已邀请好友 " + result.getData() + "人>");
+            public void onSuccess(PersonalInfoDto personalInfoDto) {
+                      mPersonalInfoDto=personalInfoDto;
+                    ShareUtil.getInstance().save(Constants.USER_HEAD, personalInfoDto.getAvatar());
+                    if (!TextUtils.isEmpty(personalInfoDto.getName())) {
+                        ShareUtil.getInstance().save(Constants.USER_NAME, personalInfoDto.getName());
+                    } else {
+                        ShareUtil.getInstance().save(Constants.USER_NAME, personalInfoDto.getPhone());
+                    }
+                    setUserInfo();
+
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
             }
         });
     }
 
-    @OnClick({R.id.iv_title_back,R.id.btn_friend,R.id.btn_save_qcode})
+    @OnClick({R.id.iv_title_back,  R.id.btn_save_qcode})
     public void toClick(View view) {
         switch (view.getId()) {
             case R.id.iv_title_back:
                 finish();
                 break;
-            case R.id.btn_friend:
-                gotoActivity(InviteFriendsActivity.class);
-                break;
+//            case R.id.btn_friend:
+//                gotoActivity(InviteFriendsActivity.class);
+//                break;
             case R.id.btn_save_qcode:
                 downImg(shareUrl);
                 break;
@@ -148,4 +188,6 @@ public class MyQRcodeActivity extends BaseActivity {
                     }
                 }).start();
     }
+
+
 }

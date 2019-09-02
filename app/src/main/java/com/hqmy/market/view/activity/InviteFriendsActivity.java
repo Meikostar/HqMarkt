@@ -38,7 +38,7 @@ public class InviteFriendsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        tvTitleText.setText("邀请好友列表");
+        tvTitleText.setText("我的推广会员");
         recyFriend.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAdapter = new InviteFiendAdapter();
         recyFriend.setAdapter(mAdapter);

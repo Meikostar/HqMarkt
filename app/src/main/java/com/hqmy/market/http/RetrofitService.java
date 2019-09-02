@@ -24,6 +24,7 @@ import com.hqmy.market.bean.CountOrderBean;
 import com.hqmy.market.bean.CountStatisticsBean;
 import com.hqmy.market.bean.CouponBean;
 import com.hqmy.market.bean.CouponDto;
+import com.hqmy.market.bean.DetailDto;
 import com.hqmy.market.bean.DynamicBean;
 import com.hqmy.market.bean.ExpressList;
 import com.hqmy.market.bean.FootInfoDto;
@@ -68,6 +69,7 @@ import com.hqmy.market.bean.ServiceMenuBean;
 import com.hqmy.market.bean.ShopCartInfoDto;
 import com.hqmy.market.bean.ShopCartListItemDto;
 import com.hqmy.market.bean.ShopInfoDto;
+import com.hqmy.market.bean.StoreCategoryDto;
 import com.hqmy.market.bean.TagBean;
 import com.hqmy.market.bean.TopicDetailDto;
 import com.hqmy.market.bean.TopicListItemDto;
@@ -330,6 +332,12 @@ public interface RetrofitService {
     @GET("api/friend/my_friend_list")
     Single<HttpResult<ArrayList<FriendListItemDto>>> getFriendList(@Header("Authorization") String token, @Query("include") String include);
 
+
+    @GET("api/package/mall/default/categories")
+    Single<HttpResult<List<StoreCategoryDto>>> findStoreCategory(@Query("include") String include);
+
+
+
     /**
      * 根据用户ID获取用户信息
      */
@@ -438,6 +446,9 @@ public interface RetrofitService {
     @GET("api/package/mall/{mall_type}/products")
     Single<HttpResult<List<NewListItemDto>>> getFamilyNewList(@Path("mall_type") String mall_type, @QueryMap Map<String, String> map);
 
+    @GET("api/package/mall/default/products")
+    Single<HttpResult<List<NewListItemDto>>> findGoodsList( @QueryMap Map<String, String> map);
+
 
     /**
      * 品牌推荐
@@ -529,6 +540,29 @@ public interface RetrofitService {
      */
     @GET("api/posts/{id}")
     Single<HttpResult<TopicDetailDto>> getTopicDetail(@Header("Authorization") String token, @Path("id") String id, @Query("include") String include);
+
+
+    @GET("api/package/pages/page/privacy_policy")
+    Single<HttpResult<DetailDto>> privacy_policy();
+
+    @GET("api/package/pages/page/tos")
+    Single<HttpResult<DetailDto>> tos();
+
+    @GET("api/package/pages/page/shop_service")
+    Single<HttpResult<DetailDto>> shop_service();
+
+
+    /**
+     *
+     */
+    @GET("api/package/pages/{type}")
+    Single<HttpResult<List<DetailDto>>> getHelpData(@Path("type") String type);
+    /**
+     * 获取帮助详情
+     */
+    @GET("api/package/pages/{type}/{id}")
+    Single<HttpResult<DetailDto>> getHelpDetail(@Path("type") String type, @Path("id") String id);
+
 
     /**
      * 获取新闻详情
@@ -689,6 +723,13 @@ public interface RetrofitService {
      */
     @GET("api/live/videos/infos")
     Single<HttpResult<VideoLiveBean>> liveVideosInfo(@Query("id") String id, @Query("include") String include);
+
+    /**
+     * 直播详情
+     */
+    @POST("/api/sellers")
+    Single<HttpResult<Object>> upSellers(@Header("Authorization") String token, @Body HashMap<String, String> map);
+
 
     /**
      * 分类列表
@@ -874,7 +915,7 @@ public interface RetrofitService {
     /**
      * 我买到的
      */
-    @GET("api/package/mall/all/user/orders")
+    @GET("api/package/mall/default/user/orders")
     Single<HttpResult<List<MyOrderDto>>> getAllUserOrders(@Header("Authorization") String token, @QueryMap Map<String, String> map);
 
     /**

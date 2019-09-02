@@ -81,7 +81,7 @@ public class ConsumePushAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
 
             }
             helper.setText(R.id.tv_item_home_good_shop_price,  item.getPrice());
-            GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_item_consume_push_img), Constants.WEB_IMG_URL_UPLOADS + item.getCover());
+            GlideUtils.getInstances().loadProcuctNormalImg(mContext, helper.getView(R.id.iv_item_consume_push_img), Constants.WEB_IMG_URL_UPLOADS + item.getCover());
             helper.getView(R.id.iv_item_home_push).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

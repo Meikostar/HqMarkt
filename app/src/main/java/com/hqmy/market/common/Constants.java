@@ -42,6 +42,7 @@ public class Constants {
      * 当前用户凭证
      */
     public final static String APP_USER_KEY = "app_user_key";
+    public final static int PAGE_SIZE = 20;
     /**
      * 用户登录TOKEN
      */
@@ -111,6 +112,8 @@ public class Constants {
     public static final int INTENT_REQUESTCODE_VERIFIED_IMG1 = 50;
     public static final int INTENT_REQUESTCODE_VERIFIED_IMG2 = 60;
     public static final int INTENT_REQUESTCODE_VERIFIED_IMG3 = 70;
+    public static final int INTENT_REQUESTCODE_VERIFIED_IMG4 = 80;
+    public static final int INTENT_REQUESTCODE_VERIFIED_IMG5 = 90;
 
     public static final String INTENT_DATA = "data";
     public static final String INTENT_AREA_NAME = "area_name";

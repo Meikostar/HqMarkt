@@ -1,5 +1,7 @@
 package com.hqmy.market.bean;
 
+import java.util.List;
+
 public class MetaPaginationDto {
     int count;
     int current_page;

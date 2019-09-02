@@ -24,6 +24,22 @@ public class OrderGoodsListAdapter extends BaseQuickAdapter<MyOrderItemDto, Base
         helper.setText(R.id.tv_name, item.getTitle())
                 .setText(R.id.tv_cout, "x" + item.getQty())
                 .setText(R.id.tv_price, "￥" + item.getPrice());
+        String content="";
+        if(item.getOptions()!=null){
+            int i=0;
+
+            //value
+            for(String value : item.getOptions().values()){
+                if(i==0){
+                    content=value;
+                }else {
+                    content=content+","+value;
+                }
+            }
+            helper.setText(R.id.tv_gg,content);
+        }else {
+            helper.setText(R.id.tv_gg,"");
+        }
 
     }
 }

@@ -20,6 +20,7 @@ import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.type.SmsType;
 import com.hqmy.market.utils.CountDownTimerUtils;
 import com.hqmy.market.utils.ImagePickerUtils;
+import com.hqmy.market.utils.RegexUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -120,6 +121,14 @@ public class AddBandCardActivity extends BaseActivity {
 
     private void addBankCard() {
         if (!verify()) {
+            return;
+        }
+        if(!RegexUtils.isMobileExact(mBankCardBindPhone.getText().toString().trim())){
+            ToastUtil.showToast("请输入合法手机号");
+            return;
+        }
+        if(!RegexUtils.checkBankCard(mBankCardBindPhone.getText().toString().trim())){
+            ToastUtil.showToast("请输入正确的卡号");
             return;
         }
         Map<String, String> map = new HashMap<>();

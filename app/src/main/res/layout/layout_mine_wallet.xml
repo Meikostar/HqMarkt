@@ -215,7 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/bj_6dp"
-                    android:text="二级会员"
+                    android:text="推广会员"
                     android:textColor="#ff333333"
                     android:textSize="12sp" />
             </LinearLayout>

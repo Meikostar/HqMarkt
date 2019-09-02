@@ -1,8 +1,10 @@
 package com.hqmy.market.bean;
 
 public class InviteFriendBean {
-    String phone;
-    String created_at;
+  public   String phone;
+   public String created_at;
+   public String name;
+   public String avatar;
 
     public String getPhone() {
         return phone;

@@ -14,11 +14,12 @@
         android:scaleType="centerCrop" />
 
     <TextView
+
         android:layout_marginRight="70dp"
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/bj_10dp"
+        android:layout_marginLeft="118dp"
         android:layout_toRightOf="@+id/iv_order_goods_icon"
         android:maxLines="2"
         android:text=""
@@ -26,6 +27,20 @@
         android:textColor="#ff333333"
         android:textSize="14sp" />
 
+    <TextView
+        android:layout_alignParentBottom="true"
+         android:layout_marginBottom="16dp"
+        android:layout_marginRight="70dp"
+        android:id="@+id/tv_gg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="118dp"
+        android:layout_toRightOf="@+id/iv_order_goods_icon"
+        android:maxLines="2"
+        android:text=""
+        android:layout_toLeftOf="@+id/tv_order_goods_price"
+        android:textColor="#ff333333"
+        android:textSize="14sp" />
     <TextView
         android:text=""
         android:layout_alignParentRight="true"
@@ -52,6 +67,6 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/iv_order_goods_icon"
         android:layout_height="0.5dp"
-        android:layout_marginTop="@dimen/bj_15dp"
+        android:layout_alignParentBottom="true       "
         android:background="#EEEEEE" />
 </RelativeLayout>

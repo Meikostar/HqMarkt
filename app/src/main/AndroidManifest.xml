@@ -121,6 +121,14 @@
             android:name="com.hqmy.market.view.mainfragment.consume.BabyPublishActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".view.activity.EnterprisePermissionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.ProductListActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
             android:name="com.hqmy.market.view.mainfragment.community.TopicPublishActivity"
             android:screenOrientation="portrait" />
         <!--<activity
@@ -324,6 +332,10 @@
         <activity
             android:name="com.hqmy.market.view.mainfragment.community.TopicDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.WebUtilsActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name="com.hqmy.market.utils.MyCommonWebView"
             android:screenOrientation="portrait" />

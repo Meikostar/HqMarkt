@@ -25,6 +25,7 @@ import com.hqmy.market.bean.CountOrderBean;
 import com.hqmy.market.bean.CountStatisticsBean;
 import com.hqmy.market.bean.CouponBean;
 import com.hqmy.market.bean.CouponDto;
+import com.hqmy.market.bean.DetailDto;
 import com.hqmy.market.bean.DynamicBean;
 import com.hqmy.market.bean.ExpressList;
 import com.hqmy.market.bean.FootInfoDto;
@@ -69,6 +70,7 @@ import com.hqmy.market.bean.ServiceMenuBean;
 import com.hqmy.market.bean.ShopCartInfoDto;
 import com.hqmy.market.bean.ShopCartListItemDto;
 import com.hqmy.market.bean.ShopInfoDto;
+import com.hqmy.market.bean.StoreCategoryDto;
 import com.hqmy.market.bean.TagBean;
 import com.hqmy.market.bean.TopicDetailDto;
 import com.hqmy.market.bean.TopicListItemDto;
@@ -520,6 +522,17 @@ public class DataManager {
     }
 
     /**
+     * 获取用户好友信息列表
+     * @param observer
+     */
+    public void findStoreCategory(DefaultSingleObserver<HttpResult<List<StoreCategoryDto>>> observer) {
+        Single<HttpResult<List<StoreCategoryDto>>> observable = retrofitService.findStoreCategory("children.children")
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+
+    /**
      * 获取群列表
      * @param observer
      */
@@ -739,6 +752,15 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
+    /**
+     * 爱心家庭最新上架
+     */
+    public void findGoodsList(Map<String, String> map,DefaultSingleObserver<HttpResult<List<NewListItemDto>>> observer) {
+        Single<HttpResult<List<NewListItemDto>>> observable = retrofitService.findGoodsList( map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
 
     /**
      * 发布宝贝
@@ -822,6 +844,23 @@ public class DataManager {
         subscribe(observable, observer);
     }
 
+    public void privacy_policy(DefaultSingleObserver<HttpResult<DetailDto>> observer) {
+
+
+        Single<HttpResult<DetailDto>> observable = retrofitService.privacy_policy()
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+    public void tos(DefaultSingleObserver<HttpResult<DetailDto>> observer) {
+        Single<HttpResult<DetailDto>> observable = retrofitService.tos()
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+    public void shop_service(DefaultSingleObserver<HttpResult<DetailDto>> observer) {
+        Single<HttpResult<DetailDto>> observable = retrofitService.shop_service()
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
     /**
      * 店铺信息
      */
@@ -836,6 +875,17 @@ public class DataManager {
      */
     public void getNewsDetail(DefaultSingleObserver<HttpResult<NewsDetailDto>> observer, String type, String id) {
         Single<HttpResult<NewsDetailDto>> observable = retrofitService.getNewsDetail(type,id,"extra")
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+    public void getHelpData(DefaultSingleObserver<HttpResult<List<DetailDto>>> observer, String type) {
+        Single<HttpResult<List<DetailDto>>> observable = retrofitService.getHelpData(type)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+    public void getHelpDetail(DefaultSingleObserver<HttpResult<DetailDto>> observer, String type,String id) {
+        Single<HttpResult<DetailDto>> observable = retrofitService.getHelpDetail(type,id)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -973,6 +1023,14 @@ public class DataManager {
      */
     public void applyLive(DefaultSingleObserver<HttpResult<AnchorInfo>> observer, HashMap<String, String> map) {
         Single<HttpResult<AnchorInfo>> observable = retrofitService.applyAnchor(getToken(), map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+    /**
+     * 申请主播
+     */
+    public void upSellers(DefaultSingleObserver<HttpResult<Object>> observer, HashMap<String, String> map) {
+        Single<HttpResult<Object>> observable = retrofitService.upSellers(getToken(), map)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }

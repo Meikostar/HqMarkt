@@ -30,7 +30,7 @@ public class MyEarningsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mTitleText.setText("我的收益");
+        mTitleText.setText("我的钱包");
         mTitleRight.setVisibility(View.VISIBLE);
         mTitleRight.setText("明细");
     }

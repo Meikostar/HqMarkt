@@ -22,6 +22,7 @@ import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.view.activity.ProductListActivity;
 import com.hqmy.market.view.adapter.RecentSearchProductAdapter;
 import com.hqmy.market.view.widgets.RecommendViewGroup;
 import com.hqmy.market.view.widgets.autoview.ClearEditText;
@@ -100,7 +101,7 @@ public class ProductSearchActivity extends BaseActivity implements TextView.OnEd
                 ShareUtil.getInstance().save("productSearchData", new Gson().toJson(productSearchData));
                 Bundle bundle = new Bundle();
                 bundle.putString(ProductSearchResultActivity.SEARCH_KEY_STR, strSearch);
-                gotoActivity(ProductSearchResultActivity.class, false, bundle);
+                gotoActivity(ProductListActivity.class, false, bundle);
             }
         });
     }
@@ -146,7 +147,7 @@ public class ProductSearchActivity extends BaseActivity implements TextView.OnEd
                                 Bundle bundle = new Bundle();
                                 bundle.putString(ProductSearchResultActivity.SEARCH_KEY_STR, textView.getText().toString());
                                 bundle.putString(ProductSearchResultActivity.SEARCH_MALL_TYPE, mall_type);
-                                gotoActivity(ProductSearchResultActivity.class, false, bundle);
+                                gotoActivity(ProductListActivity.class, false, bundle);
                             }
                         });
                         recommendViewGroup.addView(view);
@@ -203,7 +204,7 @@ public class ProductSearchActivity extends BaseActivity implements TextView.OnEd
                     Bundle bundle = new Bundle();
                     bundle.putString(ProductSearchResultActivity.SEARCH_KEY_STR, et_search_procdut.getText().toString());
                     bundle.putString(ProductSearchResultActivity.SEARCH_MALL_TYPE, mall_type);
-                    gotoActivity(ProductSearchResultActivity.class, false, bundle);
+                    gotoActivity(ProductListActivity.class, false, bundle);
                     return true;
                 default:
                     return true;

@@ -239,11 +239,14 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void finishActivity() {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("userInfo", mPersonalInfoDto);
-        Intent intent = new Intent();
-        intent.putExtras(bundle);
-        setResult(0, intent);
+        if(mPersonalInfoDto!=null){
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("userInfo", mPersonalInfoDto);
+            Intent intent = new Intent();
+            intent.putExtras(bundle);
+            setResult(0, intent);
+        }
+
         finish();
     }
 

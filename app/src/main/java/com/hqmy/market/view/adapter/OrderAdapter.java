@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -26,11 +27,12 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, MyOrderDto item) {
         helper.addOnClickListener(R.id.item_order_content);
         if (item.getShop() != null) {
-            helper.setText(R.id.tv_item_order_store_name, item.getShop().getShop_name());
+            helper.setText(R.id.tv_shop_name, item.getShop().getShop_name());
         } else {
-            helper.setText(R.id.tv_item_order_store_name, "");
+            helper.setText(R.id.tv_shop_name, "");
         }
         RecyclerView recyclerView = helper.getView(R.id.item_order_goods_list);
+
         if (item.getItems() != null && item.getItems().getData() != null && item.getItems().getData().size() > 0) {
             recyclerView.setVisibility(View.VISIBLE);
             setGoodsListData(recyclerView, item.getItems().getData(), item);
@@ -41,13 +43,19 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
                 .setGone(R.id.tv_button_2, false)
                 .addOnClickListener(R.id.tv_button_1)
                 .addOnClickListener(R.id.tv_button_2);
-        helper.setText(R.id.tv_item_order_status, item.getStatus_msg());
+        if (item.getTotal() != null) {
+            helper.setText(R.id.tv_prices, item.getTotal());
+        }
+        helper.setText(R.id.tv_status, item.getStatus_msg());
+        helper.setText(R.id.tv_detail, "共"+item.getCount()+"件商品, "+"已付款");
         switch (item.getStatus()) {
             case "created"://待支付
                 helper.setVisible(R.id.tv_button_1, true)
                         .setVisible(R.id.tv_button_2, true)
                         .setText(R.id.tv_button_1, "取消订单")
-                        .setText(R.id.tv_button_2, "去付款");
+                        .setText(R.id.tv_button_2, "去付款")
+                        .setText(R.id.tv_detail, "共"+item.getCount()+"件商品, "+"未付款");
+
                 break;
             case "paid"://待发货
                 helper.setVisible(R.id.tv_button_1, true);
@@ -59,6 +67,8 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
                             .setText(R.id.tv_button_1, "申请退款")
                             .setText(R.id.tv_button_2, "催发货");
                 }
+
+
                 break;
             case "shipping"://已发货
                 helper.setVisible(R.id.tv_button_2, true);
@@ -70,6 +80,7 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
                             .setText(R.id.tv_button_1, "查看物流")
                             .setText(R.id.tv_button_2, "确认收货");
                 }
+
                 break;
             case "shipped"://待评价
                 helper.setText(R.id.tv_item_order_status, "待评价");

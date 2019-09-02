@@ -126,8 +126,8 @@ public class GlideUtils {
                 .asBitmap()
                 .load(imgUrl)
                 .apply(new RequestOptions()
-                        .placeholder(R.mipmap.icon_user_default)
-                        .error(R.mipmap.icon_user_default)
+                        .placeholder(R.drawable.moren_ren)
+                        .error(R.drawable.moren_ren)
 //                         .diskCacheStrategy(DiskCacheStrategy.NONE)// 缓存策略
                         .transforms(new CenterCrop(), new CircleTransform()))
                 .into(imageView);
@@ -158,9 +158,57 @@ public class GlideUtils {
      * @param imageView
      * @param imgUrl
      */
-    public void loadNormalImg(Context context, ImageView imageView, Object imgUrl) {
+    public void loadProcuctNormalImg(Context context, ImageView imageView, Object imgUrl) {
+        Object content;
+        if(imgUrl!=null){
+            if(imgUrl instanceof String){
+                if(((String) imgUrl).contains("http")){
+                    content= imgUrl;
+                }else{
+                    content=Constants.WEB_IMG_URL_UPLOADS+(String)imgUrl;
+                }
+            }else {
+                content= imgUrl;
+            }
+        }else {
+            content= imgUrl;
+        }
         try {
-            Glide.with(context).asBitmap().load((imgUrl instanceof String?(TextUtils.isEmpty((String)imgUrl)?imgUrl:((String) imgUrl).contains("http")?imgUrl:Constants.WEB_IMG_URL_UPLOADS+imgUrl):imgUrl)).apply(new RequestOptions()
+            Glide.with(context).asBitmap().load(content).apply(new RequestOptions()
+                    .placeholder(R.drawable.moren_product) // 预加载图片
+                    .error(R.drawable.moren_product) // 加载失败显示图片
+                    .priority(Priority.LOW)) // 优先级
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtil.d("loadNormalImg", "loadNormalImg--isDestroyed");
+        }
+
+    }
+    /**
+     * 加载正常图片
+     *
+     * @param context
+     * @param imageView
+     * @param imgUrl
+     */
+    public void loadNormalImg(Context context, ImageView imageView, Object imgUrl) {
+        Object content;
+         if(imgUrl!=null){
+             if(imgUrl instanceof String){
+                 if(((String) imgUrl).contains("http")){
+                     content= imgUrl;
+                 }else{
+                     content=Constants.WEB_IMG_URL_UPLOADS+(String)imgUrl;
+                 }
+             }else {
+                 content= imgUrl;
+             }
+         }else {
+             content= imgUrl;
+         }
+        try {
+            Glide.with(context).asBitmap().load(content).apply(new RequestOptions()
                     .placeholder(R.mipmap.img_default_three) // 预加载图片
                     .error(R.mipmap.img_default_three) // 加载失败显示图片
                     .priority(Priority.LOW)) // 优先级

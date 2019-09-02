@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="134dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="@dimen/bj_12dp"
+
+    android:paddingTop="@dimen/bj_10dp"
+    android:orientation="vertical"
+    android:paddingRight="@dimen/bj_12dp"
+    android:paddingBottom="@dimen/bj_10dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.hqmy.market.view.widgets.MCheckBox
+            android:visibility="gone"
+            android:id="@+id/iv_choose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="6dp"
+            android:clickable="false"
+            android:padding="11dp"
+            app:canNoClick="false"
+            app:drawablechoose="@mipmap/icon_collection_check_sel"
+            app:drawables="@mipmap/icon_collection_check_default" />
+        <ImageView
+            android:id="@+id/iv_collect_goods_icon"
+            android:layout_width="@dimen/bj_105dp"
+            android:layout_height="@dimen/bj_105dp"
+            android:scaleType="centerCrop"/>
+        <LinearLayout
+            android:layout_marginLeft="@dimen/bj_15dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:lines="1"
+                    android:background="@drawable/retgle_line_bg"
+                    android:id="@+id/tv_labe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/bj_3dp"
+
+
+                    android:text=""
+                    android:textColor="@color/my_color_zs"
+                    android:textSize="11sp" />
+                <TextView
+
+                    android:layout_marginLeft="@dimen/bj_7dp"
+                    android:id="@+id/tv_title"
+                    android:lineSpacingExtra="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="2"
+                    android:text=""
+                    android:textColor="@color/my_color_333333"
+                    android:textSize="13.5sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:layout_marginBottom="@dimen/bj_16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/bj_10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="￥"
+                    android:textColor="@color/my_color_FC6f48"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/bj_3dp"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/my_color_FC6f48"
+                    android:textSize="16sp" />
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone"
+                    android:layout_marginRight="5dp"
+
+                    android:textSize="10sp"
+                    android:id="@+id/tv_zk"
+                    android:text=""
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:background="#fc6f48"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <FrameLayout
+                    android:id="@+id/fl_line"
+                    android:layout_marginRight="2dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="center"
+                        android:maxLength="6"
+                        android:id="@+id/market_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:layout_gravity="right"
+                        android:text=""
+                        android:textColor="@color/my_color_999999"
+                        android:textSize="@dimen/wz_12sp" />
+
+                    <View
+                        android:id="@+id/line"
+                        android:layout_width="30dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:background="@color/my_color_999999" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="#e8e8e8"/>
+
+
+</LinearLayout>

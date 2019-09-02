@@ -296,7 +296,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj_20dp"
                     android:text="获取验证码"
-                    android:textColor="#F60004"
+                    android:textColor="@color/my_color_zs"
                     android:textSize="15sp" />
 
                 <View
@@ -329,8 +329,8 @@
                     android:id="@+id/tv_bank_card_add"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_marginTop="106dp"
-                    android:background="#E10020"
+                    android:layout_marginTop="56dp"
+                    android:background="@color/my_color_zs"
                     android:gravity="center"
                     android:text="确认添加"
                     android:textColor="#ffffffff"

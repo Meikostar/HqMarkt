@@ -30,16 +30,22 @@ import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.utils.UserHelper;
 import com.hqmy.market.view.activity.AccountSettingActivity;
 import com.hqmy.market.view.activity.AttentionActivity;
+import com.hqmy.market.view.activity.BankCardManagerActivity;
 import com.hqmy.market.view.activity.CollectActivity;
+import com.hqmy.market.view.activity.EnterprisePermissionActivity;
 import com.hqmy.market.view.activity.HelpCenterActivity;
+import com.hqmy.market.view.activity.InviteFriendsActivity;
 import com.hqmy.market.view.activity.LoginActivity;
 import com.hqmy.market.view.activity.MessageCenterActivity;
 import com.hqmy.market.view.activity.MyBuyGoodActivity;
+import com.hqmy.market.view.activity.MyEarningsActivity;
 import com.hqmy.market.view.activity.MyFootprintActivity;
 import com.hqmy.market.view.activity.MyPublishActivity;
+import com.hqmy.market.view.activity.MyQRcodeActivity;
 import com.hqmy.market.view.activity.OrderActivity;
 import com.hqmy.market.view.activity.RechargeWebActivity;
 import com.hqmy.market.view.activity.RefundAfterSalesActivity;
+import com.hqmy.market.view.activity.RequestLivePermissionActivity;
 import com.hqmy.market.view.activity.UserInfoActivity;
 import com.hqmy.market.view.adapter.ServiceMenuAdapter;
 import com.hqmy.market.view.widgets.CircleImageView;
@@ -274,7 +280,8 @@ public class MeFragment extends BaseFragment {
     }
 
     private String id;
-
+    private int state;
+    private int states;
     private void getUserInfo() {
         DataManager.getInstance().getUserInfo(new DefaultSingleObserver<PersonalInfoDto>() {
             @Override
@@ -289,22 +296,45 @@ public class MeFragment extends BaseFragment {
                     if(mPersonalInfoDto.real_name!=null&&TextUtils.isEmpty(mPersonalInfoDto.real_name.status)){
                         tvState.setVisibility(View.VISIBLE);
                         tvState.setVisibility(View.VISIBLE);
-                        if(mPersonalInfoDto.real_name.data.status.equals("1")&&!TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
-                            tvState.setText("已认证");
-                        }else if(mPersonalInfoDto.real_name.data.status.equals("0")&&TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
-                            tvState.setText("未审核");
 
-                        }else if(mPersonalInfoDto.real_name.data.status.equals("1")&&TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
-                            tvState.setText("认证拒绝");
-                        }
-                        if(mPersonalInfoDto.seller.data.status.equals("1")){
-                            tvSh.setText("待审核");
-                        }else if(mPersonalInfoDto.seller.data.status.equals("2")){
-                            tvSh.setText("审核通过");
+                        if(mPersonalInfoDto.real_name!=null&&mPersonalInfoDto.real_name.data!=null&&mPersonalInfoDto.real_name.data.status!=null){
+                            if(mPersonalInfoDto.real_name.data.status.equals("1")&&!TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
+                                tvState.setText("已认证");
+                                state=1;
+                            }else if(mPersonalInfoDto.real_name.data.status.equals("0")&&TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
+                                tvState.setText("未审核");
+                                state=1;
 
-                        }else if(mPersonalInfoDto.seller.data.status.equals("3")){
-                            tvSh.setText("审核拒绝");
+                            }else if(mPersonalInfoDto.real_name.data.status.equals("1")&&TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
+                                tvState.setText("认证拒绝");
+                                state=0;
+                            }else {
+                                tvState.setText("未认证");
+                                state=0;
+                            }
+                        }else {
+                            state=0;
+                            tvSh.setText("未认证");
                         }
+                        if(mPersonalInfoDto.seller!=null&&mPersonalInfoDto.seller.data!=null&&mPersonalInfoDto.seller.data.status!=null){
+                            if(mPersonalInfoDto.seller.data.status.equals("1")){
+                                tvSh.setText("待审核");
+                                states=1;
+                            }else if(mPersonalInfoDto.seller.data.status.equals("2")){
+                                tvSh.setText("审核通过");
+                                states=1;
+                            }else if(mPersonalInfoDto.seller.data.status.equals("3")){
+                                tvSh.setText("审核拒绝");
+                                states=0;
+                            }else {
+                                tvSh.setText("未认证");
+                                states=0;
+                            }
+                        }else {
+                            tvSh.setText("未认证");
+                            states=0;
+                        }
+
                     }
 
                     ShareUtil.getInstance().save(Constants.USER_HEAD, personalInfoDto.getAvatar());
@@ -325,7 +355,7 @@ public class MeFragment extends BaseFragment {
     }
 
     private void setUserInfo() {
-        GlideUtils.getInstances().loadNormalImg(getActivity(), civUserAvatar, mPersonalInfoDto.getAvatar());
+        GlideUtils.getInstances().loadUserRoundImg(getActivity(), civUserAvatar, mPersonalInfoDto.getAvatar());
         tvName.setText(mPersonalInfoDto.getName());
     }
 
@@ -335,6 +365,13 @@ public class MeFragment extends BaseFragment {
             , R.id.ll_gz
             , R.id.ll_sc
             , R.id.ll_zj
+            , R.id.ll_sm
+            , R.id.ll_dp
+            , R.id.ll_kf
+            , R.id.ll_yh
+            , R.id.ll_ewm
+            , R.id.ll_hy
+            , R.id.ll_sy
             , R.id.ll_order_daifukuan
             , R.id.ll_order_daifahuo
             , R.id.ll_order_daishouhuo
@@ -363,6 +400,34 @@ public class MeFragment extends BaseFragment {
             case R.id.ll_zj://关注
                 gotoActivity(MyFootprintActivity.class);
                 break;
+            case R.id.ll_sm://实名
+                if(state==0){
+                    gotoActivity(RequestLivePermissionActivity.class);
+                }
+
+                break;
+            case R.id.ll_dp://店铺
+                if(states==0){
+                    gotoActivity(EnterprisePermissionActivity.class);
+                }
+
+                break;
+            case R.id.ll_kf://客服
+                gotoActivity(HelpCenterActivity.class);
+                break;
+            case R.id.ll_yh://银行卡
+                gotoActivity(BankCardManagerActivity.class);
+                break;
+            case R.id.ll_ewm://银行卡
+                gotoActivity(MyQRcodeActivity.class);
+                break;
+            case R.id.ll_hy://银行卡
+                gotoActivity(InviteFriendsActivity.class);
+                break;
+            case R.id.ll_sy://银行卡
+                gotoActivity(MyEarningsActivity.class);
+                break;
+
 
             //            case R.id.ll_mine_footprint://我的足迹
             //

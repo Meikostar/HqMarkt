@@ -57,7 +57,7 @@ public class RequestLivePermissionActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mTitleText.setText("我要开播");
+        mTitleText.setText("实名认证");
     }
 
     @Override
@@ -161,7 +161,7 @@ public class RequestLivePermissionActivity extends BaseActivity {
                 dissLoadDialog();
                 if (object != null) {
                     uploadFilesDto = object;
-                    GlideUtils.getInstances().loadNormalImg(RequestLivePermissionActivity.this, iv_id_card, imgPath);
+                    GlideUtils.getInstances().loadNormalImg(RequestLivePermissionActivity.this, iv_id_card, Constants.BASE_URL+object.getUrl());
                 } else {
                     ToastUtil.showToast("上传身份证失败");
                 }

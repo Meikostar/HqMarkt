@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hqmy.market.view.mainfragment.ShopClassFragment;
 import com.lwkandroid.imagepicker.ImagePicker;
 import com.lwkandroid.imagepicker.data.ImageBean;
 import com.lwkandroid.imagepicker.utils.BroadcastManager;
@@ -199,7 +200,7 @@ public class MainActivity extends BaseActivity implements
 
     private void initMainViewPager() {
         fragments.add(new ConsumeFragment());
-        fragments.add(new CommunityFragment());
+        fragments.add(new ShopClassFragment());
         fragments.add(setConversationList());
         fragments.add(new LearnFragment());
         fragments.add(new MeFragment());
