@@ -126,7 +126,18 @@
         <activity
             android:name=".view.activity.ProductListActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".view.activity.SpikeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.HotActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.ConturyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.BrandsActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.hqmy.market.view.mainfragment.community.TopicPublishActivity"

@@ -1,37 +1,51 @@
 package com.hqmy.market.view.mainfragment.consume;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.bean.BannerInfoDto;
+import com.hqmy.market.bean.BannerItemDto;
+import com.hqmy.market.bean.ExtDto;
 import com.hqmy.market.bean.NewListItemDto;
 import com.hqmy.market.bean.RecommendListDto;
+import com.hqmy.market.bean.ShopInfoDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.common.utils.SwipeRefreshLayoutUtil;
 import com.hqmy.market.common.utils.ToastUtil;
+import com.hqmy.market.db.bean.ProductListType;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
-import com.hqmy.market.view.adapter.MallLikeListAdapter;
-import com.hqmy.market.view.adapter.MallShopNewListAapter;
+import com.hqmy.market.utils.TextUtil;
+import com.hqmy.market.view.activity.ConturyActivity;
+import com.hqmy.market.view.activity.MessageCenterActivity;
+import com.hqmy.market.view.activity.ProductListActivity;
+import com.hqmy.market.view.adapter.ConsumePushAdapter;
+import com.hqmy.market.view.mainfragment.ConsumeFragment;
+import com.hqmy.market.view.widgets.RecyclerItemDecoration;
+import com.hqmy.market.view.widgets.autoview.ClearEditText;
 import com.hqmy.market.view.widgets.autoview.EmptyView;
 import com.hqmy.market.view.widgets.autoview.MaxRecyclerView;
-import com.hqmy.market.view.widgets.autoview.SortingLayout;
-import com.hqmy.market.view.widgets.ratingbar.BaseRatingBar;
+import com.hqmy.market.view.widgets.autoview.SuperSwipeRefreshLayout;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 品牌店铺详情
@@ -46,42 +61,61 @@ import butterknife.BindView;
  */
 public class BrandShopDetailActivity extends BaseActivity {
     public static final String SHOP_DETAIL_ID = "shop_detail_id";
-    public static final String MALL_TYPE = "mall_type";
+    public static final String MALL_TYPE      = "mall_type";
 
-    @BindView(R.id.brand_shop_detail_iv_back)
-    ImageView brand_shop_detail_iv_back;
-    @BindView(R.id.iv_brand_shop_detail)
-    ImageView iv_brand_shop_detail;
-    @BindView(R.id.iv_brand_shop_detail_logo)
-    ImageView iv_brand_shop_detail_logo;
-    @BindView(R.id.tv_shop_name)
-    TextView tv_shop_name;
-    @BindView(R.id.tv_shop_follow_number)
-    TextView tv_shop_follow_number;
-    @BindView(R.id.gv_brand_shop_detail_new)
-    RecyclerView gv_brand_shop_detail_new;
-    @BindView(R.id.brand_shop_detail_srl)
-    SmartRefreshLayout brand_shop_detail_srl;
-    @BindView(R.id.rb_brand_shop)
-    BaseRatingBar rbBrandShop;
-    @BindView(R.id.tv_shop_follow)
-    TextView tvShopFollow;
+
+    @BindView(R.id.header)
+    MaterialHeader          header;
+    @BindView(R.id.banner)
+    Banner                  banner;
+    @BindView(R.id.acb_status_bar)
+    ImageView               acbStatusBar;
+    @BindView(R.id.actionbar_back)
+    ImageView               actionbarBack;
+    @BindView(R.id.et_search)
+    ClearEditText           etSearch;
+    @BindView(R.id.iv_labe)
+    ImageView               ivLabe;
+    @BindView(R.id.iv_img)
+    ImageView               ivImg;
+    @BindView(R.id.tv_title)
+    TextView                tvTitle;
+    @BindView(R.id.tv_detail)
+    TextView                tv_detail;
+
+    @BindView(R.id.tv_content)
+    TextView                tvContent;
+    @BindView(R.id.tv_attention)
+    TextView                tvShopFollow;
+    @BindView(R.id.tv_shop_product_1)
+    TextView                tvShopProduct1;
+    @BindView(R.id.tv_shop_product_2)
+    TextView                tvShopProduct2;
+    @BindView(R.id.tv_shop_product_3)
+    TextView                tvShopProduct3;
+    @BindView(R.id.iv_shop_product_3)
+    ImageView               ivShopProduct3;
+    @BindView(R.id.ll_shop_product_3)
+    LinearLayout            llShopProduct3;
+    @BindView(R.id.tv_shop_product_4)
+    TextView                tvShopProduct4;
+    @BindView(R.id.iv_shop_product_4)
+    ImageView               ivShopProduct4;
+    @BindView(R.id.ll_shop_product_4)
+    LinearLayout            llShopProduct4;
+    @BindView(R.id.recy_shop_product_list)
+    RecyclerView            consumePushRecy;
+    @BindView(R.id.refreshLayout)
+    SuperSwipeRefreshLayout refreshLayout;
     @BindView(R.id.recycle_mall_like)
-    MaxRecyclerView recycle_mall_like;
-    @BindView(R.id.brand_shop_detail_tv_find)
-    TextView brand_shop_detail_tv_find;
-    @BindView(R.id.sorting_layout)
-    SortingLayout sorting_layout;
+    MaxRecyclerView         recycleMallLike;
+    @BindView(R.id.brand_shop_detail_scrollView)
+    NestedScrollView        brandShopDetailScrollView;
+    @BindView(R.id.brand_shop_detail_srl)
+    SmartRefreshLayout      brandShopDetailSrl;
 
-    private MallShopNewListAapter mMallNewListAapter;
-    private MallLikeListAdapter mallLikeListAdapter;
-    private List<NewListItemDto> newList = new ArrayList<NewListItemDto>();
+    private             SwipeRefreshLayoutUtil  mSwipeRefreshLayoutUtil;
     private String id;
-    private String mallType;
-    private int mPage = 1;
-    private boolean isFollow;
-    private String sortStr;
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_brand_shop_detail;
@@ -89,39 +123,173 @@ public class BrandShopDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        id=getIntent().getStringExtra("id");
         initAdapter();
+        mSwipeRefreshLayoutUtil = new SwipeRefreshLayoutUtil();
+        mSwipeRefreshLayoutUtil.setSwipeRefreshView(refreshLayout, new SwipeRefreshLayoutUtil.OnRefreshAndLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+                mCurrentPage = 1;
+                getStProductList();
+            }
+
+            @Override
+            public void onLoadMore() {
+                // mSwipeRefreshLayoutUtil.setCanLoadMore(true);
+                mCurrentPage++;
+                getStProductList();
+            }
+        });
     }
 
     @Override
     public void initData() {
-        if (getIntent().getExtras() != null) {
-            id = getIntent().getExtras().getString(SHOP_DETAIL_ID);
-            mallType = getIntent().getExtras().getString(MALL_TYPE);
-        }
-        getBrandShopDetail(id);
-        findGoodLists(mallType);
+
         getStProductList();
+        getShopDetailInfo();
     }
+    private    int      mCurrentPage = 1;
+    private void setTopTitlesView(int poition) {
+        mCurrentPage = 1;
+
+        switch (poition) {
+            case 1:
+                ivShopProduct3.setTag("select");
+                tvShopProduct1.setSelected(true);
+                tvShopProduct2.setSelected(false);
+                tvShopProduct3.setSelected(false);
+                ivShopProduct3.setImageResource(R.mipmap.shop_product_price_litre);
+                getStProductList();
+                break;
+            case 2:
+                ivShopProduct3.setTag("select");
+                tvShopProduct1.setSelected(false);
+                tvShopProduct2.setSelected(true);
+                tvShopProduct3.setSelected(false);
+                ivShopProduct3.setImageResource(R.mipmap.shop_product_price_litre);
+                getStProductList();
+
+                break;
+            case 3:
+                tvShopProduct1.setSelected(false);
+                tvShopProduct2.setSelected(false);
+                tvShopProduct3.setSelected(true);
+                setTopTitles3View();
+                break;
+
+        }
+    }
+
+
+
+    private   ShopInfoDto data;
+    private List<BannerItemDto> lists=new ArrayList<>();
+    private void getShopDetailInfo() {
+
+
+        DataManager.getInstance().getBrandInfo(new DefaultSingleObserver<HttpResult<ShopInfoDto>>() {
+            @Override
+            public void onSuccess(HttpResult<ShopInfoDto> countOrderBean) {
+
+                if (countOrderBean != null && countOrderBean.getData() != null) {
+                    data = countOrderBean.getData();
+                    if(data!=null){
+                        lists.clear();
+                        GlideUtils.getInstances().loadRoundCornerImg(BrandShopDetailActivity.this,ivImg,6,data.logo,R.drawable.moren_product);
+                        if(data.ext!=null&&data.ext.imgs!=null&&data.ext.imgs.size()>0){
+                            for(String url:data.ext.imgs){
+                                BannerItemDto dto=new BannerItemDto();
+                                dto.setPath(url);
+                                lists.add(dto);
+                            }
+                        }
+                        startBanner(lists);
+                        if(TextUtil.isNotEmpty(data.name)){
+                            tvTitle.setText(data.name);
+
+                        }
+                        String attion="";
+                        if(TextUtil.isNotEmpty(data.followersCount)){
+                            attion=data.followersCount;
+                        }else {
+                            attion="0";
+                        }
+                        if(TextUtil.isNotEmpty(data.shop_name)){
+                            tvContent.setText(data.shop_name+" | "+attion+"关注");
+                        }else {
+                            tvContent.setText(attion+"关注");
+                        }
+
+                        if(data.isFollowed){
+
+                            tvShopFollow.setText("已关注");
+                            tvShopFollow.setTextColor(getResources().getColor(R.color.my_color_FC6B00));
+                            tvShopFollow.setBackgroundResource(R.drawable.shape_radius_orgin_14);
+                        }else {
+                            tvShopFollow.setText(data.shop_name);
+                            tvShopFollow.setText("+关注");
+                            tvShopFollow.setBackgroundResource(R.drawable.shape_radius_14);
+                            tvShopFollow.setTextColor(getResources().getColor(R.color.my_color_333333));
+                        }
+
+
+                            if(TextUtil.isNotEmpty(data.description)){
+                                tv_detail.setText(data.description);
+                                tv_detail.setVisibility(View.GONE);
+                            }else {
+                                tv_detail.setVisibility(View.GONE);
+                            }
+
+
+
+
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+
+            }
+        }, id,"followersCount,isFollowed");
+    }
+
 
     @Override
     public void initListener() {
-        bindClickEvent(brand_shop_detail_iv_back, () -> {
-            finish();
-        });
 
-        brand_shop_detail_srl.setOnRefreshListener(new OnRefreshListener() {
+        tvShopProduct1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mPage = 1;
-                getStProductList();
+            public void onClick(View v) {
+                setTopTitlesView(1);
             }
         });
-
-        brand_shop_detail_srl.setOnLoadMoreListener(new OnLoadMoreListener() {
+        tvShopProduct2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                ++mPage;
-                getStProductList();
+            public void onClick(View v) {
+                setTopTitlesView(2);
+            }
+        });
+        llShopProduct3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTopTitlesView(3);
+            }
+        });
+        ivLabe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoActivity(MessageCenterActivity.class);
+            }
+        });
+        acbStatusBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                finish();
             }
         });
         bindClickEvent(tvShopFollow, () -> {
@@ -132,142 +300,103 @@ public class BrandShopDetailActivity extends BaseActivity {
                 postAttention();
             }
         });
-        bindClickEvent(brand_shop_detail_tv_find, () -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("includeStr", mallType);
-            gotoActivity(ProductSearchActivity.class, false, bundle);
-        });
-        sorting_layout.setListener(new SortingLayout.ClickListener() {
+        etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void all() {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void saleDesc() {
-                sortStr = "-sales_count";
-                mPage = 1;
-                getStProductList();
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (TextUtil.isNotEmpty(charSequence.toString())) {
 
-            @Override
-            public void saleAsc() {
-                sortStr = "sales_count";
-                mPage = 1;
-                getStProductList();
-            }
+                    searchKey = charSequence.toString();
+                } else {
+                    searchKey = "";
+                    getStProductList();
 
-            @Override
-            public void priceDesc() {
-                sortStr = "-price";
-                mPage = 1;
-                getStProductList();
-            }
-
-            @Override
-            public void priceAsc() {
-                sortStr = "price";
-                mPage = 1;
-                getStProductList();
-            }
-        });
-    }
-
-    private void initAdapter() {
-        gv_brand_shop_detail_new.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mMallNewListAapter = new MallShopNewListAapter();
-        gv_brand_shop_detail_new.setAdapter(mMallNewListAapter);
-        mMallNewListAapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString(CommodityDetailActivity.PRODUCT_ID, mMallNewListAapter.getItem(position).getId());
-                bundle.putString(CommodityDetailActivity.MALL_TYPE, mallType);
-                gotoActivity(CommodityDetailActivity.class, false, bundle);
-            }
-        });
-        recycle_mall_like.setLayoutManager(new GridLayoutManager(this, 2));
-        mallLikeListAdapter = new MallLikeListAdapter(null, this);
-        recycle_mall_like.setAdapter(mallLikeListAdapter);
-    }
-
-
-    private void getBrandShopDetail(String id) {
-        showLoadDialog();
-        DataManager.getInstance().getBrandShopDetail(new DefaultSingleObserver<HttpResult<RecommendListDto>>() {
-            @Override
-            public void onSuccess(HttpResult<RecommendListDto> result) {
-                dissLoadDialog();
-                if (result != null) {
-                    if (result.getData() != null) {
-                        setDetailView(result.getData());
-                    }
                 }
             }
 
             @Override
-            public void onError(Throwable throwable) {
-                dissLoadDialog();
-            }
-        }, id);
-    }
+            public void afterTextChanged(Editable editable) {
 
-    private void findGoodLists(String mallType) {
-        showLoadDialog();
-        Map<String, String> map = new HashMap<>();
-        map.put("filter[shop_id]", id);
-        DataManager.getInstance().findGoodLists(new DefaultSingleObserver<HttpResult<List<NewListItemDto>>>() {
+            }
+        });
+
+    }
+    private List<NewListItemDto>   goodsLists   = new ArrayList<NewListItemDto>();
+    private void initAdapter() {
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this, 2) {
             @Override
-            public void onSuccess(HttpResult<List<NewListItemDto>> result) {
-                dissLoadDialog();
-                setData(result);
+            public boolean canScrollVertically() {
+                return false;
             }
+        };
+        mAdapter = new ConsumePushAdapter(goodsLists, this);
+        consumePushRecy.addItemDecoration(new RecyclerItemDecoration(6, 2));
+        consumePushRecy.setLayoutManager(gridLayoutManager2);
+        consumePushRecy.setAdapter(mAdapter);
 
-            @Override
-            public void onError(Throwable throwable) {
-                dissLoadDialog();
-            }
-        }, mallType, map);
     }
 
-    private void setData(HttpResult<List<NewListItemDto>> httpResult) {
-        if (httpResult == null || httpResult.getData() == null) {
-            return;
-        }
-        if (mPage <= 1) {
-            mMallNewListAapter.setNewData(httpResult.getData());
-            if (httpResult.getData() == null || httpResult.getData().size() == 0) ;
-            {
-                mMallNewListAapter.setEmptyView(new EmptyView(BrandShopDetailActivity.this));
+
+
+    private void startBanner(List<BannerItemDto> data) {
+        //设置banner样式(显示圆形指示器)
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        //设置指示器位置（指示器居右）
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        banner.setImages(data);
+        //设置banner动画效果
+        //        banner.setBannerAnimation(Transformer.DepthPage);
+        //设置标题集合（当banner样式有显示title时）
+        //        banner.setBannerTitles(titles);
+        //设置自动轮播，默认为true
+        banner.isAutoPlay(true);
+        //设置轮播时间
+        banner.setDelayTime(3000);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
+    }
+    public class GlideImageLoader extends ImageLoader {
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            BannerItemDto slidersDto = (BannerItemDto) path;
+            String imgStr = slidersDto.getPath();
+            if (imgStr != null) {
+                if (imgStr.contains("http://")) {
+                    GlideUtils.getInstances().loadNormalImg(BrandShopDetailActivity.this, imageView, imgStr, R.drawable.img_default_three);
+                } else {
+                    GlideUtils.getInstances().loadNormalImg(BrandShopDetailActivity.this, imageView, Constants.WEB_IMG_URL_UPLOADS + imgStr,  R.drawable.img_default_three);
+                }
             }
-            brand_shop_detail_srl.finishRefresh();
-            brand_shop_detail_srl.setEnableLoadMore(true);
+
+
+        }
+    }
+    private void setTopTitles3View() {
+        mCurrentPage = 1;
+
+        if (ivShopProduct3.getTag().equals("select")) {
+
+            ivShopProduct3.setTag("unselect");
+            ivShopProduct3.setImageResource(R.mipmap.shop_product_price_drop);
+            sortStr="-sales_count";
         } else {
-            brand_shop_detail_srl.finishLoadMore();
-            brand_shop_detail_srl.setEnableRefresh(true);
-            mMallNewListAapter.addData(httpResult.getData());
-        }
 
-        if (httpResult.getMeta() != null && httpResult.getMeta().getPagination() != null) {
-            if (httpResult.getMeta().getPagination().getTotal_pages() == httpResult.getMeta().getPagination().getCurrent_page()) {
-                brand_shop_detail_srl.finishLoadMoreWithNoMoreData();
-            }
+            ivShopProduct3.setTag("select");
+            ivShopProduct3.setImageResource(R.mipmap.shop_product_price_litre);
+            sortStr="sales_count";
         }
+        getStProductList();
     }
 
-    private void setDetailView(RecommendListDto recommendListDto) {
-        GlideUtils.getInstances().loadNormalImg(BrandShopDetailActivity.this, iv_brand_shop_detail, Constants.WEB_IMG_URL_UPLOADS + recommendListDto.getBackground_img());
-        GlideUtils.getInstances().loadRoundImg(BrandShopDetailActivity.this, iv_brand_shop_detail_logo, Constants.WEB_IMG_URL_UPLOADS + recommendListDto.getLogo());
-        tv_shop_name.setText(recommendListDto.getShop_name());
-        tv_shop_follow_number.setText("关注量：" + recommendListDto.getFollow_count());
-        rbBrandShop.setRating(Float.valueOf(recommendListDto.getComment_average_score()));
-        isFollow = recommendListDto.isIs_follow();
-        if (recommendListDto.isIs_follow()) {
-            tvShopFollow.setText("已关注");
-        } else {
-            tvShopFollow.setText("+关注店铺");
-        }
-    }
+    private ConsumePushAdapter mAdapter;
 
     private void postAttention() {
         Map<String, String> map = new HashMap<>();
@@ -277,8 +406,9 @@ public class BrandShopDetailActivity extends BaseActivity {
             @Override
             public void onSuccess(HttpResult<Object> o) {
                 ToastUtil.toast("关注成功");
+                getShopDetailInfo();
                 isFollow = true;
-                tvShopFollow.setText("已关注");
+                //                tvShopFollow.setText("已关注");
             }
 
             @Override
@@ -286,13 +416,15 @@ public class BrandShopDetailActivity extends BaseActivity {
                 if (ApiException.getInstance().isSuccess()) {
                     ToastUtil.toast("关注成功");
                     isFollow = true;
-                    tvShopFollow.setText("已关注");
+                    //                    tvShopFollow.setText("已关注");
                 } else {
                     ToastUtil.toast("关注失败");
                 }
             }
         }, map);
     }
+
+    private boolean isFollow;
 
     private void deleteAttention() {
         Map<String, String> map = new HashMap<>();
@@ -303,7 +435,8 @@ public class BrandShopDetailActivity extends BaseActivity {
             public void onSuccess(HttpResult<Object> o) {
                 ToastUtil.toast("取消关注成功");
                 isFollow = false;
-                tvShopFollow.setText("+关注店铺");
+                //                tvShopFollow.setText("+关注店铺");
+                getShopDetailInfo();
             }
 
             @Override
@@ -318,12 +451,15 @@ public class BrandShopDetailActivity extends BaseActivity {
             }
         }, map);
     }
-
+    private String sortStr;
+    private int mPage;
     private void getStProductList() {
         showLoadDialog();
         HashMap<String, String> map = new HashMap<>();
-        map.put("filter[shop_id]", id);
+        map.put("filter[brand_id]", id);
         map.put("page", mPage + "");
+
+        map.put("filter[is_new]", 1 + "");
         if (!TextUtils.isEmpty(sortStr)) {
             map.put("sort[]", sortStr);
         }
@@ -331,27 +467,40 @@ public class BrandShopDetailActivity extends BaseActivity {
             @Override
             public void onSuccess(HttpResult<List<NewListItemDto>> result) {
                 dissLoadDialog();
-                brand_shop_detail_srl.finishRefresh();
-                brand_shop_detail_srl.finishLoadMore();
-                if (mPage == 1) {
-                    if (result != null && result.getData() != null) {
-                        mallLikeListAdapter.setNewData(result.getData());
+                if (null != result.getData() && result.getData().size() > 0) {
+
+                    if (mCurrentPage == 1) {
+
+                        mAdapter.setNewData(result.getData());
+                        refreshLayout.setRefreshing(false);
                     } else {
-                        mallLikeListAdapter.setNewData(null);
-                        mallLikeListAdapter.setEmptyView(new EmptyView(BrandShopDetailActivity.this));
+
+                        mAdapter.addData(result.getData());
+                        refreshLayout.setLoadMore(false);
                     }
+
                 } else {
-                    mallLikeListAdapter.addData(result.getData());
+                    EmptyView emptyView = new EmptyView(BrandShopDetailActivity.this);
+                    if (!TextUtils.isEmpty(searchKey)) {
+                        mAdapter.setNewData(result.getData());
+                        emptyView.setTvEmptyTip(String.format("没搜索到%s相关数据", searchKey));
+                    } else {
+                        emptyView.setTvEmptyTip("暂无商品数据");
+                    }
+                    mAdapter.setEmptyView(emptyView);
+
+
                 }
+                mSwipeRefreshLayoutUtil.isMoreDate(mCurrentPage, Constants.PAGE_SIZE, result.getMeta().getPagination().getTotal());
 
             }
 
             @Override
             public void onError(Throwable throwable) {
                 dissLoadDialog();
-                brand_shop_detail_srl.finishRefresh();
-                brand_shop_detail_srl.finishLoadMore();
+
             }
-        }, mallType, map);
+        }, "", map);
     }
+    private String searchKey;
 }

@@ -34,7 +34,11 @@ import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
+import com.hqmy.market.view.activity.BrandsActivity;
+import com.hqmy.market.view.activity.ConturyActivity;
+import com.hqmy.market.view.activity.HotActivity;
 import com.hqmy.market.view.activity.MessageCenterActivity;
+import com.hqmy.market.view.activity.SpikeActivity;
 import com.hqmy.market.view.adapter.ConsumePushAdapter;
 import com.hqmy.market.view.adapter.Homedapter;
 import com.hqmy.market.view.mainfragment.consume.ProductSearchActivity;
@@ -181,6 +185,32 @@ public class ConsumeFragment extends BaseFragment {
                 gotoActivity(MessageCenterActivity.class);
             }
         });
+
+        ivOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),SpikeActivity.class));
+            }
+        });
+        ivFour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),HotActivity.class));
+            }
+        });
+        ivThree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),ConturyActivity.class));
+            }
+        });
+        ivTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),BrandsActivity.class));
+            }
+        });
+
         ivScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -415,28 +445,6 @@ public class ConsumeFragment extends BaseFragment {
     }
 
 
-    private void getHomeRecommendList() {
-        //showLoadDialog();
-        DataManager.getInstance().getHomeRecommendList(new DefaultSingleObserver<HttpResult<List<RecommendListDto>>>() {
-            @Override
-            public void onSuccess(HttpResult<List<RecommendListDto>> result) {
-                //dissLoadDialog();
-                if (result != null) {
-                    if (result.getData() != null) {
-                        brandList.addAll(result.getData());
-
-                    }
-                }
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                //dissLoadDialog();
-                refreshLayout.finishRefresh();
-                refreshLayout.finishLoadMore();
-            }
-        }, "gc");
-    }
 
     private void findGoodLists() {
         //showLoadDialog();

@@ -10,6 +10,8 @@ public class BaseDto1 {
     public BaseDto1 data;//
     public BaseDto1       ext;//
     public String         title;
+    public String         instructions;
+    public List<String>         imgs;
     public String         real_name;
     public String         status;
     public String         price;

@@ -1,25 +1,27 @@
 package com.hqmy.market.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by rzb on 2019/6/28
  */
 public class ExtDto implements Serializable {
-    private String city;
-    private String district;
-    private String province;
-    private String min_buy;
-    private String is_brand;
-    public String slogan;
-    public String name;
-    public String logo;
-    public String title;
-    public String icon;
-    public ExtDto category;
-    public ExtDto data;
-    private String services;
-    private String open_time;
+    private String       city;
+    private String       district;
+    private String       province;
+    private String       min_buy;
+    private String       is_brand;
+    public  String       slogan;
+    public  List<String> imgs;
+    public  String       name;
+    public  String       logo;
+    public  String       title;
+    public  String       icon;
+    public  ExtDto       category;
+    public  ExtDto       data;
+    private String       services;
+    private String       open_time;
 
     public String getCity() {
         return city;

@@ -17,6 +17,7 @@
     <color name="my_color_FABB48">#FABB48</color>
     <color name="my_color_008CD6">#008CD6</color>
     <color name="my_color_head1">#1a2fb0</color>
+    <color name="my_color_greens">#30938E</color>
     <color name="my_color_zs">#1a2fb0</color>
     <color name="my_color_goodzs">#cc1a2fb0</color>
 
@@ -34,6 +35,8 @@
     <color name="my_color_666666">#666666</color>
     <color name="my_color_ed1438">#ed1438</color>
     <color name="my_color_beb3ff">#beb3ff</color>
+    <color name="my_color_ql">#1A59B7</color>
+    <color name="my_color_9f">#07449F</color>
     <color name="my_color_FB5782">#FB5782</color>
     <color name="my_color_FF5C99">#FF5C99</color>
     <color name="my_color_FFF6E5">#FFF6E5</color>

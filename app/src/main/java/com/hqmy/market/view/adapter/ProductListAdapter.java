@@ -72,7 +72,7 @@ public class ProductListAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
                 helper.setText(R.id.tv_title,sapce+ item.getTitle());
                 frameLayout.setVisibility(View.VISIBLE);
 
-                String name = item.market_price;
+                String name ="￥"+ item.market_price;
                 TextPaint textPaint = new TextPaint();
                 textPaint.setTextSize(12);
                 int with = (int) textPaint.measureText(name);
@@ -81,7 +81,7 @@ public class ProductListAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
                 linearParams.width = ScreenSizeUtil.dp2px(with - 1);// 控件的宽强制设成30
 
                 line.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
-                helper.setText(R.id.tv_price, item.market_price);
+                helper.setText(R.id.market_price, name);
             } else {
                 helper.setText(R.id.tv_title, item.getTitle());
             }

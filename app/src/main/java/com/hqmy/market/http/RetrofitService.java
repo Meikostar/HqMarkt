@@ -10,6 +10,7 @@ import com.hqmy.market.bean.BalanceDto;
 import com.hqmy.market.bean.BankCardDto;
 import com.hqmy.market.bean.BannerDto;
 import com.hqmy.market.bean.BannerInfoDto;
+import com.hqmy.market.bean.BaseDto2;
 import com.hqmy.market.bean.BrandListItemDto;
 import com.hqmy.market.bean.CaptchaImgDto;
 import com.hqmy.market.bean.CategorieBean;
@@ -334,9 +335,11 @@ public interface RetrofitService {
 
 
     @GET("api/package/mall/default/categories")
+    Single<HttpResult<List<BaseDto2>>> findOtherCategory(@QueryMap Map<String, String> map);
+
+
+    @GET("api/package/mall/default/categories")
     Single<HttpResult<List<StoreCategoryDto>>> findStoreCategory(@Query("include") String include);
-
-
 
     /**
      * 根据用户ID获取用户信息
@@ -367,6 +370,19 @@ public interface RetrofitService {
      */
     @GET("api/package/sliders/list")
     Single<HttpResult<BannerInfoDto>> getBannerList(@Query("position_code") String pCode);
+
+
+    /**
+     * 国家
+     */
+    @GET("api/package/category_new/brand/categories")
+    Single<HttpResult<List<AreaDto>>> getCategorisContury();
+
+    /**
+     * 广告(共用)
+     */
+    @GET("api/package/sliders/list")
+    Single<HttpResult<BannerInfoDto>> getBannerProductId(@Query("position_code") String pCode, @QueryMap Map<String, String> map);
 
     /**
      * 联盟商城列表
@@ -579,6 +595,14 @@ public interface RetrofitService {
     Single<HttpResult<ShopInfoDto>> getShopInfo(@Header("Authorization") String token, @Path("id") String id);
 
 
+    @GET("api/user/following_shops_detai")
+    Single<HttpResult<ShopInfoDto>> following_shops_detai(@Header("Authorization") String token, @Query("user_id") String user_id);
+
+
+    @GET("api/package/mall/default/brands/{brand_id}")
+    Single<HttpResult<ShopInfoDto>> getBrandInfo(@Header("Authorization") String token, @Path("brand_id") String id, @Query("include") String include);
+
+
     /**
      * 获取评价列表
      */
@@ -724,9 +748,14 @@ public interface RetrofitService {
     @GET("api/live/videos/infos")
     Single<HttpResult<VideoLiveBean>> liveVideosInfo(@Query("id") String id, @Query("include") String include);
 
-    /**
-     * 直播详情
-     */
+//    /**
+//     * 直播详情
+//     */
+//    @POST("/api/sellers{id}")
+//    Single<HttpResult<Object>> getShopInfo(@Header("Authorization") String token, @Path("id") String id);
+//
+
+
     @POST("/api/sellers")
     Single<HttpResult<Object>> upSellers(@Header("Authorization") String token, @Body HashMap<String, String> map);
 
@@ -762,6 +791,11 @@ public interface RetrofitService {
      */
     @GET("/api/package/mall/default/categories")
     Single<HttpResult<List<BannerDto>>> banCategorie();
+
+
+    @GET("/api/package/mall/default/categories")
+    Single<HttpResult<List<BannerDto>>> AllCategorie(@QueryMap Map<String, String> map);
+
     /**
      * 课件分类下在视频列表
      */
@@ -856,6 +890,11 @@ public interface RetrofitService {
      */
     @GET("api/package/pages/headline")
     Single<HttpResult<List<HeadLineDto>>> getHeadLines(@QueryMap Map<String, String> map);
+
+
+    @GET("api/package/mall/default/brands")
+    Single<HttpResult<List<NewListItemDto>>> getConturyProduct(@QueryMap Map<String, String> map);
+
 
     /**
      * 爱心头条详情

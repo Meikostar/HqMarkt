@@ -2,6 +2,7 @@ package com.hqmy.market.view.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -87,9 +88,9 @@ public class ProductListActivity extends BaseActivity {
     @BindView(R.id.recy_shop_product_list)
     RecyclerView recyclerView;
 
-    @BindView(R.id.ll_bg)
-    LinearLayout llbg;
+
     public static final String ACTION_SEARCH_KEY = "search_key_str"; //调用者传参名字
+    public static final String ACTION_SEARCH_ID = "search_key_id"; //调用者传参名字
     @BindView(R.id.acb_status_bar)
     ImageView            acbStatusBar;
     @BindView(R.id.actionbar_back)
@@ -101,6 +102,7 @@ public class ProductListActivity extends BaseActivity {
     @BindView(R.id.h_scroll)
     HorizontalScrollView hScroll;
     private             String                  searchKey;
+    private             String                  id;
     public static final String                  PRODUCT_TYPE = "product_type";//调用者传递的名字
     private             int                     mCategoryId  = 1;//产品类型:
     private             ProductListAdapter      mAdapter;
@@ -127,12 +129,21 @@ public class ProductListActivity extends BaseActivity {
     @Override
     public void initData() {
         searchKey = getIntent().getStringExtra(ACTION_SEARCH_KEY);
+        id = getIntent().getStringExtra(ACTION_SEARCH_ID);
         mCategoryId = getIntent().getIntExtra(PRODUCT_TYPE, 0);
         mParamsMaps = new HashMap<>();
         mParamsMaps.put("rows", Constants.PAGE_SIZE + "");
-
+       if(TextUtil.isNotEmpty(searchKey)){
+           etSearch.setText(searchKey);
+       }
         setTopTitlesView(tv_shop_product_1);
     }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.ui_product_list_layout;
+    }
+
 
     private void iniGridView(final List<String> list) {
 
@@ -170,6 +181,7 @@ public class ProductListActivity extends BaseActivity {
     }
     private List<String> list=new ArrayList<>();
     private void getProductListData() {
+        showLoadDialog();
         mParamsMaps.put("page", mCurrentPage + "");
         mParamsMaps.put("include_products_brands", 1 + "");
         mParamsMaps.put("include", "brand.category");
@@ -179,17 +191,27 @@ public class ProductListActivity extends BaseActivity {
         } else {
             mParamsMaps.remove("filter[scopeSearch]");
         }
+        if (TextUtil.isNotEmpty(id)) {
+            mParamsMaps.put("filter[category_id]", id);
+        } else {
+            mParamsMaps.remove("filter[category_id]");
+        }
+
 
         DataManager.getInstance().findGoodsList(mParamsMaps, new DefaultSingleObserver<HttpResult<List<NewListItemDto>>>() {
             @Override
             public void onSuccess(HttpResult<List<NewListItemDto>> data) {
+                dissLoadDialog();
                 list.clear();
                 if (null != data.getData() && data.getData().size() > 0) {
 
                     if (mCurrentPage == 1) {
+                        datas.clear();
+                        datas.addAll(data.getData());
                         mAdapter.setNewData(data.getData());
                         refreshLayout.setRefreshing(false);
                     } else {
+                        datas.addAll(data.getData());
                         mAdapter.addData(data.getData());
                         refreshLayout.setLoadMore(false);
                     }
@@ -221,6 +243,7 @@ public class ProductListActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable throwable) {
+                dissLoadDialog();
                 if (mCurrentPage == 1) {
                     refreshLayout.setRefreshing(false);
                 } else {
@@ -229,6 +252,7 @@ public class ProductListActivity extends BaseActivity {
             }
         });
     }
+    private List<NewListItemDto> datas=new ArrayList<>();
     private boolean isLabe;
     @Override
     public void initListener() {
@@ -238,13 +262,20 @@ public class ProductListActivity extends BaseActivity {
                 if(isLabe){
                     isLabe=false;
                     iv_labe.setImageResource(R.drawable.lb_s);
-                    List<NewListItemDto> data = mLabAdapter.getData();
-                    recyclerView.setAdapter(mLabAdapter);
-                    mLabAdapter.setNewData(data);
-                }else {
-                    List<NewListItemDto> data = mAdapter.getData();
+                    recyclerView.addItemDecoration(new RecyclerItemDecoration(0, 2));
+                    recyclerView.setLayoutManager(new GridLayoutManager(ProductListActivity.this, 2));
+
+//                    List<NewListItemDto> data = mLabAdapter.getData();
                     recyclerView.setAdapter(mAdapter);
-                    mAdapter.setNewData(data);
+                    mAdapter.setNewData(datas);
+                }else {
+//                    List<NewListItemDto> data = mAdapter.getData();
+                    recyclerView.addItemDecoration(new RecyclerItemDecoration(0, 1));
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(ProductListActivity.this);
+
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(mLabAdapter);
+                    mLabAdapter.setNewData(datas);
                     iv_labe.setImageResource(R.drawable.lb_h);
                     isLabe=true;
                 }
@@ -276,12 +307,12 @@ public class ProductListActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (TextUtil.isNotEmpty(charSequence.toString())) {
-                    llbg.setVisibility(View.GONE);
+
                     searchKey = charSequence.toString();
                 } else {
                     searchKey = "";
                     getProductListData();
-                    llbg.setVisibility(View.VISIBLE);
+
                 }
             }
 
@@ -324,11 +355,6 @@ public class ProductListActivity extends BaseActivity {
                 getProductListData();
             }
         });
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.ui_product_list_layout;
     }
 
 

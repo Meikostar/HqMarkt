@@ -3,7 +3,21 @@ package com.hqmy.market.bean;
 import java.io.Serializable;
 
 public class AreaDto implements Serializable {
-    int id;
+
+//           "id": 14,
+//                   "parent_id": null,
+//                   "order": 13,
+//                   "title": "越南",
+//                   "icon": "category_icon/越南.png",
+//                   "description": null,
+//                   "hidden": false,
+//                   "is_recommend": false,
+//                   "flag1": false,
+//                   "flag2": false
+    public String title;
+    public String icon;
+
+    public int id;
     String name;
     long depth;
     int parent_id;

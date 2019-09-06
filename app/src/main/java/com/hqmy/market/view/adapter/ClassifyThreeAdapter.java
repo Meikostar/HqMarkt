@@ -14,6 +14,8 @@ import com.hqmy.market.bean.BaseDto2;
 import com.hqmy.market.bean.StoreCategoryDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.view.activity.ProductListActivity;
+import com.hqmy.market.view.mainfragment.consume.ProductSearchResultActivity;
 
 import java.util.List;
 
@@ -37,11 +39,11 @@ public class ClassifyThreeAdapter extends BaseQuickAdapter<BaseDto2, BaseViewHol
         helper.getView(R.id.ll_item_classify_three).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(mContext, ProductListActivity.class);
                 Bundle bundle = new Bundle();
-//                bundle.putLong(CommodityDetailActivity.PRODUCT_ID, item.getId());
-//                gotoActivity(CommodityDetailActivity.class, bundle);
-//                bundle.putString(ShopProductListActivity.ACTION_SEARCH_KEY, item.getCategoryName());
-//                gotoActivity(ShopProductListActivity.class, bundle);
+                bundle.putString(ProductSearchResultActivity.ACTION_SEARCH_ID,item.id);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
     }

@@ -15,6 +15,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseFragment;
+import com.hqmy.market.bean.BannerInfoDto;
+import com.hqmy.market.bean.BannerItemDto;
+import com.hqmy.market.bean.BaseDto2;
 import com.hqmy.market.bean.GroupListDto;
 import com.hqmy.market.bean.StoreCategoryDto;
 import com.hqmy.market.common.Constants;
@@ -35,7 +38,10 @@ import com.hqmy.market.view.mainfragment.consume.ProductSearchActivity;
 import com.hqmy.market.view.widgets.HorizontalDividerItemDecoration;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,8 +99,11 @@ public class ShopClassFragment extends BaseFragment {
     @Override
     protected void initData() {
         findStoreCategory();
+        findOneCategory();
+        findTwoCategory();
+        getTopBanner();
     }
-
+   private List<BaseDto2> lists=new ArrayList<>();
     @Override
     protected void initListener() {
         rvOne.addOnItemTouchListener(new OnItemClickListener() {
@@ -102,12 +111,27 @@ public class ShopClassFragment extends BaseFragment {
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 int prePos = mClassifyOneAdapter.selctedPos;  //之前的位置
                 mClassifyOneAdapter.selctedPos = position; //之后选择的位置
+
                 if (position != prePos) {//更新item的状态
                     mClassifyOneAdapter.notifyItemChanged(prePos);
                     mClassifyOneAdapter.notifyItemChanged(position);
-                    mClassifyTwoAdapter.setNewData(mListCategorys.get(position).children.data);
-                    setAdData(mListCategorys.get(position).getImgUrl(), mListCategorys.get(position).getAdClickUrl());
+                    if(position==0){
+                         id=-1;
+                        mClassifyTwoAdapter.setNewData(lists);
+                        setAdData(mListCategorys.get(position).getImgUrl(), mListCategorys.get(position).getAdClickUrl());
+                    }else if(position==1){
+                        id=-2;
+                        mClassifyTwoAdapter.setNewData(mDto1);
+                        setAdData(mListCategorys.get(position).getImgUrl(), mListCategorys.get(position).getAdClickUrl());
+                    }else {
+                        id=(int)mListCategorys.get(position-2).getId();
+                        mClassifyTwoAdapter.setNewData(mListCategorys.get(position-2).children.data);
+                        setAdData(mListCategorys.get(position).getImgUrl(), mListCategorys.get(position-2).getAdClickUrl());
+                    }
+
                 }
+
+                getTopBanner();
             }
         });
 
@@ -125,8 +149,39 @@ public class ShopClassFragment extends BaseFragment {
             gotoActivity(MessageCenterActivity.class);
         });
     }
+    private int id=0;
+    private void getTopBanner() {
+        //showLoadDialog();
+        Map<String, String> map = new HashMap<>();
+        if(id>=0){
+            map.put("category_list_recommend_top", ""+id);
+
+        }else if(id==-1){
+            map.put("category_list_brand_list_top", ""+1);
+        }else if(id==-2){
+            map.put("category_list_recommend_top", ""+1);
+        }
+
+        DataManager.getInstance().getBannerList(new DefaultSingleObserver<HttpResult<BannerInfoDto>>() {
+            @Override
+            public void onSuccess(HttpResult<BannerInfoDto> result) {
+                //dissLoadDialog();
+                if (result != null) {
+                    if (result.getData() != null) {
+                        List<BannerItemDto> bannerList = result.getData().getIndex_top();
 
 
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                //dissLoadDialog();
+            }
+        }, "category_list_recommend_top",map);
+    }
+    private List<StoreCategoryDto> allData=new ArrayList<>();
     private void findStoreCategory() {
         showLoadDialog();
         DataManager.getInstance().findStoreCategory(new DefaultSingleObserver<HttpResult<List<StoreCategoryDto>>>() {
@@ -136,7 +191,18 @@ public class ShopClassFragment extends BaseFragment {
                 //                LogUtil.i(TAG, "--RxLog-Thread: onSuccess() = " + data);
                 dissLoadDialog();
                 mListCategorys = data.getData();
-                mClassifyOneAdapter.setNewData(data.getData());
+                List<StoreCategoryDto> data1 = data.getData();
+                StoreCategoryDto dto=new StoreCategoryDto();
+                dto.title="为你推荐";
+                dto.setId(-1);
+                StoreCategoryDto dto1=new StoreCategoryDto();
+                dto1.title="品牌管";
+                dto1.setId(-2);
+                allData.add(dto);
+                allData.add(dto1);
+                allData.addAll(data1);
+
+                mClassifyOneAdapter.setNewData(allData);
                 if (mListCategorys.size() > 0) {
                     StoreCategoryDto firstData = mListCategorys.get(0);
                     setAdData(firstData.getImgUrl(), firstData.getAdClickUrl());
@@ -157,6 +223,77 @@ public class ShopClassFragment extends BaseFragment {
                 dissLoadDialog();
             }
         });
+    }
+    private List<BaseDto2> mDto1;
+    private List<BaseDto2> mDto2;
+    private void findOneCategory() {
+        showLoadDialog();
+        Map<String, String> map = new HashMap<>();
+        map.put("no_tree", ""+1);
+        map.put("include", "mallBrands");
+        map.put("filter[scopeHasMallBrands]", ""+1);
+
+        DataManager.getInstance().findOtherCategory(new DefaultSingleObserver<HttpResult<List<BaseDto2>>>() {
+            @Override
+            public void onSuccess(HttpResult<List<BaseDto2>> data) {
+
+                //                LogUtil.i(TAG, "--RxLog-Thread: onSuccess() = " + data);
+                dissLoadDialog();
+                mDto1 = data.getData();
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                String errMsg = ErrorUtil.getInstance().getErrorMessage(throwable);
+                if(errMsg != null) {
+                    if (errMsg.equals("appUserKey过期")) {
+                        ToastUtil.showToast("appUserKey已过期，请重新登录");
+                        ShareUtil.getInstance().cleanUserInfo();
+                        gotoActivity(LoginActivity.class, true, null);
+                    }
+                }
+                dissLoadDialog();
+            }
+        },map);
+    }
+    private void findTwoCategory() {
+        showLoadDialog();
+        Map<String, String> map = new HashMap<>();
+        map.put("no_tree", ""+1);
+        map.put("filter[is_recommend]", ""+1);
+
+        DataManager.getInstance().findOtherCategory(new DefaultSingleObserver<HttpResult<List<BaseDto2>>>() {
+            @Override
+            public void onSuccess(HttpResult<List<BaseDto2>> data) {
+
+                //                LogUtil.i(TAG, "--RxLog-Thread: onSuccess() = " + data);
+                dissLoadDialog();
+                mDto2=data.getData();
+                BaseDto2 baseDto2 = new BaseDto2();
+                baseDto2.title="常用分类";
+
+                List<BaseDto2> dates=new ArrayList<>();
+                dates.addAll(mDto2);
+                BaseDto2 bD2 = new BaseDto2();
+                bD2.data=dates;
+                baseDto2.children=bD2;
+                lists.add(baseDto2);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                String errMsg = ErrorUtil.getInstance().getErrorMessage(throwable);
+                if(errMsg != null) {
+                    if (errMsg.equals("appUserKey过期")) {
+                        ToastUtil.showToast("appUserKey已过期，请重新登录");
+                        ShareUtil.getInstance().cleanUserInfo();
+                        gotoActivity(LoginActivity.class, true, null);
+                    }
+                }
+                dissLoadDialog();
+            }
+        },map);
     }
 
 

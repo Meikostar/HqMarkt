@@ -1,5 +1,7 @@
 package com.hqmy.market.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class HotSearch {
@@ -10,6 +12,9 @@ public class HotSearch {
     private List<String> st;
     private List<String> course;
     private List<String> live;
+
+    @SerializedName("default")
+    public List<String> mdefault;
 
     public List<String> getLive() {
         return live;

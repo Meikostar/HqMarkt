@@ -11,6 +11,7 @@ import com.hqmy.market.bean.BalanceDto;
 import com.hqmy.market.bean.BankCardDto;
 import com.hqmy.market.bean.BannerDto;
 import com.hqmy.market.bean.BannerInfoDto;
+import com.hqmy.market.bean.BaseDto2;
 import com.hqmy.market.bean.BrandListItemDto;
 import com.hqmy.market.bean.CaptchaImgDto;
 import com.hqmy.market.bean.CategorieBean;
@@ -522,7 +523,7 @@ public class DataManager {
     }
 
     /**
-     * 获取用户好友信息列表
+     *
      * @param observer
      */
     public void findStoreCategory(DefaultSingleObserver<HttpResult<List<StoreCategoryDto>>> observer) {
@@ -530,6 +531,13 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
+
+    public void findOtherCategory(DefaultSingleObserver<HttpResult<List<BaseDto2>>> observer,Map<String,String> map) {
+        Single<HttpResult<List<BaseDto2>>> observable = retrofitService.findOtherCategory( map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
 
 
     /**
@@ -641,6 +649,21 @@ public class DataManager {
      */
     public void getBannerList(DefaultSingleObserver<HttpResult<BannerInfoDto>> observer, String pCode) {
         Single<HttpResult<BannerInfoDto>> observable = retrofitService.getBannerList(pCode)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+    public void getCategorisContury(DefaultSingleObserver<HttpResult<List<AreaDto>>> observer) {
+        Single<HttpResult<List<AreaDto>>> observable = retrofitService.getCategorisContury()
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+    /**
+     * 广告(公用)
+     */
+    public void getBannerList(DefaultSingleObserver<HttpResult<BannerInfoDto>> observer, String pCode, Map<String, String> map) {
+        Single<HttpResult<BannerInfoDto>> observable = retrofitService.getBannerProductId(pCode,map)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -871,6 +894,22 @@ public class DataManager {
     }
 
     /**
+     * 店铺信息
+     */
+    public void following_shops_detai(DefaultSingleObserver<HttpResult<ShopInfoDto>> observer, String user_id) {
+        Single<HttpResult<ShopInfoDto>> observable = retrofitService.following_shops_detai(getToken(), user_id)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+    public void getBrandInfo(DefaultSingleObserver<HttpResult<ShopInfoDto>> observer, String user_id,String include) {
+        Single<HttpResult<ShopInfoDto>> observable = retrofitService.getBrandInfo(getToken(), user_id,include)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+
+
+    /**
      * 获取新闻详情
      */
     public void getNewsDetail(DefaultSingleObserver<HttpResult<NewsDetailDto>> observer, String type, String id) {
@@ -1079,7 +1118,11 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
-
+    public void AllCategorie(DefaultSingleObserver<HttpResult<List<BannerDto>>> observer, Map<String, String> map) {
+        Single<HttpResult<List<BannerDto>>> observable = retrofitService.AllCategorie(map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
 
     /**
      * 课件分类视频列表
@@ -1318,6 +1361,12 @@ public class DataManager {
      */
     public void getHeadLines(DefaultSingleObserver<HttpResult<List<HeadLineDto>>> observer, Map<String, String> map) {
         Single<HttpResult<List<HeadLineDto>>> observable = retrofitService.getHeadLines(map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+    public void getConturyProduct(DefaultSingleObserver<HttpResult<List<NewListItemDto>>> observer, Map<String, String> map) {
+        Single<HttpResult<List<NewListItemDto>>> observable = retrofitService.getConturyProduct(map)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
@@ -120,20 +121,24 @@ public class ProductSearchActivity extends BaseActivity implements TextView.OnEd
                 recommendViewGroup.removeAllViews();
                 if (result != null && result.getData() != null && result.getData().getHot_search() != null) {
                     List<String> items = new ArrayList<>();
-                    if (result.getData().getHot_search().getCourse() != null && result.getData().getHot_search().getCourse().size() > 0) {
-                        if(strInclude != null){
-                            if(strInclude.equals("consume_index")){
-                                items.addAll(result.getData().getHot_search().getConsume_index());
-                            }else if(strInclude.equals("gc")){
-                                items.addAll(result.getData().getHot_search().getGc());
-                            }else if(strInclude.equals("lm")){
-                                items.addAll(result.getData().getHot_search().getLm());
-                            }else if(strInclude.equals("ax")){
-                                items.addAll(result.getData().getHot_search().getAx());
-                            }else if(strInclude.equals("st")){
-                                items.addAll(result.getData().getHot_search().getSt());
-                            }
-                        }
+                    if (result.getData().getHot_search().mdefault != null && result.getData().getHot_search().mdefault.size() > 0) {
+                        items.addAll(result.getData().getHot_search().mdefault);
+
+//                        if(strInclude != null){
+//                            if(strInclude.equals("consume_index")){
+//                                items.addAll(result.getData().getHot_search().getConsume_index());
+//                            }else if(strInclude.equals("gc")){
+//                                items.addAll(result.getData().getHot_search().getGc());
+//                            }else if(strInclude.equals("lm")){
+//                                items.addAll(result.getData().getHot_search().getLm());
+//                            }else if(strInclude.equals("ax")){
+//                                items.addAll(result.getData().getHot_search().getAx());
+//                            }else if(strInclude.equals("st")){
+//                                items.addAll(result.getData().getHot_search().getSt());
+//                            }else if(strInclude.equals("default")){
+//
+//                            }
+//                        }
                     }
                     for (int i = 0; i < items.size(); i++) {
                         View view = getLayoutInflater().inflate(R.layout.hot_search_item, null);
@@ -158,7 +163,7 @@ public class ProductSearchActivity extends BaseActivity implements TextView.OnEd
             public void onError(Throwable throwable) {
                 dissLoadDialog();
             }
-        }, includeStr);
+        }, "default");
     }
 
     @OnClick({R.id.iv_search_back, R.id.tv_clear_all})

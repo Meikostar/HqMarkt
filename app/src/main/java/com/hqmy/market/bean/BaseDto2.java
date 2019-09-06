@@ -9,6 +9,7 @@ public class BaseDto2 {
     public BaseDto2       have_footprint;//
     public List<BaseDto2> data;//
     public BaseDto2       children;//
+    public BaseDto2       mallBrands;//
     public String         title;
     public String         icon;
     public String         real_name;

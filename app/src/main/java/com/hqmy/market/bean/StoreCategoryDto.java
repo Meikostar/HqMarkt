@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class StoreCategoryDto implements Serializable {
     private long                   id;
-    private String                 title;
+    public String                 title;
     private String                 imgUrl;
     private String                 adUrl;
     private String                 adClickUrl;

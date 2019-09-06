@@ -26,6 +26,7 @@ import butterknife.BindView;
  */
 public class ProductSearchResultActivity extends BaseActivity {
     public static final String SEARCH_KEY_STR = "search_key_str";
+    public static final String ACTION_SEARCH_ID = "search_key_id";
     public static final String SEARCH_MALL_TYPE = "search_mall_type";
     @BindView(R.id.search_result_iv_back)
     ImageView  search_result_iv_back;

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+    <include layout="@layout/action_bar" />
+    <com.hqmy.market.view.widgets.AutoLocateHorizontalView
+
+        android:background="#4caea9"
+        android:id="@+id/auto_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"/>
+
+
+    <com.hqmy.market.view.widgets.NoScrollViewPager
+
+        android:paddingLeft="@dimen/bj_10dp"
+        android:paddingRight="@dimen/bj_10dp"
+        android:id="@+id/viewpager_main"
+        android:background="#30938E"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</LinearLayout>

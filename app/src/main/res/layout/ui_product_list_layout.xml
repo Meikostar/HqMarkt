@@ -47,38 +47,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:orientation="horizontal">
+                <ImageView
+
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/top_search_icon"
+                    android:layout_width="@dimen/bj_14dp"
+                    android:layout_height="@dimen/bj_14dp"/>
                 <com.hqmy.market.view.widgets.autoview.ClearEditText
                     android:layout_marginRight="15dp"
-                    android:paddingLeft="@dimen/bj_15dp"
+                    android:paddingLeft="30dp"
                     android:id="@+id/et_search"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@null"
+                    android:hint="请输入搜素关键字"
+
                     android:singleLine="true"
                     android:textColor="@color/my_color_333333"
                     android:textSize="14sp" />
-                <LinearLayout
-                    android:id="@+id/ll_bg"
-                    android:layout_centerInParent="true"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_marginLeft="10dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/top_search_icon"
-                        android:layout_width="@dimen/bj_14dp"
-                        android:layout_height="@dimen/bj_14dp"/>
-                    <TextView
-                        android:layout_marginLeft="@dimen/bj_6dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="请输入关键词"
-                        android:textColor="#999"
-                        android:textSize="@dimen/wz_14sp" />
-                </LinearLayout>
+
 
             </RelativeLayout>
             <TextView
@@ -235,6 +223,7 @@
 
 
     <com.hqmy.market.view.widgets.autoview.SuperSwipeRefreshLayout
+        android:paddingTop="10dp"
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

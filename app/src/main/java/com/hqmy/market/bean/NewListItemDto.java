@@ -14,6 +14,7 @@ public class NewListItemDto implements Serializable {
     public String title;
     public String product_no;
     public String cover;
+    public String name;
     public List<String> imgs;
     public String market_price;
     public String price;
@@ -22,10 +23,14 @@ public class NewListItemDto implements Serializable {
     public String content;
     public String stock;
     public String order_column;
+    public String icon;
     public String model_id;
+    public String description;
     public Map<String,String> parameter;
     public ExtDto ext;
     public NewListItemDto brand;
+    public NewListItemDto category;
+
 
     public ExtDto data;
     public String slug;
@@ -34,6 +39,7 @@ public class NewListItemDto implements Serializable {
     public String weight;
     public String is_virtual;
     public String comment_count;
+    public String logo;
     public String comment_good_rate;
     public String favorite_count;
     public String on_sale;
