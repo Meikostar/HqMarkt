@@ -71,13 +71,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/bj_60dp"
             android:layout_marginTop="@dimen/bj_10dp"
-            android:layout_marginBottom="@dimen/bj_20dp">
+            android:layout_marginBottom="@dimen/bj_40dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text="数量"
+                android:text="购买数量"
                 android:textColor="@color/my_color_A7A7A7"
                 android:textSize="@dimen/wz_13sp" />
 
@@ -145,6 +145,7 @@
                         android:textSize="12sp" />
                 </LinearLayout>
                 <TextView
+                    android:text=""
                     android:id="@+id/tv_commodity_total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

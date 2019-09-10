@@ -39,7 +39,7 @@
         android:maxLines="2"
         android:text=""
         android:layout_toLeftOf="@+id/tv_order_goods_price"
-        android:textColor="#ff333333"
+        android:textColor="#999"
         android:textSize="14sp" />
     <TextView
         android:text=""
@@ -67,6 +67,6 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/iv_order_goods_icon"
         android:layout_height="0.5dp"
-        android:layout_alignParentBottom="true       "
+        android:layout_alignParentBottom="true"
         android:background="#EEEEEE" />
 </RelativeLayout>

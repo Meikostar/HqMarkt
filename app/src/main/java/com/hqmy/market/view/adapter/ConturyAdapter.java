@@ -77,7 +77,7 @@ public  class ConturyAdapter extends BaseRecycleViewAdapter implements AutoLocat
             TextPaint tp = holders.tv_content.getPaint();
             tp.setFakeBoldText(true);
             holders.line.setVisibility(View.VISIBLE);
-            holders.tv_content.setTextColor(context.getColor(R.color.color_zs));
+            holders.tv_content.setTextColor(context.getColor(R.color.my_color_zs));
 
         }else {
             holders.line.setVisibility(View.GONE);

@@ -12,7 +12,7 @@
         android:id="@+id/tv_coupon_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/jrmf_red"
+        android:textColor="@color/red_dark"
         android:layout_marginLeft="@dimen/bj_10dp"
         android:layout_marginTop="@dimen/bj_10dp"
         android:textSize="@dimen/wz_18sp" />

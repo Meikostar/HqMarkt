@@ -78,7 +78,12 @@ public class HelpCenterActivity extends BaseActivity {
 
     @Override
     public void initListener() {
-
+        ivTitleBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 //    @OnClick({R.id.iv_title_back

@@ -25,7 +25,7 @@ public class ReasonUploadPicAdapter extends BaseQuickAdapter<ImageBean, BaseView
         if (!Constants.IMAGEITEM_DEFAULT_ADD.equals(item.getImagePath())) {
             helper.setVisible(R.id.ll_del, true)
                     .addOnClickListener(R.id.ll_del);
-            GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_pic), item.getImagePath());
+            GlideUtils.getInstances().loadNormalPathImg(mContext, helper.getView(R.id.iv_pic), item.getImagePath(),R.drawable.moren_sf);
         } else {
             helper.setVisible(R.id.ll_del, false);
             if ("return_upload_pic".equals(mType)) {

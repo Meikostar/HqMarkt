@@ -117,10 +117,14 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
     TextView       tv_commodity_info_price;
     @BindView(R.id.tv_commodity_info_courier)
     TextView       tv_commodity_info_courier;
-    @BindView(R.id.tv_commodity_info_from)
-    TextView       tv_commodity_info_from;
-    @BindView(R.id.tv_commodity_info_weight)
-    TextView       tv_commodity_info_weight;
+    @BindView(R.id.tv_content1)
+    TextView       tv_content1;
+    @BindView(R.id.tv_content2)
+    TextView       tv_content2;
+    @BindView(R.id.tv_content3)
+    TextView       tv_content3;
+    @BindView(R.id.tv_content4)
+    TextView       tv_content4;
     @BindView(R.id.tv_item_consume_push_comments)
     TextView       tv_item_consume_push_comments;
     @BindView(R.id.tv_item_consume_push_comments_scale)
@@ -238,7 +242,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             if (ShareUtil.getInstance().isLogin()) {
                 finishAll();
                 Bundle bundle = new Bundle();
-                bundle.putInt(MainActivity.PAGE_INDEX, 2);
+                bundle.putInt(MainActivity.PAGE_INDEX, 3);
                 gotoActivity(MainActivity.class, true, bundle);
             } else {
                 gotoActivity(LoginActivity.class);
@@ -520,6 +524,25 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
         tv_commodity_info_title.setText(commodityDetailDto.getTitle());
         tv_commodity_info_price.setText( commodityDetailDto.getPrice());
         tv_commodity_info_market_price.setText("¥" + commodityDetailDto.getMarket_price());
+        if(commodityDetailDto.parameter!=null){
+            int i=0;
+            for (Map.Entry<String, String> entry : commodityDetailDto.parameter.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if(i==0){
+                    i=1;
+                    tv_content1.setText(key);
+                    tv_content2.setText(value);
+                }else {
+                    tv_content3.setText(key);
+                    tv_content4.setText(value);
+                }
+
+
+
+
+            }
+        }
 //        String name = "￥" + commodityDetailDto.getMarket_price();
 //        TextPaint textPaint = new TextPaint();
 //        textPaint.setTextSize(12);
@@ -575,6 +598,9 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                     startActivity(intent);
                 }
             });
+            llBrank.setVisibility(View.VISIBLE);
+        }else {
+            llBrank.setVisibility(View.GONE);
         }
     }
     public class GlideImageLoader extends ImageLoader {

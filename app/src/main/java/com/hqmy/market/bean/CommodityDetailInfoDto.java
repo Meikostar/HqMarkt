@@ -26,7 +26,7 @@ public class CommodityDetailInfoDto implements Serializable {
     private String       stock;
     private String       order_column;
     private String       model_id;
-    private Map<String,String> parameter;
+    public Map<String,String> parameter;
     private ExtDto       ext;
     private String       slug;
     private String       sales_count;

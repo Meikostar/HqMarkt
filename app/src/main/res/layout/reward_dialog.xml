@@ -87,7 +87,7 @@
             android:layout_marginRight="@dimen/bj_20dp"
             android:layout_marginTop="@dimen/bj_20dp"
             android:gravity="center"
-            android:textColor="@color/blue"
+            android:textColor="@color/upsdk_blue_text_007dff"
             android:textSize="@dimen/wz_14sp"
             android:text="随机金额" />
 

@@ -100,6 +100,7 @@
 
 
                 <EditText
+                    android:layout_centerVertical="true"
                     android:id="@+id/ed_return_des"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,7 +143,7 @@
         android:id="@+id/btn_sure"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bj_50dp"
-        android:background="#c60202"
+        android:background="@color/my_color_zs"
         android:text="申请退款"
         android:textColor="@color/my_color_white"
         android:textSize="@dimen/wz_18sp" />

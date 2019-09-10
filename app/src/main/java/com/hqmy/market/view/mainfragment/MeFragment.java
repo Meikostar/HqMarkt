@@ -22,11 +22,13 @@ import com.hqmy.market.bean.ServiceMenuBean;
 import com.hqmy.market.bean.ShopInfoDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.eventbus.LogoutEvent;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.utils.UserHelper;
 import com.hqmy.market.view.activity.AccountSettingActivity;
 import com.hqmy.market.view.activity.AttentionActivity;
@@ -145,6 +147,9 @@ public class MeFragment extends BaseFragment {
     LinearLayout llGz;
     @BindView(R.id.ll_zj)
     LinearLayout llZj;
+    @BindView(R.id.ll_bg)
+    LinearLayout ll_bg;
+
     private PersonalInfoDto mPersonalInfoDto;
     ServiceMenuAdapter menuAdapter;
 
@@ -192,7 +197,7 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        reOrderDaifukuan.setText("");
+
         getMenu();
     }
 
@@ -227,18 +232,31 @@ public class MeFragment extends BaseFragment {
             }
         });
     }
-
+//    private String paid; //待发货
+//    private String shipped;//待评价
+//    private String shipping;//待收货
+//    private String created;//待付款
     private void getAllUserOrdersCount() {
         DataManager.getInstance().getAllUserOrdersCount(new DefaultSingleObserver<HttpResult<CountOrderBean>>() {
             @Override
             public void onSuccess(HttpResult<CountOrderBean> countOrderBean) {
                 if (countOrderBean != null && countOrderBean.getData() != null) {
-
+                    CountOrderBean data = countOrderBean.getData();
+                    if(TextUtil.isNotEmpty(data.getPaid())){
+                        reOrderDaifahuo.setText(data.getPaid());
+                    }if(TextUtil.isNotEmpty(data.getShipped())){
+                        reOrderDaipingjia.setText(data.getShipped());
+                    }if(TextUtil.isNotEmpty(data.getShipping())){
+                        reOrderDaishouhuo.setText(data.getShipping());
+                    }if(TextUtil.isNotEmpty(data.getCreated())){
+                        reOrderDaifukuan.setText(data.getCreated());
+                    }
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
+                ToastUtil.showToast("");
             }
         });
     }
@@ -377,6 +395,7 @@ public class MeFragment extends BaseFragment {
             , R.id.ll_order_daishouhuo
             , R.id.ll_order_daipingjia
             , R.id.ll_refund_after_sales
+            , R.id.ll_bg
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -453,6 +472,10 @@ public class MeFragment extends BaseFragment {
             //                break;
             case R.id.ll_order_daifukuan://待付款
                 gotoOrderActivity(1);
+                break;
+            case R.id.ll_bg://待付款
+                gotoOrderActivity(0);
+
                 break;
             case R.id.ll_order_daifahuo://待发货
                 gotoOrderActivity(2);

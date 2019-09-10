@@ -11,6 +11,7 @@ import java.util.List;
 public class GoodsAttrDto implements Serializable {
     private String key;
     private List<String> attrList;
+    public List<BaseDto> data;
 
     public String getKey() {
         return key;

@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/iv_order_goods_icon"
         android:layout_toRightOf="@+id/iv_order_goods_icon"
-        android:textColor="#ff333333"
+        android:textColor="@color/red_dark"
         android:textSize="15sp" />
 
     <TextView

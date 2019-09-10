@@ -6,10 +6,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hqmy.market.bean.AddressDto;
+import com.hqmy.market.bean.CheckOutOrderResult;
+import com.hqmy.market.bean.WEIXINREQ;
+import com.hqmy.market.common.utils.PayUtils;
+import com.hqmy.market.view.activity.MyOrderDetailActivity;
+import com.hqmy.market.view.activity.PaySuccessActivity;
+import com.hqmy.market.view.widgets.MCheckBox;
+import com.hqmy.market.view.widgets.PhotoPopupWindow;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -71,6 +85,16 @@ public class OrderFragment extends BaseFragment {
         initRecyclerView();
 
     }
+    private boolean ishow;
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(ishow){
+            mRefreshLayout.autoRefresh();
+        }else {
+            ishow=true;
+        }
+    }
 
     @Override
     protected void initData() {
@@ -110,10 +134,7 @@ public class OrderFragment extends BaseFragment {
                     TextView textView = (TextView) view;
                     switch (textView.getText().toString()) {
                         case "去付款":
-                            Bundle bundle = new Bundle();
-                            bundle.putString(Constants.INTENT_WEB_URL, Constants.BASE_URL + "to_pay?order_id=" + mAdapter.getItem(position).getNo());
-                            bundle.putString(Constants.INTENT_WEB_TITLE, "支付");
-                            gotoActivity(RechargeWebActivity.class, false, bundle, UPLOAD_DATA);
+                            checkOutOrder(mAdapter.getItem(position).getNo());
                             break;
                         case "取消订单":
                             cancelOrder(mAdapter.getItem(position).getId());
@@ -217,7 +238,7 @@ public class OrderFragment extends BaseFragment {
                 map.put("include", "shop,shopUser,items.product,shipment,refundInfo");
                 break;
         }
-        map.put("page", currentPage + "");
+        map.put("page", mPage + "");
 //        map.put("api_nested_no_data", "1");
         DataManager.getInstance().getAllUserOrders(new DefaultSingleObserver<HttpResult<List<MyOrderDto>>>() {
             @Override
@@ -234,6 +255,7 @@ public class OrderFragment extends BaseFragment {
             }
         }, map);
     }
+
 
     private void setData(HttpResult<List<MyOrderDto>> httpResult) {
 //        if (httpResult == null || httpResult.getData() == null) {
@@ -259,6 +281,264 @@ public class OrderFragment extends BaseFragment {
         }
     }
 
+    public void showPopPayWindows() {
+
+        if (view == null) {
+            view = LayoutInflater.from(getActivity()).inflate(R.layout.pay_popwindow_view, null);
+
+            btSure = view.findViewById(R.id.bt_sure);
+            iv_close = view.findViewById(R.id.iv_close);
+            llBalance = view.findViewById(R.id.ll_balance);
+            llZfb = view.findViewById(R.id.ll_zfb);
+            llWx = view.findViewById(R.id.ll_wx);
+            mcbBalance = view.findViewById(R.id.mcb_balance);
+            mcbZfb = view.findViewById(R.id.mcb_zfb);
+            mcbWx = view.findViewById(R.id.mcb_wx);
+
+            llBalance.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setChoose(0);
+                    state=0;
+                }
+            });
+            llWx.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    state=1;
+                    setChoose(1);
+                }
+            });
+            llZfb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    state=2;
+                    setChoose(2);
+                }
+            });
+            btSure.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (state){
+                        case 0:
+                            //                            getMemberBaseInfo(new InputPwdDialog.InputPasswordListener() {
+                            //                                @Override
+                            //                                public void callbackPassword(String password) {
+                            //                                    if(Double.valueOf(GdBalance)<Double.valueOf(tv_confirm_order_total_money.getText().toString())){
+                            //                                        ToastUtil.showToast("余额不足");
+                            //                                        return;
+                            //                                    }
+                            //                                    submitOrder(balance.getId() + "", password,balance.getPaymentCode());
+                            //                                }
+                            //                            });
+                            break;
+
+                        case 1:
+                            submitWxOrder();
+                            break;
+                        case 2:
+                            submitOrder();
+                            break;
+                    }
+                    mWindowAddPhoto
+                            .dismiss();
+                }
+            });
+            iv_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mWindowAddPhoto.dismiss();
+                }
+            });
+
+            mWindowAddPhoto = new PhotoPopupWindow(getActivity()).bindView(view);
+            mWindowAddPhoto.showAtLocation(tv_title, Gravity.BOTTOM, 0, 0);
+        } else {
+            mWindowAddPhoto.showAtLocation(tv_title, Gravity.BOTTOM, 0, 0);
+        }
+
+
+    }
+    /**
+     * 获取收货地址
+     */
+    private List<AddressDto> mAddressDatas = new ArrayList<>();
+    private String           addressId;
+    private void getAddressListData() {
+        //showLoadDialog();
+        DataManager.getInstance().getAddressesList(new DefaultSingleObserver<List<AddressDto>>() {
+            @Override
+            public void onSuccess(List<AddressDto> addressDtos) {
+                //dissLoadDialog();
+                mAddressDatas.clear();
+                mAddressDatas.addAll(addressDtos);
+                if (mAddressDatas.size() > 0) {
+                    for (int i = 0; i < mAddressDatas.size(); i++) {
+                        if (mAddressDatas.get(i).getIs_default().equals("1")) {
+                            addressId = mAddressDatas.get(i).getId()+"";
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                //dissLoadDialog();
+            }
+        });
+    }
+    private List<CheckOutOrderResult> ruslts;
+    private int                       RQ_WEIXIN_PAY = 12;
+    private void checkOutOrder(String no) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("rows[" + String.valueOf(1) + "]", no);
+        map.put("address_id", addressId);
+        DataManager.getInstance().checkOutOrder(new DefaultSingleObserver<HttpResult<List<CheckOutOrderResult>>>() {
+            @Override
+            public void onSuccess(HttpResult<List<CheckOutOrderResult>> result) {
+                ruslts=result.getData();
+                if(ruslts!=null&&ruslts.size()>0){
+                    showPopPayWindows();
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (ApiException.getInstance().isSuccess()) {
+                    ToastUtil.showToast("下单成功");
+                } else {
+                    ToastUtil.showToast("下单失败");
+                }
+                getActivity().finish();
+            }
+        }, "default", map);
+    }
+
+    /**
+     * zfb
+     */
+    private void submitOrder() {
+
+        HashMap<String, String> map = new HashMap<>();
+        int i=0;
+        for(CheckOutOrderResult result:ruslts){
+            map.put("order_no["+i+"]",result.no);
+        }
+        map.put("platform", "alipay");
+        map.put("scene", "app");
+        //        map.put("realOrderMoney", realOrderMoney);  //订单支付 去掉参数 订单金额  realOrderMoney
+
+        DataManager.getInstance().submitZfbOrder(new DefaultSingleObserver<HttpResult<String>>() {
+            @Override
+            public void onSuccess(HttpResult<String> httpResult) {
+                dissLoadDialog();
+                if(httpResult != null && !TextUtils.isEmpty(httpResult.getData())){
+                    PayUtils.getInstances().zfbPaySync(getActivity(), httpResult.getData(), new PayResultListener() {
+                        @Override
+                        public void zfbPayOk(boolean payOk) {
+                            Intent intent = new Intent(getActivity(), PaySuccessActivity.class);
+
+                            if(payOk){
+                                intent.putExtra("state",1);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }else {
+                                ToastUtil.showToast("支付已取消");
+                                //                                finish();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void wxPayOk(boolean payOk) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+
+            }
+        }, map);
+
+
+    }
+    /**
+     * wx
+     */
+    private void submitWxOrder() {
+
+        HashMap<String, String> map = new HashMap<>();
+        int i=0;
+        for(CheckOutOrderResult result:ruslts){
+            map.put("order_no["+i+"]",result.no);
+        }
+        map.put("platform", "wechat");
+        map.put("scene", "app");
+        //        map.put("realOrderMoney", realOrderMoney);  //订单支付 去掉参数 订单金额  realOrderMoney
+
+
+        DataManager.getInstance().submitWxOrder(new DefaultSingleObserver<HttpResult<WEIXINREQ>>() {
+            @Override
+            public void onSuccess(HttpResult<WEIXINREQ> httpResult) {
+                dissLoadDialog();
+                PayUtils.getInstances().WXPay(getActivity(), httpResult.getData());
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+
+            }
+        }, map);
+    }
+    private View             mView;
+
+    private RecyclerView     recyclerView;
+    private Button           btSure;
+    private TextView         tv_title;
+    private ImageView        iv_close;
+    private View             view;
+    private PhotoPopupWindow mWindowpayPhoto;
+    private LinearLayout     llBalance;
+    private LinearLayout     llZfb;
+    private LinearLayout     llWx;
+    private MCheckBox        mcbBalance;
+    private MCheckBox        mcbZfb;
+    private MCheckBox        mcbWx;
+    private double           total;
+    private double           totals;
+    public void setChoose(int state){
+        switch (state){
+            case 0:
+                mcbBalance.setChecked(true);
+                mcbZfb.setChecked(false);
+                mcbWx.setChecked(false);
+                break;
+
+            case 1:
+                mcbBalance.setChecked(false);
+                mcbZfb.setChecked(false);
+                mcbWx.setChecked(true);
+                break;
+            case 2:
+                mcbBalance.setChecked(false);
+                mcbZfb.setChecked(true);
+                mcbWx.setChecked(false);
+                break;
+        }
+    }
+    private int state;
+    private PhotoPopupWindow mWindowAddPhoto;
     /**
      * 取消的订单
      *

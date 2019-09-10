@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_marginTop="@dimen/bj_10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="124dp">
 
     <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="13dp"
         android:id="@+id/iv_order_goods_icon"
         android:layout_width="@dimen/bj_81dp"
         android:layout_height="@dimen/bj_81dp"
         android:scaleType="centerCrop" />
 
     <TextView
+        android:layout_marginTop="13dp"
         android:id="@+id/tv_order_goods_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,29 +23,46 @@
         android:maxLines="2"
         android:textColor="#ff333333"
         android:textSize="14sp" />
-
     <TextView
-        android:id="@+id/tv_order_goods_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/my_color_999999"
-        android:layout_alignBottom="@+id/iv_order_goods_icon"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/tv_order_goods_num"
+        android:layout_marginTop="13dp"
+        android:id="@+id/tv_gg"
+        android:layout_marginBottom="26dp"
+        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/bj_17dp"
         android:layout_toRightOf="@+id/iv_order_goods_icon"
-        android:layout_alignBottom="@+id/iv_order_goods_icon"
+        android:maxLines="2"
+        android:textColor="#999"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="14dp"
+        android:id="@+id/tv_order_goods_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/my_color_333333"
+        android:text=""
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_marginBottom="@dimen/bj_27dp"
+        android:layout_marginRight="@dimen/bj_13dp"
+        android:id="@+id/tv_order_goods_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_17dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text=""
         android:textColor="@color/my_color_999999"
         android:textSize="13sp" />
     <View
+        android:layout_marginLeft="13dp"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/bj_10dp"
-        android:layout_below="@+id/tv_order_goods_num"
         android:layout_height="0.5dp"
-        android:background="#EEEEEE"/>
+        android:background="@color/my_color_line"/>
 </RelativeLayout>

@@ -384,7 +384,8 @@ public class ConfirmOrderActivity extends BaseActivity {
                             submitOrder();
                             break;
                     }
-                    mWindowpayPhoto.dismiss();
+                    mWindowAddPhoto
+                            .dismiss();
                 }
             });
             iv_close.setOnClickListener(new View.OnClickListener() {
@@ -413,8 +414,8 @@ public class ConfirmOrderActivity extends BaseActivity {
         for(CheckOutOrderResult result:ruslts){
             map.put("order_no["+i+"]",result.no);
         }
-        map.put("platform ", "alipay");
-        map.put("scene ", "app");
+        map.put("platform", "alipay");
+        map.put("scene", "app");
         //        map.put("realOrderMoney", realOrderMoney);  //订单支付 去掉参数 订单金额  realOrderMoney
 
         DataManager.getInstance().submitZfbOrder(new DefaultSingleObserver<HttpResult<String>>() {
@@ -425,8 +426,18 @@ public class ConfirmOrderActivity extends BaseActivity {
                     PayUtils.getInstances().zfbPaySync(ConfirmOrderActivity.this, httpResult.getData(), new PayResultListener() {
                         @Override
                         public void zfbPayOk(boolean payOk) {
-                         gotoActivity(PaySuccessActivity.class);
-                         finish();
+                            Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
+
+                            if(payOk){
+                                intent.putExtra("state",1);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                ToastUtil.showToast("支付已取消");
+//                                finish();
+                            }
+
+
                         }
 
                         @Override
@@ -457,8 +468,8 @@ public class ConfirmOrderActivity extends BaseActivity {
         for(CheckOutOrderResult result:ruslts){
             map.put("order_no["+i+"]",result.no);
         }
-        map.put("platform ", "wechat");
-        map.put("scene ", "app");
+        map.put("platform", "wechat");
+        map.put("scene", "app");
         //        map.put("realOrderMoney", realOrderMoney);  //订单支付 去掉参数 订单金额  realOrderMoney
 
 

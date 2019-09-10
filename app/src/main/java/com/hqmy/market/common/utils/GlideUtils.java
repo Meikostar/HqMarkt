@@ -311,7 +311,27 @@ public class GlideUtils {
         }
 
     }
+    /**
+     * 加载正常图片
+     *
+     * @param context
+     * @param imageView
+     * @param imgUrl
+     */
+    public void loadNormalPathImg(Context context, ImageView imageView, Object imgUrl, int defaultImgId) {
 
+        try {
+            Glide.with(context).asBitmap().load(imgUrl).apply(new RequestOptions()
+                    .placeholder(defaultImgId) // 预加载图片
+                    .error(defaultImgId) // 加载失败显示图片
+                    .priority(Priority.LOW)) // 优先级
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtil.d("loadNormalImg", "loadNormalImg--isDestroyed");
+        }
+
+    }
     /**
      * 加载圆角图片无缓存
      *

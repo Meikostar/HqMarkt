@@ -20,6 +20,7 @@
         android:visibility="visible">
 
         <ImageView
+            android:padding="@dimen/bj_3dp"
             android:id="@+id/btn_del"
             android:layout_width="@dimen/bj_20dp"
             android:layout_height="@dimen/bj_20dp"

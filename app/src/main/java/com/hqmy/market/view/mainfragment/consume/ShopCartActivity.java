@@ -54,7 +54,7 @@ public class ShopCartActivity extends BaseActivity {
     private ShopCartAdapter shopCartAdapter;
     private List<AddressDto> mAddressDatas = new ArrayList<>();
     private AddressDto defaultAddress = null;
-    private String strMallType = "gc";
+    private String strMallType = "default";
     private ArrayList<String> rowList  = new ArrayList<String>();
     private Set<ShopCartListItemDto> shopSelectList = new HashSet<>();//被选中的资源
     private boolean again;

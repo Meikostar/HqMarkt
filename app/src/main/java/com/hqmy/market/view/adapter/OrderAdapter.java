@@ -44,7 +44,7 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
                 .addOnClickListener(R.id.tv_button_1)
                 .addOnClickListener(R.id.tv_button_2);
         if (item.getTotal() != null) {
-            helper.setText(R.id.tv_prices, item.getTotal());
+            helper.setText(R.id.tv_prices, "￥"+item.getTotal());
         }
         helper.setText(R.id.tv_status, item.getStatus_msg());
         helper.setText(R.id.tv_detail, "共"+item.getCount()+"件商品, "+"已付款");

@@ -20,6 +20,11 @@
     <color name="my_color_greens">#30938E</color>
     <color name="my_color_zs">#1a2fb0</color>
     <color name="my_color_goodzs">#cc1a2fb0</color>
+    <color name="my_color_order_state1">#6864fd</color>
+    <color name="my_color_order_state2">#b56de8</color>
+    <color name="my_color_order_state3">#fe9b74</color>
+    <color name="my_color_order_state4">#4caea9</color>
+    <color name="my_color_order_state5">#6864fd</color>
 
 
 
@@ -69,6 +74,8 @@
     <color name="my_color_efefef">#efefef</color>
     <color name="pldroid_streaming_white">#fff</color>
     <color name="pldroid_streaming_red">#f00</color>
+    <color name="red_dark">#f00</color>
+    <color name="jrmf_red">#f00</color>
     <color name="pldroid_streaming_yellow">#FFFF00</color>
     <color name="my_color_fd2323">#FD2323</color>
     <color name="my_color_050000">#050000</color>

@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/red_dark"
+            android:textColor="@color/pldroid_streaming_red"
             android:textSize="@dimen/wz_14sp" />
 
         <TextView

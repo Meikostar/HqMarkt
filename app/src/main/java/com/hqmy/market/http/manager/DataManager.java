@@ -1483,7 +1483,7 @@ public class DataManager {
         subscribe(observable, observer);
     }
     public void getAllUserOrdersCount(DefaultSingleObserver<HttpResult<CountOrderBean>> observer) {
-        Single<HttpResult<CountOrderBean>> observable = retrofitService.getAllUserOrdersCount(getToken(),"gc,lm,st")
+        Single<HttpResult<CountOrderBean>> observable = retrofitService.getAllUserOrdersCount(getToken())
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }

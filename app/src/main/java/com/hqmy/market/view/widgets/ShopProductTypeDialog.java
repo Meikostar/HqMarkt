@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.donkingliang.labels.LabelsView;
+import com.hqmy.market.bean.BaseDto;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.hqmy.market.R;
 import com.hqmy.market.bean.CommodityDetailAttrDto;
@@ -117,13 +118,13 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
             }
             tv_dialog_select_commodity_count.setText("" + goodscount);
             tv_commodity_count.setText("" + goodscount);
-            tv_commodity_total_price.setText(String.valueOf(Double.valueOf(strPrice) * Double.parseDouble("" + goodscount)));
+            tv_commodity_total_price.setText("￥"+String.valueOf(Double.valueOf(strPrice) * Double.parseDouble("" + goodscount)));
         });
         bindClickEvent(iv_dialog_select_commodity_increase, () -> {
               ++goodscount;
               tv_dialog_select_commodity_count.setText("" + goodscount);
               tv_commodity_count.setText("" + goodscount);
-              tv_commodity_total_price.setText(String.valueOf(Double.parseDouble(strPrice) * Double.parseDouble("" + goodscount)));
+              tv_commodity_total_price.setText("￥"+String.valueOf(Double.parseDouble(strPrice) * Double.parseDouble("" + goodscount)));
         });
         bindClickEvent(clean, () -> {
             hide();
@@ -187,16 +188,22 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
                     HashMap<String, String> attrMp = new HashMap<String, String>();
                     for (int j = 0; j < attrArray.length; j++) {
                         String[] itemAttrArray = attrArray[j].split(":");
-                        attrMp.put(itemAttrArray[0], itemAttrArray[1]);
+                        attrMp.put(itemAttrArray[0], itemAttrArray[1]+","+commodityDetailAttrItemDto.getPrice());
                     }
                     mapList.add(attrMp);
                 }
                 Set<String> nameSets = mapList.get(0).keySet();
                 gadList = new ArrayList<GoodsAttrDto>();
                 for (String key : nameSets) {
-                    List<String> valueList = new ArrayList<String>();
+                    List<BaseDto> valueList = new ArrayList<BaseDto>();
                     for (int k = 0; k < mapList.size(); k++) {
-                        valueList.add(mapList.get(k).get(key));
+                        BaseDto baseDto = new BaseDto();
+                        String con = mapList.get(k).get(key);
+                        String[] split = con.split(",");
+
+                        baseDto.name=split[0];
+                        baseDto.price=split[1];
+                        valueList.add(baseDto);
                     }
 
                     GoodsAttrDto gaDto = new GoodsAttrDto();
@@ -208,7 +215,7 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
                             }
                         }
                     }
-                    gaDto.setAttrList(valueList);
+                    gaDto.data=valueList;
                     gadList.add(gaDto);
                 }
             }
@@ -217,6 +224,15 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setFocusable(false);
         goodsAttrAdapter = new GoodsAttrAdapter(gadList,mContext);
+        goodsAttrAdapter.setGoodsSpecListener(new GoodsAttrAdapter.GoodsSpecListener() {
+            @Override
+            public void callbackGoodsSpec(String attStrs) {
+                strPrice = attStrs;
+                tv_dialog_select_commodity_price.setText("¥" + attStrs);
+
+                tv_commodity_total_price.setText("¥" + attStrs);
+            }
+        });
         recyclerView.setAdapter(goodsAttrAdapter);
     }
 
@@ -225,8 +241,8 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
         for(int i=0; i<goodsAttrDtoList.size(); i++){
             LinearLayout layoutView = (LinearLayout) mLinearLayoutManager.findViewByPosition((i));
             LabelsView  mLabel = (LabelsView)layoutView.getChildAt(2);
-            String strLabel = mLabel.getSelectLabelDatas().get(0).toString();
-            String strItem = goodsAttrDtoList.get(i).getKey() + ":" + strLabel;
+            BaseDto strLabel = (BaseDto) mLabel.getSelectLabelDatas().get(0);
+            String strItem = goodsAttrDtoList.get(i).getKey() + ":" + strLabel.name;
             attrList.add(strItem);
         }
 

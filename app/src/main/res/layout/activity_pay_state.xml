@@ -30,7 +30,7 @@
                 android:id="@+id/img_qrcode"
                 android:layout_width="126dp"
                 android:layout_height="117dp"
-                android:src="@mipmap/img_default_1" />
+                android:src="@drawable/pay_success" />
             <TextView
                 android:id="@+id/tv_state"
                 android:layout_marginTop="19dp"

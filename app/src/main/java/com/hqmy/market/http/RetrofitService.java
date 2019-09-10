@@ -998,7 +998,7 @@ public interface RetrofitService {
      * 我的订单数量
      */
     @GET("api/package/mall/all/user/orders/count")
-    Single<HttpResult<CountOrderBean>> getAllUserOrdersCount(@Header("Authorization") String token, @Query("filter[type]") String filter);
+    Single<HttpResult<CountOrderBean>> getAllUserOrdersCount(@Header("Authorization") String token);
 
     /**
      * 我的订单数量
@@ -1021,7 +1021,7 @@ public interface RetrofitService {
     /**
      * 催发货
      */
-    @PUT("api/mall/all/orders/{orderId}/hurry")
+    @PUT("/api/package/mall/default/user/orders/{order_id}/hurry")
     Single<HttpResult<Object>> hurryOrder(@Header("Authorization") String token, @Path("orderId") String orderId);
 
     /**
@@ -1033,7 +1033,7 @@ public interface RetrofitService {
     /**
      * 退款
      */
-    @POST("api/package/mall/{type}/user/orders/{orderId}/refund ")
+    @POST("api/package/mall/{type}/user/orders/{orderId}/refund")
     Single<Object> refundOrder(@Header("Authorization") String token, @Path("orderId") String orderId, @Body Map<String, Object> map, @Path("type") String type);
 
     /**

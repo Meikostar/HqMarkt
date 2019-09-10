@@ -221,16 +221,16 @@ public class LearnFragment extends BaseFragment {
                 }
                 if(tag==0) {
 
-                    if (defaultAddress != null) {
+//                    if (defaultAddress != null) {
                         Bundle bundle = new Bundle();
                         bundle.putStringArrayList(ConfirmOrderActivity.ROW_STR, rowList);
                         bundle.putString(ConfirmOrderActivity.MALL_TYPE, strMallType);
                         bundle.putString("id", defaultAddress.getId()+"");
                         bundle.putSerializable(ConfirmOrderActivity.ADDRESS_DETAIL, defaultAddress);
                         gotoActivity(ConfirmOrderActivity.class, false, bundle);
-                    } else {
-                        gotoActivity(AddShippingAddressActivity.class);
-                    }
+//                    } else {
+//                        gotoActivity(AddShippingAddressActivity.class);
+//                    }
                 }else {
                     String id;
                     HashMap<String, String> map = new HashMap<String, String>();
@@ -419,6 +419,7 @@ public class LearnFragment extends BaseFragment {
     private void updateBottomView(Set<ShopCartListItemDto> object) {
         double price = 0;
         int totals=0;
+
 //        if (object != null && !object.isEmpty()) {
 //            Iterator<ShopCartListItemDto> items = object.iterator();
 //            while (items.hasNext()) {
@@ -430,6 +431,7 @@ public class LearnFragment extends BaseFragment {
         List<ShopCartListDto> data = shopCartAdapter.getData();
       for(ShopCartListDto dto:data){
           for(ShopCartListItemDto itemDto:dto.getProducts()){
+
               if(itemDto.isSelect()){
                   ++totals;
                   price += Double.valueOf(itemDto.getPrice()) * Double.valueOf(itemDto.getQty());
@@ -445,7 +447,7 @@ public class LearnFragment extends BaseFragment {
             for(int m=0; m<shopCartAdapter.getData().size(); m++){
                 totalNum = totalNum + shopCartAdapter.getData().get(m).getProducts().size();
             }
-            if (totalNum == object.size()) {
+            if (totalNum == totals) {
                 cb_shop_cart_all_sel.setChecked(true);
             } else {
                 cb_shop_cart_all_sel.setChecked(false);

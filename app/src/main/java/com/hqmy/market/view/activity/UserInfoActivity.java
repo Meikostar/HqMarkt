@@ -126,7 +126,7 @@ public class UserInfoActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_title_back:
-                finishActivity();
+                finish();
                 break;
             case R.id.rl_sex_container:
                 showSexDialog();

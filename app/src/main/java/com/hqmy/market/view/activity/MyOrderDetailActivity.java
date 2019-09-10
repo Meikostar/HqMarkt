@@ -1,10 +1,16 @@
 package com.hqmy.market.view.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -12,18 +18,35 @@ import android.widget.TextView;
 
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.bean.AddressDto;
+import com.hqmy.market.bean.CheckOutOrderResult;
 import com.hqmy.market.bean.CouponCodeInfo;
 import com.hqmy.market.bean.MyOrderDto;
 import com.hqmy.market.bean.MyOrderItemDto;
+import com.hqmy.market.bean.OrderPreviewDto;
+import com.hqmy.market.bean.OrderProductDto;
+import com.hqmy.market.bean.OrderShopDto;
+import com.hqmy.market.bean.WEIXINREQ;
 import com.hqmy.market.common.Constants;
+import com.hqmy.market.common.utils.LogUtil;
+import com.hqmy.market.common.utils.PayUtils;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
+import com.hqmy.market.view.MainActivity;
 import com.hqmy.market.view.adapter.OrderDetailGoodsListAdapter;
+import com.hqmy.market.view.fragments.PayResultListener;
+import com.hqmy.market.view.mainfragment.consume.ConfirmOrderActivity;
+import com.hqmy.market.view.mainfragment.consume.ShopCartActivity;
+import com.hqmy.market.view.widgets.MCheckBox;
+import com.hqmy.market.view.widgets.PhotoPopupWindow;
 import com.hqmy.market.view.widgets.dialog.CouponCodeDialog;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -74,6 +97,8 @@ public class MyOrderDetailActivity extends BaseActivity {
     ImageView ivTitleBack;
     @BindView(R.id.rl_adress)
     RelativeLayout rl_adress;
+    @BindView(R.id.rl_bg)
+    RelativeLayout rl_bg;
 
     String id = "";
     String type = "";
@@ -84,6 +109,7 @@ public class MyOrderDetailActivity extends BaseActivity {
         bindClickEvent(ivTitleBack, () -> {
             finish();
         });
+
         bindClickEvent(btnDetailOperationOne, () -> {
             switch (btnDetailOperationOne.getText().toString()){
                 case "取消订单":
@@ -124,6 +150,55 @@ public class MyOrderDetailActivity extends BaseActivity {
                     bundle3.putString("id",mmyOrderDto.getId());
                     gotoActivity(MyOrderLogisticsActivity.class,false,bundle3);
                     break;
+                case "再来一单":
+                    if (mmyOrderDto.getItems() !=null && mmyOrderDto.getItems().getData() != null && mmyOrderDto.getItems().getData().size() > 0) {
+                        ArrayList<String> product_id = new ArrayList<>();
+                        ArrayList<String> qty = new ArrayList<>();
+                        ArrayList<String> stock_id = new ArrayList<>();
+                        for (MyOrderItemDto myOrderItemDto : mmyOrderDto.getItems().getData()) {
+                            product_id.add(myOrderItemDto.getProduct_id());
+                            qty.add(myOrderItemDto.getQty());
+                            stock_id.add(myOrderItemDto.getSku_id());
+                        }
+                        showLoadDialog();
+
+                        HashMap<String,Object> map = new HashMap<>();
+                        map.put("qty",qty);
+                        if(product_id!= null && product_id.size()>0){
+                            for(int i =0;i< product_id.size();i++){
+                                if(!TextUtils.isEmpty(product_id.get(i))){
+                                    map.put("product_id["+i+"]",product_id.get(i)) ;
+                                }
+                            }
+                        }
+                        if(stock_id!= null && stock_id.size()>0){
+                            for(int i =0;i< stock_id.size();i++){
+                                if(!TextUtils.isEmpty(stock_id.get(i))){
+                                    map.put("stock_id["+i+"]",stock_id.get(i)) ;
+                                }
+                            }
+                        }
+                        DataManager.getInstance().addShoppingCart(new DefaultSingleObserver<HttpResult<Object>>() {
+                            @Override
+                            public void onSuccess(HttpResult<Object> result) {
+                                dissLoadDialog();
+                                finishAll();
+                                Bundle bundle = new Bundle();
+                                bundle.putInt(MainActivity.PAGE_INDEX, 3);
+                                gotoActivity(MainActivity.class, true, bundle);
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                dissLoadDialog();
+
+                            }
+                        }, "default", map);
+
+                    }
+                    break;
+
+
             }
         });
         bindClickEvent(btnDetailOperationTwo, () -> {
@@ -132,10 +207,7 @@ public class MyOrderDetailActivity extends BaseActivity {
                     if (mmyOrderDto == null) {
                         return;
                     }
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Constants.INTENT_WEB_URL, Constants.BASE_URL + "to_pay?order_id=" + mmyOrderDto.getNo());
-                    bundle.putString(Constants.INTENT_WEB_TITLE, "支付");
-                    gotoActivity(RechargeWebActivity.class, false, bundle,UPLOAD_DATA);
+                    checkOutOrder();
                     break;
                 case "催发货":
                     if (mmyOrderDto == null) {
@@ -175,7 +247,22 @@ public class MyOrderDetailActivity extends BaseActivity {
         if(requestCode == UPLOAD_DATA ){
            getOrderDetail();
         }
+        if (requestCode == RQ_WEIXIN_PAY) {
+            ToastUtil.showToast("支付成功");
+            gotoActivity(PaySuccessActivity.class);
+            finish();
+            //           if (requestCode == RQ_WEIXIN_PAY) {
+            //                RxBus.getInstance().send(SubscriptionBean.createSendBean(SubscriptionBean.CHAEGE_SUCCESS,""));
+            //            }
+        }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAddressListData();
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.ui_my_order_detail_layout;
@@ -201,7 +288,7 @@ public class MyOrderDetailActivity extends BaseActivity {
             public void onSuccess(HttpResult<MyOrderDto> result) {
                 dealView(result.getData());
             }
-        }, id, type, "shop,address,items.product,items.vcode");
+        }, id, type, "shop,items.product,shipment,refundInfo");
     }
 
     private void dealView(MyOrderDto myOrderDto) {
@@ -230,6 +317,7 @@ public class MyOrderDetailActivity extends BaseActivity {
             switch (myOrderDto.getStatus()) {
                 case "created":
                     //待付款
+                    rl_bg.setBackgroundResource(R.color.my_color_order_state1);
                     tvOrderTip.setText("喜欢就别犹豫哦");
                     imgOrderStatus.setImageResource(R.mipmap.img_pre_pay);
                     llDetailBottom.setVisibility(View.VISIBLE);
@@ -240,7 +328,12 @@ public class MyOrderDetailActivity extends BaseActivity {
                     break;
                 case "paid":
                     //待发货
+                    rl_bg.setBackgroundResource(R.color.my_color_order_state2);
+
+
                     if (myOrderDto.getRefundInfo() != null && myOrderDto.getRefundInfo().getData() != null) {
+                        tvOrderStatus.setText("退款中");
+                        imgOrderStatus.setImageResource(R.mipmap.img_packing);
                         //退款中
                         return;
                     }
@@ -252,6 +345,7 @@ public class MyOrderDetailActivity extends BaseActivity {
                     btnDetailOperationOne.setText("申请退款");
                     break;
                 case "shipping"://待消费 待收货
+                    rl_bg.setBackgroundResource(R.color.my_color_order_state3);
                     llDetailBottom.setVisibility(View.VISIBLE);
                     if ("待消费".equals(myOrderDto.getStatus_msg())){
                         btnDetailOperationTwo.setText("查看兑换券");
@@ -264,11 +358,22 @@ public class MyOrderDetailActivity extends BaseActivity {
                     btnDetailOperationTwo.setText("确认收货");
                     break;
                 case "shipped":
+                    rl_bg.setBackgroundResource(R.color.my_color_order_state4);
+                    llDetailBottom.setVisibility(View.VISIBLE);
                     //待评价
                     tvOrderTip.setText("您已确认收货，订单已完成");
                     imgOrderStatus.setImageResource(R.mipmap.img_receiver);
                     llDetailBottom.setVisibility(View.VISIBLE);
+
                     btnDetailOperationTwo.setText("去评价");
+                    break;
+                case "closed":
+                    rl_bg.setBackgroundResource(R.color.my_color_order_state4);
+                    llDetailBottom.setVisibility(View.VISIBLE);
+                    imgOrderStatus.setImageResource(R.mipmap.img_receiver);
+                    btnDetailOperationOne.setVisibility(View.VISIBLE);
+                    btnDetailOperationTwo.setVisibility(View.GONE);
+                    btnDetailOperationOne.setText("再来一单");
                     break;
             }
         }
@@ -360,4 +465,264 @@ public class MyOrderDetailActivity extends BaseActivity {
             }
         }, id);
     }
+
+    public void showPopPayWindows() {
+
+        if (view == null) {
+            view = LayoutInflater.from(this).inflate(R.layout.pay_popwindow_view, null);
+
+            btSure = view.findViewById(R.id.bt_sure);
+            iv_close = view.findViewById(R.id.iv_close);
+            llBalance = view.findViewById(R.id.ll_balance);
+            llZfb = view.findViewById(R.id.ll_zfb);
+            llWx = view.findViewById(R.id.ll_wx);
+            mcbBalance = view.findViewById(R.id.mcb_balance);
+            mcbZfb = view.findViewById(R.id.mcb_zfb);
+            mcbWx = view.findViewById(R.id.mcb_wx);
+
+            llBalance.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setChoose(0);
+                    state=0;
+                }
+            });
+            llWx.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    state=1;
+                    setChoose(1);
+                }
+            });
+            llZfb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    state=2;
+                    setChoose(2);
+                }
+            });
+            btSure.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (state){
+                        case 0:
+                            //                            getMemberBaseInfo(new InputPwdDialog.InputPasswordListener() {
+                            //                                @Override
+                            //                                public void callbackPassword(String password) {
+                            //                                    if(Double.valueOf(GdBalance)<Double.valueOf(tv_confirm_order_total_money.getText().toString())){
+                            //                                        ToastUtil.showToast("余额不足");
+                            //                                        return;
+                            //                                    }
+                            //                                    submitOrder(balance.getId() + "", password,balance.getPaymentCode());
+                            //                                }
+                            //                            });
+                            break;
+
+                        case 1:
+                            submitWxOrder();
+                            break;
+                        case 2:
+                            submitOrder();
+                            break;
+                    }
+                    mWindowAddPhoto
+                            .dismiss();
+                }
+            });
+            iv_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mWindowAddPhoto.dismiss();
+                }
+            });
+
+            mWindowAddPhoto = new PhotoPopupWindow(this).bindView(view);
+            mWindowAddPhoto.showAtLocation(tv_title, Gravity.BOTTOM, 0, 0);
+        } else {
+            mWindowAddPhoto.showAtLocation(tv_title, Gravity.BOTTOM, 0, 0);
+        }
+
+
+    }
+    /**
+     * 获取收货地址
+     */
+    private List<AddressDto> mAddressDatas = new ArrayList<>();
+    private String addressId;
+    private void getAddressListData() {
+        //showLoadDialog();
+        DataManager.getInstance().getAddressesList(new DefaultSingleObserver<List<AddressDto>>() {
+            @Override
+            public void onSuccess(List<AddressDto> addressDtos) {
+                //dissLoadDialog();
+                mAddressDatas.clear();
+                mAddressDatas.addAll(addressDtos);
+                if (mAddressDatas.size() > 0) {
+                    for (int i = 0; i < mAddressDatas.size(); i++) {
+                        if (mAddressDatas.get(i).getIs_default().equals("1")) {
+                            addressId = mAddressDatas.get(i).getId()+"";
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                //dissLoadDialog();
+            }
+        });
+    }
+    private List<CheckOutOrderResult> ruslts;
+    private int RQ_WEIXIN_PAY = 12;
+    private void checkOutOrder() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("rows[" + String.valueOf(1) + "]", mmyOrderDto.getNo());
+        map.put("address_id", addressId);
+        DataManager.getInstance().checkOutOrder(new DefaultSingleObserver<HttpResult<List<CheckOutOrderResult>>>() {
+            @Override
+            public void onSuccess(HttpResult<List<CheckOutOrderResult>> result) {
+                ruslts=result.getData();
+                if(ruslts!=null&&ruslts.size()>0){
+                    showPopPayWindows();
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (ApiException.getInstance().isSuccess()) {
+                    ToastUtil.showToast("下单成功");
+                } else {
+                    ToastUtil.showToast("下单失败");
+                }
+                finish();
+            }
+        }, "default", map);
+    }
+
+    /**
+     * zfb
+     */
+    private void submitOrder() {
+
+        HashMap<String, String> map = new HashMap<>();
+        int i=0;
+        for(CheckOutOrderResult result:ruslts){
+            map.put("order_no["+i+"]",result.no);
+        }
+        map.put("platform", "alipay");
+        map.put("scene", "app");
+        //        map.put("realOrderMoney", realOrderMoney);  //订单支付 去掉参数 订单金额  realOrderMoney
+
+        DataManager.getInstance().submitZfbOrder(new DefaultSingleObserver<HttpResult<String>>() {
+            @Override
+            public void onSuccess(HttpResult<String> httpResult) {
+                dissLoadDialog();
+                if(httpResult != null && !TextUtils.isEmpty(httpResult.getData())){
+                    PayUtils.getInstances().zfbPaySync(MyOrderDetailActivity.this, httpResult.getData(), new PayResultListener() {
+                        @Override
+                        public void zfbPayOk(boolean payOk) {
+                            Intent intent = new Intent(MyOrderDetailActivity.this, PaySuccessActivity.class);
+
+                            if(payOk){
+                                intent.putExtra("state",1);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                ToastUtil.showToast("支付已取消");
+                                //                                finish();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void wxPayOk(boolean payOk) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+
+            }
+        }, map);
+
+
+    }
+    /**
+     * wx
+     */
+    private void submitWxOrder() {
+
+        HashMap<String, String> map = new HashMap<>();
+        int i=0;
+        for(CheckOutOrderResult result:ruslts){
+            map.put("order_no["+i+"]",result.no);
+        }
+        map.put("platform", "wechat");
+        map.put("scene", "app");
+        //        map.put("realOrderMoney", realOrderMoney);  //订单支付 去掉参数 订单金额  realOrderMoney
+
+
+        DataManager.getInstance().submitWxOrder(new DefaultSingleObserver<HttpResult<WEIXINREQ>>() {
+            @Override
+            public void onSuccess(HttpResult<WEIXINREQ> httpResult) {
+                dissLoadDialog();
+                PayUtils.getInstances().WXPay(MyOrderDetailActivity.this, httpResult.getData());
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+
+            }
+        }, map);
+    }
+    private View             mView;
+
+    private RecyclerView     recyclerView;
+    private Button           btSure;
+    private TextView         tv_title;
+    private ImageView        iv_close;
+    private View             view;
+    private PhotoPopupWindow mWindowpayPhoto;
+    private LinearLayout     llBalance;
+    private LinearLayout     llZfb;
+    private LinearLayout     llWx;
+    private MCheckBox        mcbBalance;
+    private MCheckBox        mcbZfb;
+    private MCheckBox        mcbWx;
+    private double           total;
+    private double           totals;
+    public void setChoose(int state){
+        switch (state){
+            case 0:
+                mcbBalance.setChecked(true);
+                mcbZfb.setChecked(false);
+                mcbWx.setChecked(false);
+                break;
+
+            case 1:
+                mcbBalance.setChecked(false);
+                mcbZfb.setChecked(false);
+                mcbWx.setChecked(true);
+                break;
+            case 2:
+                mcbBalance.setChecked(false);
+                mcbZfb.setChecked(true);
+                mcbWx.setChecked(false);
+                break;
+        }
+    }
+    private int state;
+    private PhotoPopupWindow mWindowAddPhoto;
+
 }

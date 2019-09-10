@@ -16,6 +16,7 @@ public class BaseDto {
     public String        market_price;
     public String        slogan;
     public String        cover;
+    public String        name;
     public String        id;
 
 

@@ -25,9 +25,10 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_bg"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/bj_110dp"
-                android:background="#f60004">
+                android:background="@color/my_color_order_state4">
 
                 <TextView
                     android:id="@+id/tv_order_status"
@@ -176,8 +177,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:paddingLeft="@dimen/bj_15dp"
-                    android:paddingTop="@dimen/bj_15dp"
-                    android:paddingRight="@dimen/bj_15dp">
+                    android:paddingTop="@dimen/bj_15dp">
 
                     <TextView
                         android:id="@+id/tv_total_num"
