@@ -148,7 +148,10 @@
     <style name="checkbox.theme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/radio_check_state</item>
     </style>
-
+    <style name="popwin_anim">
+        <item name="android:windowEnterAnimation">@anim/popw_show</item>
+        <item name="android:windowExitAnimation">@anim/popw_hide</item>
+    </style>
     <declare-styleable name="SwipeMenuLayout">
         <attr name="leftMenuId" format="reference" />
         <attr name="rightMenuId" format="reference" />

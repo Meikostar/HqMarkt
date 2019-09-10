@@ -18,6 +18,7 @@ import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.ScreenSizeUtil;
 import com.hqmy.market.qiniu.AVStreamingActivity;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 
 import java.util.List;
@@ -42,16 +43,21 @@ public class ConsumePushAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
             TextView tvsin = helper.getView(R.id.tv_sign);
             if(item.labels!=null&&item.labels.size()>0){
                 tvsin.setVisibility(View.VISIBLE);
-                tvsin.setText(item.labels.get(0));
+                if(TextUtil.isNotEmpty(item.labels.get(0))){
+                    tvsin.setText(item.labels.get(0));
+                }else {
+                    tvsin.setVisibility(View.GONE);
+                }
+
             }else {
                 tvsin.setVisibility(View.GONE);
             }
             if(item.ext!=null&&!TextUtils.isEmpty(item.ext.slogan)){
-                tvsin.setVisibility(View.VISIBLE);
+
                 helper.setText(R.id.tv_tag,item.ext.slogan);
             }
             if(item.brand!=null&&item.brand.data.category.data!=null&&!TextUtils.isEmpty(item.brand.data.category.data.title)){
-                tvsin.setVisibility(View.VISIBLE);
+
                 helper.setText(R.id.tv_contury,item.brand.data.category.data.title);
                 GlideUtils.getInstances().loadUserRoundImg(mContext, helper.getView(R.id.iv_contury), Constants.WEB_IMG_URL_UPLOADS + item.brand.data.category.data.icon);
 
@@ -70,15 +76,13 @@ public class ConsumePushAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
                 linearParams.width = ScreenSizeUtil.dp2px(with-1);// 控件的宽强制设成30
 
                 line.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
-                helper.setText(R.id.tv_price,item.market_price);
+                helper.setText(R.id.tv_price,name);
             }else {
                 frameLayout.setVisibility(View.GONE);
             }
 
             if(item.ext!=null&&TextUtils.isEmpty(item.ext.slogan)){
-                tvsin.setVisibility(View.VISIBLE);
                 helper.setText(R.id.tv_tag,item.ext.slogan);
-
             }
             helper.setText(R.id.tv_item_home_good_shop_price,  item.getPrice());
             GlideUtils.getInstances().loadProcuctNormalImg(mContext, helper.getView(R.id.iv_item_consume_push_img), Constants.WEB_IMG_URL_UPLOADS + item.getCover());

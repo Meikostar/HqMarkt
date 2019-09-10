@@ -28,7 +28,7 @@
             android:paddingLeft="@dimen/bj_20dp"
             android:paddingRight="@dimen/bj_22dp">
 
-            <com.zhangjiajie.love.view.widgets.CircleImageView
+            <com.hqmy.market.view.widgets.CircleImageView
                 android:id="@+id/iv_item_issue_user_avatar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"

@@ -181,7 +181,7 @@ public class CourseWarehousePPTFragment extends BaseFragment {
     private void setUri(Intent intent, File file, String type) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri contentUri = FileProvider.getUriForFile(getActivity(), "com.zhangjiajie.love.FileProvider", file);
+            Uri contentUri = FileProvider.getUriForFile(getActivity(), "com.hqmy.market.FileProvider", file);
             intent.setDataAndType(contentUri, type);
         } else {
             Uri uri = Uri.fromFile(file);

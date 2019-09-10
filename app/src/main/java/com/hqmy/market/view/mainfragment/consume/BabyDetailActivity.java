@@ -207,7 +207,7 @@ public class BabyDetailActivity extends BaseActivity {
     private void getGoodsDetailToken(String mType, String goodsId) {
         showLoadDialog();
         HashMap<String,String> map = new HashMap<>();
-        map.put("include","user,attrs,freight,isFavorited");
+        map.put("include","attrs,freight,isFavorited,brand.productsCount");
         DataManager.getInstance().getGoodsDetailToken(new DefaultSingleObserver<HttpResult<CommodityDetailInfoDto>>() {
             @Override
             public void onSuccess(HttpResult<CommodityDetailInfoDto> result) {

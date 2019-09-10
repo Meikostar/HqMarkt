@@ -51,11 +51,12 @@ public class AddShippingAddressActivity extends BaseActivity {
     public int getLayoutId() {
         return R.layout.activity_add_shipping_address;
     }
-
+    private int tag;
     @Override
     public void initView() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            tag=getIntent().getIntExtra("tag",0);
             mAddressDto = (AddressDto) bundle.getSerializable("address");
             if(mAddressDto!=null){
                 mTitleText.setText("修改收货地址");

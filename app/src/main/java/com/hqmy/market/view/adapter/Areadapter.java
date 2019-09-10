@@ -1,18 +1,21 @@
 package com.hqmy.market.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hqmy.market.R;
 import com.hqmy.market.bean.AreaDto;
 import com.hqmy.market.bean.BannerDto;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.view.activity.ConturyDetialActivity;
 
 import java.util.List;
 
@@ -66,6 +69,7 @@ public class Areadapter extends BaseAdapter {
             view = inflater.inflate(R.layout.tools_item, null);
             holder.txt_name = view.findViewById(R.id.txt_name);
             holder.img_icon = view.findViewById(R.id.img_icon);
+            holder.ll_bg = view.findViewById(R.id.ll_bg);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -75,6 +79,15 @@ public class Areadapter extends BaseAdapter {
         if(!TextUtils.isEmpty(bannerDto.title)){
             holder.txt_name.setText(bannerDto.title);
         }
+        holder.ll_bg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ConturyDetialActivity.class);
+                intent.putExtra("id",bannerDto.id+"");
+                intent.putExtra("title",bannerDto.title+"");
+                context.startActivity(intent);
+            }
+        });
 
         GlideUtils.getInstances().loadRoundImg(context,holder.img_icon,bannerDto.icon,R.drawable.moren_sf);
         // PROFILE_ITEM item = list.get(i);
@@ -84,8 +97,9 @@ public class Areadapter extends BaseAdapter {
 
 
     class ViewHolder {
-        TextView txt_name;
-        ImageView img_icon;
+        TextView     txt_name;
+        ImageView    img_icon;
+        LinearLayout ll_bg;
 
     }
 }

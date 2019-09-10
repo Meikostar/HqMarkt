@@ -21,13 +21,13 @@
     <permission
         android:name="com.hqmy.market.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.zhangjiajie.love.permission.MIPUSH_RECEIVE" />
+    <uses-permission android:name="com.hqmy.market.permission.MIPUSH_RECEIVE" />
     <!-- ⼩米 配置结束  -->
     <!-- GCM 配置开始  -->
     <permission
         android:name="com.hqmy.market.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.zhangjiajie.love.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.hqmy.market.permission.C2D_MESSAGE" />
     <!-- GCM 配置结束  -->
     <!-- 华为 配置开始 -->
     <!--检测网络状态-->
@@ -45,7 +45,7 @@
     <permission
         android:name="com.hqmy.market.push.permission.MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.zhangjiajie.love.push.permission.MESSAGE" />
+    <uses-permission android:name="com.hqmy.market.push.permission.MESSAGE" />
     <!-- 兼容 flyme3.0 配置权限-->
     <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
     <!-- MeiZu 配置结束  -->
@@ -100,13 +100,15 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
                 <action android:name="android.intent.action.VIEW" />
                 <!--配置聚合会话列表-->
                 <data
-                    android:host="com.zhangjiajie.love"
+                    android:host="com.hqmy.market"
                     android:pathPrefix="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
+
         </activity>
         <activity
             android:name="com.hqmy.market.view.mainfragment.consume.LoveFactoryActivity"
@@ -132,6 +134,10 @@
         <activity
             android:name=".view.activity.HotActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.ConturyDetialActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".view.activity.ConturyActivity"
             android:screenOrientation="portrait" />
@@ -358,7 +364,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
-                    android:host="com.zhangjiajie.love"
+                    android:host="com.hqmy.market"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
@@ -632,6 +638,10 @@
             android:name="com.hqmy.market.view.activity.MyQRcodeActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.hqmy.market.view.activity.PaySuccessActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.hqmy.market.view.activity.MyOrderEvaluateSuccessActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -702,5 +712,41 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/rc_file_path" />
         </provider>
+
+
+        <!--微信分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- 支付宝H5页面 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="ALiPayActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <!--支付宝支付页面-->
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- 微信支付回调 -->
+        <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleTranslucentTheme" />
     </application>
 </manifest>

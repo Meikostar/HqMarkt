@@ -80,6 +80,7 @@ import com.hqmy.market.bean.UrlInfoDto;
 import com.hqmy.market.bean.UserInfoDto;
 import com.hqmy.market.bean.VideoBean;
 import com.hqmy.market.bean.VideoLiveBean;
+import com.hqmy.market.bean.WEIXINREQ;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.LogUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
@@ -659,6 +660,12 @@ public class DataManager {
         subscribe(observable, observer);
     }
 
+    public void getBrandsByCate(DefaultSingleObserver<HttpResult<List<AreaDto>>> observer,String id) {
+        Single<HttpResult<List<AreaDto>>> observable = retrofitService.getBrandsByCate(id)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
     /**
      * 广告(公用)
      */
@@ -821,6 +828,11 @@ public class DataManager {
         subscribe(observable, observer);
     }
 
+    public void findGussGoodLists(DefaultSingleObserver<HttpResult<List<NewListItemDto>>> observer, String mall_type, Map<String, String> map) {
+        Single<HttpResult<List<NewListItemDto>>> observable = retrofitService.findGussGoodLists( map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
 
     /**
      * 首页大牌好货
@@ -1688,6 +1700,27 @@ public class DataManager {
      */
     public void addPraise(DefaultSingleObserver<HttpResult<Object>> observer, Map<String, Object> map) {
         Single<HttpResult<Object>> observable = retrofitService.addPraise(getToken(), map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+
+
+    /**
+     * wx
+     */
+    public void submitWxOrder(DefaultSingleObserver<HttpResult<WEIXINREQ>> observer, Map<String, String> map) {
+        Single<HttpResult<WEIXINREQ>> observable = retrofitService.submitWxOrder(getToken(), map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+
+    /**
+     * zfb
+     */
+    public void submitZfbOrder(DefaultSingleObserver<HttpResult<String>> observer, Map<String, String> map) {
+        Single<HttpResult<String>> observable = retrofitService.submitZfbOrder(getToken(), map)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }

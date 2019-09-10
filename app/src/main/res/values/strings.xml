@@ -23,5 +23,8 @@
 
     <string name="flash_light_on">ON</string>
     <string name="flash_light_off">OFF</string>
-
+    <string name="errcode_success">分享成功</string>
+    <string name="errcode_cancel">分享取消</string>
+    <string name="errcode_deny">分享被拒绝</string>
+    <string name="errcode_unknown">分享返回</string>
 </resources>

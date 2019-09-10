@@ -7,7 +7,7 @@ import java.util.List;
  * Created by rzb on 2019/6/18.
  */
 public class ShopCartInfoDto implements Serializable {
-     private List<ShopCartListDto> shops;
+     public List<ShopCartListDto> shops;
      private String                total;
      private String                score_total;
      private String                count;

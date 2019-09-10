@@ -33,7 +33,7 @@ public class ShareUtil {
 
     private static ShareUtil shareUtil;
     private static SharedPreferences sharedPreferences;
-    public static final String FILENAME = "com.zhangjiajie.love";
+    public static final String FILENAME = "com.hqmy.market";
 
     /**
      * --------------------------设备相关相关------------------------------------

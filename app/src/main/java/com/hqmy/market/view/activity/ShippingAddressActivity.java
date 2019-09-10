@@ -45,9 +45,10 @@ public class ShippingAddressActivity extends BaseActivity {
     public int getLayoutId() {
         return R.layout.activity_shipping_address;
     }
-
+     private int tag;
     @Override
     public void initView() {
+        tag=getIntent().getIntExtra("tag",0);
         mTitleText.setText("收货地址");
     }
 
@@ -95,6 +96,28 @@ public class ShippingAddressActivity extends BaseActivity {
     private void initListView() {
 
         mAddressAdapter = new ShippingAddressAdapter(this, mAddressDatas);
+        mAddressAdapter.setItemClickListener(new ShippingAddressAdapter.OnItemClickListeners() {
+            @Override
+            public void itemClick(AddressDto addressDto) {
+                if(tag==1){
+
+                    Intent intent = new Intent();
+                    intent.putExtra("result", addressDto);
+                    ShippingAddressActivity.this.setResult(RESULT_OK, intent);
+                    //关闭Activity
+                    ShippingAddressActivity.this.onBackPressed();
+                }else {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("address",addressDto);
+
+                    Intent intent = new Intent(ShippingAddressActivity.this, AddShippingAddressActivity.class);
+                    intent.putExtras(bundle);
+                   startActivity(intent);
+                }
+
+            }
+        });
         mListView.setAdapter(mAddressAdapter);
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {

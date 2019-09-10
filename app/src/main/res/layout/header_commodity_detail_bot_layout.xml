@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/header_commodity_detail_bottom_layout"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="51dp"
     android:layout_alignParentBottom="true"
     android:background="@color/my_color_white"
     android:gravity="center_vertical"
     android:orientation="horizontal">
     
     <RelativeLayout
+
         android:id="@+id/layout_shop"
         android:layout_width="0dp"
         android:layout_weight="0.75"
@@ -36,17 +37,17 @@
 
     <RelativeLayout
         android:id="@+id/layout_save"
-        android:layout_width="0dp"
-        android:layout_weight="0.75"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
         <ImageView
+            android:layout_marginLeft="18dp"
             android:id="@+id/iv_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/bj_20dp"
+            android:layout_height="19dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/bj_5dp"
-            android:src="@mipmap/ic_product_save"/>
+            android:src="@drawable/ic_collect_n"/>
         <TextView
             android:id="@+id/tv_save"
             android:layout_width="wrap_content"
@@ -55,24 +56,50 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/bj_5dp"
             android:text="收藏"
-            android:textColor="@color/my_color_black"
+            android:textColor="#797979"
             android:textSize="@dimen/wz_12sp"/>
     </RelativeLayout>
-
     <RelativeLayout
-        android:id="@+id/layout_service"
-        android:layout_width="0dp"
-        android:layout_weight="0.75"
+        android:id="@+id/rl_car"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
         <ImageView
-            android:id="@+id/iv_service"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:id="@+id/iv_car"
+            android:layout_width="@dimen/bj_21dp"
+            android:layout_height="@dimen/bj_18dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/bj_5dp"
-            android:src="@mipmap/ic_chat"/>
+            android:src="@drawable/icon_cart"/>
         <TextView
+            android:id="@+id/tv_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/bj_5dp"
+            android:text="购物车"
+            android:textColor="#797979"
+            android:textSize="@dimen/wz_12sp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginRight="3dp"
+        android:id="@+id/layout_service"
+        android:layout_width="wrap_content"
+
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_marginRight="29dp"
+            android:id="@+id/iv_service"
+            android:layout_width="@dimen/bj_20dp"
+            android:layout_height="@dimen/bj_20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/bj_5dp"
+            android:src="@drawable/icon_service"/>
+        <TextView
+            android:layout_marginLeft="25dp"
             android:id="@+id/tv_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,10 +107,19 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/bj_5dp"
             android:text="客服"
-            android:textColor="@color/my_color_black"
+            android:textColor="#797979"
             android:textSize="@dimen/wz_12sp"/>
     </RelativeLayout>
-    
+    <TextView
+        android:id="@+id/tv_add_cart"
+        android:layout_width="@dimen/bj_0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:background="#404040"
+        android:gravity="center"
+        android:text="加入购物车"
+        android:textColor="@color/my_color_white"
+        android:textSize="@dimen/wz_17sp" />
     <TextView
         android:id="@+id/tv_shop_cart_submit"
         android:layout_width="@dimen/bj_0dp"
@@ -91,7 +127,7 @@
         android:layout_weight="1.5"
         android:background="@color/my_color_E10020"
         android:gravity="center"
-        android:text="加入购物车"
+        android:text="立即购买"
         android:textColor="@color/my_color_white"
         android:textSize="@dimen/wz_17sp" />
 </LinearLayout>

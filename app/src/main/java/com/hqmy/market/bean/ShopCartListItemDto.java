@@ -2,22 +2,24 @@ package com.hqmy.market.bean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rzb on 2019/6/18.
  */
 public class ShopCartListItemDto implements Serializable {
-     private String rowId;
-     private String id;
-     private String name;
-     private String qty;
-     private String price;
-     private String sku_id;
-     private String shop_id;
-     private String cover;
-     private String score;
-     private List<String> ext;
-     private boolean isSelect; //是否选中
+     private String             rowId;
+     private String             id;
+     private String             name;
+     private String             qty;
+     private String             price;
+     private String             sku_id;
+     private String             shop_id;
+     private String             cover;
+     private String             score;
+     public  Map<String,String> options;
+     private List<String>       ext;
+     private boolean            isSelect; //是否选中
 
      public String getRowId() {
           return rowId;

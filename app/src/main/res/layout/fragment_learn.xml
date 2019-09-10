@@ -1,35 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical">
-
-    <View
-        android:id="@+id/view_state"
+    android:background="@color/my_color_F5F5F5">
+    <LinearLayout
+        android:id="@+id/cart_layout_top"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:background="@color/my_color_FFFFFF">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="24dp"
+            android:layout_height="@dimen/bj_50dp">
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_shop_crat_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/arrow_topbar" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="购物车"
+                android:textColor="@color/my_color_333333"
+                android:textSize="@dimen/wz_18sp" />
+            <TextView
+                android:id="@+id/tv_title_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/bj_10dp"
+                android:text="编辑"
+                android:textColor="#ff666666"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_5dp"
+            android:background="@color/my_color_F5F5F5"/>
 
-    <com.flyco.tablayout.SlidingTabLayout
-        android:id="@+id/stl_learn_indicator"
+    </LinearLayout>
+    <com.hqmy.market.view.widgets.autoview.ObservableScrollView
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#FFFFFF"
-        android:paddingLeft="@dimen/bj_20dp"
-        android:paddingRight="@dimen/bj_20dp"
-        android:layout_marginBottom="8dp"
-        tl:tl_indicator_color="#E10020"
-        tl:tl_indicator_height="1.5dp"
-        tl:tl_indicator_width_equal_title="true"
-        tl:tl_tab_padding="0dp"
-        tl:tl_tab_space_equal="true"
-        tl:tl_textSelectColor="#ff333333"
-        tl:tl_textUnselectColor="#ff999999"
-        tl:tl_textsize="17sp" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_learn_container"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cart_layout_top"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:layout_above="@id/rl_shop_cart_bottom"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.hqmy.market.view.widgets.autoview.MaxRecyclerView
+                android:id="@+id/recy_shop_cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"/>
+        </LinearLayout>
+    </com.hqmy.market.view.widgets.autoview.ObservableScrollView>
+    <RelativeLayout
+        android:id="@+id/rl_shop_cart_bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="@dimen/bj_45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/my_color_white">
+        <CheckBox
+            android:id="@+id/cb_shop_cart_all_sel"
+            style="@style/checkbox.theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:padding="@dimen/bj_5dp"
+            android:text="全选"
+            android:textColor="@color/my_color_333333"
+            android:textSize="@dimen/wz_15sp" />
+        <TextView
+            android:id="@+id/cb_shop_cart_price_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/cb_shop_cart_all_sel"
+            android:textColor="@color/my_color_333333"
+            android:textSize="@dimen/wz_15sp" />
+        <TextView
+            android:id="@+id/cb_shop_cart_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/cb_shop_cart_price_title"
+            android:layout_marginLeft="2dp"
+            android:gravity="center"
+            android:text="00.00"
+            android:textColor="@color/my_color_F32F12"
+            android:textSize="@dimen/wz_15sp" />
+        <TextView
+            android:id="@+id/tv_shop_cart_submit"
+            android:layout_width="@dimen/bj_130dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/my_color_zs"
+            android:gravity="center"
+            android:text="去结算"
+            android:textColor="@color/my_color_white"
+            android:textSize="@dimen/wz_18sp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -38,6 +38,7 @@ import com.hqmy.market.view.adapter.ConsumePushAdapter;
 import com.hqmy.market.view.mainfragment.ConsumeFragment;
 import com.hqmy.market.view.widgets.RecyclerItemDecoration;
 import com.hqmy.market.view.widgets.autoview.ClearEditText;
+import com.hqmy.market.view.widgets.autoview.CustomView;
 import com.hqmy.market.view.widgets.autoview.EmptyView;
 import com.hqmy.market.view.widgets.autoview.MaxRecyclerView;
 import com.hqmy.market.view.widgets.autoview.SuperSwipeRefreshLayout;
@@ -63,9 +64,6 @@ public class BrandShopDetailActivity extends BaseActivity {
     public static final String SHOP_DETAIL_ID = "shop_detail_id";
     public static final String MALL_TYPE      = "mall_type";
 
-
-    @BindView(R.id.header)
-    MaterialHeader          header;
     @BindView(R.id.banner)
     Banner                  banner;
     @BindView(R.id.acb_status_bar)
@@ -103,16 +101,12 @@ public class BrandShopDetailActivity extends BaseActivity {
     ImageView               ivShopProduct4;
     @BindView(R.id.ll_shop_product_4)
     LinearLayout            llShopProduct4;
-    @BindView(R.id.recy_shop_product_list)
-    RecyclerView            consumePushRecy;
-    @BindView(R.id.refreshLayout)
-    SuperSwipeRefreshLayout refreshLayout;
     @BindView(R.id.recycle_mall_like)
-    MaxRecyclerView         recycleMallLike;
+    RecyclerView            consumePushRecy;
     @BindView(R.id.brand_shop_detail_scrollView)
-    NestedScrollView        brandShopDetailScrollView;
+    CustomView              brandShopDetailScrollView;
     @BindView(R.id.brand_shop_detail_srl)
-    SmartRefreshLayout      brandShopDetailSrl;
+    SuperSwipeRefreshLayout      refreshLayout;
 
     private             SwipeRefreshLayoutUtil  mSwipeRefreshLayoutUtil;
     private String id;
@@ -140,6 +134,9 @@ public class BrandShopDetailActivity extends BaseActivity {
                 getStProductList();
             }
         });
+        tvShopProduct1.setSelected(true);
+        tvShopProduct2.setSelected(false);
+        tvShopProduct3.setSelected(false);
     }
 
     @Override
@@ -154,19 +151,22 @@ public class BrandShopDetailActivity extends BaseActivity {
 
         switch (poition) {
             case 1:
+                sortStr="";
                 ivShopProduct3.setTag("select");
                 tvShopProduct1.setSelected(true);
                 tvShopProduct2.setSelected(false);
                 tvShopProduct3.setSelected(false);
-                ivShopProduct3.setImageResource(R.mipmap.shop_product_price_litre);
+                ivShopProduct3.setImageResource(R.mipmap.arrow_defaut);
                 getStProductList();
                 break;
             case 2:
+                sortStr="";
+                isNew=1;
                 ivShopProduct3.setTag("select");
                 tvShopProduct1.setSelected(false);
                 tvShopProduct2.setSelected(true);
                 tvShopProduct3.setSelected(false);
-                ivShopProduct3.setImageResource(R.mipmap.shop_product_price_litre);
+                ivShopProduct3.setImageResource(R.mipmap.arrow_defaut);
                 getStProductList();
 
                 break;
@@ -195,7 +195,7 @@ public class BrandShopDetailActivity extends BaseActivity {
                     data = countOrderBean.getData();
                     if(data!=null){
                         lists.clear();
-                        GlideUtils.getInstances().loadRoundCornerImg(BrandShopDetailActivity.this,ivImg,6,data.logo,R.drawable.moren_product);
+                        GlideUtils.getInstances().loadRoundCornerImg(BrandShopDetailActivity.this,ivImg,3,data.logo,R.drawable.moren_product);
                         if(data.ext!=null&&data.ext.imgs!=null&&data.ext.imgs.size()>0){
                             for(String url:data.ext.imgs){
                                 BannerItemDto dto=new BannerItemDto();
@@ -214,8 +214,8 @@ public class BrandShopDetailActivity extends BaseActivity {
                         }else {
                             attion="0";
                         }
-                        if(TextUtil.isNotEmpty(data.shop_name)){
-                            tvContent.setText(data.shop_name+" | "+attion+"关注");
+                        if(data.category!=null&&data.category.data!=null&&TextUtil.isNotEmpty(data.category.data.title)){
+                            tvContent.setText(data.category.data.title+" | "+attion+"关注");
                         }else {
                             tvContent.setText(attion+"关注");
                         }
@@ -235,9 +235,9 @@ public class BrandShopDetailActivity extends BaseActivity {
 
                             if(TextUtil.isNotEmpty(data.description)){
                                 tv_detail.setText(data.description);
-                                tv_detail.setVisibility(View.GONE);
+                                tv_detail.setVisibility(View.VISIBLE);
                             }else {
-                                tv_detail.setVisibility(View.GONE);
+                                tv_detail.setVisibility(View.VISIBLE);
                             }
 
 
@@ -254,7 +254,7 @@ public class BrandShopDetailActivity extends BaseActivity {
                 dissLoadDialog();
 
             }
-        }, id,"followersCount,isFollowed");
+        }, id,"followersCount,isFollowed,category");
     }
 
 
@@ -285,7 +285,7 @@ public class BrandShopDetailActivity extends BaseActivity {
                 gotoActivity(MessageCenterActivity.class);
             }
         });
-        acbStatusBar.setOnClickListener(new View.OnClickListener() {
+        actionbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -399,9 +399,10 @@ public class BrandShopDetailActivity extends BaseActivity {
     private ConsumePushAdapter mAdapter;
 
     private void postAttention() {
+
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
-        map.put("object", "SMG\\Seller\\Seller");
+        map.put("object", "SMG\\Mall\\Models\\MallBrand");
         DataManager.getInstance().postAttention(new DefaultSingleObserver<HttpResult<Object>>() {
             @Override
             public void onSuccess(HttpResult<Object> o) {
@@ -413,6 +414,7 @@ public class BrandShopDetailActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable throwable) {
+                getShopDetailInfo();
                 if (ApiException.getInstance().isSuccess()) {
                     ToastUtil.toast("关注成功");
                     isFollow = true;
@@ -429,7 +431,7 @@ public class BrandShopDetailActivity extends BaseActivity {
     private void deleteAttention() {
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
-        map.put("object", "SMG\\Seller\\Seller");
+        map.put("object", "SMG\\Mall\\Models\\MallBrand");
         DataManager.getInstance().deleteAttention(new DefaultSingleObserver<HttpResult<Object>>() {
             @Override
             public void onSuccess(HttpResult<Object> o) {
@@ -441,10 +443,11 @@ public class BrandShopDetailActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable throwable) {
+                getShopDetailInfo();
                 if (ApiException.getInstance().isSuccess()) {
                     ToastUtil.toast("取消关注成功");
                     isFollow = false;
-                    tvShopFollow.setText("+关注店铺");
+//                    tvShopFollow.setText("+关注店铺");
                 } else {
                     ToastUtil.toast("取消关注失败");
                 }
@@ -453,13 +456,18 @@ public class BrandShopDetailActivity extends BaseActivity {
     }
     private String sortStr;
     private int mPage;
+    private int isNew;
     private void getStProductList() {
         showLoadDialog();
         HashMap<String, String> map = new HashMap<>();
         map.put("filter[brand_id]", id);
         map.put("page", mPage + "");
 
-        map.put("filter[is_new]", 1 + "");
+
+        if(isNew!=0){
+            isNew=0;
+            map.put("filter[is_new]", 1 + "");
+        }
         if (!TextUtils.isEmpty(sortStr)) {
             map.put("sort[]", sortStr);
         }

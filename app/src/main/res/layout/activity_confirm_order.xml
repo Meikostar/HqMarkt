@@ -57,11 +57,14 @@
                android:layout_height="wrap_content"
                android:orientation="vertical">
             <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_address"
                android:layout_width="match_parent"
-               android:layout_height="wrap_content"
+               android:layout_height="70dp"
                android:paddingTop="@dimen/bj_10dp"
                android:paddingBottom="@dimen/bj_10dp">
                <ImageView
+                   android:layout_marginBottom="5dp"
                    android:id="@+id/iv_order_location"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
@@ -119,14 +122,53 @@
                      android:textSize="14sp" />
                    </LinearLayout>
                 </RelativeLayout>
+               <LinearLayout
+                   android:id="@+id/ll_address"
+                   android:background="@color/white"
+                   android:gravity="center"
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/bj_90dp"
+                   android:orientation="vertical">
+                   <ImageView
+                       android:layout_marginRight="6dp"
+                       android:layout_width="@dimen/bj_57dp"
+                       android:layout_height="@dimen/bj_39dp"
+                       android:background="@mipmap/address_add"/>
+                   <LinearLayout
+                       android:layout_marginTop="@dimen/bj_10dp"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_centerVertical="true"
+                           android:layout_marginLeft="@dimen/bj_15dp"
+                           android:text="暂无联系地址, 请"
+                           android:textColor="@color/my_color_999999"
+                           android:textSize="@dimen/wz_12sp" />
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_centerVertical="true"
+                           android:layout_marginLeft="@dimen/bj_5dp"
+                           android:text="添加地址"
+
+                           android:textColor="@color/my_color_F32F12"
+                           android:textSize="@dimen/wz_12sp" />
+                   </LinearLayout>
+               </LinearLayout>
                 <View
                    android:layout_width="match_parent"
-                   android:layout_height="@dimen/bj_5dp"
+                   android:layout_height="@dimen/bj_10dp"
                    android:background="@color/my_color_F5F5F5"/>
                 <com.hqmy.market.view.widgets.autoview.MaxRecyclerView
                    android:id="@+id/recycle_confirm_order"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
+                    android:background="@color/my_color_F5F5F5"
+                    android:layout_marginBottom="@dimen/bj_40dp"
                    android:focusable="true"/>
               </LinearLayout>
         </com.hqmy.market.view.widgets.autoview.ObservableScrollView>
@@ -141,9 +183,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/cb_shop_cart_all_sel"
-            android:drawableRight="@mipmap/home_gold"
             android:drawablePadding="@dimen/bj_5dp"
             android:text="合计:"
             android:textColor="@color/my_color_333333"
@@ -161,10 +200,10 @@
             android:textSize="@dimen/wz_15sp" />
         <TextView
             android:id="@+id/tv_shop_cart_submit"
-            android:layout_width="@dimen/bj_130dp"
+            android:layout_width="@dimen/bj_120dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:background="@color/my_color_F32F12"
+            android:background="@color/my_color_zs"
             android:gravity="center"
             android:text="提交订单"
             android:textColor="@color/my_color_white"

@@ -17,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hqmy.market.utils.TextUtil;
 import com.lwkandroid.imagepicker.utils.BroadcastManager;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
@@ -169,16 +170,19 @@ public class SelectCityActivity extends BaseActivity {
             vh.head_home_change_city_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if(fromStr.equals("entityStore")){
-                        Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
-                        intent.putExtra("city", hList.get(position).getName());
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }else {
-                        String cityName = hList.get(position).getName();
-                        BroadcastManager.getInstance(SelectCityActivity.this).sendBroadcast(Constants.CHOICE_CITY, cityName);
-                        finish();
+                    if(TextUtil.isNotEmpty(fromStr)){
+                        if(fromStr.equals("entityStore")){
+                            Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
+                            intent.putExtra("city", hList.get(position).getName());
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }else {
+                            String cityName = hList.get(position).getName();
+                            BroadcastManager.getInstance(SelectCityActivity.this).sendBroadcast(Constants.CHOICE_CITY, cityName);
+                            finish();
+                        }
                     }
+
                 }
             });
             vh.item_header_city_dw.setOnClickListener(new View.OnClickListener() {

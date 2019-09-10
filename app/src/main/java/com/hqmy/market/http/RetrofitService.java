@@ -79,6 +79,7 @@ import com.hqmy.market.bean.UrlInfoDto;
 import com.hqmy.market.bean.UserInfoDto;
 import com.hqmy.market.bean.VideoBean;
 import com.hqmy.market.bean.VideoLiveBean;
+import com.hqmy.market.bean.WEIXINREQ;
 import com.hqmy.market.http.response.HttpResult;
 
 import java.util.ArrayList;
@@ -378,6 +379,9 @@ public interface RetrofitService {
     @GET("api/package/category_new/brand/categories")
     Single<HttpResult<List<AreaDto>>> getCategorisContury();
 
+
+    @GET("api/package/mall/default/brands")
+    Single<HttpResult<List<AreaDto>>> getBrandsByCate(@Query("filter[category_id]") String id);
     /**
      * 广告(共用)
      */
@@ -484,6 +488,9 @@ public interface RetrofitService {
      */
     @GET("api/package/mall/{mall_type}/products")
     Single<HttpResult<List<NewListItemDto>>> findHomeGoodLists(@Path("mall_type") String mall_type, @QueryMap Map<String, String> map);
+
+    @GET("api/package/mall/default/products/guess_like")
+    Single<HttpResult<List<NewListItemDto>>> findGussGoodLists( @QueryMap Map<String, String> map);
 
     /**
      * 发现好货
@@ -1136,6 +1143,19 @@ public interface RetrofitService {
      */
     @DELETE("api/user/likes")
     Single<HttpResult<Object>> canclePraise(@Header("Authorization") String token, @QueryMap Map<String, Object> map);
+
+    /**
+     * 支付wx
+     */
+    @POST("api/package/pay/union")
+    Single<HttpResult<WEIXINREQ>> submitWxOrder(@Header("Authorization") String token, @QueryMap Map<String, String> map);
+
+
+    /**
+     * 支付zfb
+     */
+    @POST("api/package/pay/union")
+    Single<HttpResult<String>> submitZfbOrder(@Header("Authorization") String token, @QueryMap Map<String, String> map);
 
     /**
      * 获取用户详情

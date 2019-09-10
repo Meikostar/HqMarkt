@@ -69,19 +69,22 @@ public class ShippingAddressAdapter extends BaseSwipListAdapter {
         holder.mAddressContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddressDto addressDto = data.get(position);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("address",addressDto);
+                if(mListeners!=null){
+                    mListeners.itemClick(data.get(position));
+                }
 
-                Intent intent = new Intent(mContext, AddShippingAddressActivity.class);
-                intent.putExtras(bundle);
-                mContext.startActivity(intent);
             }
         });
 
         return view;
     }
-
+    public interface OnItemClickListeners{
+        void itemClick(AddressDto addressDto);
+    }
+    private OnItemClickListeners mListeners;
+    public void setItemClickListener(OnItemClickListeners listener){
+        mListeners=listener;
+    }
     static class ViewHolder {
         @BindView(R.id.rl_address_container)
         RelativeLayout mAddressContainer;

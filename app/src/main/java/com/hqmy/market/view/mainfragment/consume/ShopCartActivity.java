@@ -44,10 +44,7 @@ public class ShopCartActivity extends BaseActivity {
     TextView        tv_title_right;
     @BindView(R.id.recy_shop_cart)
     MaxRecyclerView shopCartRecyclerView;
-    @BindView(R.id.rb_cart_factory)
-    RadioButton     rb_cart_factory;
-    @BindView(R.id.rb_cart_mall)
-    RadioButton     rb_cart_mall;
+
     @BindView(R.id.tv_shop_cart_submit)
     TextView        tv_shop_cart_submit;
     @BindView(R.id.cb_shop_cart_all_sel)
@@ -89,13 +86,7 @@ public class ShopCartActivity extends BaseActivity {
     @Override
     public void initData() {
         getAddressListData();
-        if(strMallType.equals("gc")){
-            rb_cart_factory.setChecked(true);
-            rb_cart_mall.setChecked(false);
-        }else if(strMallType.equals("lm")){
-            rb_cart_factory.setChecked(false);
-            rb_cart_mall.setChecked(true);
-        }
+
         if (again){
             again();
         }else {
@@ -119,14 +110,7 @@ public class ShopCartActivity extends BaseActivity {
                 tv_shop_cart_submit.setText("去结算");
             }
         });
-        bindClickEvent(rb_cart_factory, () -> {
-            findShoppingCartList("gc");
-            strMallType = "gc";
-        });
-        bindClickEvent(rb_cart_mall, () -> {
-            findShoppingCartList("lm");
-            strMallType = "lm";
-        });
+
 
         shopCartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override

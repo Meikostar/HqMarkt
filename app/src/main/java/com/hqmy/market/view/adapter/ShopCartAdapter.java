@@ -28,7 +28,7 @@ import java.util.Set;
  * Created by rzb on 2019/6/19
  */
 public class ShopCartAdapter extends BaseQuickAdapter<ShopCartListDto, BaseViewHolder> {
-    private Set<ShopCartListItemDto> selectList = new HashSet<>();//被选中的资源
+    public Set<ShopCartListItemDto> selectList = new HashSet<>();//被选中的资源
     private UpdateBottomListener mUpdateBottomListener;
     private RefreshListsListener  mRefreshListsListener;
     private String mallType = null;
@@ -63,16 +63,7 @@ public class ShopCartAdapter extends BaseQuickAdapter<ShopCartListDto, BaseViewH
                 CheckBox checkBox = view.findViewById(R.id.cb_item_shop_cart);
                 TextView tvCount = view.findViewById(R.id.count);
                 switch (view.getId()) {
-                    case R.id.tv_item_shop_cart_delete:
-                        if (shopCartListItemDto.getSku_id() != null) {
-                            delShoppingCart(shopCartListItemDto.getRowId());
-                        }
-                        break;
-                    case R.id.tv_item_shop_cart_save:
-                        if (shopCartListItemDto.getSku_id() != null) {
-                            addFavorites(shopCartListItemDto.getId());
-                        }
-                        break;
+
                     case R.id.increase:
                         setCommodityCountIncrease(shopCartItemAdapter, shopCartListItemDto);
                         updateBottomView(selectList);
@@ -85,13 +76,16 @@ public class ShopCartAdapter extends BaseQuickAdapter<ShopCartListDto, BaseViewH
                         if (!checkBox.isChecked()) {
                             shopCartListItemDto.setSelect(false);
                             selectList.remove(shopCartListItemDto);
+
                         } else {
                             shopCartListItemDto.setSelect(true);
                             selectList.add(shopCartListItemDto);
                         }
-                        shopCartItemAdapter.notifyDataSetChanged();
-                        updateCheckState(selectList, item);
+
+                        updateCheckState( item);
                         updateBottomView(selectList);
+                        notifyDataSetChanged();
+                        shopCartItemAdapter.notifyDataSetChanged();
                         break;
                 }
             }
@@ -121,20 +115,19 @@ public class ShopCartAdapter extends BaseQuickAdapter<ShopCartListDto, BaseViewH
         modifyShoppingCart(item.getRowId(), String.valueOf(count));
     }
 
-    private void updateCheckState(Set<ShopCartListItemDto> selectList, ShopCartListDto shopCartListDto) {
-        List<ShopCartListItemDto> sList = new ArrayList();
-        for (ShopCartListItemDto scDto : selectList) {
-            if (scDto.getShop_id().equals(shopCartListDto.getShop_id())) {
-                sList.add(scDto);
-            }
-        }
-        if (sList.size() == Integer.valueOf(shopCartListDto.getCount())) {
-            shopCartListDto.setSelect(true);
-            notifyDataSetChanged();
-        } else {
-            shopCartListDto.setSelect(false);
-            notifyDataSetChanged();
-        }
+    private void updateCheckState( ShopCartListDto shopCartListDto) {
+        int cout=0;
+
+      for(ShopCartListItemDto dto:shopCartListDto.getProducts()){
+          if(dto.isSelect()){
+              ++cout;
+          }
+      }
+      if(cout==shopCartListDto.getProducts().size()){
+          shopCartListDto.setSelect(true);
+      }else {
+          shopCartListDto.setSelect(false);
+      }
     }
 
     /**
@@ -156,25 +149,25 @@ public class ShopCartAdapter extends BaseQuickAdapter<ShopCartListDto, BaseViewH
      * 删除购物车商品
      */
     private void delShoppingCart(String rowStr) {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("rows", rowStr);
-        DataManager.getInstance().delShoppingCart(new DefaultSingleObserver<HttpResult<Object>>() {
-            @Override
-            public void onSuccess(HttpResult<Object> httpResult) {
-                ToastUtil.showToast("删除商品成功");
-                refreshList(true);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                if (ApiException.getInstance().isSuccess()) {
-                    ToastUtil.showToast("删除商品成功");
-                    refreshList(true);
-                } else {
-                    ApiException.getHttpExceptionMessage(throwable);
-                }
-            }
-        }, mallType, map);
+//        HashMap<String, String> map = new HashMap<String, String>();
+//        map.put("rows", rowStr);
+//        DataManager.getInstance().delShoppingCart(new DefaultSingleObserver<HttpResult<Object>>() {
+//            @Override
+//            public void onSuccess(HttpResult<Object> httpResult) {
+//                ToastUtil.showToast("删除商品成功");
+//                refreshList(true);
+//            }
+//
+//            @Override
+//            public void onError(Throwable throwable) {
+//                if (ApiException.getInstance().isSuccess()) {
+//                    ToastUtil.showToast("删除商品成功");
+//                    refreshList(true);
+//                } else {
+//                    ApiException.getHttpExceptionMessage(throwable);
+//                }
+//            }
+//        }, mallType, map);
     }
 
     /**

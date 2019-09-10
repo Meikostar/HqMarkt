@@ -18,7 +18,7 @@ import com.hqmy.market.common.utils.LogUtil;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.manager.DataManager;
-import com.hqmy.market.http.response.HttpResult;
+
 import com.hqmy.market.utils.ShareUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;

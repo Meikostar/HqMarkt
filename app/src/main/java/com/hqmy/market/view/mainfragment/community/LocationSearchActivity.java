@@ -1,4 +1,4 @@
-//package com.zhangjiajie.love.view.mainfragment.community;
+//package com.hqmy.market.view.mainfragment.community;
 //
 //import android.content.Context;
 //import android.location.LocationManager;
@@ -21,10 +21,10 @@
 //import com.amap.api.services.poisearch.PoiResult;
 //import com.amap.api.services.poisearch.PoiSearch;
 //
-//import com.zhangjiajie.love.R;
-//import com.zhangjiajie.love.base.BaseActivity;
-//import com.zhangjiajie.love.bean.LocationAddressInfo;
-//import com.zhangjiajie.love.view.adapter.LocationListAdapter;
+//import com.hqmy.market.R;
+//import com.hqmy.market.base.BaseActivity;
+//import com.hqmy.market.bean.LocationAddressInfo;
+//import com.hqmy.market.view.adapter.LocationListAdapter;
 //
 //import java.text.SimpleDateFormat;
 //import java.util.ArrayList;

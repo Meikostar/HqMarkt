@@ -2,15 +2,17 @@ package com.hqmy.market.bean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rzb on 2019/6/18.
  */
 public class ShopCartListDto implements Serializable {
-     private List<ShopCartListItemDto> products;
+     public List<ShopCartListItemDto> products;
      private String count;
      private String shop_name;
      private String shop_id;
+
      private boolean isSelect; //是否选中
 
      public List<ShopCartListItemDto> getProducts() {

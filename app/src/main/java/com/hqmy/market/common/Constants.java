@@ -26,6 +26,9 @@ public class Constants {
      * 请求http网络图片前缀url 银行卡
      */
     public static final String WEB_IMG_URL_CID = BASE_URL;
+    public static final String WX_APP_ID = "wx3d60d453e26acc76";
+    public static final String WX_LOGIN_BROADCAST = "wx_login_broadcast";
+    public static final String INTENT_CODE = "code";
     /**
      * 保存本地图片基地址
      */
@@ -83,7 +86,7 @@ public class Constants {
      * 用户密码
      */
     public final static String USER_PASSWORD  = "user_password";
-
+    public static final int INTENT_REQUESTCODE_SEL_ADDRESS = 120;
     /**
      * 全部订单
      */

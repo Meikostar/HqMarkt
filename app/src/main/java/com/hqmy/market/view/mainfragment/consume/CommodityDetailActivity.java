@@ -1,23 +1,31 @@
 package com.hqmy.market.view.mainfragment.consume;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
 import com.hqmy.market.bean.BannerItemDto;
 import com.hqmy.market.bean.CommentDto;
 import com.hqmy.market.bean.CommodityDetailInfoDto;
+import com.hqmy.market.common.Constants;
+import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.LogUtil;
+import com.hqmy.market.common.utils.ScreenSizeUtil;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.common.utils.WebViewUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
@@ -25,6 +33,9 @@ import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.utils.TextUtil;
+import com.hqmy.market.view.MainActivity;
+import com.hqmy.market.view.activity.ConturyActivity;
 import com.hqmy.market.view.activity.LoginActivity;
 import com.hqmy.market.view.adapter.CommodityCommentImageAdapter;
 import com.hqmy.market.view.adapter.LoopViewPagerAdapter;
@@ -32,6 +43,9 @@ import com.hqmy.market.view.mainfragment.chat.ConversationActivity;
 import com.hqmy.market.view.widgets.ShopProductTypeDialog;
 import com.hqmy.market.view.widgets.dialog.ShareModeDialog;
 import com.hqmy.market.view.widgets.ratingbar.BaseRatingBar;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,76 +54,119 @@ import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 商品详细
  * Created by rzb on 2019/05/20
  */
 public class CommodityDetailActivity extends BaseActivity implements BaseActivity.PermissionsListener {
-    private static final String TAG = CommodityDetailActivity.class.getSimpleName();
-    public static final String PRODUCT_ID = "product_id";
-    public static final String MALL_TYPE = "mall_type";
-    public static final String FROM = "from";
+    private static final String TAG        = CommodityDetailActivity.class.getSimpleName();
+    public static final  String PRODUCT_ID = "product_id";
+    public static final  String MALL_TYPE  = "mall_type";
+    public static final  String FROM       = "from";
+    @BindView(R.id.iv_shop)
+    ImageView      ivShop;
+    @BindView(R.id.tv_shop)
+    TextView       tvShop;
+    @BindView(R.id.iv_car)
+    ImageView      ivCar;
+    @BindView(R.id.tv_car)
+    TextView       tvCar;
+    @BindView(R.id.rl_car)
+    RelativeLayout rlCar;
+    @BindView(R.id.iv_service)
+    ImageView      ivService;
+    @BindView(R.id.tv_service)
+    TextView       tvService;
+    @BindView(R.id.header_commodity_detail_bottom_layout)
+    LinearLayout   headerCommodityDetailBottomLayout;
+
+    @BindView(R.id.fl_line)
+    FrameLayout    flLine;
+    @BindView(R.id.ll_money)
+    LinearLayout   llMoney;
+    @BindView(R.id.ll_commodity_comments)
+    RelativeLayout llCommodityComments;
+    @BindView(R.id.iv_image)
+    ImageView      ivImage;
+    @BindView(R.id.tv_name)
+    TextView       tvName;
+    @BindView(R.id.tv_cout)
+    TextView       tvCout;
+    @BindView(R.id.ll_brank)
+    LinearLayout   llBrank;
+    @BindView(R.id.iv_left)
+    ImageView      ivLeft;
+    @BindView(R.id.iv_right)
+    ImageView      ivRight;
+    @BindView(R.id.mall_iv_back)
+    ImageView      mallIvBack;
+    @BindView(R.id.topLayout)
+    LinearLayout   topLayout;
     private String product_id;
     private String mall_type;
 
     @BindView(R.id.layout_back)
-    LinearLayout layout_back;
+    LinearLayout   layout_back;
     @BindView(R.id.tv_commodity_info_title)
-    TextView tv_commodity_info_title;
+    TextView       tv_commodity_info_title;
     @BindView(R.id.tv_commodity_info_market_price)
-    TextView tv_commodity_info_market_price;
+    TextView       tv_commodity_info_market_price;
     @BindView(R.id.tv_commodity_info_price)
-    TextView tv_commodity_info_price;
+    TextView       tv_commodity_info_price;
     @BindView(R.id.tv_commodity_info_courier)
-    TextView tv_commodity_info_courier;
+    TextView       tv_commodity_info_courier;
     @BindView(R.id.tv_commodity_info_from)
-    TextView tv_commodity_info_from;
+    TextView       tv_commodity_info_from;
     @BindView(R.id.tv_commodity_info_weight)
-    TextView tv_commodity_info_weight;
+    TextView       tv_commodity_info_weight;
     @BindView(R.id.tv_item_consume_push_comments)
-    TextView tv_item_consume_push_comments;
+    TextView       tv_item_consume_push_comments;
     @BindView(R.id.tv_item_consume_push_comments_scale)
-    TextView tv_item_consume_push_comments_scale;
+    TextView       tv_item_consume_push_comments_scale;
     @BindView(R.id.webView_commodity)
-    WebView webView;
-    @BindView(R.id.commodity_detail_banner_vp_container)
-    ViewPager banner_vp_container;
-    @BindView(R.id.commodity_detail_banner_ll_indicators)
-    LinearLayout banner_ll_indicators;
+    WebView        webView;
+    @BindView(R.id.banner)
+    Banner         banner;
     @BindView(R.id.layout_service)
     RelativeLayout layout_service;
     @BindView(R.id.layout_save)
     RelativeLayout layout_save;
     @BindView(R.id.iv_save)
-    ImageView iv_save;
+    ImageView      iv_save;
     @BindView(R.id.tv_save)
-    TextView tv_save;
+    TextView       tv_save;
     @BindView(R.id.layout_shop)
     RelativeLayout layout_shop;
     @BindView(R.id.tv_shop_cart_submit)
-    TextView tv_shop_cart_submit;
+    TextView       tv_shop_cart_submit;
+    @BindView(R.id.tv_add_cart)
+    TextView       tv_add_cart;
     @BindView(R.id.ll_evaluate_view)
-    LinearLayout ll_evaluate_view;
+    LinearLayout   ll_evaluate_view;
     @BindView(R.id.tv_commodity_comments_name)
-    TextView tv_commodity_comments_name;
+    TextView       tv_commodity_comments_name;
     @BindView(R.id.tv_commodity_comments_msg)
-    TextView tv_commodity_comments_msg;
+    TextView       tv_commodity_comments_msg;
     @BindView(R.id.ll_evaluate_view_notice)
     RelativeLayout ll_evaluate_view_notice;
     @BindView(R.id.ll_no_evaluate)
-    LinearLayout ll_no_evaluate;
+    LinearLayout   ll_no_evaluate;
     @BindView(R.id.rb_evaluate)
-    BaseRatingBar rb_evaluate;
+    BaseRatingBar  rb_evaluate;
     @BindView(R.id.recyclerView_images)
-    RecyclerView recyclerViewImages;
+    RecyclerView   recyclerViewImages;
     @BindView(R.id.tv_min_bug_num)
-    TextView tvMinBugNum;
+    TextView       tvMinBugNum;
     @BindView(R.id.layout_share_product)
-    LinearLayout layout_share_product;
+    LinearLayout   layout_share_product;
+    @BindView(R.id.line)
+    View           line;
+
     private CommodityDetailInfoDto commodityDetailInfoDto;
-    private String isFavorite = "false";//是否收藏
-    private String fromStr;
+    private String                 isFavorite = "false";//是否收藏
+    private String                 fromStr;
 
     @Override
     public int getLayoutId() {
@@ -128,16 +185,16 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             mall_type = bundle.getString(MALL_TYPE);
             fromStr = bundle.getString(FROM);
         }
-        if (fromStr != null) {
-            if (fromStr.equals("consume_home") || fromStr.equals("gc")) {
-                layout_shop.setVisibility(View.VISIBLE);
-            } else {
-                layout_shop.setVisibility(View.GONE);
-            }
-        }
-        if(ShareUtil.getInstance().isLogin()) {
+//        if (fromStr != null) {
+//            if (fromStr.equals("consume_home") || fromStr.equals("gc")) {
+//                layout_shop.setVisibility(View.VISIBLE);
+//            } else {
+//                layout_shop.setVisibility(View.GONE);
+//            }
+//        }
+        if (ShareUtil.getInstance().isLogin()) {
             getGoodsDetailToken(mall_type, product_id);
-        }else{
+        } else {
             getGoodsDetail(mall_type, product_id);
         }
         getCommentsList();
@@ -175,6 +232,40 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             }
         });
 
+        bindClickEvent(rlCar, () -> {
+
+
+            if (ShareUtil.getInstance().isLogin()) {
+                finishAll();
+                Bundle bundle = new Bundle();
+                bundle.putInt(MainActivity.PAGE_INDEX, 2);
+                gotoActivity(MainActivity.class, true, bundle);
+            } else {
+                gotoActivity(LoginActivity.class);
+            }
+        });
+        bindClickEvent(tv_add_cart, () -> {
+            if (ShareUtil.getInstance().isLogin()) {
+                if(commodityDetailInfoDto==null){
+                    return;
+                }
+                ShopProductTypeDialog dialog = new ShopProductTypeDialog(this, commodityDetailInfoDto, commodityDetailInfoDto.getAttrs(),
+                        commodityDetailInfoDto.getCover(), commodityDetailInfoDto.getPrice(), commodityDetailInfoDto.getTitle(),
+                        new ShopProductTypeDialog.ShopProductTypeListener() {
+                            @Override
+                            public void callbackSelect(String stockId, String productId, String countBuy) {
+                                //if(stockId != null) {
+                                addShoppingCart(commodityDetailInfoDto.getType(), stockId, productId, countBuy);
+                                //}else{
+                                //    ToastUtil.showToast("没有库存");
+                                //}
+                            }
+                        }, true);
+                dialog.show();
+            } else {
+                gotoActivity(LoginActivity.class);
+            }
+        });
         bindClickEvent(tv_shop_cart_submit, () -> {
             if (ShareUtil.getInstance().isLogin()) {
                 ShopProductTypeDialog dialog = new ShopProductTypeDialog(this, commodityDetailInfoDto, commodityDetailInfoDto.getAttrs(),
@@ -188,7 +279,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                                 //    ToastUtil.showToast("没有库存");
                                 //}
                             }
-                        }, true);
+                        }, false);
                 dialog.show();
             } else {
                 gotoActivity(LoginActivity.class);
@@ -210,18 +301,17 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                 @Override
                 public void sureItem(int position) {
                     boolean isTimelineCb = false;
-                    String url = "http://ax.jmlax.com/download?mall_type="+mall_type+"&id="+product_id;
+                    String url = "http://ax.jmlax.com/download?mall_type=" + mall_type + "&id=" + product_id;
                     String title = commodityDetailInfoDto.getTitle();
-                    if(position == ShareModeDialog.SHARE_PYQ){
+                    if (position == ShareModeDialog.SHARE_PYQ) {
                         isTimelineCb = true;
                     }
-                    ShareUtil.sendToWeaChat(CommodityDetailActivity.this,isTimelineCb,title,url);
+                    ShareUtil.sendToWeaChat(CommodityDetailActivity.this, isTimelineCb, title, url);
                 }
             });
             dialog.show();
         });
     }
-
 
 
     public CommodityDetailInfoDto getCommodityDetailInfoDto() {
@@ -234,12 +324,13 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
 
     /**
      * 获取商品详情(未登录)
+     *
      * @param goodsId 商品id
      */
     private void getGoodsDetail(String mType, String goodsId) {
         showLoadDialog();
-        HashMap<String,String> map = new HashMap<>();
-        map.put("include","user,attrs,freight,isFavorited");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("include", "attrs,freight,isFavorited,brand.productsCount");
         DataManager.getInstance().getGoodsDetail(new DefaultSingleObserver<HttpResult<CommodityDetailInfoDto>>() {
             @Override
             public void onSuccess(HttpResult<CommodityDetailInfoDto> result) {
@@ -257,17 +348,18 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                 LogUtil.i(TAG, "--RxLog-Thread: onError()");
                 dissLoadDialog();
             }
-        }, "default", goodsId,map);
+        }, "default", goodsId, map);
     }
 
     /**
      * 获取商品详情(登录)
+     *
      * @param goodsId 商品id
      */
     private void getGoodsDetailToken(String mType, String goodsId) {
         showLoadDialog();
-        HashMap<String,String> map = new HashMap<>();
-        map.put("include","user,attrs,freight,isFavorited");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("include", "attrs,freight,isFavorited,brand.productsCount");
         DataManager.getInstance().getGoodsDetailToken(new DefaultSingleObserver<HttpResult<CommodityDetailInfoDto>>() {
             @Override
             public void onSuccess(HttpResult<CommodityDetailInfoDto> result) {
@@ -285,7 +377,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                 LogUtil.i(TAG, "--RxLog-Thread: onError()");
                 dissLoadDialog();
             }
-        }, "default", goodsId,map);
+        }, "default", goodsId, map);
     }
 
     /**
@@ -299,7 +391,8 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             @Override
             public void onSuccess(HttpResult<Object> result) {
                 iv_save.setImageResource(R.mipmap.ic_product_save_red);
-                tv_save.setText("取消收藏");
+                tv_save.setText("收藏");
+                tv_save.setTextColor(getResources().getColor(R.color.my_color_FC6f48));
                 isFavorite = "true";
             }
 
@@ -309,7 +402,8 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                     ToastUtil.toast(ApiException.getInstance().getErrorMsg());
                 } else {
                     iv_save.setImageResource(R.mipmap.ic_product_save_red);
-                    tv_save.setText("取消收藏");
+                    tv_save.setText("收藏");
+                    tv_save.setTextColor(getResources().getColor(R.color.my_color_FC6f48));
                     isFavorite = "true";
                 }
             }
@@ -329,6 +423,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                 ToastUtil.showToast("取消收藏成功");
                 iv_save.setImageResource(R.mipmap.ic_product_save);
                 tv_save.setText("收藏");
+                tv_save.setTextColor(getResources().getColor(R.color.my_color_f79));
                 isFavorite = "false";
             }
 
@@ -338,6 +433,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                     ToastUtil.toast(ApiException.getInstance().getErrorMsg());
                 } else {
                     iv_save.setImageResource(R.mipmap.ic_product_save);
+                    tv_save.setTextColor(getResources().getColor(R.color.my_color_f79));
                     tv_save.setText("收藏");
                     isFavorite = "false";
                 }
@@ -419,11 +515,20 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
      */
     private void notifyData(CommodityDetailInfoDto commodityDetailDto) {
         if (commodityDetailDto.getImgs() != null) {
-            onBannerSuccess(commodityDetailDto.getImgs());
+            startBanner(commodityDetailDto.getImgs());
         }
-        tv_commodity_info_title.setText("¥" + commodityDetailDto.getTitle());
-        tv_commodity_info_price.setText("¥" + commodityDetailDto.getPrice());
-        tv_commodity_info_market_price.setText(commodityDetailDto.getMarket_price());
+        tv_commodity_info_title.setText(commodityDetailDto.getTitle());
+        tv_commodity_info_price.setText( commodityDetailDto.getPrice());
+        tv_commodity_info_market_price.setText("¥" + commodityDetailDto.getMarket_price());
+//        String name = "￥" + commodityDetailDto.getMarket_price();
+//        TextPaint textPaint = new TextPaint();
+//        textPaint.setTextSize(12);
+//        int with = (int) textPaint.measureText(name);
+//        FrameLayout.LayoutParams linearParams = (FrameLayout.LayoutParams) line.getLayoutParams(); //取控件textView当前的布局参数 linearParams.height = 20;// 控件的高强制设成20
+//
+//        linearParams.width = ScreenSizeUtil.dp2px(with - 1);// 控件的宽强制设成30
+//
+//        line.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
         tv_commodity_info_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中间横线
         if (commodityDetailDto.getFreight() != null) {
             if (commodityDetailDto.getFreight().getFreight().equals("0")) {
@@ -439,36 +544,77 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
         isFavorite = commodityDetailDto.getIsFavorited();
         if (isFavorite.equals("true")) {
             iv_save.setImageResource(R.mipmap.ic_product_save_red);
-            tv_save.setText("取消收藏");
-        }else {
+            tv_save.setText("收藏");
+            tv_save.setTextColor(getResources().getColor(R.color.my_color_FC6f48));
+        } else {
             iv_save.setImageResource(R.mipmap.ic_product_save);
             tv_save.setText("收藏");
+            tv_save.setTextColor(getResources().getColor(R.color.my_color_f79));
         }
-        if (commodityDetailDto.getExt() != null && !TextUtils.isEmpty(commodityDetailDto.getExt().getMin_buy())) {
+        if (commodityDetailDto.labels != null && commodityDetailDto.labels.size()>0) {
             tvMinBugNum.setVisibility(View.VISIBLE);
-            tvMinBugNum.setText(commodityDetailDto.getExt().getMin_buy() + "个起批");
+            tvMinBugNum.setText(commodityDetailDto.labels.get(0));
         }
         WebViewUtil.setWebView(webView, Objects.requireNonNull(this));
         WebViewUtil.loadHtml(webView, commodityDetailDto.getContent());
         dissLoadDialog();
-    }
 
-
-    /**
-     * 顶部海报
-     */
-    public void onBannerSuccess(List<String> bannerList) {
-        List<BannerItemDto> slidersDtos = new ArrayList<>();
-        for (String item : bannerList) {
-            BannerItemDto slidersDto = new BannerItemDto();
-            slidersDto.setPath(item);
-            slidersDtos.add(slidersDto);
+        if(commodityDetailDto.brand!=null&&commodityDetailDto.brand.data!=null){
+            if(TextUtil.isNotEmpty(commodityDetailDto.brand.data.name)){
+                tvName.setText(commodityDetailDto.brand.data.name);
+            }
+            if(TextUtil.isNotEmpty(commodityDetailDto.brand.data.productsCount)){
+              tvCout.setText(commodityDetailDto.brand.data.productsCount+"件");
+            }
+            GlideUtils.getInstances().loadRoundCornerImg(this,ivImage,3,commodityDetailDto.brand.data.logo,R.drawable.moren_product);
+            llBrank.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CommodityDetailActivity.this, BrandShopDetailActivity.class);
+                    intent.putExtra("id",commodityDetailDto.brand.data.id);
+                    startActivity(intent);
+                }
+            });
         }
-        LoopViewPagerAdapter loopViewPagerAdapter = new LoopViewPagerAdapter(this, banner_vp_container, banner_ll_indicators);
-        banner_vp_container.setAdapter(loopViewPagerAdapter);
-        loopViewPagerAdapter.setList(slidersDtos);
-        banner_vp_container.addOnPageChangeListener(loopViewPagerAdapter);
     }
+    public class GlideImageLoader extends ImageLoader {
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            String slidersDto = (String) path;
+            String imgStr = slidersDto;
+            if (imgStr != null) {
+                if (imgStr.contains("http://")) {
+                    GlideUtils.getInstances().loadNormalImg(CommodityDetailActivity.this, imageView, imgStr, R.mipmap.img_default_2);
+                } else {
+                    GlideUtils.getInstances().loadNormalImg(CommodityDetailActivity.this, imageView, Constants.WEB_IMG_URL_UPLOADS + imgStr, R.mipmap.img_default_2);
+                }
+            }
+
+
+        }
+    }
+    private void startBanner(List<String> data) {
+        //设置banner样式(显示圆形指示器)
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        //设置指示器位置（指示器居右）
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        banner.setImages(data);
+        //设置banner动画效果
+        //        banner.setBannerAnimation(Transformer.DepthPage);
+        //设置标题集合（当banner样式有显示title时）
+        //        banner.setBannerTitles(titles);
+        //设置自动轮播，默认为true
+        banner.isAutoPlay(true);
+        //设置轮播时间
+        banner.setDelayTime(3000);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
+    }
+
 
     @Override
     public void onDestroy() {
@@ -476,5 +622,6 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
         dissLoadDialog();
         WebViewUtil.destroyWebView(webView);
     }
+
 
 }

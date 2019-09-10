@@ -19,7 +19,7 @@ public class ShopInfoDto {
     public String      created_at;//    images/activity.png
     public String      comment_average_score;//    images/activity.png
     public String      type;//    images/activity.png
-    public String      category;//    images/activity.png
+    public BaseDto1      category;//    images/activity.png
     public String      industry;//    images/activity.png
     public String      area_id;//    images/activity.png
     public String      address;//    images/activity.png

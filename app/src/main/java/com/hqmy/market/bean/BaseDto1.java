@@ -15,6 +15,9 @@ public class BaseDto1 {
     public String         real_name;
     public String         status;
     public String         price;
+    public String         logo;
+    public String         name;
+    public String         productsCount;
     public String         market_price;
     public String         slogan;
     public String         cover;

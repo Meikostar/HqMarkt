@@ -17,6 +17,7 @@ public class CommodityDetailInfoDto implements Serializable {
     private String       product_no;
     private String       cover;
     private List<String> imgs;
+    public List<String> labels;
     private String       market_price;
     private String       price;
     private String       score;
@@ -42,8 +43,8 @@ public class CommodityDetailInfoDto implements Serializable {
     private String       is_shop_recommend;
     private String       created_at;
     private String       updated_at;
-    private List<String> labels;
     private CommodityDetailAttrDto attrs;
+    public BaseDto1 brand;
     private CommodityDetailFreightDto  freight;
     private UserDto user;
     private String favoriters;

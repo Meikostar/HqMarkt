@@ -140,7 +140,12 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
                 }else{
                     productId = cDetailInfo.getId();
                 }
-                shopProductTypeListener.callbackSelect(stockId, productId, tv_commodity_count.getText().toString());
+                if(isShoppingCart){
+                    shopProductTypeListener.callbackSelect(stockId, productId, tv_commodity_count.getText().toString());
+
+                }else {
+
+                }
              }
             hide();
         });
@@ -167,6 +172,8 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
         }
         if (isShoppingCart) {
             butSubmit.setText("加入购物车");
+        }else {
+            butSubmit.setText("立即购买");
         }
         List<Map<String,String>> mapList = new ArrayList<Map<String,String>>();
         attrItemList = object.getData();

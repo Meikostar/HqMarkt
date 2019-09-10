@@ -16,6 +16,7 @@ public class AreaDto implements Serializable {
 //                   "flag2": false
     public String title;
     public String icon;
+    public String logo;
 
     public int id;
     String name;

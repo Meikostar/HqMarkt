@@ -113,16 +113,19 @@ public class MainActivity extends BaseActivity implements
     public int getLayoutId() {
         return R.layout.activity_main;
     }
-
+    private int page_index=0;
+    public static final String PAGE_INDEX = "page_index";//调用者传递的名字
     @Override
     public void initView() {
         mContext = this;
         checkPermissioin();
         StatusBarUtils.StatusBarLightMode(this);
         mViewPager = findViewById(R.id.main_viewpager);
+        page_index = getIntent().getIntExtra(PAGE_INDEX, 0);
         changeTextViewColor();
         initMainViewPager();
-        changeSelectedTabState(0);
+        mViewPager.setCurrentItem(page_index,false);
+        changeSelectedTabState(page_index);
     }
 
     @Override
