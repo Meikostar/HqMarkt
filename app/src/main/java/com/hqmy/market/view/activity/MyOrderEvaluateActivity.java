@@ -3,14 +3,20 @@ package com.hqmy.market.view.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -35,6 +41,7 @@ import com.hqmy.market.view.widgets.ratingbar.BaseRatingBar;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,17 +86,20 @@ public class MyOrderEvaluateActivity extends BaseActivity {
     @BindView(R.id.rb_evaluate_1)
     BaseRatingBar rbEvaluate1;
     @BindView(R.id.tv_evaluate_2)
-    TextView tvEvaluate2;
+    TextView      tvEvaluate2;
     @BindView(R.id.rb_evaluate_2)
     BaseRatingBar rbEvaluate2;
     @BindView(R.id.tv_evaluate_3)
-    TextView tvEvaluate3;
+    TextView      tvEvaluate3;
     @BindView(R.id.rb_evaluate_3)
     BaseRatingBar rbEvaluate3;
     @BindView(R.id.tv_evaluate_4)
-    TextView tvEvaluate4;
+    TextView      tvEvaluate4;
     @BindView(R.id.rb_evaluate_4)
     BaseRatingBar rbEvaluate4;
+
+    @BindView(R.id.sr_view)
+    ScrollView    sr_view;
 
     private int upPicPosition;
     private List<String> areadUploadImg = new ArrayList<>();
@@ -118,8 +128,8 @@ public class MyOrderEvaluateActivity extends BaseActivity {
             tvOrderNo.setText("订单编号："+orderNo);
             orderId = bundle.getString("orderId");
             tvItemOrderStatus.setText(getIntent().getStringExtra(Constants.INTENT_ORDER_STATUS));
-            String imgUrl = Constants.WEB_IMG_URL_UPLOADS + bundle.getString(Constants.IMAGEITEM_IMG_URL);
-            GlideUtils.getInstances().loadNormalImg(this, tvEvaluateLogo, imgUrl);
+            String imgUrl =  bundle.getString(Constants.IMAGEITEM_IMG_URL);
+            GlideUtils.getInstances().loadNormalImg(this, tvEvaluateLogo, imgUrl,R.drawable.moren_sf);
             tvEvaluateDes.setText(getIntent().getStringExtra("goods_title"));
             tvEvaluateMoney.setText("￥"+getIntent().getStringExtra("goods_price"));
             tvEvaluateNumber.setText("x"+getIntent().getStringExtra("goods_num"));
@@ -132,8 +142,33 @@ public class MyOrderEvaluateActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void keyBoardShow(int height) {
+                Log.e(TAG, "键盘显示 高度" + height);
+//                ll_bg.setPadding(0, 0, 0, height);
+                sr_view.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
 
+            }
+
+            @Override
+            public void keyBoardHide(int height) {
+                Log.e(TAG, "键盘隐藏 高度" + height);
+                sr_view.fullScroll(ScrollView.FOCUS_UP);//滚动到底部
+
+                ed_info.setFocusable(true);
+                ed_info.setFocusableInTouchMode(true);
+                ed_info.requestFocus();
+            }
+        });
     }
+
+    //获取键盘的高度
+    private int keyboardHeight;
+
+
+
 
     private void initUploadData() {
         showLoadDialog();

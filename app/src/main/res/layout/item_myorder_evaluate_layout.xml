@@ -38,19 +38,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_evaluate_des"
         android:layout_toLeftOf="@+id/tv_evaluate_number"
-        android:layout_marginTop="@dimen/bj_8dp"
+        android:layout_marginTop="@dimen/bj_26dp"
         android:layout_toRightOf="@id/tv_evaluate_logo"
         android:textColor="#8b8b8b"
         android:textSize="@dimen/wz_12sp" />
 
 
     <TextView
+
         android:id="@+id/tv_evaluate_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_evaluate_des"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/bj_8dp"
+        android:layout_marginTop="@dimen/bj_26dp"
         android:textColor="#8b8b8b"
         android:textSize="@dimen/wz_12sp" />
 
@@ -62,6 +63,6 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/shape_radius_4_f60004"
         android:gravity="center"
-        android:textColor="@color/my_color_d60029"
+        android:textColor="@color/my_color_zs"
         android:textSize="@dimen/wz_13sp" />
 </RelativeLayout>

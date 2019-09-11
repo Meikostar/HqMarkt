@@ -1,26 +1,20 @@
 package com.hqmy.market.view.adapter;
 
-import android.content.Intent;
-import android.view.View;
-import android.widget.RelativeLayout;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hqmy.market.R;
 import com.hqmy.market.bean.MyOrderItemDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
-import com.hqmy.market.view.activity.RefundAfterSalesActivity;
-import com.hqmy.market.view.activity.RefundAfterSalesDetailActivity;
 
 import java.util.List;
 
 /**
  * 订单列表中 商品的adapter
  */
-public class OrderGoodsListAdapter extends BaseQuickAdapter<MyOrderItemDto, BaseViewHolder> {
+public class OrderRefundGoodsListAdapter extends BaseQuickAdapter<MyOrderItemDto, BaseViewHolder> {
 
-    public OrderGoodsListAdapter(List<MyOrderItemDto> items) {
+    public OrderRefundGoodsListAdapter(List<MyOrderItemDto> items) {
         super(R.layout.item_order_goods_list, items);
     }
 
@@ -47,7 +41,7 @@ public class OrderGoodsListAdapter extends BaseQuickAdapter<MyOrderItemDto, Base
             helper.setText(R.id.tv_gg,"");
         }
 
-
+        helper.addOnClickListener(R.id.rl_bg);
 
 
     }

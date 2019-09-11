@@ -225,8 +225,11 @@ public class LearnFragment extends BaseFragment {
                         Bundle bundle = new Bundle();
                         bundle.putStringArrayList(ConfirmOrderActivity.ROW_STR, rowList);
                         bundle.putString(ConfirmOrderActivity.MALL_TYPE, strMallType);
-                        bundle.putString("id", defaultAddress.getId()+"");
-                        bundle.putSerializable(ConfirmOrderActivity.ADDRESS_DETAIL, defaultAddress);
+                        if(defaultAddress!=null){
+                            bundle.putString("id", defaultAddress.getId()+"");
+                            bundle.putSerializable(ConfirmOrderActivity.ADDRESS_DETAIL, defaultAddress);
+                        }
+
                         gotoActivity(ConfirmOrderActivity.class, false, bundle);
 //                    } else {
 //                        gotoActivity(AddShippingAddressActivity.class);

@@ -81,7 +81,7 @@ public class MyOrderEvaluateListActivity extends BaseActivity {
                 bundle.putString(Constants.INTENT_ORDER_NO, orderNo);
                 bundle.putString(Constants.INTENT_ORDER_STATUS,tvItemOrderStatus.getText().toString() );
                 bundle.putString(Constants.INTENT_ID, myOrderItemDto.getProduct().getData().getId());
-                bundle.putString(Constants.IMAGEITEM_IMG_URL, myOrderItemDto.getCover_image());
+                bundle.putString(Constants.IMAGEITEM_IMG_URL, myOrderItemDto.getProduct().getData().getCover());
                 bundle.putString("goods_title", myOrderItemDto.getTitle());
                 bundle.putString("goods_price", myOrderItemDto.getPrice());
                 bundle.putString("goods_num", myOrderItemDto.getQty());

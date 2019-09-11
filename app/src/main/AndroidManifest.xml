@@ -627,6 +627,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.activity.MyOrderEvaluateActivity"
+
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.activity.MyOrderEvaluateListActivity"

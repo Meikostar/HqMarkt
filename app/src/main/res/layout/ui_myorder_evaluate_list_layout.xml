@@ -29,7 +29,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="17dp"
-            android:textColor="#fff60004"
+            android:textColor="@color/my_color_zs"
             android:textSize="14sp" />
 
         <View

@@ -136,7 +136,12 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
                     if(attList.size() > 0) {
                         getStockId(attList);
                     }else{
-                        productId = cDetailInfo.getId();
+                        if(isShoppingCart){
+                            productId = cDetailInfo.getId();
+                        }else {
+                            productId = cDetailInfo.getId();
+                        }
+
                     }
                 }else{
                     productId = cDetailInfo.getId();
@@ -145,7 +150,7 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
                     shopProductTypeListener.callbackSelect(stockId, productId, tv_commodity_count.getText().toString());
 
                 }else {
-
+                    shopProductTypeListener.callbackSelect(stockId, productId, tv_commodity_count.getText().toString());
                 }
              }
             hide();

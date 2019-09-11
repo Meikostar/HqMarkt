@@ -1,5 +1,6 @@
 package com.hqmy.market.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -88,12 +89,14 @@ public class PaySuccessActivity extends BaseActivity {
             //                gotoActivity(InviteFriendsActivity.class);
             //                break;
             case R.id.ll_look:
-
+                Intent intent = new Intent(PaySuccessActivity.this, OrderActivity.class);
+                intent.putExtra("page", 2);
+                startActivity(intent);
                 break;
             case R.id.ll_back:
                 finishAll();
                 Bundle bundle = new Bundle();
-                bundle.putInt(MainActivity.PAGE_INDEX, 2);
+                bundle.putInt(MainActivity.PAGE_INDEX, 0);
                 gotoActivity(MainActivity.class, true, bundle);
                 break;
 

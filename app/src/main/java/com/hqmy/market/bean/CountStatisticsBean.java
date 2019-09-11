@@ -2,6 +2,7 @@ package com.hqmy.market.bean;
 
 public class CountStatisticsBean {
     public String favorites_count;
+    public String footprints_count;
     public String followings_count;
     public String posts_count;
     public String comments_count;

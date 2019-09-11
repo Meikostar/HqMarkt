@@ -219,10 +219,10 @@ public class MeFragment extends BaseFragment {
                 if (countStatisticsBean != null && countStatisticsBean.getData() != null) {
                     if (!TextUtils.isEmpty(countStatisticsBean.getData().favorites_count))
                         tvSc.setText(countStatisticsBean.getData().favorites_count);
-                    if (!TextUtils.isEmpty(countStatisticsBean.getData().favorites_count))
-                        tvGz.setText(countStatisticsBean.getData().followings_count);
                     if (!TextUtils.isEmpty(countStatisticsBean.getData().followings_count))
-                        tvZj.setText(countStatisticsBean.getData().followings_count);
+                        tvGz.setText(countStatisticsBean.getData().followings_count);
+                    if (!TextUtils.isEmpty(countStatisticsBean.getData().footprints_count))
+                        tvZj.setText(countStatisticsBean.getData().footprints_count);
 
                 }
             }
@@ -266,7 +266,7 @@ public class MeFragment extends BaseFragment {
             @Override
             public void onSuccess(HttpResult<String> countOrderBean) {
                 if (countOrderBean != null && countOrderBean.getData() != null) {
-
+                    reOrderTuikuan.setText(countOrderBean.getData());
                 }
 
             }

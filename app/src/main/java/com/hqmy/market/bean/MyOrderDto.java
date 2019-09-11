@@ -10,6 +10,7 @@ public class MyOrderDto{
     String shipping_price;
     String pay_total;
     String product_total;
+   public int refund_to_wallet;
     String total;
     String count;
     MyorderItemsDto items;

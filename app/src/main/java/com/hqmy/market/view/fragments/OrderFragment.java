@@ -20,6 +20,7 @@ import com.hqmy.market.bean.AddressDto;
 import com.hqmy.market.bean.CheckOutOrderResult;
 import com.hqmy.market.bean.WEIXINREQ;
 import com.hqmy.market.common.utils.PayUtils;
+import com.hqmy.market.view.MainActivity;
 import com.hqmy.market.view.activity.MyOrderDetailActivity;
 import com.hqmy.market.view.activity.PaySuccessActivity;
 import com.hqmy.market.view.widgets.MCheckBox;
@@ -195,15 +196,42 @@ public class OrderFragment extends BaseFragment {
                                     qty.add(myOrderItemDto.getQty());
                                     stock_id.add(myOrderItemDto.getSku_id());
                                 }
-                                Bundle bundle4 = new Bundle();
-                                bundle4.putBoolean("again", true);
-                                bundle4.putStringArrayList("product_id",product_id);
-                                bundle4.putStringArrayList("qty",product_id);
-                                bundle4.putStringArrayList("stock_id",stock_id);
-                                bundle4.putString(ShopCartActivity.MALL_TYPE, mAdapter.getItem(position).getType());
-                                Intent intent = new Intent(new Intent(getActivity(), ShopCartActivity.class));
-                                intent.putExtras(bundle4);
-                                startActivity(intent);
+                                showLoadDialog();
+
+                                HashMap<String,Object> map = new HashMap<>();
+                                map.put("qty",qty);
+                                if(product_id!= null && product_id.size()>0){
+                                    for(int i =0;i< product_id.size();i++){
+                                        if(!TextUtils.isEmpty(product_id.get(i))){
+                                            map.put("product_id["+i+"]",product_id.get(i)) ;
+                                        }
+                                    }
+                                }
+                                if(stock_id!= null && stock_id.size()>0){
+                                    for(int i =0;i< stock_id.size();i++){
+                                        if(!TextUtils.isEmpty(stock_id.get(i))){
+                                            map.put("stock_id["+i+"]",stock_id.get(i)) ;
+                                        }
+                                    }
+                                }
+                                DataManager.getInstance().addShoppingCart(new DefaultSingleObserver<HttpResult<Object>>() {
+                                    @Override
+                                    public void onSuccess(HttpResult<Object> result) {
+                                        dissLoadDialog();
+                                        getActivity().finish();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putInt(MainActivity.PAGE_INDEX, 3);
+                                        gotoActivity(MainActivity.class, true, bundle);
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        dissLoadDialog();
+
+                                    }
+                                }, "default", map);
+
+
                             }
                             break;
                     }

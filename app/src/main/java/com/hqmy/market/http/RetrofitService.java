@@ -976,6 +976,13 @@ public interface RetrofitService {
     @GET("api/package/mall/all/user/orders/refund_list/{id}")
     Single<HttpResult<MyOrderDto>> getAllUserRefundDetail(@Header("Authorization") String token, @Path("id") String id, @QueryMap Map<String, String> map);
 
+
+    /**
+     * 售后详情
+     */
+    @GET("/api/package/mall/default/user/orders/refund_list/{refund_id}/cancel")
+    Single<HttpResult<Object>> getOrdercancel(@Header("Authorization") String token, @Path("refund_id") String id);
+
     /**
      * 我卖出的
      */
@@ -1022,7 +1029,7 @@ public interface RetrofitService {
      * 催发货
      */
     @PUT("/api/package/mall/default/user/orders/{order_id}/hurry")
-    Single<HttpResult<Object>> hurryOrder(@Header("Authorization") String token, @Path("orderId") String orderId);
+    Single<HttpResult<Object>> hurryOrder(@Header("Authorization") String token, @Path("order_id") String orderId);
 
     /**
      * 退款原因

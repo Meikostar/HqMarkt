@@ -4,6 +4,7 @@
     android:layout_height="109dp"
     android:background="#fafafa"
     android:paddingTop="@dimen/bj_15dp"
+    android:id="@+id/rl_bg"
     android:paddingRight="@dimen/bj_15dp">
 
     <ImageView

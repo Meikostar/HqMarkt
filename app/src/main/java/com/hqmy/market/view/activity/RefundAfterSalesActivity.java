@@ -1,13 +1,20 @@
 package com.hqmy.market.view.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hqmy.market.bean.MyOrderItemDto;
+import com.hqmy.market.common.utils.ToastUtil;
+import com.hqmy.market.http.error.ApiException;
+import com.hqmy.market.view.MainActivity;
+import com.hqmy.market.view.mainfragment.consume.ShopCartActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -22,6 +29,7 @@ import com.hqmy.market.view.adapter.RefundAfterSalesAdapter;
 import com.hqmy.market.view.widgets.CustomDividerItemDecoration;
 import com.hqmy.market.view.widgets.autoview.EmptyView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -87,16 +95,94 @@ public class RefundAfterSalesActivity extends BaseActivity {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
-                    case R.id.tv_item_refund_after_sales_detail:
-                        Intent intent = new Intent(RefundAfterSalesActivity.this,RefundAfterSalesDetailActivity.class);
-                        intent.putExtra("id",mAdapter.getItem(position).getId());
-                        startActivity(intent);
-                        break;
+                    case R.id.tv_itme_refund_after_sales_text:
+                        if(mAdapter.getItem(position).getStatus_msg().equals("再来一单")){
+                            if (mAdapter.getItem(position).getOrder().getData().getItems() !=null && mAdapter.getItem(position).getOrder().getData().getItems().getData() != null && mAdapter.getItem(position).getOrder().getData().getItems().getData().size() > 0){
+                                ArrayList<String> product_id = new ArrayList<>();
+                                ArrayList<String> qty = new ArrayList<>();
+                                ArrayList<String> stock_id = new ArrayList<>();
+                                for (MyOrderItemDto myOrderItemDto: mAdapter.getItem(position).getOrder().getData().getItems().getData()){
+                                    product_id.add(myOrderItemDto.getProduct_id());
+                                    qty.add(myOrderItemDto.getQty());
+                                    stock_id.add(myOrderItemDto.getSku_id());
+                                }
+                                showLoadDialog();
+
+                                HashMap<String,Object> map = new HashMap<>();
+                                map.put("qty",qty);
+                                if(product_id!= null && product_id.size()>0){
+                                    for(int i =0;i< product_id.size();i++){
+                                        if(!TextUtils.isEmpty(product_id.get(i))){
+                                            map.put("product_id["+i+"]",product_id.get(i)) ;
+                                        }
+                                    }
+                                }
+                                if(stock_id!= null && stock_id.size()>0){
+                                    for(int i =0;i< stock_id.size();i++){
+                                        if(!TextUtils.isEmpty(stock_id.get(i))){
+                                            map.put("stock_id["+i+"]",stock_id.get(i)) ;
+                                        }
+                                    }
+                                }
+                                DataManager.getInstance().addShoppingCart(new DefaultSingleObserver<HttpResult<Object>>() {
+                                    @Override
+                                    public void onSuccess(HttpResult<Object> result) {
+                                        dissLoadDialog();
+                                        finishAll();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putInt(MainActivity.PAGE_INDEX, 3);
+                                        gotoActivity(MainActivity.class, true, bundle);
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        dissLoadDialog();
+
+                                    }
+                                }, "default", map);
+
+
+
+                            }
+                            break;
+                        }else   if(mAdapter.getItem(position).getStatus_msg().equals("审核中")){
+                            cancelOrder(mAdapter.getItem(position).getOrder().getData().getId());
+                            break;
+                        }
+
                 }
             }
         });
     }
+    /**
+     * 取消的订单
+     *
+     * @param id
+     */
+    private void cancelOrder(String id) {
+        showLoadDialog();
+        DataManager.getInstance().getOrdercancel(new DefaultSingleObserver<HttpResult<Object>>() {
+            @Override
+            public void onSuccess(HttpResult<Object> httpResult) {
+                dissLoadDialog();
+                ToastUtil.showToast("取消成功");
+                mRefreshLayout.autoRefresh();
+            }
 
+            @Override
+            public void onError(Throwable throwable) {
+                if (ApiException.getInstance().isSuccess()) {
+                    ToastUtil.showToast("取消成功");
+                    mRefreshLayout.autoRefresh();
+                } else {
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+                }
+                dissLoadDialog();
+                mRefreshLayout.finishRefresh();
+                mRefreshLayout.finishLoadMore();
+            }
+        }, id);
+    }
     private void loadData() {
         HashMap<String, String> map = new HashMap<>();
         map.put("include", "order.items.product,order.shop");

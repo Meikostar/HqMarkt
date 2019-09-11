@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="Meiko"
+            android:text=""
             android:id="@+id/tv_name"
             android:textColor="#333333"
             android:textSize="14sp" />

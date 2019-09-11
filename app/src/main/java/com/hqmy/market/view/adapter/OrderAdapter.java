@@ -13,6 +13,7 @@ import com.hqmy.market.R;
 import com.hqmy.market.bean.MyOrderDto;
 import com.hqmy.market.bean.MyOrderItemDto;
 import com.hqmy.market.common.Constants;
+import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.view.activity.MyOrderDetailActivity;
 
 import java.util.List;
@@ -28,9 +29,12 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
         helper.addOnClickListener(R.id.item_order_content);
         if (item.getShop() != null) {
             helper.setText(R.id.tv_shop_name, item.getShop().getShop_name());
+            GlideUtils.getInstances().loadRoundImg(mContext,helper.getView(R.id.iv_img),item.getShop().getLogo(),R.drawable.moren_ren);
+
         } else {
             helper.setText(R.id.tv_shop_name, "");
         }
+
         RecyclerView recyclerView = helper.getView(R.id.item_order_goods_list);
 
         if (item.getItems() != null && item.getItems().getData() != null && item.getItems().getData().size() > 0) {
@@ -83,7 +87,7 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
 
                 break;
             case "shipped"://待评价
-                helper.setText(R.id.tv_item_order_status, "待评价");
+//                helper.setText(R.id.tv_item_order_status, "待评价");
                 helper.setVisible(R.id.tv_button_1, true)
                         .setVisible(R.id.tv_button_2, true)
                         .setText(R.id.tv_button_1, "再来一单")

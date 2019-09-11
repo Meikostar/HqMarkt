@@ -36,6 +36,7 @@ import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.activity.PaySuccessActivity;
+import com.hqmy.market.view.activity.ShippingAddressActivity;
 import com.hqmy.market.view.adapter.ConfirmOrderAdapter;
 import com.hqmy.market.view.fragments.PayResultListener;
 import com.hqmy.market.view.widgets.MCheckBox;
@@ -78,6 +79,8 @@ public class ConfirmOrderActivity extends BaseActivity {
 
     private ConfirmOrderAdapter mConfirmOrderAdapter;
     private String              mall_type;
+    private String              product_id;
+    private String              stock_id;
     private String              id;
     private String              addressId;
     private AddressDto          defaultAddress = null;
@@ -103,7 +106,9 @@ public class ConfirmOrderActivity extends BaseActivity {
         llAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(ConfirmOrderActivity.this, ShippingAddressActivity.class);
+                intent.putExtra("tag",1);
+                startActivityForResult(intent,6);
             }
         });
     }
@@ -119,22 +124,45 @@ public class ConfirmOrderActivity extends BaseActivity {
                 defaultAddress = (AddressDto) bundle.getSerializable(ADDRESS_DETAIL);
                 rowList = bundle.getStringArrayList(ROW_STR);
                 mall_type = bundle.getString(MALL_TYPE);
+                product_id = bundle.getString("product_id");
+                stock_id = bundle.getString("stock_id");
+                 if(defaultAddress!=null){
+                     addressId = "" + defaultAddress.getId();
+                     tv_order_to_name.setText("收货人: " + defaultAddress.getName());
+                     tv_order_to_phone.setText(defaultAddress.getMobile());
+                     tv_order_address_title.setText("收货地址 " + defaultAddress.getArea() + "," + defaultAddress.getDetail());
+                 }else {
+                     addressId = "" + id;
+                 }
 
-                addressId = "" + defaultAddress.getId();
 
-                tv_order_to_name.setText("收货人: " + defaultAddress.getName());
-                tv_order_to_phone.setText(defaultAddress.getMobile());
-                tv_order_address_title.setText("收货地址 " + defaultAddress.getArea() + "," + defaultAddress.getDetail());
 
                 HashMap<String, String> map = new HashMap<>();
                 if (rowList != null) {
                     for (int i = 0; i < rowList.size(); i++) {
                         map.put("rows[" + String.valueOf(i) + "]", rowList.get(i));
                     }
+                }else {
+                    if(TextUtil.isNotEmpty(stock_id)){
+                        map.put("stock_id", stock_id);
+                    }else {
+                        map.put("product_id", product_id);
+                    }
                 }
                 map.put("address_id", addressId);
                 getOrderPreInfo(mall_type, map);
             }else {
+                rowList = bundle.getStringArrayList(ROW_STR);
+                mall_type = bundle.getString(MALL_TYPE);
+                HashMap<String, String> map = new HashMap<>();
+                if (rowList != null) {
+                    for (int i = 0; i < rowList.size(); i++) {
+                        map.put("rows[" + String.valueOf(i) + "]", rowList.get(i));
+                    }
+                }
+
+
+                getOrderPreInfo(mall_type, map);
                 rlAddress.setVisibility(View.GONE);
                 llAddress.setVisibility(View.VISIBLE);
             }
@@ -209,7 +237,7 @@ public class ConfirmOrderActivity extends BaseActivity {
     private int RQ_ALIPAY_PAY = 10;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == Constants.INTENT_REQUESTCODE_SEL_ADDRESS && data != null) {
+        if (resultCode == Activity.RESULT_OK ) {
             if (requestCode == RQ_WEIXIN_PAY) {
                 ToastUtil.showToast("支付成功");
                 gotoActivity(PaySuccessActivity.class);
@@ -236,11 +264,11 @@ public class ConfirmOrderActivity extends BaseActivity {
     public void initAddress( AddressDto addressDto){
         rlAddress.setVisibility(View.VISIBLE);
         llAddress.setVisibility(View.GONE);
-        addressId = "" + defaultAddress.getId();
+        addressId = "" + addressDto.getId();
 
-        tv_order_to_name.setText("收货人: " + defaultAddress.getName());
+        tv_order_to_name.setText("收货人: " + addressDto.getName());
         tv_order_to_phone.setText(defaultAddress.getMobile());
-        tv_order_address_title.setText("收货地址 " + defaultAddress.getArea() + "," + defaultAddress.getDetail());
+        tv_order_address_title.setText("收货地址 " + addressDto.getArea() + "," + addressDto.getDetail());
 
         HashMap<String, String> map = new HashMap<>();
         if (rowList != null) {
@@ -298,11 +326,20 @@ public class ConfirmOrderActivity extends BaseActivity {
     private List<CheckOutOrderResult> ruslts;
     private void checkOutOrder(List<OrderProductDto> products, String addressId) {
         HashMap<String, String> map = new HashMap<>();
-        if (products != null) {
-            for (int i = 0; i < products.size(); i++) {
-                map.put("rows[" + String.valueOf(i) + "]", products.get(i).getRowId());
+        if (rowList != null) {
+            if (products != null) {
+                for (int i = 0; i < products.size(); i++) {
+                    map.put("rows[" + String.valueOf(i) + "]", products.get(i).getRowId());
+                }
+            }
+        }else {
+            if(TextUtil.isNotEmpty(stock_id)){
+                map.put("stock_id", stock_id);
+            }else {
+                map.put("product_id", product_id);
             }
         }
+
         map.put("address_id", addressId);
         DataManager.getInstance().checkOutOrder(new DefaultSingleObserver<HttpResult<List<CheckOutOrderResult>>>() {
             @Override
@@ -321,7 +358,7 @@ public class ConfirmOrderActivity extends BaseActivity {
                 } else {
                     ToastUtil.showToast("下单失败");
                 }
-                finish();
+//                finish();
             }
         }, mall_type, map);
     }

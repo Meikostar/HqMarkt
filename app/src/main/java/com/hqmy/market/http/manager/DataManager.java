@@ -1482,6 +1482,14 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
+    public void getOrdercancel(DefaultSingleObserver<HttpResult<Object>> observer, String id) {
+        Single<HttpResult<Object>> observable = retrofitService.getOrdercancel(getToken(), id)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+
+
     public void getAllUserOrdersCount(DefaultSingleObserver<HttpResult<CountOrderBean>> observer) {
         Single<HttpResult<CountOrderBean>> observable = retrofitService.getAllUserOrdersCount(getToken())
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.bean.AddressDto;
 import com.hqmy.market.bean.BannerItemDto;
 import com.hqmy.market.bean.CommentDto;
 import com.hqmy.market.bean.CommodityDetailInfoDto;
@@ -179,6 +180,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
 
     @Override
     public void initView() {
+        getAddressListData();
     }
 
     @Override
@@ -278,7 +280,23 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                             @Override
                             public void callbackSelect(String stockId, String productId, String countBuy) {
                                 //if(stockId != null) {
-                                addShoppingCart(commodityDetailInfoDto.getType(), stockId, productId, countBuy);
+
+                                Bundle bundle = new Bundle();
+
+                                bundle.putString(ConfirmOrderActivity.MALL_TYPE, "default");
+                                if(TextUtil.isNotEmpty(stockId)){
+
+                                    bundle.putString("stock_id", stockId);
+                                }else {
+                                    bundle.putString("product_id", productId);
+                                }
+
+                                if(defaultAddress!=null){
+                                    bundle.putString("id", defaultAddress.getId()+"");
+                                    bundle.putSerializable(ConfirmOrderActivity.ADDRESS_DETAIL, defaultAddress);
+                                }
+
+                                gotoActivity(ConfirmOrderActivity.class, false, bundle);
                                 //}else{
                                 //    ToastUtil.showToast("没有库存");
                                 //}
@@ -354,7 +372,35 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             }
         }, "default", goodsId, map);
     }
+    /**
+     * 获取收货地址
+     */
+    private List<AddressDto> mAddressDatas = new ArrayList<>();
+   private AddressDto defaultAddress;
+    private void getAddressListData() {
+        //showLoadDialog();
+        DataManager.getInstance().getAddressesList(new DefaultSingleObserver<List<AddressDto>>() {
+            @Override
+            public void onSuccess(List<AddressDto> addressDtos) {
+                //dissLoadDialog();
+                mAddressDatas.clear();
+                mAddressDatas.addAll(addressDtos);
+                if (mAddressDatas.size() > 0) {
+                    for (int i = 0; i < mAddressDatas.size(); i++) {
+                        if (mAddressDatas.get(i).getIs_default().equals("1")) {
+                            defaultAddress = mAddressDatas.get(i);
+                        }
+                    }
+                }
 
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                //dissLoadDialog();
+            }
+        });
+    }
     /**
      * 获取商品详情(登录)
      *

@@ -19,6 +19,7 @@ import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
+import com.hqmy.market.utils.RegexUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -122,6 +123,10 @@ public class AddShippingAddressActivity extends BaseActivity {
         }
         if (TextUtils.isEmpty(mobile)) {
             Toast.makeText(this, "请输入手机号码", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(!RegexUtils.isMobileExact(mobile)){
+            ToastUtil.showToast("请输入合法手机号");
             return;
         }
 //        if (mobile.length()!=11) {
