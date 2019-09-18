@@ -1,16 +1,20 @@
 package com.hqmy.market.view.activity;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hqmy.market.bean.BaseDto;
+import com.hqmy.market.bean.BaseDto3;
 import com.hqmy.market.bean.FootInfoDto;
 import com.hqmy.market.bean.NewListItemDto;
 import com.hqmy.market.view.adapter.ConsumePushAdapter;
+import com.hqmy.market.view.adapter.FootAdapter;
 import com.hqmy.market.view.adapter.FootPushAdapter;
+import com.hqmy.market.view.widgets.RecyclerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -48,8 +52,8 @@ public class MyFootprintActivity extends BaseActivity {
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    private FootPushAdapter mAdapter;
-    private int             mPage = 1;
+    private FootAdapter mAdapter;
+    private int         mPage = 1;
     @Override
     public int getLayoutId() {
         return R.layout.activity_my_foot_print;
@@ -86,11 +90,18 @@ public class MyFootprintActivity extends BaseActivity {
             }
         });
     }
-    private List<BaseDto> goodsLists = new ArrayList<BaseDto>();
+    private List<NewListItemDto> goodsLists = new ArrayList<NewListItemDto>();
 
     private void initListView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new FootPushAdapter(goodsLists,this);
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this, 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        recyclerView.addItemDecoration(new RecyclerItemDecoration(5, 2));
+        recyclerView.setLayoutManager(gridLayoutManager2);
+        mAdapter = new FootAdapter(goodsLists,this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -101,7 +112,7 @@ public class MyFootprintActivity extends BaseActivity {
         map.put("group_by_date", "1");
         map.put("include", "have_footprint.have_footprint");
 //        map.put("object_filter[type]", "lm,gc,st");
-//        map.put("page", mPage + "");
+        map.put("page", mPage + "");
 //        map.put("per_page","100");
         DataManager.getInstance().userFootprints(new DefaultSingleObserver<HttpResult<List<FootInfoDto>>>() {
             @Override
@@ -118,14 +129,27 @@ public class MyFootprintActivity extends BaseActivity {
             }
         }, map);
     }
-
+    private List<NewListItemDto> list=new ArrayList<>();
     private void setData(HttpResult<List<FootInfoDto>> httpResult) {
-        if (httpResult == null || httpResult.getData() == null||httpResult.getData().get(0).have_footprint.data.get(0)==null) {
+        if (httpResult == null || httpResult.getData() == null||httpResult.getData().size()==0||httpResult.getData().get(0).have_footprint==null||httpResult.getData().get(0).have_footprint.data==null) {
+            mAdapter.addData(list);
+            if (httpResult.getMeta() != null && httpResult.getMeta().getPagination() != null) {
+                if (httpResult.getMeta().getPagination().getTotal_pages() == httpResult.getMeta().getPagination().getCurrent_page()) {
+                    mRefreshLayout.finishLoadMoreWithNoMoreData();
+                }
+            }
+
             return;
         }
-        List<BaseDto> baseDto = httpResult.getData().get(0).have_footprint.data;
+//        list.clear();
+        for(FootInfoDto infoDto:httpResult.getData()){
+            for(BaseDto3 itemDto:infoDto.have_footprint.data){
+                list.add(itemDto.have_footprint.data);
+            }
+        }
+
         if (mPage <= 1) {
-            mAdapter.setNewData(baseDto);
+            mAdapter.setNewData(list);
             if (httpResult.getData() == null || httpResult.getData().size() == 0) {
                 mAdapter.setEmptyView(new EmptyView(this));
             }
@@ -134,7 +158,7 @@ public class MyFootprintActivity extends BaseActivity {
         } else {
             mRefreshLayout.finishLoadMore();
             mRefreshLayout.setEnableRefresh(true);
-            mAdapter.addData(baseDto);
+            mAdapter.addData(list);
         }
 
         if (httpResult.getMeta() != null && httpResult.getMeta().getPagination() != null) {
@@ -152,6 +176,7 @@ public class MyFootprintActivity extends BaseActivity {
             public void onSuccess(Object o) {
                 dissLoadDialog();
                 ToastUtil.showToast("清空成功");
+
                 mAdapter.setNewData(null);
                 mAdapter.setEmptyView(new EmptyView(MyFootprintActivity.this));
             }

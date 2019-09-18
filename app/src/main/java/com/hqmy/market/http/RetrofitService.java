@@ -980,7 +980,7 @@ public interface RetrofitService {
     /**
      * 售后详情
      */
-    @GET("/api/package/mall/default/user/orders/refund_list/{refund_id}/cancel")
+    @PUT("/api/package/mall/default/user/orders/refund_list/{refund_id}/cancel")
     Single<HttpResult<Object>> getOrdercancel(@Header("Authorization") String token, @Path("refund_id") String id);
 
     /**

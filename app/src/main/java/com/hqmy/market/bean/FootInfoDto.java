@@ -7,7 +7,7 @@ public class FootInfoDto {
 
 
     public FootInfoDto       have_footprint;//
-    public List<BaseDto> data;//
+    public List<BaseDto3> data;//
 
 
 }

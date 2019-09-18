@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hqmy.market.view.mainfragment.ShopClassFragment;
+import com.hqmy.market.view.mainfragment.learn.OnLineLiveFragment;
 import com.lwkandroid.imagepicker.ImagePicker;
 import com.lwkandroid.imagepicker.data.ImageBean;
 import com.lwkandroid.imagepicker.utils.BroadcastManager;
@@ -69,8 +70,8 @@ public class MainActivity extends BaseActivity implements
     private Context mContext;
     private List<Fragment> fragments = new ArrayList<Fragment>();
     //会话列表的fragment
-    private ConversationListFragment mConversationListFragment = null;
-    private Conversation.ConversationType[] mConversationsTypes = null;
+
+
     public static final String APP_EXIT = "app_exit";//退出应用
 
     @BindView(R.id.consume_layout)
@@ -157,7 +158,7 @@ public class MainActivity extends BaseActivity implements
                 }
                 RLog.i("MainActivity", "time = " + (secondClick - firstClick));
                 if (secondClick - firstClick > 0 && secondClick - firstClick <= 800) {
-                    mConversationListFragment.focusUnreadItem();
+
                     firstClick = 0;
                     secondClick = 0;
                 } else if (firstClick != 0 && secondClick != 0) {
@@ -204,7 +205,7 @@ public class MainActivity extends BaseActivity implements
     private void initMainViewPager() {
         fragments.add(new ConsumeFragment());
         fragments.add(new ShopClassFragment());
-        fragments.add(setConversationList());
+        fragments.add(new OnLineLiveFragment());
         fragments.add(new LearnFragment());
         fragments.add(new MeFragment());
         FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -297,36 +298,7 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    /**
-     * 设置会话类别数据
-     * @return
-     */
-    private Fragment setConversationList() {
-        if (mConversationListFragment == null) {
-            ConversationListFragment listFragment = new ConversationListFragment();
-            listFragment.setAdapter(new ConversationListAdapterEx(RongContext.getInstance()));
-            Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
-                    .appendPath("conversationlist")
-                    .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
-                    .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//群组
-                    .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
-                    .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//订阅号
-                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
-                    .build();
-            mConversationsTypes = new Conversation.ConversationType[]{Conversation.ConversationType.PRIVATE,
-                    Conversation.ConversationType.GROUP,
-                    Conversation.ConversationType.PUBLIC_SERVICE,
-                    Conversation.ConversationType.APP_PUBLIC_SERVICE,
-                    Conversation.ConversationType.SYSTEM,
-                    Conversation.ConversationType.DISCUSSION
-            };
-            listFragment.setUri(uri);
-            mConversationListFragment = listFragment;
-            return mConversationListFragment;
-        } else{
-            return mConversationListFragment;
-        }
-    }
+
 
     private void getConversationPush() {
         if (getIntent() != null && getIntent().hasExtra("PUSH_CONVERSATIONTYPE") && getIntent().hasExtra("PUSH_TARGETID")) {

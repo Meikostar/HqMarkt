@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/bj_39dp">
+       <LinearLayout
+           android:background="@color/white"
+           android:gravity="center_vertical"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+           <TextView
+               android:id="@+id/tv_text1"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:textColor="@color/my_color_333333"
+               android:textSize="@dimen/wz_14sp"
+               android:layout_marginLeft="@dimen/bj_13dp"
+               android:text="周排行榜"/>
+           <TextView
+               android:id="@+id/tv_text2"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:textColor="@color/my_color_666666"
+               android:textSize="@dimen/wz_14sp"
+               android:layout_marginLeft="@dimen/bj_32dp"
+               android:text="月排行榜"/>
+       </LinearLayout>
+       <View
+           android:layout_width="match_parent"
+           android:layout_height="1dp"
+           android:background="@color/my_color_line"
+           android:layout_alignParentBottom="true"/>
+       <LinearLayout
+           android:layout_alignParentBottom="true"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="2dp">
+           <View
+               android:id="@+id/line"
+               android:layout_marginLeft="11dp"
+               android:layout_width="62dp"
+               android:layout_height="2dp"
+               android:background="@color/my_color_zs"
+               android:layout_alignParentBottom="true"/>
+           <View
+               android:id="@+id/line1"
+               android:visibility="invisible"
+               android:layout_marginLeft="26dp"
+               android:layout_width="62dp"
+               android:layout_height="2dp"
+               android:background="@color/my_color_zs"
+               android:layout_alignParentBottom="true"/>
+       </LinearLayout>
+   </RelativeLayout>
+
+    <com.hqmy.market.view.widgets.autoview.NoScrollGridView
+
+        android:id="@+id/grid_content"
+        android:layout_width="match_parent"
+        android:layout_height="159dp"
+        android:background="@color/white"
+        android:listSelector="@color/transparent"
+        android:numColumns="5"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" />
+
+
+
+
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="99dp"
+        android:background="@color/white"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="98.9dp"
+            android:layout_marginTop="0.1dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <GridView
+                android:id="@+id/grid"
+                style="@style/lv_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+    </HorizontalScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9.9dp"
+        android:background="@color/my_color_F5F5F5"/>
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_42dp"
+        android:orientation="horizontal">
+        <ImageView
+
+
+            android:layout_marginLeft="12dp"
+            android:layout_width="12dp"
+            android:layout_height="15dp"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:layout_weight="1"
+            android:textSize="@dimen/wz_15sp"
+            android:textColor="@color/my_color_333333"
+            android:layout_marginLeft="@dimen/bj_6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="热门直播"/>
+        <TextView
+            android:textColor="@color/my_color_666666"
+            android:textSize="@dimen/wz_14sp"
+            android:text="更多"
+            android:layout_marginRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+
+            android:src="@drawable/arrow_right"
+            android:layout_marginRight="12dp"
+            android:layout_width="8dp"
+            android:layout_height="11dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
+
+
+    </LinearLayout>
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="136dp"
+        android:background="@color/white"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="135.9dp"
+            android:layout_marginTop="0.1dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <GridView
+                android:id="@+id/grid1"
+                style="@style/lv_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+    </HorizontalScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/my_color_F5F5F5"/>
+</LinearLayout>

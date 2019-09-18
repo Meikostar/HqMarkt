@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="185dp">
+        android:layout_height="120dp">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 <ImageView
                     android:id="@+id/iv_icon"
                     android:layout_width="match_parent"
-                    android:layout_height="185dp"
+                    android:layout_height="120dp"
                     android:scaleType="centerCrop" />
 
                 <RelativeLayout
@@ -38,8 +38,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:drawableLeft="@mipmap/player"
-                        android:drawablePadding="@dimen/bj_4dp"
                         android:textColor="#ffffffff"
                         android:textSize="12sp" />
 

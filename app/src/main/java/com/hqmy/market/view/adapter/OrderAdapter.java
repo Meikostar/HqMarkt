@@ -84,7 +84,6 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
                             .setText(R.id.tv_button_1, "查看物流")
                             .setText(R.id.tv_button_2, "确认收货");
                 }
-
                 break;
             case "shipped"://待评价
 //                helper.setText(R.id.tv_item_order_status, "待评价");

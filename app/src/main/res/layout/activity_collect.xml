@@ -33,37 +33,50 @@
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/ll_bg"
-        android:gravity="center_vertical"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bj_45dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_marginLeft="@dimen/bj_12dp"
-            android:textSize="@dimen/wz_13sp"
-            android:textColor="@color/my_color_999999"
-            android:text="已选中"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_cout"
-            android:textSize="@dimen/wz_13sp"
-            android:textColor="@color/my_color_zs"
-            android:text="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_weight="1"
-            android:textSize="@dimen/wz_13sp"
-            android:textColor="@color/my_color_999999"
-            android:text="个"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/iv_delete"
-           android:src="@drawable/shop_del"
-            android:layout_marginLeft="@dimen/bj_12dp"
-            android:layout_width="29dp"
-            android:padding="@dimen/bj_6dp"
-            android:layout_height="@dimen/bj_31dp" />
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_1dp"
+            android:background="@color/my_color_line"/>
+        <LinearLayout
+
+
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_45dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginLeft="@dimen/bj_12dp"
+                android:textSize="@dimen/wz_13sp"
+                android:textColor="@color/my_color_999999"
+                android:text="已选中"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_cout"
+                android:textSize="@dimen/wz_13sp"
+                android:textColor="@color/my_color_zs"
+                android:text="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_weight="1"
+                android:textSize="@dimen/wz_13sp"
+                android:textColor="@color/my_color_999999"
+                android:text="个"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_marginRight="13dp"
+                android:id="@+id/iv_delete"
+                android:src="@drawable/shop_del"
+                android:layout_marginLeft="@dimen/bj_12dp"
+                android:layout_width="29dp"
+                android:padding="@dimen/bj_6dp"
+                android:layout_height="@dimen/bj_31dp" />
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

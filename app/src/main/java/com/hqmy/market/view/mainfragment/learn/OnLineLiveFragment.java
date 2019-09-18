@@ -3,17 +3,25 @@ package com.hqmy.market.view.mainfragment.learn;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseFragment;
 import com.hqmy.market.bean.AnchorInfo;
+import com.hqmy.market.bean.AreaDto;
 import com.hqmy.market.bean.LiveCatesBean;
 import com.hqmy.market.bean.LiveMessageInfo;
 import com.hqmy.market.common.Constants;
@@ -29,26 +37,66 @@ import com.hqmy.market.view.activity.LiveSearchActivity;
 import com.hqmy.market.view.activity.LoginActivity;
 import com.hqmy.market.view.activity.RequestLivePermissionActivity;
 import com.hqmy.market.view.activity.StartLiveActivity;
+import com.hqmy.market.view.adapter.ConturyAdapter;
+import com.hqmy.market.view.adapter.ConturyCagoriadapter;
+import com.hqmy.market.view.adapter.ConturyProcutAdapter;
+import com.hqmy.market.view.adapter.Liveadapter;
+import com.hqmy.market.view.widgets.AutoLocateHorizontalView;
+import com.hqmy.market.view.widgets.RecyclerItemDecoration;
 import com.hqmy.market.view.widgets.UPMarqueeView;
+import com.hqmy.market.view.widgets.autoview.CustomView;
+import com.hqmy.market.view.widgets.autoview.NoScrollGridView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.util.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * 在线直播
  */
 public class OnLineLiveFragment extends BaseFragment {
     @BindView(R.id.refreshlayout)
-    SmartRefreshLayout mRefreshLayout;
-    @BindView(R.id.recyclerview)
-    ListView mRecyclerView;
-    @BindView(R.id.tv_upmarquee_view)
-    UPMarqueeView mUPMarqueeView;
+    SmartRefreshLayout       mRefreshLayout;
 
-    private OnlineLiveAdapter mAdapter;
+    @BindView(R.id.tv_upmarquee_view)
+    UPMarqueeView            mUPMarqueeView;
+    @BindView(R.id.rl_onlive_live_oplayer)
+    RelativeLayout           rlOnliveLiveOplayer;
+    @BindView(R.id.et_search_room)
+    TextView                 etSearchRoom;
+    @BindView(R.id.tv_text1)
+    TextView                 tvText1;
+    @BindView(R.id.tv_text2)
+    TextView                 tvText2;
+    @BindView(R.id.line)
+    View                     line;
+    @BindView(R.id.line1)
+    View                     line1;
+    @BindView(R.id.grid_content)
+    NoScrollGridView         gridContent;
+    @BindView(R.id.grid)
+    GridView                 gridView;
+    @BindView(R.id.grid1)
+    GridView                 gridView1;
+    @BindView(R.id.auto_scroll)
+    AutoLocateHorizontalView autoScroll;
+    @BindView(R.id.consume_push_recy)
+    RecyclerView             consumePushRecy;
+    @BindView(R.id.consume_scrollView)
+    CustomView               consumeScrollView;
+    @BindView(R.id.consume_srl)
+    SmartRefreshLayout       consumeSrl;
+    Unbinder unbinder;
+
+    private OnlineLiveItemAdapter mAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -58,11 +106,48 @@ public class OnLineLiveFragment extends BaseFragment {
     @Override
     protected void initView() {
         mRefreshLayout.setEnableLoadMore(false);
-    }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        autoScroll.setHasFixedSize(true);
+        autoScroll.setLayoutManager(linearLayoutManager);
+        autoScroll.setOnSelectedPositionChangedListener(new AutoLocateHorizontalView.OnSelectedPositionChangedListener() {
+            @Override
+            public void selectedPositionChanged(int pos) {
+                //                viewpagerMain.setCurrentItem(pos, false);
 
+
+
+
+            }
+        });
+
+        testAdapter = new ConturyAdapter();
+        mAdapter = new OnlineLiveItemAdapter();
+        adapter = new Liveadapter(getActivity());
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getActivity(), 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        consumePushRecy.addItemDecoration(new RecyclerItemDecoration(DensityUtil.dp2px(10), 2));
+        consumePushRecy.setLayoutManager(gridLayoutManager2);
+        consumePushRecy.setAdapter(mAdapter);
+
+        testAdapter.setItemClick(new ConturyAdapter.ItemClickListener() {
+            @Override
+            public void itemClick(int poition, AreaDto data) {
+                autoScroll.moveToPosition(poition);
+            }
+        });
+        autoScroll.setInitPos(0);
+        autoScroll.setItemCount(5);
+        autoScroll.setAdapter(testAdapter);
+    }
+    private  ConturyAdapter testAdapter;
     @Override
     protected void initData() {
-        initRecyclerView();
+
     }
 
     @Override
@@ -82,22 +167,7 @@ public class OnLineLiveFragment extends BaseFragment {
         });
     }
 
-    private void initRecyclerView() {
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-//        mRecyclerView.addItemDecoration(new RecycleViewDivider(DensityUtil.dp2px(10), DensityUtil.dp2px(15)));
-        mAdapter = new OnlineLiveAdapter(getActivity());
-        mRecyclerView.setAdapter(mAdapter);
-    }
 
-    private void initHeadView(List<String> list) {
-//        mAdapter.removeAllHeaderView();
-//        View mHeadView = View.inflate(getActivity(), R.layout.head_online_live_notice, null);
-//        //公告
-//        UPMarqueeView mUPMarqueeView = mHeadView.findViewById(R.id.tv_upmarquee_view);
-//        setUPMarqueeView(mUPMarqueeView, list);
-////        mAdapter.addHeaderView(mHeadView);
-//        mRecyclerView.addHeaderView(mHeadView);
-    }
 
     private void setUPMarqueeView(UPMarqueeView upMarqueeView, List<String> list) {
         List<View> views = new ArrayList<>();
@@ -126,7 +196,78 @@ public class OnLineLiveFragment extends BaseFragment {
                 break;
         }
     }
+    private void iniGridView(final List<AreaDto> list) {
 
+        int length = 82;  //定义一个长度
+        int size = 0;  //得到集合长度
+        //获得屏幕分辨路
+        DisplayMetrics dm = new DisplayMetrics();
+        if(dm==null||getActivity()==null){
+            return;
+        }
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        float density = dm.density;
+
+        int gridviewWidth = (int) (list.size() * (length + 5) * density);
+        int itemWidth = (int) (length * density);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                gridviewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+        params.setMargins(10, 0, 0, 0);
+        gridView.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
+        gridView.setColumnWidth(itemWidth); // 设置列表项宽
+        gridView.setHorizontalSpacing(10); // 设置列表项水平间距
+        gridView.setStretchMode(GridView.NO_STRETCH);
+        gridView.setNumColumns(list.size()); // 设置列数量=列表集合数
+        adapter.setData(list);
+        gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+
+            }
+        });
+    }
+
+    private void iniGridViewSecond(final List<AreaDto> list) {
+
+        int length = 82;  //定义一个长度
+        int size = 0;  //得到集合长度
+        //获得屏幕分辨路
+        DisplayMetrics dm = new DisplayMetrics();
+        if(dm==null||getActivity()==null){
+            return;
+        }
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        float density = dm.density;
+
+        int gridviewWidth = (int) (list.size() * (length + 5) * density);
+        int itemWidth = (int) (length * density);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                gridviewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+        params.setMargins(10, 0, 0, 0);
+        gridView1.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
+        gridView1.setColumnWidth(itemWidth); // 设置列表项宽
+        gridView1.setHorizontalSpacing(10); // 设置列表项水平间距
+        gridView1.setStretchMode(GridView.NO_STRETCH);
+        gridView1.setNumColumns(list.size()); // 设置列数量=列表集合数
+        adapter.setData(list);
+        gridView1.setAdapter(adapter);
+        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+
+            }
+        });
+    }
+    private Liveadapter adapter;
     private void isPlayer() {
         //showLoadDialog();
         DataManager.getInstance().getLiveInfo(new DefaultSingleObserver<HttpResult<AnchorInfo>>() {
@@ -154,7 +295,7 @@ public class OnLineLiveFragment extends BaseFragment {
             @Override
             public void onError(Throwable throwable) {
                 //dissLoadDialog();
-                if(ApiException.getInstance().getCode() == 500){
+                if (ApiException.getInstance().getCode() == 500) {
                     gotoActivity(RequestLivePermissionActivity.class);
                     ToastUtil.toast(ApiException.getHttpExceptionMessage(throwable));
                 } else {
@@ -175,7 +316,7 @@ public class OnLineLiveFragment extends BaseFragment {
                 //dissLoadDialog();
                 mRefreshLayout.finishRefresh();
                 if (result != null && result.getData() != null && result.getData().getLive_message() != null && result.getData().getLive_message().getTop_msg() != null && result.getData().getLive_message().getTop_msg().size() > 0) {
-//                    initHeadView(Arrays.asList(result.getData().getLive_message().getTop_msg().split(",")));
+                    //                    initHeadView(Arrays.asList(result.getData().getLive_message().getTop_msg().split(",")));
                     setUPMarqueeView(mUPMarqueeView, result.getData().getLive_message().getTop_msg());
                 }
             }
@@ -200,7 +341,7 @@ public class OnLineLiveFragment extends BaseFragment {
                 //dissLoadDialog();
                 mRefreshLayout.finishRefresh();
                 if (result != null) {
-                    mAdapter.setDataList(result.getData());
+
                 }
 
             }
@@ -212,5 +353,19 @@ public class OnLineLiveFragment extends BaseFragment {
 
             }
         }, 1);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

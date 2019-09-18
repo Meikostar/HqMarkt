@@ -90,6 +90,19 @@ public class CollectActivity extends BaseActivity {
                 gotoActivity(CommodityDetailActivity.class, false, bundle);
             }
         });
+        mAdapter.setChooseListener(new CollectGoodsAdapter.ChooseListener() {
+            @Override
+            public void choose() {
+                int i=0;
+                List<TopicListItemDto> data = mAdapter.getData();
+                for(TopicListItemDto dto:data){
+                    if(dto.isChoose){
+                        ++i;
+                    }
+                }
+                tvCout.setText(i+"");
+            }
+        });
     }
 
     private void setData(HttpResult<List<TopicListItemDto>> httpResult) {
@@ -134,6 +147,17 @@ public class CollectActivity extends BaseActivity {
             public void onSuccess(HttpResult<List<TopicListItemDto>> httpResult) {
                 dissLoadDialog();
                 setData(httpResult);
+                int i=0;
+                List<TopicListItemDto> data = mAdapter.getData();
+                if(data!=null&&data.size()>0){
+                    for(TopicListItemDto dto:data){
+                        if(dto.isChoose){
+                            ++i;
+                        }
+                    }
+                    tvCout.setText(i+"");
+                }
+
             }
 
             @Override
@@ -157,6 +181,7 @@ public class CollectActivity extends BaseActivity {
             @Override
             public void onSuccess(Object o) {
                 ToastUtil.showToast("删除成功");
+
                 getCollectData();
             }
 
@@ -207,11 +232,13 @@ public class CollectActivity extends BaseActivity {
                 List<TopicListItemDto> data = mAdapter.getData();
                 for (TopicListItemDto dto : data) {
                     if (dto.isChoose) {
+
                         if (i == 0) {
                             id = dto.getId();
                         } else {
                             id = id + "," + dto.getId();
                         }
+                        i++;
                     }
                 }
                 if (TextUtils.isEmpty(id)) {

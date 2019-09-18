@@ -20,7 +20,13 @@ public class CollectGoodsAdapter extends BaseQuickAdapter<TopicListItemDto, Base
     public CollectGoodsAdapter() {
         super(R.layout.item_collect_goods, null);
     }
-
+    public interface  ChooseListener{
+        void choose();
+    }
+    private ChooseListener mChooseListener;
+    public void setChooseListener(ChooseListener mChooseListener){
+        this.mChooseListener=mChooseListener;
+    }
     @Override
     protected void convert(BaseViewHolder helper, TopicListItemDto item) {
         if (item.getCover() != null){
@@ -47,6 +53,9 @@ public class CollectGoodsAdapter extends BaseQuickAdapter<TopicListItemDto, Base
                     item.isChoose=false;
                 }
                 notifyDataSetChanged();
+                if(mChooseListener!=null){
+                    mChooseListener.choose();
+                }
             }
         });
         FrameLayout frameLayout = helper.getView(R.id.fl_line);
@@ -55,16 +64,16 @@ public class CollectGoodsAdapter extends BaseQuickAdapter<TopicListItemDto, Base
         if(!TextUtils.isEmpty(item.market_price)){
             frameLayout.setVisibility(View.VISIBLE);
 
-            String name = item.market_price;
+            String name = "￥"+item.market_price;
             TextPaint textPaint = new TextPaint();
             textPaint.setTextSize(12);
             int with = (int) textPaint.measureText(name);
             FrameLayout.LayoutParams linearParams =(FrameLayout.LayoutParams) line.getLayoutParams(); //取控件textView当前的布局参数 linearParams.height = 20;// 控件的高强制设成20
 
-            linearParams.width = ScreenSizeUtil.dp2px(with+11);// 控件的宽强制设成30
+            linearParams.width = ScreenSizeUtil.dp2px(with+3);// 控件的宽强制设成30
 
             line.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
-            helper.setText(R.id.market_price,item.market_price);
+            helper.setText(R.id.market_price,name);
         }else {
             frameLayout.setVisibility(View.GONE);
         }
