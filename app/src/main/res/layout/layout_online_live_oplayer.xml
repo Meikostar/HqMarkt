@@ -21,7 +21,7 @@
             android:drawableLeft="@mipmap/oplayer"
             android:drawablePadding="5dp"
             android:gravity="center"
-            android:text="我要开播"
+            android:text="我要直播"
             android:textColor="#ffffffff"
             android:textSize="13sp" />
     </RelativeLayout>

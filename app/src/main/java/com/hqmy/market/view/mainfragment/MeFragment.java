@@ -327,8 +327,8 @@ public class MeFragment extends BaseFragment {
                                 tvState.setText("认证拒绝");
                                 state=0;
                             }else {
-                                tvState.setText("未认证");
-                                state=0;
+                                tvState.setText("认证中");
+                                state=1;
                             }
                         }else {
                             state=0;

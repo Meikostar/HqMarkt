@@ -4,11 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextPaint;
-import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -20,13 +17,11 @@ import android.widget.TextView;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
 import com.hqmy.market.bean.AddressDto;
-import com.hqmy.market.bean.BannerItemDto;
 import com.hqmy.market.bean.CommentDto;
 import com.hqmy.market.bean.CommodityDetailInfoDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.LogUtil;
-import com.hqmy.market.common.utils.ScreenSizeUtil;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.common.utils.WebViewUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
@@ -36,11 +31,8 @@ import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.MainActivity;
-import com.hqmy.market.view.activity.ConturyActivity;
 import com.hqmy.market.view.activity.LoginActivity;
 import com.hqmy.market.view.adapter.CommodityCommentImageAdapter;
-import com.hqmy.market.view.adapter.LoopViewPagerAdapter;
-import com.hqmy.market.view.mainfragment.chat.ConversationActivity;
 import com.hqmy.market.view.widgets.ShopProductTypeDialog;
 import com.hqmy.market.view.widgets.dialog.ShareModeDialog;
 import com.hqmy.market.view.widgets.ratingbar.BaseRatingBar;
@@ -55,7 +47,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 商品详细
@@ -221,9 +212,9 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
 
         bindClickEvent(layout_service, () -> {
             Bundle bundle = new Bundle();
-            bundle.putString(ConversationActivity.TITLE, "客服");
-            bundle.putString(ConversationActivity.TARGET_ID, commodityDetailInfoDto.getSlug());
-            gotoActivity(ConversationActivity.class, true, bundle);
+//            bundle.putString(ConversationActivity.TITLE, "客服");
+//            bundle.putString(ConversationActivity.TARGET_ID, commodityDetailInfoDto.getSlug());
+//            gotoActivity(ConversationActivity.class, true, bundle);
         });
 
         bindClickEvent(layout_save, () -> {

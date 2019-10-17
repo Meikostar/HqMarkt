@@ -9,7 +9,8 @@ public class LiveVideoInfo {
     private String id;
     String rtmp_publish_url;
     PersonalInfoDto user;
-    RoomInfo room;
+   public RoomInfo room;
+   public RoomInfo apply;
     public String getRtmp_publish_url() {
         return rtmp_publish_url;
     }

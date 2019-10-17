@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
+    tools:targetApi="lollipop"
+    android:layout_width="@dimen/bj_120dp"
+    android:layout_height="wrap_content"
+    android:stateListAnimator="@drawable/lift_on_touch"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="9dp"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false">
+
+
+        <RelativeLayout
+            android:layout_width="@dimen/bj_120dp"
+            android:layout_height="@dimen/bj_120dp">
+            <ImageView
+                android:id="@+id/iv_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/img_default_6" />
+            <TextView
+
+                android:textSize="13sp"
+                android:id="@+id/tv_sign"
+                android:text="直播中"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_goods_bg"
+                android:gravity="center"
+                android:layout_width="@dimen/bj_63dp"
+                android:layout_height="@dimen/bj_19dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text=""
+                    android:paddingLeft="6dp"
+                    android:paddingRight="@dimen/bj_6dp"
+                    android:id="@+id/tv_title"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textSize="@dimen/wz_10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text=""
+                    android:paddingLeft="6dp"
+                    android:paddingRight="@dimen/bj_6dp"
+                    android:id="@+id/tv_cout"
+                    android:layout_marginBottom="@dimen/bj_5dp"
+                    android:layout_marginTop="@dimen/bj_4dp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textSize="@dimen/wz_10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

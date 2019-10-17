@@ -117,7 +117,7 @@ public class GlideUtils {
         Object content;
         if(imgUrl!=null){
             if(imgUrl instanceof String){
-                if(((String) imgUrl).contains("http")){
+                if(((String) imgUrl).contains("http")||((String) imgUrl).contains("storage/emulated")){
                     content= imgUrl;
                 }else{
                     content=Constants.WEB_IMG_URL_UPLOADS+(String)imgUrl;
@@ -242,6 +242,7 @@ public class GlideUtils {
         }
 
     }
+
     /**
      * 加载正常图片
      *
@@ -253,7 +254,7 @@ public class GlideUtils {
         Object content;
          if(imgUrl!=null){
              if(imgUrl instanceof String){
-                 if(((String) imgUrl).contains("http")){
+                 if(((String) imgUrl).contains("http")||((String) imgUrl).contains("storage/emulated")){
                      content= imgUrl;
                  }else{
                      content=Constants.WEB_IMG_URL_UPLOADS+(String)imgUrl;

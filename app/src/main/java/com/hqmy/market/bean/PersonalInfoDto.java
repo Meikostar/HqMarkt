@@ -16,7 +16,15 @@ public class PersonalInfoDto implements Serializable {
     private String isFollowing;
     public BaseDto1 real_name;//实名认证
     public BaseDto1 seller;
-
+//    "is_realname": false,
+//            "is_shop": false,
+//            "is_live": false,
+//            "apply_check_status": 0,
+//            "is_liveing": false
+    public boolean is_realname;
+    public boolean is_shop;
+    public boolean is_liveing;
+    public int apply_check_status;
     public boolean is_live;
 
     public String getId() {

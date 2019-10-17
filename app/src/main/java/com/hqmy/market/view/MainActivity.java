@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,8 +15,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.hqmy.market.common.utils.LogUtil;
+import com.hqmy.market.qiniu.chatroom.ChatroomKit;
 import com.hqmy.market.view.mainfragment.ShopClassFragment;
 import com.hqmy.market.view.mainfragment.learn.OnLineLiveFragment;
 import com.lwkandroid.imagepicker.ImagePicker;
@@ -26,21 +26,14 @@ import com.lwkandroid.imagepicker.utils.BroadcastManager;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
 import com.hqmy.market.common.Constants;
-import com.hqmy.market.common.utils.LogUtil;
 import com.hqmy.market.common.utils.StatusBarUtils;
 import com.hqmy.market.common.utils.ToastUtil;
-import com.hqmy.market.rong.SealAppContext;
-import com.hqmy.market.rong.adapter.ConversationListAdapterEx;
-import com.hqmy.market.rong.widget.DragPointView;
+
 import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.view.activity.LoginActivity;
-import com.hqmy.market.view.mainfragment.CommunityFragment;
 import com.hqmy.market.view.mainfragment.ConsumeFragment;
 import com.hqmy.market.view.mainfragment.LearnFragment;
 import com.hqmy.market.view.mainfragment.MeFragment;
-import com.hqmy.market.view.mainfragment.chat.ContactsActivity;
-import com.hqmy.market.view.mainfragment.chat.ConversationActivity;
-import com.hqmy.market.view.mainfragment.chat.NewFriendListActivity;
 import com.hqmy.market.view.mainfragment.community.TopicPublishActivity;
 import com.hqmy.market.view.widgets.autoview.AutoViewPager;
 import com.hqmy.market.view.widgets.dialog.BaseDialog;
@@ -50,21 +43,11 @@ import com.hqmy.market.view.widgets.dialog.MorePopWindow;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
-import io.rong.common.RLog;
-import io.rong.imkit.RongContext;
-import io.rong.imkit.RongIM;
-import io.rong.imkit.fragment.ConversationListFragment;
-import io.rong.imkit.manager.IUnReadMessageObserver;
-import io.rong.imkit.model.UIConversation;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
-import io.rong.message.ContactNotificationMessage;
 
 
 public class MainActivity extends BaseActivity implements
-        ViewPager.OnPageChangeListener,
-        DragPointView.OnDragListencer,
-        IUnReadMessageObserver {
+        ViewPager.OnPageChangeListener{
     private static final String TAG = MainActivity.class.getSimpleName();
     private AutoViewPager mViewPager;
     private Context mContext;
@@ -133,17 +116,53 @@ public class MainActivity extends BaseActivity implements
     public void initData() {
         String cacheToken = ShareUtil.getInstance().getString(Constants.APP_USER_KEY, null);
         if (!TextUtils.isEmpty(cacheToken)) {
-            RongIM.connect(cacheToken, SealAppContext.getInstance().getConnectCallback());
+            ChatroomKit.connect(cacheToken, new RongIMClient.ConnectCallback() {
+                @Override
+                public void onTokenIncorrect() {
+                    LogUtil.d(TAG, "ConnectCallback connect onTokenIncorrect");
+                    ShareUtil.getInstance().save(Constants.APP_USER_KEY, "");
+                }
+
+                @Override
+                public void onSuccess(String userId) {
+                    LogUtil.d(TAG, "--ConnectCallback connect onSuccess");
+                    ShareUtil.getInstance().save(Constants.USER_ID, userId);
+                }
+
+                @Override
+                public void onError(final RongIMClient.ErrorCode e) {
+                    ToastUtil.showToast("" + e.getMessage());
+                    LogUtil.d(TAG, "--ConnectCallback connect onError-ErrorCode=" + e.getMessage());
+                }
+            });
+
+            RongIMClient.getInstance().setConnectionStatusListener(new RongIMClient.ConnectionStatusListener() {
+                @Override
+                public void onChanged(ConnectionStatus status) {
+                    switch (status) {
+
+                        case CONNECTED://连接成功。
+                            Log.i(TAG, "连接成功");
+                            break;
+                        case DISCONNECTED://断开连接。
+                            Log.i(TAG, "断开连接");
+                            break;
+                        case CONNECTING://连接中。
+                            Log.i(TAG, "连接中");
+                            break;
+                        case NETWORK_UNAVAILABLE://网络不可用。
+                            Log.i(TAG, "网络不可用");
+                            break;
+                        case KICKED_OFFLINE_BY_OTHER_CLIENT://用户账户在其他设备登录，本机会被踢掉线
+                            Log.i(TAG, "用户账户在其他设备登录");
+                            break;
+                    }
+                }
+            });
         } else {
             //ToastUtil.showToast("当前用户token凭证为空");
         }
-        final Conversation.ConversationType[] conversationTypes = {
-                Conversation.ConversationType.PRIVATE,
-                Conversation.ConversationType.GROUP,
-                Conversation.ConversationType.SYSTEM,
-                Conversation.ConversationType.PUBLIC_SERVICE, Conversation.ConversationType.APP_PUBLIC_SERVICE
-        };
-        RongIM.getInstance().addUnReadMessageCountChangedObserver(this, conversationTypes);
+
         getConversationPush();// 获取 push 的 id 和 target
     }
 
@@ -156,7 +175,7 @@ public class MainActivity extends BaseActivity implements
                 } else {
                     secondClick = System.currentTimeMillis();
                 }
-                RLog.i("MainActivity", "time = " + (secondClick - firstClick));
+
                 if (secondClick - firstClick > 0 && secondClick - firstClick <= 800) {
 
                     firstClick = 0;
@@ -185,14 +204,14 @@ public class MainActivity extends BaseActivity implements
             mViewPager.setCurrentItem(4, false);
          });
          bindClickEvent(iv_message_contacts, () -> {
-           gotoActivity(ContactsActivity.class);
+//           gotoActivity(ContactsActivity.class);
          });
          bindClickEvent(iv_message_actionbar_add, () -> {
             MorePopWindow morePopWindow = new MorePopWindow(this);
             morePopWindow.showPopupWindow(iv_message_actionbar_add);
          });
          //设置会话列表界面item操作的监听器
-         RongIM.setConversationListBehaviorListener(new MyConversationListBehaviorListener());
+
          BroadcastManager.getInstance(mContext).addAction(APP_EXIT, new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -264,7 +283,7 @@ public class MainActivity extends BaseActivity implements
             case 2:
 
                 tab_img_chat.setBackgroundResource(R.mipmap.ic_chat_sel);
-                ll_message_view_top.setVisibility(View.VISIBLE);
+                ll_message_view_top.setVisibility(View.GONE);
                 break;
             case 3:
 
@@ -301,123 +320,10 @@ public class MainActivity extends BaseActivity implements
 
 
     private void getConversationPush() {
-        if (getIntent() != null && getIntent().hasExtra("PUSH_CONVERSATIONTYPE") && getIntent().hasExtra("PUSH_TARGETID")) {
-            final String conversationType = getIntent().getStringExtra("PUSH_CONVERSATIONTYPE");
-            final String targetId = getIntent().getStringExtra("PUSH_TARGETID");
-            RongIM.getInstance().getConversation(Conversation.ConversationType.valueOf(conversationType), targetId, new RongIMClient.ResultCallback<Conversation>() {
-                @Override
-                public void onSuccess(Conversation conversation) {
-                    if (conversation != null) {
-                        if (conversation.getLatestMessage() instanceof ContactNotificationMessage) { //好友消息的push
-                            //startActivity(new Intent(MainActivity.this, NewFriendListActivity.class));
-                        } else {
-                            Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon().appendPath("conversation")
-                                    .appendPath(conversationType).appendQueryParameter("targetId", targetId).build();
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(uri);
-                            startActivity(intent);
-                        }
-                    }
-                }
-                @Override
-                public void onError(RongIMClient.ErrorCode e) {
-                }
-            });
-        }
-    }
-
-
-    @Override
-    public void onCountChanged(int i) {
 
     }
 
-    @Override
-    public void onDragOut() {
 
-    }
-
-    private class MyConversationListBehaviorListener implements RongIM.ConversationListBehaviorListener {
-        /**
-         * 当点击会话头像后执行。
-         *
-         * @param context          上下文。
-         * @param conversationType 会话类型。
-         * @param targetId         被点击的用户id。
-         * @return 如果用户自己处理了点击后的逻辑处理，则返回 true，否则返回 false，false 走融云默认处理方式。
-         */
-        public boolean onConversationPortraitClick(Context context, Conversation.ConversationType conversationType, String targetId) {
-
-            return true;
-        }
-
-        /**
-         * 当长按会话头像后执行。
-         *
-         * @param context          上下文。
-         * @param conversationType 会话类型。
-         * @param targetId         被点击的用户id。
-         * @return 如果用户自己处理了点击后的逻辑处理，则返回 true，否则返回 false，false 走融云默认处理方式。
-         */
-        public boolean onConversationPortraitLongClick(Context context, Conversation.ConversationType conversationType, String targetId) {
-            return false;
-        }
-
-        /**
-         * 长按会话列表中的 item 时执行。
-         *
-         * @param context        上下文。
-         * @param view           触发点击的 View。
-         * @param uiConversation 长按时的会话条目。
-         * @return 如果用户自己处理了长按会话后的逻辑处理，则返回 true， 否则返回 false，false 走融云默认处理方式。
-         */
-        @Override
-        public boolean onConversationLongClick(Context context, View view, UIConversation uiConversation) {
-            return false;
-        }
-
-        /**
-         * 点击会话列表中的 item 时执行。
-         *
-         * @param context        上下文。
-         * @param view           触发点击的 View。
-         * @param uiConversation 会话条目。
-         * @return 如果用户自己处理了点击会话后的逻辑处理，则返回 true， 否则返回 false，false 走融云默认处理方式。
-         */
-        @Override
-        public boolean onConversationClick(Context context, View view, UIConversation uiConversation) {
-            String conversationTargetId = uiConversation.getConversationTargetId();
-            LogUtil.i(TAG, "--conversationTargetId=" + conversationTargetId);
-            if (conversationTargetId.equals("1")) {
-                // Intent i = new Intent(getActivity(), SystemMessageActivity.class);
-                // com.zhangjiajie.art.ui.activity.MainActivity.mainActivity.startActivityIn(i, getActivity());
-                return true;
-            } else if (conversationTargetId.equals("2")) {
-                // Intent i = new Intent(getActivity(), OrderMessageActivity.class);
-                // com.zhangjiajie.art.ui.activity.MainActivity.mainActivity.startActivityIn(i, getActivity());
-                return true;
-            } else if (conversationTargetId.equals("10000")) {
-                // Intent i = new Intent(getActivity(), OrderMessageActivity.class);
-                // com.zhangjiajie.art.ui.activity.MainActivity.mainActivity.startActivityIn(i, getActivity());
-                return true;
-            }
-            else if (!TextUtils.isEmpty(uiConversation.getConversationContent()) && uiConversation.getConversationContent().toString().contains(Constants.ADD_FRIEND_MESSAGE)) {
-                gotoActivity(NewFriendListActivity.class);
-                return true;
-            } else if (Conversation.ConversationType.SYSTEM == uiConversation.getConversationType()) {
-                RongIM.getInstance().clearMessagesUnreadStatus(Conversation.ConversationType.SYSTEM , uiConversation.getConversationTargetId(), null);
-                //gotoActivity(SysPushMessageActivity.class);
-                return true;
-            }else {
-                Bundle bundle = new Bundle();
-                bundle.putString(ConversationActivity.TARGET_ID, uiConversation.getConversationTargetId());
-                bundle.putInt(ConversationActivity.CONVERSATION_TYPE, uiConversation.getConversationType().getValue());
-                bundle.putString(ConversationActivity.TITLE, uiConversation.getUIConversationTitle());
-                gotoActivity(ConversationActivity.class, false, bundle);
-                return true;
-            }
-        }
-    }
 
     private void showLoginHintDialog() {
         ConfirmDialog dialog = new ConfirmDialog((Activity) mContext);
@@ -432,11 +338,7 @@ public class MainActivity extends BaseActivity implements
             @Override
             public void onCloseClick() {
                 String cacheToken = ShareUtil.getInstance().getString(Constants.APP_USER_KEY, "");
-                if (!TextUtils.isEmpty(cacheToken)) {
-                    RongIM.connect(cacheToken, SealAppContext.getInstance().getConnectCallback());
-                } else {
-                    Log.e("seal", "token is empty, can not reconnect");
-                }
+
             }
         });
         dialog.show();

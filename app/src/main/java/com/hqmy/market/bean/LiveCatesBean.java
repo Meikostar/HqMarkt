@@ -7,7 +7,7 @@ package com.hqmy.market.bean;
 
 public class LiveCatesBean {
     private String id;
-    private String cat_name;
+    public String cat_name;
     private String sorts;
     private Videos videos;
     private RoomInfo room;

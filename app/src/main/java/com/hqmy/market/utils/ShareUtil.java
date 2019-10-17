@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.hqmy.market.db.bean.UserInfo;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -25,8 +26,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.UserInfo;
+
 
 
 public class ShareUtil {
@@ -191,9 +191,9 @@ public class ShareUtil {
         Uri RongHeadImg = Uri.parse(Constants.WEB_IMG_URL_UPLOADS + ShareUtil.getInstance().getString(Constants.USER_HEAD, null));
         String userId = ShareUtil.getInstance().getString(Constants.USER_ID, "");
         String nickName = ShareUtil.getInstance().getString(Constants.USER_NAME, "");
-        UserInfo userInfo = new UserInfo(userId, nickName, RongHeadImg);
-        RongIM.getInstance().refreshUserInfoCache(userInfo);//更新的用户缓存数据
-        RongIM.getInstance().logout();//退出融云
+//        UserInfo userInfo = new UserInfo(userId, nickName, RongHeadImg);
+//        RongIM.getInstance().refreshUserInfoCache(userInfo);//更新的用户缓存数据
+//        RongIM.getInstance().logout();//退出融云
         Editor editor = sharedPreferences.edit();
         editor.putString(Constants.APP_USER_KEY, "");
         editor.putString(Constants.USER_TOKEN, "");

@@ -68,8 +68,11 @@ public class GifListDialog extends BaseDialog {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                mAdapter.setCurrentPosition(position);
-                tvPayAmount.setText(mAdapter.getItem(position).getPrice());
+                //                mAdapter.setCurrentPosition(position);
+                //                tvPayAmount.setText(mAdapter.getItem(position).getPrice());
+                if (onYesClickListener1 != null && mAdapter.getItemCount() > 0) {
+                    onYesClickListener1.onYesClick(mAdapter.getItem(position));
+                }
             }
         });
     }
@@ -92,9 +95,9 @@ public class GifListDialog extends BaseDialog {
     @Override
     protected void initEvent() {
         bindClickEvent(btn_sure, () -> {
-            if (onYesClickListener1 != null && mAdapter.getItemCount() > 0) {
-                onYesClickListener1.onYesClick(mAdapter.getItem(mAdapter.getCurrentPosition()).getId());
-            }
+            //            if (onYesClickListener1 != null && mAdapter.getItemCount() > 0) {
+            //                onYesClickListener1.onYesClick(mAdapter.getItem(mAdapter.getCurrentPosition()).getId());
+            //            }
         });
     }
 
@@ -106,6 +109,6 @@ public class GifListDialog extends BaseDialog {
     }
 
     public interface OnYesClickListener1 {
-        void onYesClick(String amount);
+        void onYesClick(GiftBean giftBean);
     }
 }

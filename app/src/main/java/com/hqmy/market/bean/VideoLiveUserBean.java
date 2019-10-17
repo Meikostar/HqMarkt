@@ -10,6 +10,7 @@ public class VideoLiveUserBean {
     private String updated_at;
     private String sex;
     private String im_token;
+    public long count;
     private Boolean is_live;
     private Boolean isFollowing;
 

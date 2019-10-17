@@ -10,7 +10,13 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 防止设备休眠 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
@@ -146,6 +152,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".view.activity.HostManActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.hqmy.market.view.mainfragment.community.TopicPublishActivity"
             android:screenOrientation="portrait" />
         <!--<activity
@@ -269,19 +279,10 @@
             android:name="com.hqmy.market.view.activity.EnterpriseProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hqmy.market.view.mainfragment.chat.ContactsActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.hqmy.market.view.mainfragment.chat.UserDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.mainfragment.chat.AddFriendActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hqmy.market.view.mainfragment.chat.GroupListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hqmy.market.view.mainfragment.chat.GroupDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.mainfragment.chat.ModifyGroupActivity"
@@ -291,9 +292,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.mainfragment.chat.CreatGroupActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hqmy.market.view.mainfragment.chat.SendRedPacketActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity"
@@ -356,33 +354,7 @@
         <activity
             android:name="com.hqmy.market.utils.MyCommonWebView"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hqmy.market.view.mainfragment.chat.ConversationActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="com.hqmy.market"
-                    android:pathPrefix="/conversation/"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.hqmy.market.rong.message.myimagechat.MyPicturePagerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoTitleTranslucentTheme" />
 
-        <receiver
-            android:name="com.hqmy.market.rong.SealNotificationReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
-                <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
-                <action android:name="io.rong.push.intent.THIRD_PARTY_PUSH_STATE" />
-            </intent-filter>
-        </receiver>
         <!--<meta-data-->
         <!--android:name="RONG_CLOUD_APP_KEY"-->
         <!--android:value="e0x9wycfx7flq" />-->
@@ -404,187 +376,14 @@
             android:value="RongCloudApp" />
         <!--第三方的推送 权限 广播 和服务-->
         <!-- 小米 配置开始  -->
-        <service
-            android:name="com.xiaomi.push.service.XMPushService"
-            android:enabled="true" />
-        <service
-            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
-            android:enabled="true"
-            android:exported="true" />
-        <service
-            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
-            android:enabled="true" />
-        <!--注：此service必须在2.2.5版本以后（包括2.2.5版本）加入-->
-        <service
-            android:name="com.xiaomi.push.service.XMJobService"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <!--注：此service必须在3.0.1版本以后（包括3.0.1版本）加入-->
-        <receiver
-            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.xiaomi.push.service.receivers.PingReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.xiaomi.push.PING_TIMER" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="io.rong.push.platform.mi.MiMessageReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.ERROR" />
-            </intent-filter>
-        </receiver>
-        <!-- 小米 配置结束  -->
-        <!-- HMS 配置开始-->
-        <meta-data
-            android:name="com.huawei.hms.client.appid"
-            android:value="10535759" />
 
-        <!-- BridgeActivity定义了HMS-SDK中一些跳转所需要的透明页面-->
-        <activity
-            android:name="com.huawei.hms.activity.BridgeActivity"
-            android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent">
-            <meta-data
-                android:name="hwc-theme"
-                android:value="androidhwext:style/Theme.Emui.Translucent" />
-        </activity>
-
-        <!-- 解决华为移动服务升级问题的透明界面（必须声明）-->
-        <activity
-            android:name="io.rong.push.platform.hms.common.HMSAgentActivity"
-            android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent">
-            <meta-data
-                android:name="hwc-theme"
-                android:value="androidhwext:style/Theme.Emui.Translucent" />
-        </activity>
-
-        <provider
-            android:name="com.huawei.hms.update.provider.UpdateProvider"
-            android:authorities="com.hqmy.market.hms.update.provider"
-            android:exported="false"
-            android:grantUriPermissions="true"></provider>
-        <!-- 第三方相关 :接收Push消息（注册、Push消息、Push连接状态）广播 -->
-        <receiver android:name="io.rong.push.platform.hms.HMSReceiver">
-            <intent-filter>
-                <!-- 必须,用于接收token -->
-                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
-                <!-- 必须，用于接收消息 -->
-                <action android:name="com.huawei.android.push.intent.RECEIVE" />
-                <!-- 可选，用于点击通知栏或通知栏上的按钮后触发onEvent回调 -->
-                <action android:name="com.huawei.android.push.intent.CLICK" />
-                <!-- 可选，查看push通道是否连接，不查看则不需要 -->
-                <action android:name="com.huawei.intent.action.PUSH_STATE" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
-            <intent-filter>
-                <!-- 接收通道发来的通知栏消息，兼容老版本Push -->
-                <action android:name="com.huawei.intent.action.PUSH" />
-            </intent-filter>
-        </receiver>
-        <!-- HMS 配置结束-->
-        <!-- GCM 配置  -->
-        <!--<receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="cn.rongcloud.im" />
-                &lt;!&ndash; 替换为自己的packagename  &ndash;&gt;
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="io.rong.push.platform.google.RongGcmListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="io.rong.push.platform.google.RongGCMInstanceIDListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
-            </intent-filter>
-        </service>-->
-        <!-- GCM 配置结束  -->
-        <!-- [START firebase_service] -->
-        <service
-            android:name="io.rong.push.platform.google.RongFirebaseMessagingService"
-            android:stopWithTask="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <!-- [END firebase_service] -->
-        <!-- [START firebase_iid_service] -->
-        <service
-            android:name="io.rong.push.platform.google.RongFirebaseInstanceIDService"
-            android:stopWithTask="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <!-- [END firebase_iid_service] -->
-        <!-- MeiZu 配置开始  -->
-        <receiver android:name="io.rong.push.platform.meizu.MeiZuReceiver">
-            <intent-filter>
-                <!-- 接收 push 消息 -->
-                <action android:name="com.meizu.flyme.push.intent.MESSAGE" />
-                <!-- 接收 register 消息 -->
-                <action android:name="com.meizu.flyme.push.intent.REGISTER.FEEDBACK" />
-                <!-- 接收 unregister 消息-->
-                <action android:name="com.meizu.flyme.push.intent.UNREGISTER.FEEDBACK" />
-                <!-- 兼容低版本 Flyme3 推送服务配置 -->
-                <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
-                <action android:name="com.meizu.c2dm.intent.RECEIVE" />
-
-                <category android:name="cn.rongcloud.im" />
-            </intent-filter>
-        </receiver>
         <!-- MeiZu 配置结束  -->
         <!--第三方推送的权限 广播 服务 配置结束-->
         <!--添加融云 第三方推送的权限 广播 服务 配置结束-->
         <!-- vivo 推送配置 开始 -->
-        <service
-            android:name="com.vivo.push.sdk.service.CommandClientService"
-            android:exported="true" />
 
         <activity
-            android:name="com.vivo.push.sdk.LinkProxyClientActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
             android:name="com.hqmy.market.view.activity.PLVideoViewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hqmy.market.qiniu.AVStreamingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.activity.CourseWarehouseDetailActivity"
@@ -594,9 +393,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.activity.VideoPayMethodActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hqmy.market.view.activity.LiveVideoViewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.activity.LiveCheckFailActivity"
@@ -641,7 +437,14 @@
         <activity
             android:name="com.hqmy.market.view.activity.PaySuccessActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".qiniu.AVStreamingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.LiveVideoViewActivity"
+            android:screenOrientation="portrait" />
 
+        <!--第三方的推送 权限 广播 和服务-->
         <activity
             android:name="com.hqmy.market.view.activity.MyOrderEvaluateSuccessActivity"
             android:screenOrientation="portrait" />
@@ -680,30 +483,17 @@
             android:screenOrientation="portrait" />
         <activity android:name="com.hqmy.market.view.mainfragment.consume.LoveFamilySecondHandActivity"
             android:screenOrientation="portrait"/>
-        <!--推送配置项-->
-        <meta-data
-            android:name="com.vivo.push.api_key"
-            android:value="2efff5bb-2713-424a-8042-5242421b3dc9" />
-        <meta-data
-            android:name="com.vivo.push.app_id"
-            android:value="10441" />
-        <!-- push 应用定义消息 receiver 声明 -->
-        <receiver android:name="io.rong.push.platform.vivo.VivoPushMessageReceiver">
-            <intent-filter>
-                <!-- 接收 push 消息 -->
-                <action android:name="com.vivo.pushclient.action.RECEIVE" />
-            </intent-filter>
-        </receiver>
-        <!-- vivo 推送配置 结束 -->
-        <!-- OPPO push 配置开始-->
-        <service
-            android:name="com.coloros.mcssdk.PushService"
-            android:permission="com.coloros.mcs.permission.SEND_MCS_MESSAGE">
-            <intent-filter>
-                <action android:name="com.coloros.mcs.action.RECEIVE_MCS_MESSAGE" />
-            </intent-filter>
-        </service>
-        <!-- OPPO push 配置结束-->
+
+        <!--&lt;!&ndash; OPPO push 配置结束&ndash;&gt;-->
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="com.hqmy.market.FileProvider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/rc_file_path" />-->
+        <!--</provider>-->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.hqmy.market.FileProvider"
@@ -713,7 +503,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/rc_file_path" />
         </provider>
-
 
         <!--微信分享回调 -->
         <activity
@@ -727,13 +516,13 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name="ALiPayActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+        <!--<activity-->
+            <!--android:name="ALiPayActivity"-->
+            <!--android:screenOrientation="portrait">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <!--支付宝支付页面-->
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"

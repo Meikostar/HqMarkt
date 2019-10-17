@@ -10,6 +10,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hqmy.market.qiniu.AVStreamingActivity;
 import com.lwkandroid.imagepicker.ImagePicker;
 import com.lwkandroid.imagepicker.data.ImageBean;
 import com.lwkandroid.imagepicker.data.ImagePickType;
@@ -30,7 +31,6 @@ import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
-import com.hqmy.market.qiniu.AVStreamingActivity;
 import com.hqmy.market.qiniu.StreamingBaseActivity;
 import com.hqmy.market.view.mainfragment.learn.StartLiveCategoryAdapter;
 
@@ -77,6 +77,7 @@ public class StartLiveActivity extends BaseActivity {
         mTitleText.setText("开播");
         mRightText.setVisibility(View.VISIBLE);
         mRightText.setText("主播资料");
+
     }
 
     @Override
@@ -119,7 +120,7 @@ public class StartLiveActivity extends BaseActivity {
                 map.put("cate_id", startLiveCategoryAdapter.getCateId());
                 map.put("title", et_des.getText().toString().trim());
                 map.put("images", uploadFilesDto.getPath());
-                map.put("include", "room");
+                map.put("include", "room,apply");
                 openLive(map);
                 break;
             case R.id.img_add:
@@ -211,7 +212,7 @@ public class StartLiveActivity extends BaseActivity {
                 dissLoadDialog();
                 if (result != null) {
                     Intent intent = new Intent(StartLiveActivity.this, AVStreamingActivity.class);
-                    intent.putExtra(StreamingBaseActivity.PUBLIC_URL, result.getData().getRtmp_publish_url());
+                    intent.putExtra(StreamingBaseActivity.PUBLIC_URL, result.getData().apply.getData().rtmp_publish_url);
                     intent.putExtra("id", result.getData().getId());
                     if (result.getData() != null && result.getData().getRoom() != null && result.getData().getRoom().getData() != null) {
                         intent.putExtra("room", result.getData().getRoom().getData());

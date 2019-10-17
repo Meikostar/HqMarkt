@@ -116,14 +116,14 @@ public class LiveSearchActivity extends BaseActivity {
             povertyReliefAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    Intent intent = new Intent(LiveSearchActivity.this, LiveVideoViewActivity.class);
-                    intent.putExtra("videoPath", povertyReliefAdapter.getItem(position).getRtmp_play_url());
-                    intent.putExtra("liveStreaming", 1);
-                    intent.putExtra("videoId", povertyReliefAdapter.getItem(position).getId());
-                    if (povertyReliefAdapter.getItem(position).getRoom() != null && povertyReliefAdapter.getItem(position).getRoom().getData() != null) {
-                        intent.putExtra("roomId", povertyReliefAdapter.getItem(position).getRoom().getData().getId());
-                    }
-                    startActivity(intent);
+//                    Intent intent = new Intent(LiveSearchActivity.this, LiveVideoViewActivity.class);
+//                    intent.putExtra("videoPath", povertyReliefAdapter.getItem(position).getRtmp_play_url());
+//                    intent.putExtra("liveStreaming", 1);
+//                    intent.putExtra("videoId", povertyReliefAdapter.getItem(position).getId());
+//                    if (povertyReliefAdapter.getItem(position).getRoom() != null && povertyReliefAdapter.getItem(position).getRoom().getData() != null) {
+//                        intent.putExtra("roomId", povertyReliefAdapter.getItem(position).getRoom().getData().getId());
+//                    }
+//                    startActivity(intent);
                 }
             });
         }

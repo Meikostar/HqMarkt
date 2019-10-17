@@ -16,8 +16,6 @@ import com.hqmy.market.bean.NewListItemDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.ScreenSizeUtil;
-import com.hqmy.market.qiniu.AVStreamingActivity;
-import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 

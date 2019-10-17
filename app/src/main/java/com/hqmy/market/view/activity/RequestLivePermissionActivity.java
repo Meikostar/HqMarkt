@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.hqmy.market.common.utils.StringUtil;
 import com.lwkandroid.imagepicker.ImagePicker;
 import com.lwkandroid.imagepicker.data.ImageBean;
 import com.lwkandroid.imagepicker.data.ImagePickType;
@@ -30,6 +32,7 @@ import com.hqmy.market.http.response.HttpResult;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import butterknife.BindView;
@@ -49,7 +52,7 @@ public class RequestLivePermissionActivity extends BaseActivity {
     @BindView(R.id.iv_id_card)
     ImageView iv_id_card;
     UploadFilesDto uploadFilesDto;
-
+    private int state;
     @Override
     public int getLayoutId() {
         return R.layout.activity_request_live_permission;
@@ -57,7 +60,13 @@ public class RequestLivePermissionActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mTitleText.setText("实名认证");
+        state=getIntent().getIntExtra("state",0);
+        if(state==1){
+            mTitleText.setText("我要开播");
+        }else {
+            mTitleText.setText("实名认证");
+        }
+
     }
 
     @Override
@@ -107,15 +116,28 @@ public class RequestLivePermissionActivity extends BaseActivity {
                     ToastUtil.showToast("请输入身份证");
                     return;
                 }
+                try {
+                    if (!StringUtil.IDCardValidate(et_id_card.getText().toString().trim())) {
+                        ToastUtil.showToast("请输入正确的身份证");
+                        return;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 if (uploadFilesDto == null) {
                     ToastUtil.showToast("请上传身份证");
                     return;
                 }
                 HashMap<String,String> map = new HashMap<>();
-                map.put("realname",et_name.getText().toString().trim());
-                map.put("identity",et_id_card.getText().toString().trim());
-                map.put("identity_image",uploadFilesDto.getUrl());
-                applyLive(map);
+                map.put("real_name",et_name.getText().toString().trim());
+                map.put("no",et_id_card.getText().toString().trim());
+                map.put("imgs[0]",uploadFilesDto.getId()+"");
+                if(state==1){
+                    applyLives();
+                }else {
+                    applyLive(map);
+                }
+
                 break;
         }
 
@@ -173,15 +195,17 @@ public class RequestLivePermissionActivity extends BaseActivity {
                 ToastUtil.toast(ApiException.getInstance().getErrorMsg());
 
             }
-        }, "live", part);
+        }, "image", part);
     }
     public void applyLive(HashMap<String, String> map) {
         showLoadDialog();
-        DataManager.getInstance().applyLive(new DefaultSingleObserver<HttpResult<AnchorInfo>>() {
+        DataManager.getInstance().applyrealName(new DefaultSingleObserver<HttpResult<Object>>() {
             @Override
-            public void onSuccess(HttpResult<AnchorInfo> result) {
+            public void onSuccess(HttpResult<Object> result) {
                 dissLoadDialog();
-                gotoActivity(LiveCheckingActivity.class,true);
+                ToastUtil.showToast("实名认证已提交，请耐心等待审核!");
+                finish();
+//                gotoActivity(LiveCheckingActivity.class,true);
             }
 
             @Override
@@ -190,5 +214,23 @@ public class RequestLivePermissionActivity extends BaseActivity {
                 ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
         }, map);
+    }
+
+    public void applyLives() {
+        showLoadDialog();
+        DataManager.getInstance().applyLive(new DefaultSingleObserver<HttpResult<AnchorInfo>>() {
+            @Override
+            public void onSuccess(HttpResult<AnchorInfo> result) {
+                dissLoadDialog();
+                gotoActivity(LiveCheckingActivity.class,true);
+                finish();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+            }
+        });
     }
 }

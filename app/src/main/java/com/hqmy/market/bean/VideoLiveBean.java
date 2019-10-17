@@ -1,23 +1,30 @@
 package com.hqmy.market.bean;
 
+import java.util.List;
+
 public class VideoLiveBean {
-    private String id;
-    private String title;
-    private String images;
-    private String is_recommended;
-    private String created_at;
-    private String live_title;
-    private String stream_id;
-    private String rtmp_publish_url;
-    private String rtmp_play_url;
-    private String hls_play_url;
-    private String hdl_play_url;
-    private String snap_shot_img;
-    private String likers_count;
-    private String play_count;
-    private String chatter_total;
-    private VideoLiveUserInfo user;
-    private RoomInfo room;
+    private String               id;
+    private String               title;
+
+    private String               is_recommended;
+    private String               created_at;
+    private String               live_title;
+    private String               stream_id;
+    private String               rtmp_publish_url;
+    private String               rtmp_play_url;
+    private String               hls_play_url;
+    private String               hdl_play_url;
+    private String               snap_shot_img;
+    private String               likers_count;
+    public String               play_url;
+    public String               products_count;
+    public String               chatter_total;
+    public String               images;
+    public String               play_count;
+    private VideoLiveUserInfo    user;
+    public  RoomInfo             room;
+    public  RoomInfo             apply;
+    public  List<MyOrderItemDto> products;
 
     public String getId() {
         return id;

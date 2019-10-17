@@ -69,14 +69,14 @@ public class PovertyReliefActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(PovertyReliefActivity.this, LiveVideoViewActivity.class);
-                intent.putExtra("videoPath", mAdapter.getItem(position).getRtmp_play_url());
-                intent.putExtra("videoId", mAdapter.getItem(position).getId());
-                if (mAdapter.getItem(position).getRoom() != null && mAdapter.getItem(position).getRoom().getData() != null) {
-                    intent.putExtra("roomId", mAdapter.getItem(position).getRoom().getData().getId());
-                }
-                intent.putExtra("liveStreaming", 1);
-                startActivity(intent);
+//                Intent intent = new Intent(PovertyReliefActivity.this, LiveVideoViewActivity.class);
+//                intent.putExtra("videoPath", mAdapter.getItem(position).getRtmp_play_url());
+//                intent.putExtra("videoId", mAdapter.getItem(position).getId());
+//                if (mAdapter.getItem(position).getRoom() != null && mAdapter.getItem(position).getRoom().getData() != null) {
+//                    intent.putExtra("roomId", mAdapter.getItem(position).getRoom().getData().getId());
+//                }
+//                intent.putExtra("liveStreaming", 1);
+//                startActivity(intent);
             }
         });
     }
@@ -85,7 +85,7 @@ public class PovertyReliefActivity extends BaseActivity {
         showLoadDialog();
         HashMap<String, String> map = new HashMap<>();
         map.put("cate_id", id);
-        map.put("include", "room,user,cate");
+        map.put("include", "apply,room,user,cate");
         DataManager.getInstance().liveVideos(new DefaultSingleObserver<HttpResult<List<VideoLiveBean>>>() {
             @Override
             public void onSuccess(HttpResult<List<VideoLiveBean>> result) {

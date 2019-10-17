@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.hqmy.market.R;
 import com.hqmy.market.bean.AreaDto;
+import com.hqmy.market.bean.UserInfoDto;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.view.activity.ConturyDetialActivity;
 
@@ -25,7 +26,7 @@ import java.util.List;
 public class Liveadapter extends BaseAdapter {
     private Context        context;
     private LayoutInflater inflater;
-    private List<AreaDto>  list;
+    private List<UserInfoDto>  list;
     private int            type = 0;//0 表示默认使用list数据
     private String         types;
 
@@ -40,7 +41,7 @@ public class Liveadapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setData(List<AreaDto> list) {
+    public void setData(List<UserInfoDto> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -74,22 +75,39 @@ public class Liveadapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        AreaDto bannerDto = list.get(i);
+        UserInfoDto bannerDto = list.get(i);
 
-        if(!TextUtils.isEmpty(bannerDto.title)){
-            holder.txt_name.setText(bannerDto.title);
+        if(!TextUtils.isEmpty(bannerDto.getName())){
+            holder.txt_name.setText(bannerDto.getName());
+        }
+        if(i<3){
+
+            holder.img_type.setVisibility(View.VISIBLE);
+            if(i==0){
+                holder.img_type.setBackgroundResource(R.drawable.circle_1);
+                holder.img_type.setText("1");
+            }else if(i==1){
+                holder.img_type.setBackgroundResource(R.drawable.circle_2);
+                holder.img_type.setText("2");
+            }else if(i==2){
+                holder.img_type.setBackgroundResource(R.drawable.circle_3);
+                holder.img_type.setText("3");
+            }
+
+        }else {
+            holder.img_type.setVisibility(View.GONE);
         }
         holder.ll_bg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ConturyDetialActivity.class);
-                intent.putExtra("id",bannerDto.id+"");
-                intent.putExtra("title",bannerDto.title+"");
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, ConturyDetialActivity.class);
+//                intent.putExtra("id",bannerDto.id+"");
+//                intent.putExtra("title",bannerDto.title+"");
+//                context.startActivity(intent);
             }
         });
 
-        GlideUtils.getInstances().loadRoundImg(context,holder.img_icon,bannerDto.icon,R.drawable.moren_sf);
+        GlideUtils.getInstances().loadRoundImg(context,holder.img_icon,bannerDto.getAvatar(),R.drawable.moren_ren);
         // PROFILE_ITEM item = list.get(i);
         return view;
     }
@@ -99,7 +117,7 @@ public class Liveadapter extends BaseAdapter {
     class ViewHolder {
         TextView     txt_name;
         ImageView    img_icon;
-        ImageView    img_type;
+        TextView    img_type;
         LinearLayout ll_bg;
 
     }

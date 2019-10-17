@@ -80,6 +80,7 @@ import com.hqmy.market.bean.UserInfoDto;
 import com.hqmy.market.bean.VideoBean;
 import com.hqmy.market.bean.VideoLiveBean;
 import com.hqmy.market.bean.WEIXINREQ;
+import com.hqmy.market.db.bean.UserInfo;
 import com.hqmy.market.http.response.HttpResult;
 
 import java.util.ArrayList;
@@ -690,6 +691,17 @@ public interface RetrofitService {
     Single<HttpResult<List<GiftBean>>> getLiveGift();
 
     /**
+     * 礼物列表
+     */
+    @GET("api/live/top")
+    Single<HttpResult<List<UserInfoDto>>> getLiveTop(@Header("Authorization") String token, @Query("day_type") String include);
+    /**
+     * 是否认证
+     */
+    @GET("api/live/video/liveing")
+    Single<PersonalInfoDto> isliveing(@Header("Authorization") String token);
+
+    /**
      * 是否主播
      */
     @GET("api/live/is_live")
@@ -699,13 +711,20 @@ public interface RetrofitService {
      * 查询主播信息
      */
     @GET("api/live/apply")
-    Single<HttpResult<AnchorInfo>> getAnchorInfo(@Header("Authorization") String token);
+    Single<HttpResult<AnchorInfo>> getAnchorInfo(@Header("Authorization") String token, @Query("user_id") String user_id );
 
     /**
      * 申请主播
      */
     @POST("api/live/apply")
-    Single<HttpResult<AnchorInfo>> applyAnchor(@Header("Authorization") String token, @Body HashMap<String, String> map);
+    Single<HttpResult<AnchorInfo>> applyAnchor(@Header("Authorization") String token);
+
+    /**
+     * 实名认证
+     */
+    @POST("api/package/user/real_name")
+    Single<HttpResult<Object>> applyrealName(@Header("Authorization") String token, @Body HashMap<String, String> map);
+
 
     /**
      * 打赏礼物
@@ -728,32 +747,36 @@ public interface RetrofitService {
     /**
      * 直播列表
      */
-    @GET("api/live/videos")
+    @GET("api/live/video")
     Single<HttpResult<List<VideoLiveBean>>> liveVideos(@QueryMap HashMap<String, String> map);
 
     /**
      * 开启视频直播
      */
-    @POST("api/live/videos")
+    @POST("api/live/video")
     Single<HttpResult<LiveVideoInfo>> liveVideosList(@Header("Authorization") String token, @Body HashMap<String, String> map);
 
     /**
      * 停播
      */
-    @POST("api/live/videos/close")
+    @POST("api/live/video/close")
     Single<HttpResult<AnchorInfo>> liveVideosClose(@Header("Authorization") String token, @Body Map<String, String> map);
 
     /**
      * 停播成功，返回数据
      */
-    @GET("api/live/videos/close_success")
+    @GET("api/live/video/close_success")
     Single<HttpResult<OnlineLiveFinishBean>> liveVideosCloseSuccess(@Query("id") String id);
-
     /**
      * 直播详情
      */
-    @GET("api/live/videos/infos")
+    @GET("api/live/video/infos")
     Single<HttpResult<VideoLiveBean>> liveVideosInfo(@Query("id") String id, @Query("include") String include);
+    /**
+     * 直播详情
+     */
+    @GET("api/live/apply")
+    Single<HttpResult<VideoLiveBean>> liveApply(@Query("user_id") String id);
 
 //    /**
 //     * 直播详情

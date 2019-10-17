@@ -182,8 +182,14 @@
     <dimen name="wz_35sp">27sp</dimen>
     <dimen name="wz_40sp">40sp</dimen>
 
-
-
+    <dimen name="heart_size_height">27.3dp</dimen>
+    <dimen name="heart_size_width">32.5dp</dimen>
+    <dimen name="heart_anim_bezier_x_rand">40.0dp</dimen>
+    <dimen name="heart_anim_init_x">50.0dp</dimen>
+    <dimen name="heart_anim_init_y">25.0dp</dimen>
+    <dimen name="heart_anim_length">100.0dp</dimen>
+    <dimen name="heart_anim_length_rand">150.0dp</dimen>
+    <dimen name="heart_anim_x_point_factor">30.0dp</dimen>
     <dimen name="pldroid_streaming_activity_horizontal_margin">0dp</dimen>
     <dimen name="pldroid_streaming_activity_vertical_margin">0dp</dimen>
     <dimen name="pldroid_streaming_item_padding">12dp</dimen>

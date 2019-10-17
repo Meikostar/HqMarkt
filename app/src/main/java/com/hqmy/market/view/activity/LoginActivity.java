@@ -17,6 +17,7 @@ import com.hqmy.market.bean.PersonalInfoDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.LogUtil;
 import com.hqmy.market.common.utils.ToastUtil;
+import com.hqmy.market.db.bean.UserInfo;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
@@ -26,8 +27,7 @@ import com.hqmy.market.view.MainActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.UserInfo;
+import io.rong.imlib.RongIMClient;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.tv_title_text)
@@ -167,7 +167,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void loginSuccess(LoginDto loginDto, boolean wxLogin) {
-        ShareUtil.getInstance().save(Constants.USER_TOKEN, loginDto.getAccess_token());
+//        ShareUtil.getInstance().save(Constants.USER_TOKEN, loginDto.getAccess_token());
         String phone = "";
         if (loginDto.getUser() != null && loginDto.getUser().getData() != null) {
             PersonalInfoDto personalInfoDto = loginDto.getUser().getData();
@@ -195,7 +195,6 @@ public class LoginActivity extends BaseActivity {
             }else{
                 avatarStr = "android.resource://" + getApplicationContext().getPackageName() + "/" +R.mipmap.ic_head_img;
             }
-            RongIM.getInstance().refreshUserInfoCache(new UserInfo(personalInfoDto.getId(), nameStr, Uri.parse(avatarStr)));
         }
           ShareUtil.getInstance().save(Constants.USER_ACCOUNT_NUMBER, mAccountNumber.getText().toString().trim());
           if(isRememberPasswordChecked) {

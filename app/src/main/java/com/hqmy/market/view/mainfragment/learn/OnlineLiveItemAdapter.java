@@ -1,11 +1,16 @@
 package com.hqmy.market.view.mainfragment.learn;
 
+import android.content.Intent;
+import android.view.View;
+import android.widget.RelativeLayout;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hqmy.market.R;
 import com.hqmy.market.bean.VideoLiveBean;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.view.activity.LiveVideoViewActivity;
 
 public class OnlineLiveItemAdapter extends BaseQuickAdapter<VideoLiveBean, BaseViewHolder> {
     public OnlineLiveItemAdapter() {
@@ -18,5 +23,27 @@ public class OnlineLiveItemAdapter extends BaseQuickAdapter<VideoLiveBean, BaseV
         helper.setText(R.id.tv_title, item.getTitle())
                 .setText(R.id.tv_play_count, item.getPlay_count())
                 .setText(R.id.tv_chatter_total, item.getChatter_total());
+        RelativeLayout rlbg=helper.getView(R.id.rl_bg);
+        rlbg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startLiveVideoActivity(item);
+            }
+        });
+    }
+
+
+    private void startLiveVideoActivity(VideoLiveBean videoLiveBean) {
+        Intent intent = new Intent(mContext, LiveVideoViewActivity.class);
+
+        if (videoLiveBean.getRoom() != null && videoLiveBean.getRoom().getData() != null) {
+            intent.putExtra("roomId", videoLiveBean.getRoom().getData().getId());
+        }
+        if (videoLiveBean.apply != null && videoLiveBean.apply.getData() != null) {
+            intent.putExtra("videoPath", videoLiveBean.apply.getData().rtmp_play_url);
+        }
+        intent.putExtra("videoId", videoLiveBean.getId());
+        intent.putExtra("liveStreaming", 1);
+        mContext.startActivity(intent);
     }
 }

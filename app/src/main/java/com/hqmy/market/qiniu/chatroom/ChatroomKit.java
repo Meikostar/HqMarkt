@@ -1,16 +1,41 @@
 package com.hqmy.market.qiniu.chatroom;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
+import android.widget.RemoteViews;
 
-import com.hqmy.market.qiniu.chatroom.message.ChatRoomGift;
+
+import com.hqmy.market.R;
+import com.hqmy.market.base.BaseApplication;
+import com.hqmy.market.common.Constants;
+import com.hqmy.market.common.utils.LogUtil;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomBarrage;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomEnd;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomGift;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomJifen;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomLike;
 import com.hqmy.market.qiniu.chatroom.message.ChatroomStart;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomUserQuit;
 import com.hqmy.market.qiniu.chatroom.message.ChatroomWelcome;
 import com.hqmy.market.qiniu.chatroom.messageview.BaseMsgView;
 import com.hqmy.market.qiniu.chatroom.panel.EmojiManager;
+import com.hqmy.market.utils.ScreenUtils;
+import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.view.MainActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+//import io.rong.imkit.RongIM;
 import io.rong.imlib.AnnotationNotFoundException;
 import io.rong.imlib.IRongCallback;
 import io.rong.imlib.RongIMClient;
@@ -18,6 +43,9 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
+import io.rong.message.TextMessage;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * ChatroomKit是融云聊天室Demo对IMLib库的接口封装类。目的是在IMLib库众多通用接口中，提炼出与直播聊天室应用相关的常用接口，
@@ -64,11 +92,59 @@ public class ChatroomKit {
      */
     private static RongIMClient.OnReceiveMessageListener onReceiveMessageListener = new RongIMClient.OnReceiveMessageListener() {
         @Override
-        public boolean onReceived(Message message, int i) {
+        public boolean onReceived(Message message, int left) {
             handleEvent(MESSAGE_ARRIVED, message);
+
+//            ShowNotification(message, left);
             return false;
         }
     };
+
+    private static int num = 0;//初始通知数量为1
+
+    //按钮点击事件（通知栏）
+    public static void ShowNotification(Message message, int left) {
+        LogUtil.e("ChatroomKit", "消息接收监听者=" + message.toString());
+        num++;
+        Intent intent = new Intent(BaseApplication.getInstance(), MainActivity.class);
+        NotificationManager manager = (NotificationManager) BaseApplication.getInstance().getSystemService(NOTIFICATION_SERVICE);
+        //8.0 以后需要加上channelId 才能正常显示
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "default";
+            String channelName = "默认通知";
+            manager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH));
+        }
+
+        //设置TaskStackBuilder
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(BaseApplication.getInstance());
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(intent);
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(BaseApplication.getInstance(), "default");
+        builder.setSmallIcon(R.mipmap.ic_logo);
+        RemoteViews rv = new RemoteViews(BaseApplication.getInstance().getPackageName(), R.layout.custom_notification_view);
+        TextMessage content = (TextMessage) message.getContent();
+        rv.setTextViewText(R.id.content_tv,content.getContent());//修改自定义View中的歌名
+        rv.setTextViewText(R.id.create_time_tv, ScreenUtils.formatToFileDi(message.getSentTime()));
+        rv.setTextViewText(R.id.number_tv, "还有" + left + "个通知");
+        //修改自定义View中的图片(两种方法)
+        //        rv.setImageViewResource(R.id.iv,R.mipmap.ic_launcher);
+//        rv.setImageViewBitmap(R.id.iv, BitmapFactory.decodeResource(BaseApplication.getInstance().getResources(), R.mipmap.ic_logo));
+        builder.setContent(rv);
+
+        //设置点击通知跳转页面后，通知消失
+        builder.setAutoCancel(true);
+//        Intent intent = new Intent(BaseApplication.getInstance(), MainActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(BaseApplication.getInstance(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+
+        Notification notification = builder.build();
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        NotificationManager notificationManager = (NotificationManager) BaseApplication.getInstance().getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0x1, notification);
+    }
 
     /**
      * 初始化方法，在整个应用程序全局只需要调用一次，建议在Application 继承类中调用。
@@ -83,7 +159,7 @@ public class ChatroomKit {
         RongIMClient.init(context, appKey);
         EmojiManager.init(context);
 
-        RongIMClient.setOnReceiveMessageListener(onReceiveMessageListener);
+        RongIMClient.setOnReceiveMessageListener(onReceiveMessageListener); //设置消息接收监听器
 
         registerMessageType(ChatroomWelcome.class);
 //        registerMessageView(ChatroomWelcome.class, WelcomeMsgView.class);
@@ -91,14 +167,14 @@ public class ChatroomKit {
 //        registerMessageType(ChatroomFollow.class);
 //        registerMessageView(ChatroomFollow.class, FollowMsgView.class);
 //
-//        registerMessageType(ChatroomBarrage.class);
+        registerMessageType(ChatroomBarrage.class);
 //
-        registerMessageType(ChatRoomGift.class);
+        registerMessageType(ChatroomGift.class);
 //
-//        registerMessageType(ChatroomLike.class);
+        registerMessageType(ChatroomLike.class);
 //        registerMessageView(ChatroomLike.class, LikeMsgView.class);
 //
-//        registerMessageType(ChatroomUserQuit.class);
+        registerMessageType(ChatroomUserQuit.class);
 //        registerMessageView(ChatroomUserQuit.class, UserQuitMsgView.class);
 //
 //        registerMessageView(TextMessage.class, TextMsgView.class);
@@ -124,11 +200,13 @@ public class ChatroomKit {
 //        registerMessageType(ChatroomUserUnBlock.class);
 //        registerMessageView(ChatroomUserUnBlock.class, UserUnBlockView.class);
 //
-//        registerMessageType(ChatroomEnd.class);
+        registerMessageType(ChatroomEnd.class);
+        registerMessageType(ChatroomJifen.class);
 //        registerMessageView(ChatroomEnd.class, EndView.class);
 //
 //        registerMessageType(BanWarnMessage.class);
 //        registerMessageView(BanWarnMessage.class, BanWarnView.class);
+
 
     }
 
@@ -235,6 +313,9 @@ public class ChatroomKit {
      */
     public static void sendMessage(final MessageContent msgContent) {
         if (currentUser == null) {
+            currentUser = getUserInfo();
+        }
+        if (currentUser == null) {
             throw new RuntimeException("currentUser should not be null.");
         }
 
@@ -305,5 +386,12 @@ public class ChatroomKit {
             m.obj = obj;
             handler.sendMessage(m);
         }
+    }
+
+    private static UserInfo getUserInfo() {
+        Uri RongHeadImg = Uri.parse(Constants.WEB_IMG_URL_UPLOADS + ShareUtil.getInstance().getString(Constants.USER_HEAD, null));
+        String userId = ShareUtil.getInstance().getString(Constants.USER_ID, "");
+        String nickName = ShareUtil.getInstance().getString(Constants.USER_NAME, "");
+        return new UserInfo(userId, nickName, RongHeadImg);
     }
 }

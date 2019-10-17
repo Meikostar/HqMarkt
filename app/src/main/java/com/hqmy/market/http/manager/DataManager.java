@@ -1059,12 +1059,21 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
+    /**
+     * 是否主播
+     */
+    public void isliveing(DefaultSingleObserver<PersonalInfoDto> observer) {
+        Single<PersonalInfoDto> observable = retrofitService.isliveing(getToken())
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
 
     /**
      * 查询主播信息
      */
-    public void getLiveInfo(DefaultSingleObserver<HttpResult<AnchorInfo>> observer) {
-        Single<HttpResult<AnchorInfo>> observable = retrofitService.getAnchorInfo(getToken())
+    public void getLiveInfo(DefaultSingleObserver<HttpResult<AnchorInfo>> observer,String user_id) {
+        Single<HttpResult<AnchorInfo>> observable = retrofitService.getAnchorInfo(getToken(), user_id)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -1072,11 +1081,20 @@ public class DataManager {
     /**
      * 申请主播
      */
-    public void applyLive(DefaultSingleObserver<HttpResult<AnchorInfo>> observer, HashMap<String, String> map) {
-        Single<HttpResult<AnchorInfo>> observable = retrofitService.applyAnchor(getToken(), map)
+    public void applyLive(DefaultSingleObserver<HttpResult<AnchorInfo>> observer) {
+        Single<HttpResult<AnchorInfo>> observable = retrofitService.applyAnchor(getToken())
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
+    /**
+     * 申请主播
+     */
+    public void applyrealName(DefaultSingleObserver<HttpResult<Object>> observer, HashMap<String, String> map) {
+        Single<HttpResult<Object>> observable = retrofitService.applyrealName(getToken(), map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
     /**
      * 申请主播
      */
@@ -1215,6 +1233,13 @@ public class DataManager {
         subscribe(observable, observer);
     }
 
+    public void liveApply(DefaultSingleObserver<HttpResult<VideoLiveBean>> observer, String id) {
+        Single<HttpResult<VideoLiveBean>> observable = retrofitService.liveApply(id)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+
     /**
      * 礼物列表
      *
@@ -1222,6 +1247,17 @@ public class DataManager {
      */
     public void getLiveGift(DefaultSingleObserver<HttpResult<List<GiftBean>>> observer) {
         Single<HttpResult<List<GiftBean>>> observable = retrofitService.getLiveGift()
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+    /**
+     * 排行榜
+     *
+     * @param observer
+     */
+    public void getLiveTop(DefaultSingleObserver<HttpResult<List<UserInfoDto>>> observer,String type) {
+        Single<HttpResult<List<UserInfoDto>>> observable = retrofitService.getLiveTop(getToken(),type)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }

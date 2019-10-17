@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/bj_25dp"
                 android:paddingLeft="@dimen/bj_10dp"
-                android:text="直播课程分类"
+                android:text="直播分类"
                 android:textColor="#ff333333"
                 android:textSize="16sp" />
 

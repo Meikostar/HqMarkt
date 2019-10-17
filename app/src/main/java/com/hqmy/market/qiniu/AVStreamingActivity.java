@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.media.AudioFormat;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -15,27 +16,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.qiniu.pili.droid.streaming.AVCodecType;
-import com.qiniu.pili.droid.streaming.CameraStreamingSetting;
-import com.qiniu.pili.droid.streaming.FrameCapturedCallback;
-import com.qiniu.pili.droid.streaming.MediaStreamingManager;
-import com.qiniu.pili.droid.streaming.MicrophoneStreamingSetting;
-import com.qiniu.pili.droid.streaming.StreamingPreviewCallback;
-import com.qiniu.pili.droid.streaming.StreamingProfile;
-import com.qiniu.pili.droid.streaming.StreamingState;
-import com.qiniu.pili.droid.streaming.SurfaceTextureCallback;
-import com.qiniu.pili.droid.streaming.av.common.PLFourCC;
 import com.hqmy.market.R;
 import com.hqmy.market.bean.AnchorInfo;
 import com.hqmy.market.bean.RoomBean;
@@ -46,19 +36,36 @@ import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
+import com.hqmy.market.qiniu.adapter.DanmuAdapter;
+import com.hqmy.market.qiniu.adapter.DanmuEntity;
 import com.hqmy.market.qiniu.adapter.LiveVideoViewAdapter;
 import com.hqmy.market.qiniu.chatroom.ChatroomKit;
 import com.hqmy.market.qiniu.chatroom.gift.GiftSendModel;
 import com.hqmy.market.qiniu.chatroom.gift.GiftView;
-import com.hqmy.market.qiniu.chatroom.message.ChatRoomGift;
-import com.hqmy.market.qiniu.chatroom.panel.EmojiBoard;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomBarrage;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomEnd;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomGift;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomUser;
+import com.hqmy.market.qiniu.chatroom.message.ChatroomWelcome;
 import com.hqmy.market.qiniu.live.gles.FBO;
 import com.hqmy.market.qiniu.live.ui.CameraPreviewFrameView;
-import com.hqmy.market.qiniu.live.utils.Config;
+import com.hqmy.market.qiniu.live.ui.InputPanel;
 import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.view.activity.OnlineLiveFinishActivity;
 import com.hqmy.market.view.activity.RoomUserListActivity;
 import com.hqmy.market.view.widgets.dialog.BeautyDialog;
+import com.hqmy.market.view.widgets.dialog.ShareModeDialog;
+import com.orzangleli.xdanmuku.DanmuContainerView;
+import com.qiniu.pili.droid.streaming.AVCodecType;
+import com.qiniu.pili.droid.streaming.CameraStreamingSetting;
+import com.qiniu.pili.droid.streaming.FrameCapturedCallback;
+import com.qiniu.pili.droid.streaming.MediaStreamingManager;
+import com.qiniu.pili.droid.streaming.MicrophoneStreamingSetting;
+import com.qiniu.pili.droid.streaming.StreamingPreviewCallback;
+import com.qiniu.pili.droid.streaming.StreamingProfile;
+import com.qiniu.pili.droid.streaming.StreamingState;
+import com.qiniu.pili.droid.streaming.SurfaceTextureCallback;
+import com.qiniu.pili.droid.streaming.av.common.PLFourCC;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -70,10 +77,9 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.rong.imlib.IRongCallback;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
@@ -81,46 +87,86 @@ import io.rong.message.TextMessage;
 
 public class AVStreamingActivity extends StreamingBaseActivity implements StreamingPreviewCallback, CameraPreviewFrameView.Listener,
         SurfaceTextureCallback, Handler.Callback {
-    @BindView(R.id.iv_mute)
-    ImageView ivMute;
-    @BindView(R.id.iv_scan)
-    ImageView ivScan;
-    @BindView(R.id.tv_name)
-    TextView tvName;
-    @BindView(R.id.tv_count)
-    TextView tvCount;
-    @BindView(R.id.tv_room_num)
-    TextView tvRoomNum;
-    @BindView(R.id.iv_icon)
-    ImageView ivIcon;
-    @BindView(R.id.input_emoji_board)
-    EmojiBoard emojiBoard;
-    @BindView(R.id.input_editor)
-    EditText textEditor;
-    @BindView(R.id.giftView)
-    GiftView giftView;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    private LiveVideoViewAdapter mAdapter;
+    //    @BindView(R.id.iv_mute)
+    //    ImageView          ivMute;
+    //    @BindView(R.id.iv_scan)
+    //    ImageView          ivScan;
+    //    @BindView(R.id.tv_name)
+    //    TextView           tvName;
+    //    @BindView(R.id.tv_count)
+    //    TextView           tvCount;
+    //    @BindView(R.id.tv_room_num)
+    //    TextView           tvRoomNum;
+    //    @BindView(R.id.iv_icon)
+    //    ImageView          ivIcon;
+    //    @BindView(R.id.giftView)
+    //    GiftView           giftView;
+    //    @BindView(R.id.recyclerView)
+    //    RecyclerView       recyclerView;
+    //    @BindView(R.id.danmuContainerView)
+    //    DanmuContainerView danmuContainerView;
+    //    @BindView(R.id.input_panel)
+    //    InputPanel         inputPanel;
 
     private static final String TAG = "AVStreamingActivity";
+    @BindView(R.id.cameraPreview_surfaceView)
+    CameraPreviewFrameView cameraPreviewSurfaceView;
+    @BindView(R.id.iv_icon)
+    ImageView              ivIcon;
+    @BindView(R.id.tv_name)
+    TextView               tvName;
+    @BindView(R.id.tv_count)
+    TextView               tvCount;
+    @BindView(R.id.rl_author_info)
+    RelativeLayout         rlAuthorInfo;
+    @BindView(R.id.iv_title_back)
+    ImageView              ivTitleBack;
+    @BindView(R.id.tv_room_num)
+    TextView               tvRoomNum;
+    @BindView(R.id.danmuContainerView)
+    DanmuContainerView     danmuContainerView;
+    @BindView(R.id.giftView)
+    GiftView               giftView;
+    @BindView(R.id.input_editor)
+    TextView               inputEditor;
+    @BindView(R.id.iv_scan)
+    ImageView              ivScan;
+    @BindView(R.id.iv_beauty)
+    ImageView              ivBeauty;
+    @BindView(R.id.iv_mute)
+    ImageView              ivMute;
+    @BindView(R.id.iv_user_list)
+    ImageView              ivUserList;
+    @BindView(R.id.iv_share)
+    ImageView              ivShare;
+    @BindView(R.id.rl_bottom)
+    LinearLayout           rlBottom;
+    @BindView(R.id.iv_tanmu)
+    ImageView              ivTanmu;
+    @BindView(R.id.recyclerView)
+    RecyclerView           recyclerView;
+    @BindView(R.id.input_panel)
+    InputPanel             inputPanel;
+    @BindView(R.id.content)
+    RelativeLayout         content;
+    private LiveVideoViewAdapter   mAdapter;
     private CameraStreamingSetting mCameraStreamingSetting;
-    private boolean mIsNeedMute = false;
-    private int mCurrentZoom = 0;
-    private int mMaxZoom = 0;
-    private boolean mOrientationChanged = false;
-    private int mCurrentCamFacingIndex;
-    private FBO mFBO = new FBO();
-    private Switcher mSwitcher = new Switcher();
-    private ImageSwitcher mImageSwitcher;
-    private MediaStreamingManager mMediaStreamingManager;
-    //    private String mAudioFile;
-    private Handler mHandler;
-    private int mTimes = 0;
-    private boolean mIsPictureStreaming = false;
+    private boolean                mIsNeedMute         = false;
+    private int                    mCurrentZoom        = 0;
+    private int                    mMaxZoom            = 0;
+    private boolean                mOrientationChanged = false;
+    private int                    mCurrentCamFacingIndex;
+    private FBO                    mFBO                = new FBO();
+    private Switcher               mSwitcher           = new Switcher();
+    private ImageSwitcher          mImageSwitcher;
+    private MediaStreamingManager  mMediaStreamingManager;
+    private Handler                mHandler;
+    private int                    mTimes              = 0;
+    private boolean                mIsPictureStreaming = false;
     RoomBean roomBean;
-    String currentRoomId;
-    String id;
+    String   currentRoomId;
+    String   id;
+    private String  chatterTotal;
     private Handler handler = new Handler(this);
 
     @Override
@@ -153,64 +199,82 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
         if (serializable != null) {
             roomBean = (RoomBean) serializable;
             currentRoomId = roomBean.getId();
-//            ChatroomKit.currentRoomId = currentRoomId;
         }
         ChatroomKit.addEventHandler(handler);
         ChatroomKit.setCurrentUser(new UserInfo(Constants.USER_ID, Constants.USER_NAME, null));
-//        RongIMClient.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
-//            @Override
-//            public boolean onReceived(Message message, int i) {
-//                ToastUtil.showToast("message==收到");
-//                return false;
-//            }
-//        });
-        if (RongIMClient.getInstance().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
-            if (roomBean != null) {
-                ChatroomKit.joinChatRoom(roomBean.getId(), 50, new RongIMClient.OperationCallback() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError(RongIMClient.ErrorCode errorCode) {
-
-                    }
-                });
-//                RongIMClient.getInstance().joinChatRoom(roomBean.getId(), 50, new RongIMClient.OperationCallback() {
-//                    @Override
-//                    public void onSuccess() {
-//                        ToastUtil.showToast("成功");
-//                    }
-//
-//                    @Override
-//                    public void onError(RongIMClient.ErrorCode errorCode) {
-//                        ToastUtil.showToast("失败" + errorCode);
-//                    }
-//                });
-            }
-        }
+        joinChatRoom();
         liveVideosInfo();
-        GlideUtils.getInstances().loadUserRoundImg(AVStreamingActivity.this, ivIcon, ShareUtil.getInstance().get(Constants.USER_HEAD));
+        GlideUtils.getInstances().loadRoundImg(AVStreamingActivity.this, ivIcon, Constants.WEB_IMG_URL_UPLOADS + ShareUtil.getInstance().get(Constants.USER_HEAD),R.drawable.moren_ren);
         tvName.setText(ShareUtil.getInstance().get(Constants.USER_NAME));
+
+        danmuContainerView.setAdapter(new DanmuAdapter(this));
     }
 
     @Override
     public void initListener() {
-        emojiBoard.setItemClickListener(new EmojiBoard.OnEmojiItemClickListener() {
+        inputPanel.setPanelListener(new InputPanel.InputPanelListener() {
             @Override
-            public void onClick(String code) {
-                if (code.equals("/DEL")) {
-                    textEditor.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
-                } else {
-                    textEditor.getText().insert(textEditor.getSelectionStart(), code);
+            public void onSendClick(String text, int type) {
+                if (type == InputPanel.TYPE_TEXTMESSAGE) {
+                    sendTextMessage(text);
+                } else if (type == InputPanel.TYPE_BARRAGE) {
+                    sendDanmuMessage(text);
                 }
+
             }
         });
     }
 
+    private void joinChatRoom() {
+        RongIMClient.ConnectionStatusListener.ConnectionStatus currentConnectionStatus = RongIMClient.getInstance().getCurrentConnectionStatus();
+
+        if (currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
+            if (roomBean != null) {
+                ChatroomKit.joinChatRoom(roomBean.getId(), 50, new RongIMClient.OperationCallback() {
+                    @Override
+                    public void onSuccess() {
+                        ChatroomWelcome welcomeMessage = new ChatroomWelcome();
+                        welcomeMessage.setId(getUserId());
+                        welcomeMessage.setName(getUserName());
+                        welcomeMessage.setUrl(getUserUrl());
+                        ChatroomKit.sendMessage(welcomeMessage);
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+                        ToastUtil.showToast(errorCode.getMessage().toString());
+                    }
+                });
+            }
+        }
+    }
+
+    /**
+     * 弹幕
+     */
+    private void sendDanmuMessage(String text) {
+        ChatroomBarrage barrage = new ChatroomBarrage();
+        barrage.setContent(text);
+        barrage.setName(getUserName());
+        barrage.setUrl(getUserUrl());
+        barrage.setType(0);
+        ChatroomKit.sendMessage(barrage);
+    }
+
+    /**
+     * 结束直播
+     */
+    private void sendEndLive() {
+        ChatroomEnd chatroomEnd = new ChatroomEnd();
+        chatroomEnd.setDuration(60);
+        chatroomEnd.setExtra("附加信息");
+        chatroomEnd.setUrl(getUserUrl());
+        chatroomEnd.setName(getUserName());
+        ChatroomKit.sendMessage(chatroomEnd);
+    }
+
     @OnClick({R.id.iv_title_back, R.id.iv_scan, R.id.iv_mute, R.id.iv_beauty, R.id.iv_user_list,
-            R.id.emojiBtn, R.id.input_send})
+            R.id.input_editor, R.id.iv_share, R.id.iv_tanmu, R.id.content})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_title_back:
@@ -262,11 +326,38 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
                 intent.putExtra("room_id", roomBean.getId());
                 startActivity(intent);
                 break;
-            case R.id.emojiBtn:
-                emojiBoard.setVisibility(emojiBoard.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+            case R.id.iv_share:
+                //分享
+                ShareModeDialog dialog1 = new ShareModeDialog(this, new ShareModeDialog.DialogListener() {
+                    @Override
+                    public void sureItem(int position) {
+                        boolean isTimelineCb = false;
+                        //http://ax.jmlax.com/api/package/user/invitation_img?user_id=14
+                        String url = Constants.BASE_URL + "api/package/user/invitation_img?user_id=" + ShareUtil.getInstance().getString(Constants.USER_ID, "");
+                        String title = "我的推广码";
+                        if (position == ShareModeDialog.SHARE_PYQ) {
+                            isTimelineCb = true;
+                        }
+                        ShareUtil.sendToWeaChat(AVStreamingActivity.this, isTimelineCb, title, url);
+                    }
+                });
+                dialog1.show();
                 break;
-            case R.id.input_send:
-                sendTextMessage();
+            case R.id.input_editor:
+                //说点什么吧
+                inputPanel.setVisibility(View.VISIBLE);
+                inputPanel.requestTextFocus();
+                inputPanel.setType(InputPanel.TYPE_TEXTMESSAGE);
+                break;
+            case R.id.iv_tanmu:
+                //弹幕
+                inputPanel.setVisibility(View.VISIBLE);
+                inputPanel.requestTextFocus();
+                inputPanel.setType(InputPanel.TYPE_BARRAGE);
+                break;
+            case R.id.content:
+                inputPanel.setVisibility(View.GONE);
+                inputPanel.hideKeyboard();
                 break;
         }
     }
@@ -307,14 +398,12 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
             @Override
             public void onSuccess() {
                 ChatroomKit.removeEventHandler(handler);
-
+                sendEndLive();
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 ChatroomKit.removeEventHandler(handler);
-                ToastUtil.showToast("退出聊天室失败! errorCode = " + errorCode);
-
                 Log.i(TAG, "errorCode = " + errorCode);
             }
         });
@@ -343,33 +432,33 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
         mMediaStreamingManager.setAudioSourceCallback(this);
         mMediaStreamingManager.setStreamingStateListener(this);
 
-//        mAudioMixer = mMediaStreamingManager.getAudioMixer();
-//        mAudioMixer.setOnAudioMixListener(new OnAudioMixListener() {
-//            @Override
-//            public void onStatusChanged(MixStatus mixStatus) {
-//                mMixToggleBtn.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(AVStreamingActivity.this, "mix finished", Toast.LENGTH_LONG).show();
-//                        updateMixBtnText();
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onProgress(long l, long l1) {
-//                mMixProgress.setProgress((int) l);
-//                mMixProgress.setMax((int) l1);
-//            }
-//        });
-//        mAudioFile = Cache.getAudioFile(this);
-//        if (mAudioFile != null) {
-//            try {
-//                mAudioMixer.setFile(mAudioFile, true);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        //        mAudioMixer = mMediaStreamingManager.getAudioMixer();
+        //        mAudioMixer.setOnAudioMixListener(new OnAudioMixListener() {
+        //            @Override
+        //            public void onStatusChanged(MixStatus mixStatus) {
+        //                mMixToggleBtn.post(new Runnable() {
+        //                    @Override
+        //                    public void run() {
+        //                        Toast.makeText(AVStreamingActivity.this, "mix finished", Toast.LENGTH_LONG).show();
+        //                        updateMixBtnText();
+        //                    }
+        //                });
+        //            }
+        //
+        //            @Override
+        //            public void onProgress(long l, long l1) {
+        //                mMixProgress.setProgress((int) l);
+        //                mMixProgress.setMax((int) l1);
+        //            }
+        //        });
+        //        mAudioFile = Cache.getAudioFile(this);
+        //        if (mAudioFile != null) {
+        //            try {
+        //                mAudioMixer.setFile(mAudioFile, true);
+        //            } catch (IOException e) {
+        //                e.printStackTrace();
+        //            }
+        //        }
     }
 
     @Override
@@ -382,24 +471,31 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
         return mMediaStreamingManager.stopStreaming();
     }
 
-
-    private class EncodingOrientationSwitcher implements Runnable {
-        @Override
-        public void run() {
-            Log.i(TAG, "mIsEncOrientationPort:" + mIsEncOrientationPort);
-            mOrientationChanged = true;
-            mIsEncOrientationPort = !mIsEncOrientationPort;
-            mProfile.setEncodingOrientation(mIsEncOrientationPort ? StreamingProfile.ENCODING_ORIENTATION.PORT : StreamingProfile.ENCODING_ORIENTATION.LAND);
-            mMediaStreamingManager.setStreamingProfile(mProfile);
-            stopStreamingInternal();
-            setRequestedOrientation(mIsEncOrientationPort ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            mMediaStreamingManager.notifyActivityOrientationChanged();
-//            updateOrientationBtnText();
-            Toast.makeText(AVStreamingActivity.this, Config.HINT_ENCODING_ORIENTATION_CHANGED,
-                    Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "EncodingOrientationSwitcher -");
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
+
+
+    //    private class EncodingOrientationSwitcher implements Runnable {
+    //        @Override
+    //        public void run() {
+    //            Log.i(TAG, "mIsEncOrientationPort:" + mIsEncOrientationPort);
+    //            mOrientationChanged = true;
+    //            mIsEncOrientationPort = !mIsEncOrientationPort;
+    //            mProfile.setEncodingOrientation(mIsEncOrientationPort ? StreamingProfile.ENCODING_ORIENTATION.PORT : StreamingProfile.ENCODING_ORIENTATION.LAND);
+    //            mMediaStreamingManager.setStreamingProfile(mProfile);
+    //            stopStreamingInternal();
+    //            setRequestedOrientation(mIsEncOrientationPort ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    //            mMediaStreamingManager.notifyActivityOrientationChanged();
+    ////            updateOrientationBtnText();
+    //            Toast.makeText(AVStreamingActivity.this, Config.HINT_ENCODING_ORIENTATION_CHANGED,
+    //                    Toast.LENGTH_SHORT).show();
+    //            Log.i(TAG, "EncodingOrientationSwitcher -");
+    //        }
+    //    }
 
     private class Switcher implements Runnable {
         @Override
@@ -518,7 +614,8 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
                 bmp.recycle();
                 bmp = null;
             } finally {
-                if (bos != null) bos.close();
+                if (bos != null)
+                    bos.close();
             }
 
             final String info = "Save frame to:" + Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filename;
@@ -567,10 +664,10 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
     }
 
     private class ViewTouchListener implements View.OnTouchListener {
-        private float lastTouchRawX;
-        private float lastTouchRawY;
+        private float   lastTouchRawX;
+        private float   lastTouchRawY;
         private boolean scale;
-        private View mView;
+        private View    mView;
 
         public ViewTouchListener(View view) {
             mView = view;
@@ -635,8 +732,8 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
             }
 
             if (action == MotionEvent.ACTION_UP) {
-//                当 mMediaStreamingManager.setAutoRefreshOverlay(false) 时自动刷新关闭，建议在 UP 事件里进行手动刷新。
-//                mMediaStreamingManager.refreshOverlay(v, false);
+                //                当 mMediaStreamingManager.setAutoRefreshOverlay(false) 时自动刷新关闭，建议在 UP 事件里进行手动刷新。
+                //                mMediaStreamingManager.refreshOverlay(v, false);
             }
 
             lastTouchRawX = touchRawX;
@@ -645,150 +742,150 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
         }
     }
 
-//    private void initButtonText() {
-//        updateFBButtonText();
-//        updateCameraSwitcherButtonText(mCameraStreamingSetting.getReqCameraId());
-//        mCaptureFrameBtn.setText("Capture");
-//        updateFBButtonText();
-//        updateMuteButtonText();
-//        updateOrientationBtnText();
-//    }
+    //    private void initButtonText() {
+    //        updateFBButtonText();
+    //        updateCameraSwitcherButtonText(mCameraStreamingSetting.getReqCameraId());
+    //        mCaptureFrameBtn.setText("Capture");
+    //        updateFBButtonText();
+    //        updateMuteButtonText();
+    //        updateOrientationBtnText();
+    //    }
 
-//    private void initAudioMixerPanel() {
-//        Button mixPanelBtn = (Button) findViewById(R.id.mix_panel_btn);
-//        mixPanelBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                View panel = findViewById(R.id.mix_panel);
-//                panel.setVisibility(panel.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//            }
-//        });
-//
-//        mMixProgress = (SeekBar) findViewById(R.id.mix_progress);
-//        mMixProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                if (mAudioMixer != null) {
-//                    mAudioMixer.seek(1.0f * seekBar.getProgress() / seekBar.getMax());
-//                }
-//            }
-//        });
-//
-//        SeekBar mixVolume = (SeekBar) findViewById(R.id.mix_volume);
-//        mixVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                if (mAudioMixer != null) {
-//                    mAudioMixer.setVolume(1.0f, 1.0f * seekBar.getProgress() / seekBar.getMax());
-//                }
-//            }
-//        });
-//
-//        Button mixFileBtn = (Button) findViewById(R.id.mix_file_btn);
-//        mixFileBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                DialogProperties properties = new DialogProperties();
-////                properties.selection_mode = DialogConfigs.SINGLE_MODE;
-////                properties.selection_type = DialogConfigs.FILE_SELECT;
-////                properties.root = new File(DialogConfigs.STORAGE_DIR);
-////                properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
-////                properties.extensions = new String[]{"mp3"};
-////
-////                FilePickerDialog dialog = new FilePickerDialog(AVStreamingActivity.this, properties);
-////                dialog.setTitle("Select a File");
-////                dialog.setDialogSelectionListener(new DialogSelectionListener() {
-////                    @Override
-////                    public void onSelectedFilePaths(String[] files) {
-////                        String filePath = files[0];
-////                        try {
-////                            mAudioMixer.setFile(filePath, true);
-////                            Cache.setAudioFile(AVStreamingActivity.this, filePath);
-////                            Toast.makeText(AVStreamingActivity.this, "setup mix file " + filePath + " success. duration:" + mAudioMixer.getDuration(), Toast.LENGTH_LONG).show();
-////                        } catch (IOException e) {
-////                            e.printStackTrace();
-////                            Toast.makeText(AVStreamingActivity.this, "setup mix file " + filePath + " failed !!!", Toast.LENGTH_LONG).show();
-////                        }
-////                    }
-////                });
-////                dialog.show();
-//            }
-//        });
-//
-//        mMixToggleBtn = (Button) findViewById(R.id.mix_btn);
-//        mMixToggleBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mAudioMixer != null) {
-//                    String text;
-//                    if (mAudioMixer.isRunning()) {
-//                        boolean s = mAudioMixer.pause();
-//                        text = s ? "mixing pause success" : "mixing pause failed !!!";
-//                    } else {
-//                        boolean s = mAudioMixer.play();
-//                        text = s ? "mixing play success" : "mixing play failed !!!";
-//                    }
-//                    Toast.makeText(AVStreamingActivity.this, text, Toast.LENGTH_LONG).show();
-//
-//                    updateMixBtnText();
-//                }
-//            }
-//        });
-//
-//        Button mixStopBtn = (Button) findViewById(R.id.mix_stop_btn);
-//        mixStopBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mAudioMixer != null) {
-//                    boolean stopSuccess = mAudioMixer.stop();
-//                    String text = stopSuccess ? "mixing stop success" : "mixing stop failed !!!";
-//                    Toast.makeText(AVStreamingActivity.this, text, Toast.LENGTH_LONG).show();
-//                    if (stopSuccess) {
-//                        updateMixBtnText();
-//                    }
-//                }
-//            }
-//        });
-//
-//        Button playbackToggleBtn = (Button) findViewById(R.id.playback_btn);
-//        playbackToggleBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mIsPlayingback) {
-//                    mMediaStreamingManager.stopPlayback();
-//                } else {
-//                    mMediaStreamingManager.startPlayback();
-//                }
-//                mIsPlayingback = !mIsPlayingback;
-//            }
-//        });
-//
-//        updateMixBtnText();
-//    }
-//
-//    private void updateMixBtnText() {
-//        if (mAudioMixer != null && mAudioMixer.isRunning()) {
-//            mMixToggleBtn.setText("Pause");
-//        } else {
-//            mMixToggleBtn.setText("Play");
-//        }
-//    }
+    //    private void initAudioMixerPanel() {
+    //        Button mixPanelBtn = (Button) findViewById(R.id.mix_panel_btn);
+    //        mixPanelBtn.setOnClickListener(new View.OnClickListener() {
+    //            @Override
+    //            public void onClick(View v) {
+    //                View panel = findViewById(R.id.mix_panel);
+    //                panel.setVisibility(panel.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+    //            }
+    //        });
+    //
+    //        mMixProgress = (SeekBar) findViewById(R.id.mix_progress);
+    //        mMixProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    //            @Override
+    //            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    //            }
+    //
+    //            @Override
+    //            public void onStartTrackingTouch(SeekBar seekBar) {
+    //            }
+    //
+    //            @Override
+    //            public void onStopTrackingTouch(SeekBar seekBar) {
+    //                if (mAudioMixer != null) {
+    //                    mAudioMixer.seek(1.0f * seekBar.getProgress() / seekBar.getMax());
+    //                }
+    //            }
+    //        });
+    //
+    //        SeekBar mixVolume = (SeekBar) findViewById(R.id.mix_volume);
+    //        mixVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    //            @Override
+    //            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    //            }
+    //
+    //            @Override
+    //            public void onStartTrackingTouch(SeekBar seekBar) {
+    //            }
+    //
+    //            @Override
+    //            public void onStopTrackingTouch(SeekBar seekBar) {
+    //                if (mAudioMixer != null) {
+    //                    mAudioMixer.setVolume(1.0f, 1.0f * seekBar.getProgress() / seekBar.getMax());
+    //                }
+    //            }
+    //        });
+    //
+    //        Button mixFileBtn = (Button) findViewById(R.id.mix_file_btn);
+    //        mixFileBtn.setOnClickListener(new View.OnClickListener() {
+    //            @Override
+    //            public void onClick(View v) {
+    ////                DialogProperties properties = new DialogProperties();
+    ////                properties.selection_mode = DialogConfigs.SINGLE_MODE;
+    ////                properties.selection_type = DialogConfigs.FILE_SELECT;
+    ////                properties.root = new File(DialogConfigs.STORAGE_DIR);
+    ////                properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+    ////                properties.extensions = new String[]{"mp3"};
+    ////
+    ////                FilePickerDialog dialog = new FilePickerDialog(AVStreamingActivity.this, properties);
+    ////                dialog.setTitle("Select a File");
+    ////                dialog.setDialogSelectionListener(new DialogSelectionListener() {
+    ////                    @Override
+    ////                    public void onSelectedFilePaths(String[] files) {
+    ////                        String filePath = files[0];
+    ////                        try {
+    ////                            mAudioMixer.setFile(filePath, true);
+    ////                            Cache.setAudioFile(AVStreamingActivity.this, filePath);
+    ////                            Toast.makeText(AVStreamingActivity.this, "setup mix file " + filePath + " success. duration:" + mAudioMixer.getDuration(), Toast.LENGTH_LONG).show();
+    ////                        } catch (IOException e) {
+    ////                            e.printStackTrace();
+    ////                            Toast.makeText(AVStreamingActivity.this, "setup mix file " + filePath + " failed !!!", Toast.LENGTH_LONG).show();
+    ////                        }
+    ////                    }
+    ////                });
+    ////                dialog.show();
+    //            }
+    //        });
+    //
+    //        mMixToggleBtn = (Button) findViewById(R.id.mix_btn);
+    //        mMixToggleBtn.setOnClickListener(new View.OnClickListener() {
+    //            @Override
+    //            public void onClick(View v) {
+    //                if (mAudioMixer != null) {
+    //                    String text;
+    //                    if (mAudioMixer.isRunning()) {
+    //                        boolean s = mAudioMixer.pause();
+    //                        text = s ? "mixing pause success" : "mixing pause failed !!!";
+    //                    } else {
+    //                        boolean s = mAudioMixer.play();
+    //                        text = s ? "mixing play success" : "mixing play failed !!!";
+    //                    }
+    //                    Toast.makeText(AVStreamingActivity.this, text, Toast.LENGTH_LONG).show();
+    //
+    //                    updateMixBtnText();
+    //                }
+    //            }
+    //        });
+    //
+    //        Button mixStopBtn = (Button) findViewById(R.id.mix_stop_btn);
+    //        mixStopBtn.setOnClickListener(new View.OnClickListener() {
+    //            @Override
+    //            public void onClick(View v) {
+    //                if (mAudioMixer != null) {
+    //                    boolean stopSuccess = mAudioMixer.stop();
+    //                    String text = stopSuccess ? "mixing stop success" : "mixing stop failed !!!";
+    //                    Toast.makeText(AVStreamingActivity.this, text, Toast.LENGTH_LONG).show();
+    //                    if (stopSuccess) {
+    //                        updateMixBtnText();
+    //                    }
+    //                }
+    //            }
+    //        });
+    //
+    //        Button playbackToggleBtn = (Button) findViewById(R.id.playback_btn);
+    //        playbackToggleBtn.setOnClickListener(new View.OnClickListener() {
+    //            @Override
+    //            public void onClick(View v) {
+    //                if (mIsPlayingback) {
+    //                    mMediaStreamingManager.stopPlayback();
+    //                } else {
+    //                    mMediaStreamingManager.startPlayback();
+    //                }
+    //                mIsPlayingback = !mIsPlayingback;
+    //            }
+    //        });
+    //
+    //        updateMixBtnText();
+    //    }
+    //
+    //    private void updateMixBtnText() {
+    //        if (mAudioMixer != null && mAudioMixer.isRunning()) {
+    //            mMixToggleBtn.setText("Pause");
+    //        } else {
+    //            mMixToggleBtn.setText("Play");
+    //        }
+    //    }
 
     @Override
     public void onStateChanged(StreamingState streamingState, Object extra) {
@@ -818,7 +915,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
                 this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        updateCameraSwitcherButtonText(currentCamId);
+                        //                        updateCameraSwitcherButtonText(currentCamId);
                     }
                 });
                 break;
@@ -829,11 +926,11 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
                     this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-//                            if (isSupportedTorch) {
-//                                mTorchBtn.setVisibility(View.VISIBLE);
-//                            } else {
-//                                mTorchBtn.setVisibility(View.GONE);
-//                            }
+                            //                            if (isSupportedTorch) {
+                            //                                mTorchBtn.setVisibility(View.VISIBLE);
+                            //                            } else {
+                            //                                mTorchBtn.setVisibility(View.GONE);
+                            //                            }
                         }
                     });
                 }
@@ -842,53 +939,53 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
     }
 
     protected void setFocusAreaIndicator() {
-//        if (mRotateLayout == null) {
-//            mRotateLayout = (RotateLayout) findViewById(R.id.focus_indicator_rotate_layout);
-//            mMediaStreamingManager.setFocusAreaIndicator(mRotateLayout,
-//                    mRotateLayout.findViewById(R.id.focus_indicator));
-//        }
+        //        if (mRotateLayout == null) {
+        //            mRotateLayout = (RotateLayout) findViewById(R.id.focus_indicator_rotate_layout);
+        //            mMediaStreamingManager.setFocusAreaIndicator(mRotateLayout,
+        //                    mRotateLayout.findViewById(R.id.focus_indicator));
+        //        }
     }
 
     private void setTorchEnabled(final boolean enabled) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-//                String flashlight = enabled ? getString(R.string.flash_light_off) : getString(R.string.flash_light_on);
-//                mTorchBtn.setText(flashlight);
+                //                String flashlight = enabled ? getString(R.string.flash_light_off) : getString(R.string.flash_light_on);
+                //                mTorchBtn.setText(flashlight);
             }
         });
     }
 
-//    private void updateOrientationBtnText() {
-//        if (mIsEncOrientationPort) {
-//            mEncodingOrientationSwitcherBtn.setText("Land");
-//        } else {
-//            mEncodingOrientationSwitcherBtn.setText("Port");
-//        }
-//    }
-//
-//    private void updateFBButtonText() {
-//        if (mFaceBeautyBtn != null) {
-//            mFaceBeautyBtn.setText(mIsNeedFB ? "FB Off" : "FB On");
-//        }
-//    }
-//
-//    private void updateMuteButtonText() {
-//        if (mMuteButton != null) {
-//            mMuteButton.setText(mIsNeedMute ? "Unmute" : "Mute");
-//        }
-//    }
-//
-//    private void updateCameraSwitcherButtonText(int camId) {
-//        if (mCameraSwitchBtn == null) {
-//            return;
-//        }
-//        if (camId == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-//            mCameraSwitchBtn.setText("Back");
-//        } else {
-//            mCameraSwitchBtn.setText("Front");
-//        }
-//    }
+    //    private void updateOrientationBtnText() {
+    //        if (mIsEncOrientationPort) {
+    //            mEncodingOrientationSwitcherBtn.setText("Land");
+    //        } else {
+    //            mEncodingOrientationSwitcherBtn.setText("Port");
+    //        }
+    //    }
+    //
+    //    private void updateFBButtonText() {
+    //        if (mFaceBeautyBtn != null) {
+    //            mFaceBeautyBtn.setText(mIsNeedFB ? "FB Off" : "FB On");
+    //        }
+    //    }
+    //
+    //    private void updateMuteButtonText() {
+    //        if (mMuteButton != null) {
+    //            mMuteButton.setText(mIsNeedMute ? "Unmute" : "Mute");
+    //        }
+    //    }
+    //
+    //    private void updateCameraSwitcherButtonText(int camId) {
+    //        if (mCameraSwitchBtn == null) {
+    //            return;
+    //        }
+    //        if (camId == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+    //            mCameraSwitchBtn.setText("Back");
+    //        } else {
+    //            mCameraSwitchBtn.setText("Front");
+    //        }
+    //    }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
@@ -962,36 +1059,6 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
     }
 
     /**
-     * 向当前聊天室发送消息。
-     * </p>
-     * <strong>注意：</strong>此函数为异步函数，发送结果将通过handler事件返回。
-     *
-     * @param messageContent 消息对象
-     */
-    public void sendMessage(final MessageContent messageContent) {
-
-
-        Message msg = Message.obtain(currentRoomId, Conversation.ConversationType.CHATROOM, messageContent);
-
-        RongIMClient.getInstance().sendMessage(msg, null, null, new IRongCallback.ISendMessageCallback() {
-            @Override
-            public void onAttached(Message message) {
-
-            }
-
-            @Override
-            public void onSuccess(Message message) {
-                setData(messageContent);
-            }
-
-            @Override
-            public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-                ToastUtil.showToast("发消息失败");
-            }
-        });
-    }
-
-    /**
      * 获取首页直播列表数据
      */
     private void liveVideosInfo() {
@@ -999,7 +1066,8 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
             @Override
             public void onSuccess(HttpResult<VideoLiveBean> result) {
                 if (result != null && result.getData() != null) {
-                    tvCount.setText(result.getData().getChatter_total() + "人");
+                    chatterTotal = result.getData().getChatter_total();
+                    tvCount.setText(chatterTotal + "人");
                     if (result.getData().getRoom() != null && result.getData().getRoom().getData() != null) {
                         tvRoomNum.setText("房间号:" + result.getData().getRoom().getData().getRoom_name());
                     }
@@ -1061,12 +1129,11 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
     /**
      * 发送文本内容
      */
-    private void sendTextMessage() {
-        if (!TextUtils.isEmpty(textEditor.getText().toString().trim())) {
-            final TextMessage content = TextMessage.obtain(textEditor.getText().toString().trim());
+    private void sendTextMessage(String text) {
+        if (!TextUtils.isEmpty(text)) {
+            final TextMessage content = TextMessage.obtain(text);
             content.setUserInfo(getUserInfo());
-            sendMessage(content);
-            textEditor.setText("");
+            ChatroomKit.sendMessage(content);
         } else {
             ToastUtil.showToast("请输入要发送的内容");
         }
@@ -1080,14 +1147,48 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
         return new UserInfo(userId, nickName, RongHeadImg);
     }
 
-    private void showGif(ChatRoomGift chatroomGift) {
+    private void showGif(ChatroomGift chatroomGift) {
         GiftSendModel model = new GiftSendModel(1);
-        model.setGiftRes(R.mipmap.gift_ring);
-        if (chatroomGift.getUserInfo() != null) {
-            model.setNickname(chatroomGift.getUserInfo().getName());
-            model.setUserAvatarRes(chatroomGift.getUserInfo().getPortraitUri().toString());
+
+        switch (chatroomGift.getG_id()) {
+            case "1":
+                model.setGiftRes(R.mipmap.icon_gift_huoguo);
+                break;
+            case "2":
+                model.setGiftRes(R.mipmap.icon_gift_dalibao);
+                break;
+            case "3":
+                model.setGiftRes(R.mipmap.icon_gift_dangao);
+                break;
+            case "4":
+                model.setGiftRes(R.mipmap.icon_gift_xianhua);
+                break;
+            case "5":
+                model.setGiftRes(R.mipmap.icon_gift_baoshi);
+                break;
+            case "6":
+                model.setGiftRes(R.mipmap.icon_gift_huangguan);
+                break;
+            case "7":
+                model.setGiftRes(R.mipmap.icon_gift_liushengji);
+                break;
+            case "8":
+                model.setGiftRes(R.mipmap.icon_gift_aixin);
+                break;
+            default:
+                model.setGiftRes(R.mipmap.gift_ring);
+                break;
+
         }
-        model.setSig("送出礼物");
+
+        //        if (chatroomGift.getUserInfo() != null) {
+        //            model.setNickname(chatroomGift.getUserInfo().getName());
+        //            model.setSig("送出礼物");
+        //            model.setUserAvatarRes(chatroomGift.getUserInfo().getPortraitUri().toString());
+        //        }
+        model.setNickname(chatroomGift.getName());
+        model.setSig(chatroomGift.getGift_name());
+        //         model.setUserAvatarRes();
         giftView.addGift(model);
     }
 
@@ -1095,13 +1196,37 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
      * 接收消息,更新适配器
      */
     private void setData(MessageContent messageContent) {
-        if (messageContent instanceof ChatRoomGift && ((ChatRoomGift) messageContent).getType() == 0) {
-            //收到礼物
-            showGif(((ChatRoomGift) messageContent));
+        if (messageContent instanceof ChatroomBarrage) {
+            ChatroomBarrage barrage = (ChatroomBarrage) messageContent;
+            DanmuEntity danmuEntity = new DanmuEntity();
+            danmuEntity.setContent(barrage.getContent());
+            danmuEntity.setUrl(barrage.getUrl());
+            danmuEntity.setName(barrage.getName());
+            danmuEntity.setType(barrage.getType());
+            danmuContainerView.addDanmu(danmuEntity);
+        } else if (messageContent instanceof ChatroomUser) {
+            //房间人数
+            ChatroomUser chatroomUser = (ChatroomUser) messageContent;
+            tvCount.setText(chatroomUser.getExtra() + "人");
         } else {
+            if (messageContent instanceof ChatroomGift && ((ChatroomGift) messageContent).getType() == 0) {
+                //收到礼物
+                showGif(((ChatroomGift) messageContent));
+            }
             mAdapter.addData(messageContent);
             recyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
         }
     }
 
+    private String getUserId() {
+        return ShareUtil.getInstance().getString(Constants.USER_ID, "");
+    }
+
+    private String getUserName() {
+        return ShareUtil.getInstance().getString(Constants.USER_NAME, "");
+    }
+
+    private String getUserUrl() {
+        return Constants.WEB_IMG_URL_UPLOADS + ShareUtil.getInstance().getString(Constants.USER_HEAD, null);
+    }
 }

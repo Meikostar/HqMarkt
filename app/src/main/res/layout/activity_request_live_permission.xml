@@ -83,6 +83,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bj_110dp"
                     android:background="@null"
+                    android:inputType="number"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:hint="请输入身份证号" />
 
                 <View

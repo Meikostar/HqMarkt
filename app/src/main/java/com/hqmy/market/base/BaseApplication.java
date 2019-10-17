@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
+import com.hqmy.market.qiniu.chatroom.ChatroomKit;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
 import com.qiniu.pili.droid.streaming.StreamingEnv;
@@ -21,16 +22,10 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.hqmy.market.R;
 import com.hqmy.market.db.DaoManager;
-import com.hqmy.market.qiniu.chatroom.ChatroomKit;
-import com.hqmy.market.rong.SealAppContext;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import io.rong.imkit.RongIM;
-import io.rong.imkit.widget.provider.RealTimeLocationMessageProvider;
-import io.rong.imlib.ipc.RongExceptionHandler;
-import io.rong.push.RongPushClient;
-import io.rong.push.pushconfig.PushConfig;
 
 /**
  * Created by rzb on 2019/4/16.
@@ -64,28 +59,7 @@ public class BaseApplication extends Application{
         builder.detectFileUriExposure();
         //GreenDao数据库管理初始化
         DaoManager.getInstance().init(this);
-        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
-            PushConfig config = new PushConfig
-                    .Builder()
-                    .enableHWPush(true)// 配置华为推送
-                    .enableMiPush("2882303761517970088", "5571797011088")////配置小米推送
-                    .enableMeiZuPush("112988", "2fa951a802ac4bd5843d694517307896") //配置魅族推送
-                    .enableVivoPush(true) //vivo 推送
-                    .enableFCM(true) //谷歌官方推送
-                    .build();
-            RongPushClient.setPushConfig(config);
-            // 注意： IMKit SDK调用第一步 初始化  context上下文,只有两个进程需要初始化，主进程和 push 进程
-            RongIM.setServerInfo("nav.cn.ronghub.com", "up.qbox.me");
-            Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
-            try {
-                //RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
-                RongIM.registerMessageTemplate(new RealTimeLocationMessageProvider());
-                //RongIM.registerMessageType(TestMessage.class);
-                // RongIM.registerMessageTemplate(new TestMessageProvider());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+
         //初始化融云
         initRongCloud();
         StreamingEnv.init(getApplicationContext());
@@ -144,16 +118,9 @@ public class BaseApplication extends Application{
 
 
     private void initRongCloud() {
-        RongIM.init(this);
-        ChatroomKit.init(this,"82hegw5u8xsbx");
-        /**
-         * OnCreate 会被多个进程重入，这段保护代码，确保只有您需要使用 RongIMClient 的进程和 Push 进程执行了 init。
-         * io.rong.push 为融云 push 进程名称，不可修改。
-         */
-        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext())) ||
-                "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
-            SealAppContext.init(this);
-        }
+        ChatroomKit.init(this,"pvxdm17jposrr");
+
+
     }
 
     public static String getCurProcessName(Context context) {

@@ -8,6 +8,9 @@ public class RoomBean implements Serializable {
     private String room_name;
     private String room_type;
     private String created_at;
+    public String rtmp_publish_url;
+    public String rtmp_play_url;
+    public String hls_play_url;
 
     public String getId() {
         return id;

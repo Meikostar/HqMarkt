@@ -1,8 +1,18 @@
 package com.hqmy.market;
 
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.common.Constants;
+import com.hqmy.market.common.utils.LogUtil;
 import com.hqmy.market.common.utils.RxTimerUtil;
+import com.hqmy.market.common.utils.ToastUtil;
+import com.hqmy.market.qiniu.chatroom.ChatroomKit;
+import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.view.MainActivity;
+
+import io.rong.imlib.RongIMClient;
 
 /**
  * 启动页面
@@ -17,6 +27,12 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
+
+
+
+
+
     }
 
     @Override

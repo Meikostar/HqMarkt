@@ -22,7 +22,6 @@ import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.view.activity.LoginActivity;
 import com.hqmy.market.view.activity.ShippingAddressActivity;
 import com.hqmy.market.view.adapter.BabyImageAapter;
-import com.hqmy.market.view.mainfragment.chat.ConversationActivity;
 import com.hqmy.market.view.widgets.autoview.NoScrollListView;
 import com.hqmy.market.view.widgets.dialog.ShareModeDialog;
 
@@ -127,9 +126,9 @@ public class BabyDetailActivity extends BaseActivity {
 
           bindClickEvent(tv_baby_service, () -> {
             Bundle bundle = new Bundle();
-            bundle.putString(ConversationActivity.TITLE, commodityDetailInfoDto.getUser().getData().getName());
-            bundle.putString(ConversationActivity.TARGET_ID, commodityDetailInfoDto.getUser().getData().getId());
-            gotoActivity(ConversationActivity.class, true, bundle);
+//            bundle.putString(ConversationActivity.TITLE, commodityDetailInfoDto.getUser().getData().getName());
+//            bundle.putString(ConversationActivity.TARGET_ID, commodityDetailInfoDto.getUser().getData().getId());
+//            gotoActivity(ConversationActivity.class, true, bundle);
           });
 
         bindClickEvent(layout_save, () -> {

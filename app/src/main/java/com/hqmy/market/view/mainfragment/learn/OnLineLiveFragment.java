@@ -18,12 +18,16 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseFragment;
 import com.hqmy.market.bean.AnchorInfo;
 import com.hqmy.market.bean.AreaDto;
 import com.hqmy.market.bean.LiveCatesBean;
 import com.hqmy.market.bean.LiveMessageInfo;
+import com.hqmy.market.bean.PersonalInfoDto;
+import com.hqmy.market.bean.UserInfoDto;
+import com.hqmy.market.bean.VideoLiveBean;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
@@ -31,15 +35,19 @@ import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.activity.LiveCheckFailActivity;
 import com.hqmy.market.view.activity.LiveCheckingActivity;
 import com.hqmy.market.view.activity.LiveSearchActivity;
+import com.hqmy.market.view.activity.LiveVideoViewActivity;
 import com.hqmy.market.view.activity.LoginActivity;
 import com.hqmy.market.view.activity.RequestLivePermissionActivity;
 import com.hqmy.market.view.activity.StartLiveActivity;
 import com.hqmy.market.view.adapter.ConturyAdapter;
 import com.hqmy.market.view.adapter.ConturyCagoriadapter;
 import com.hqmy.market.view.adapter.ConturyProcutAdapter;
+import com.hqmy.market.view.adapter.HotLiveAdapter;
+import com.hqmy.market.view.adapter.LiveCategrayAdapter;
 import com.hqmy.market.view.adapter.Liveadapter;
 import com.hqmy.market.view.widgets.AutoLocateHorizontalView;
 import com.hqmy.market.view.widgets.RecyclerItemDecoration;
@@ -52,6 +60,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -66,8 +75,8 @@ public class OnLineLiveFragment extends BaseFragment {
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout       mRefreshLayout;
 
-    @BindView(R.id.tv_upmarquee_view)
-    UPMarqueeView            mUPMarqueeView;
+//    @BindView(R.id.tv_upmarquee_view)
+//    UPMarqueeView            mUPMarqueeView;
     @BindView(R.id.rl_onlive_live_oplayer)
     RelativeLayout           rlOnliveLiveOplayer;
     @BindView(R.id.et_search_room)
@@ -92,8 +101,7 @@ public class OnLineLiveFragment extends BaseFragment {
     RecyclerView             consumePushRecy;
     @BindView(R.id.consume_scrollView)
     CustomView               consumeScrollView;
-    @BindView(R.id.consume_srl)
-    SmartRefreshLayout       consumeSrl;
+
     Unbinder unbinder;
 
     private OnlineLiveItemAdapter mAdapter;
@@ -102,7 +110,13 @@ public class OnLineLiveFragment extends BaseFragment {
     protected int getLayoutId() {
         return R.layout.fragment_online_live;
     }
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
     @Override
     protected void initView() {
         mRefreshLayout.setEnableLoadMore(false);
@@ -121,9 +135,10 @@ public class OnLineLiveFragment extends BaseFragment {
             }
         });
 
-        testAdapter = new ConturyAdapter();
+        testAdapter = new LiveCategrayAdapter();
         mAdapter = new OnlineLiveItemAdapter();
         adapter = new Liveadapter(getActivity());
+        hotAdapter = new HotLiveAdapter(getActivity());
         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getActivity(), 2) {
             @Override
             public boolean canScrollVertically() {
@@ -134,17 +149,19 @@ public class OnLineLiveFragment extends BaseFragment {
         consumePushRecy.setLayoutManager(gridLayoutManager2);
         consumePushRecy.setAdapter(mAdapter);
 
-        testAdapter.setItemClick(new ConturyAdapter.ItemClickListener() {
+        testAdapter.setItemClick(new LiveCategrayAdapter.ItemClickListener() {
             @Override
-            public void itemClick(int poition, AreaDto data) {
+            public void itemClick(int poition, LiveCatesBean data) {
                 autoScroll.moveToPosition(poition);
+                id=data.getId();
+                liveVideos(data.getId());
             }
         });
         autoScroll.setInitPos(0);
         autoScroll.setItemCount(5);
         autoScroll.setAdapter(testAdapter);
     }
-    private  ConturyAdapter testAdapter;
+    private LiveCategrayAdapter testAdapter;
     @Override
     protected void initData() {
 
@@ -154,32 +171,48 @@ public class OnLineLiveFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         mRefreshLayout.autoRefresh();
+        getLiveCates();
+        getLiveTop();
+        getHotLive();
     }
 
     @Override
     protected void initListener() {
+        tvText1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type="week";
+                tvText1.setTextColor(getResources().getColor(R.color.my_color_333333));
+                line.setVisibility(View.VISIBLE);
+                line1.setVisibility(View.INVISIBLE);
+                tvText2.setTextColor(getResources().getColor(R.color.my_color_666666));
+                getLiveTop();
+            }
+        });
+        tvText2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type="month";
+                tvText1.setTextColor(getResources().getColor(R.color.my_color_666666));
+                line.setVisibility(View.INVISIBLE);
+                line1.setVisibility(View.VISIBLE);
+                tvText2.setTextColor(getResources().getColor(R.color.my_color_333333));
+                getLiveTop();
+            }
+        });
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                getConfigs();
-                getHomeData();
+               if(TextUtil.isNotEmpty(id)){
+                   liveVideos(id);
+               }
             }
         });
     }
 
 
 
-    private void setUPMarqueeView(UPMarqueeView upMarqueeView, List<String> list) {
-        List<View> views = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            TextView tv = new TextView(getActivity());
-            tv.setText(list.get(i));
-            tv.setSingleLine();
-            tv.setEllipsize(TextUtils.TruncateAt.END);
-            views.add(tv);
-        }
-        upMarqueeView.setViews(views);
-    }
+
 
     @OnClick({R.id.rl_onlive_live_oplayer, R.id.et_search_room})
     public void onClick(View view) {
@@ -196,7 +229,7 @@ public class OnLineLiveFragment extends BaseFragment {
                 break;
         }
     }
-    private void iniGridView(final List<AreaDto> list) {
+    private void iniGridView(final List<UserInfoDto> list) {
 
         int length = 82;  //定义一个长度
         int size = 0;  //得到集合长度
@@ -231,8 +264,8 @@ public class OnLineLiveFragment extends BaseFragment {
             }
         });
     }
-
-    private void iniGridViewSecond(final List<AreaDto> list) {
+    private String id;
+    private void iniGridViewSecond(final List<VideoLiveBean> list) {
 
         int length = 82;  //定义一个长度
         int size = 0;  //得到集合长度
@@ -255,39 +288,74 @@ public class OnLineLiveFragment extends BaseFragment {
         gridView1.setHorizontalSpacing(10); // 设置列表项水平间距
         gridView1.setStretchMode(GridView.NO_STRETCH);
         gridView1.setNumColumns(list.size()); // 设置列数量=列表集合数
-        adapter.setData(list);
-        gridView1.setAdapter(adapter);
+        hotAdapter.setData(list);
+        gridView1.setAdapter(hotAdapter);
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                startLiveVideoActivity(list.get(position));
 
 
 
             }
         });
     }
-    private Liveadapter adapter;
+    private void startLiveVideoActivity(VideoLiveBean videoLiveBean) {
+        Intent intent = new Intent(getActivity(), LiveVideoViewActivity.class);
+        intent.putExtra("videoPath", videoLiveBean.getRtmp_play_url());
+        if (videoLiveBean.getRoom() != null && videoLiveBean.getRoom().getData() != null) {
+            intent.putExtra("roomId", videoLiveBean.getRoom().getData().getId());
+        }
+        if (videoLiveBean.apply != null && videoLiveBean.apply.getData() != null) {
+            intent.putExtra("userId", videoLiveBean.apply.getData().getUser_id());
+        }
+
+        intent.putExtra("videoId", videoLiveBean.getId());
+        intent.putExtra("liveStreaming", 1);
+       startActivity(intent);
+    }
+
+    private Liveadapter    adapter;
+    private HotLiveAdapter hotAdapter;
     private void isPlayer() {
         //showLoadDialog();
-        DataManager.getInstance().getLiveInfo(new DefaultSingleObserver<HttpResult<AnchorInfo>>() {
+        DataManager.getInstance().isliveing(new DefaultSingleObserver<PersonalInfoDto>() {
             @Override
-            public void onSuccess(HttpResult<AnchorInfo> result) {
+            public void onSuccess(PersonalInfoDto result) {
                 //dissLoadDialog();
-                if (result != null && result.getLive_apply() != null) {
-                    //申请状态 0未申请 1审核通过 2审核中 3审核失败
-                    int status = result.getLive_apply().getStatus();
-                    if (status == 1) {
-                        gotoActivity(StartLiveActivity.class);
-                    } else if (status == 2) {
-                        gotoActivity(LiveCheckingActivity.class);
-                    } else if (status == 3) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("reasonTip", result.getLive_apply().getReason());
-                        gotoActivity(LiveCheckFailActivity.class, false, bundle);
-                    } else {
+
+
+                if (result != null ) {
+
+                    if(result.is_realname){
+                        if(result.apply_check_status==0){
+                            Intent intent = new Intent(getActivity(), RequestLivePermissionActivity.class);
+                            intent.putExtra("state",(int)1);
+                            startActivity(intent);
+//                            gotoActivity(RequestLivePermissionActivity.class);
+                        }else if(result.apply_check_status==1){
+                            gotoActivity(LiveCheckingActivity.class);
+
+                        }else if(result.apply_check_status==2){
+                          if(result.is_live){
+                              gotoActivity(StartLiveActivity.class);
+                          }else {
+
+                          }
+
+                        }else if(result.apply_check_status==3){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("reasonTip", "");
+                            gotoActivity(LiveCheckFailActivity.class, false, bundle);
+
+
+                        }
+
+                    }else {
                         gotoActivity(RequestLivePermissionActivity.class);
                     }
+
 
                 }
             }
@@ -305,63 +373,121 @@ public class OnLineLiveFragment extends BaseFragment {
         });
     }
 
-    /**
-     * 获取直播公告
-     */
-    private void getConfigs() {
-        //showLoadDialog();
-        DataManager.getInstance().getLiveConfigs(new DefaultSingleObserver<HttpResult<LiveMessageInfo>>() {
+    private void getHotLive() {
+
+//        showLoadDialog();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("filter[is_hot]", "1");
+                map.put("include", "apply,room");
+        DataManager.getInstance().liveVideos(new DefaultSingleObserver<HttpResult<List<VideoLiveBean>>>() {
             @Override
-            public void onSuccess(HttpResult<LiveMessageInfo> result) {
-                //dissLoadDialog();
-                mRefreshLayout.finishRefresh();
-                if (result != null && result.getData() != null && result.getData().getLive_message() != null && result.getData().getLive_message().getTop_msg() != null && result.getData().getLive_message().getTop_msg().size() > 0) {
-                    //                    initHeadView(Arrays.asList(result.getData().getLive_message().getTop_msg().split(",")));
-                    setUPMarqueeView(mUPMarqueeView, result.getData().getLive_message().getTop_msg());
+            public void onSuccess(HttpResult<List<VideoLiveBean>> result) {
+//                dissLoadDialog();
+
+                if (result != null && result.getData() != null && result.getData().size() > 0) {
+                    iniGridViewSecond(result.getData());
+                } else {
+                    mAdapter.setNewData(null);
                 }
+
             }
 
             @Override
             public void onError(Throwable throwable) {
-                //dissLoadDialog();
-                mRefreshLayout.finishRefresh();
+//                dissLoadDialog();
+
 
             }
-        });
+        }, map);
+    }
+    private void liveVideos(String id) {
+
+        showLoadDialog();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("filter[live_video_cate_id]", id);
+        map.put("include", "apply,room");
+        DataManager.getInstance().liveVideos(new DefaultSingleObserver<HttpResult<List<VideoLiveBean>>>() {
+            @Override
+            public void onSuccess(HttpResult<List<VideoLiveBean>> result) {
+                dissLoadDialog();
+                mRefreshLayout.finishRefresh();
+                mRefreshLayout.finishLoadMore();
+                if (result != null && result.getData() != null && result.getData().size() > 0) {
+                    mAdapter.setNewData(result.getData());
+                } else {
+                    mAdapter.setNewData(null);
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+                mRefreshLayout.finishRefresh();
+                mRefreshLayout.finishLoadMore();
+
+            }
+        }, map);
+    }
+    private List<LiveCatesBean> datas;
+    private String type="week";
+    public void getLiveTop() {
+//        showLoadDialog();
+        DataManager.getInstance().getLiveTop(new DefaultSingleObserver<HttpResult<List<UserInfoDto>>>() {
+            @Override
+            public void onSuccess(HttpResult<List<UserInfoDto>> result) {
+//                dissLoadDialog();
+                mRefreshLayout.finishRefresh();
+                mRefreshLayout.finishLoadMore();
+                if(result!=null&&result.getData()!=null&&result.getData().size()>0){
+                    iniGridView(result.getData());
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+//                dissLoadDialog();
+                mRefreshLayout.finishRefresh();
+                mRefreshLayout.finishLoadMore();
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+            }
+        }, type);
     }
 
-    /**
-     * 获取首页直播列表数据
-     */
-    private void getHomeData() {
-        //showLoadDialog();
-        DataManager.getInstance().getHomeLiveCates(new DefaultSingleObserver<HttpResult<List<LiveCatesBean>>>() {
+    public void getLiveCates() {
+//        showLoadDialog();
+        DataManager.getInstance().getLiveCates(new DefaultSingleObserver<HttpResult<List<LiveCatesBean>>>() {
             @Override
             public void onSuccess(HttpResult<List<LiveCatesBean>> result) {
-                //dissLoadDialog();
+//                dissLoadDialog();
                 mRefreshLayout.finishRefresh();
-                if (result != null) {
-
+                mRefreshLayout.finishLoadMore();
+                if(result!=null&&result.getData()!=null&&result.getData().size()>0){
+                    datas=result.getData();
+                    liveVideos(result.getData().get(0).getId());
+                    if(TextUtil.isEmpty(id)){
+                        id=result.getData().get(0).getId();
+                    }
+                    testAdapter.setDatas(result.getData());
+                    testAdapter.notifyDataSetChanged();
                 }
 
             }
 
             @Override
             public void onError(Throwable throwable) {
-                //dissLoadDialog();
+                dissLoadDialog();
                 mRefreshLayout.finishRefresh();
-
+                mRefreshLayout.finishLoadMore();
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
-        }, 1);
+        }, 0);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
+
+
+
 
     @Override
     public void onDestroyView() {

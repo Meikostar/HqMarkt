@@ -97,10 +97,10 @@ public class UserDetailActivity extends BaseActivity {
         });
 
         bindClickEvent(but_ta_home_user_send, () -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(ConversationActivity.TITLE, nickName);
-            bundle.putString(ConversationActivity.TARGET_ID, userId);
-            gotoActivity(ConversationActivity.class, true, bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putString(ConversationActivity.TITLE, nickName);
+//            bundle.putString(ConversationActivity.TARGET_ID, userId);
+//            gotoActivity(ConversationActivity.class, true, bundle);
         });
 
         bindClickEvent(but_ta_home_user_add, () -> {
