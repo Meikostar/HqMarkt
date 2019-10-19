@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/IMLib/IMLib.iml" filepath="$PROJECT_DIR$/IMLib/IMLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImagePicker/ImagePicker.iml" filepath="$PROJECT_DIR$/ImagePicker/ImagePicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/meiqiasdk/meiqiasdk.iml" filepath="$PROJECT_DIR$/meiqiasdk/meiqiasdk.iml" />
     </modules>
   </component>
 </project>

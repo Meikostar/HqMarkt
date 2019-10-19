@@ -178,7 +178,8 @@ public class MyPublishActivity extends BaseActivity {
                 if (ApiException.getInstance().isSuccess()) {
                     mRefreshLayout.autoRefresh();
                 } else {
-                    ToastUtil.showToast(ApiException.getInstance().getErrorMsg());
+//                    ToastUtil.showToast(ApiException.getInstance().getErrorMsg());
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
                 }
             }
         },id, map);

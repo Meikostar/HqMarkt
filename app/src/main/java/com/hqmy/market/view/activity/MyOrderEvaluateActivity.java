@@ -302,8 +302,8 @@ public class MyOrderEvaluateActivity extends BaseActivity {
                 @Override
                 public void onError(Throwable throwable) {
                     dissLoadDialog();
-                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
-
+//                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
                 }
             }, "comment", part);
         } else {

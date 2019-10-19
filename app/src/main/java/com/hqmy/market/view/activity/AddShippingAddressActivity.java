@@ -20,6 +20,7 @@ import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.utils.RegexUtils;
+import com.hqmy.market.view.widgets.MCheckBox;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,17 +34,17 @@ public class AddShippingAddressActivity extends BaseActivity {
     public static String areaId = "";
 
     @BindView(R.id.tv_title_text)
-    TextView mTitleText;
+    TextView  mTitleText;
     @BindView(R.id.tv_where_address)
-    TextView mAddress;
+    TextView  mAddress;
     @BindView(R.id.et_name)
-    EditText mName;
+    EditText  mName;
     @BindView(R.id.et_phone)
-    EditText mPhone;
+    EditText  mPhone;
     @BindView(R.id.et_detail_address)
-    EditText mDetailAddress;
+    EditText  mDetailAddress;
     @BindView(R.id.cb_default_address)
-    CheckBox mCheckBox;
+    MCheckBox mCheckBox;
     private AddressDto mAddressDto;
     private String mAddressId;
     private boolean  isEdit;
@@ -147,7 +148,7 @@ public class AddShippingAddressActivity extends BaseActivity {
         addressModel.setMobile(mobile);
         addressModel.setArea_id(areaId);
         addressModel.setDetail(detail);
-        if (mCheckBox.isChecked()) {
+        if (mCheckBox.isCheck()) {
             addressModel.setIs_default("1");
         } else {
             addressModel.setIs_default("0");

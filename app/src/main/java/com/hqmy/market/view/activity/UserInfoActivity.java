@@ -206,8 +206,8 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onError(Throwable throwable) {
                 dissLoadDialog();
-                ToastUtil.toast(ApiException.getInstance().getErrorMsg());
-
+//                ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
         }, "avatar", part);
     }
@@ -232,23 +232,6 @@ public class UserInfoActivity extends BaseActivity {
         }, map);
     }
 
-    @Override
-    public void onBackPressed() {
-        //super.onBackPressed();
-        finishActivity();
-    }
-
-    private void finishActivity() {
-        if(mPersonalInfoDto!=null){
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("userInfo", mPersonalInfoDto);
-            Intent intent = new Intent();
-            intent.putExtras(bundle);
-            setResult(0, intent);
-        }
-
-        finish();
-    }
 
     private void showSexDialog() {
         mSexDialog = new PopDialog(this, R.layout.layout_sex);

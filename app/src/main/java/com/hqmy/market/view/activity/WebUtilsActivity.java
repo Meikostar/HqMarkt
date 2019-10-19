@@ -47,6 +47,7 @@ public class WebUtilsActivity extends BaseActivity {
         return R.layout.ui_shop_message_layout;
     }
   private String id="";
+  private int state;
     @Override
     public void initView() {
         actionbar.setImgStatusBar(R.color.my_color_white);
@@ -63,6 +64,7 @@ public class WebUtilsActivity extends BaseActivity {
         if(!TextUtils.isEmpty(id)){
             getIdInfo();
         }else {
+
             if(!TextUtils.isEmpty(url)){
                 webviewWebView.getSettings().setJavaScriptEnabled(true);
                 customActionBar.setTitle(webTitle);
@@ -111,6 +113,8 @@ public class WebUtilsActivity extends BaseActivity {
                     getInfoFw();
                 }else if(type==3){
                     getInfoDp();
+                }else if(type==5){
+                    getShopService();
                 }
             }
 
@@ -182,6 +186,34 @@ public class WebUtilsActivity extends BaseActivity {
                 dissLoadDialog();
             }
         },"help",id);
+    }
+    private void getShopService() {
+        showLoadDialog();
+        DataManager.getInstance().getShopService(new DefaultSingleObserver<HttpResult<DetailDto>>() {
+            @Override
+            public void onSuccess(HttpResult<DetailDto> imgUrl) {
+                DetailDto data = imgUrl.getData();
+                if(data!=null){
+                    if(!TextUtils.isEmpty(data.title)){
+                        actionbar.setTitle(data.title);
+                    }
+
+                    if (imgUrl != null && !TextUtils.isEmpty(data.content)) {
+
+                        WebViewUtil.setWebView(webviewWebView, Objects.requireNonNull(WebUtilsActivity.this));
+                        WebViewUtil.loadHtml(webviewWebView, data.content);
+                    }
+                }
+
+                dissLoadDialog();
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+            }
+        });
     }
 
     private void getInfoYs() {

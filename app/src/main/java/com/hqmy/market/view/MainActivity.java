@@ -198,10 +198,20 @@ public class MainActivity extends BaseActivity implements
             }
          });
          bindClickEvent(learn_layout, () -> {
-            mViewPager.setCurrentItem(3, false);
+             if (TextUtils.isEmpty(ShareUtil.getInstance().get(Constants.USER_TOKEN))) {
+                 gotoActivity(LoginActivity.class);
+             }else {
+                 mViewPager.setCurrentItem(3, false);
+             }
+
          });
          bindClickEvent(me_layout, () -> {
-            mViewPager.setCurrentItem(4, false);
+             if (TextUtils.isEmpty(ShareUtil.getInstance().get(Constants.USER_TOKEN))) {
+                 gotoActivity(LoginActivity.class);
+             }else {
+                 mViewPager.setCurrentItem(4, false);
+             }
+
          });
          bindClickEvent(iv_message_contacts, () -> {
 //           gotoActivity(ContactsActivity.class);
@@ -324,25 +334,6 @@ public class MainActivity extends BaseActivity implements
     }
 
 
-
-    private void showLoginHintDialog() {
-        ConfirmDialog dialog = new ConfirmDialog((Activity) mContext);
-        dialog.setTitle("登录提示");
-        dialog.setMessage("该帐号已经在其他设备登录,是否重新登录.");
-        dialog.setYesOnclickListener("确定", new BaseDialog.OnYesClickListener() {
-            @Override
-            public void onYesClick() {
-            }
-        });
-        dialog.setCancleClickListener("取消", new BaseDialog.OnCloseClickListener() {
-            @Override
-            public void onCloseClick() {
-                String cacheToken = ShareUtil.getInstance().getString(Constants.APP_USER_KEY, "");
-
-            }
-        });
-        dialog.show();
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

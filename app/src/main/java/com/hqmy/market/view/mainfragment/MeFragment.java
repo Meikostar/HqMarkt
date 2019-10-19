@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hqmy.market.R;
+import com.hqmy.market.base.BaseApplication;
 import com.hqmy.market.base.BaseFragment;
 import com.hqmy.market.bean.CountOrderBean;
 import com.hqmy.market.bean.CountStatisticsBean;
@@ -205,13 +206,24 @@ public class MeFragment extends BaseFragment {
     protected void initListener() {
 
     }
-
+     public boolean isFisrt;
     @Override
     public void onResume() {
         super.onResume();
-        getUserInfo();
-    }
+        if(isFisrt){
+            getUserInfo();
+        }else {
+            isFisrt=true;
+        }
 
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            getUserInfo();
+        }
+    }
     private void userCountStatistics() {
         DataManager.getInstance().userCountStatistics(new DefaultSingleObserver<HttpResult<CountStatisticsBean>>() {
             @Override
@@ -266,7 +278,10 @@ public class MeFragment extends BaseFragment {
             @Override
             public void onSuccess(HttpResult<String> countOrderBean) {
                 if (countOrderBean != null && countOrderBean.getData() != null) {
-                    reOrderTuikuan.setText(countOrderBean.getData());
+                    if(Double.valueOf(countOrderBean.getData())!=0){
+                        reOrderTuikuan.setText(countOrderBean.getData());
+                    }
+
                 }
 
             }
@@ -278,6 +293,7 @@ public class MeFragment extends BaseFragment {
             }
         });
     }
+
 
     private void getShopInfo() {
         DataManager.getInstance().getShopInfo(new DefaultSingleObserver<HttpResult<ShopInfoDto>>() {
@@ -297,9 +313,11 @@ public class MeFragment extends BaseFragment {
         }, id);
     }
 
+
     private String id;
     private int state;
     private int states;
+    private int setPay_state;
     private void getUserInfo() {
         DataManager.getInstance().getUserInfo(new DefaultSingleObserver<PersonalInfoDto>() {
             @Override
@@ -354,7 +372,15 @@ public class MeFragment extends BaseFragment {
                         }
 
                     }
-
+                    if(mPersonalInfoDto.wallet!=null&&mPersonalInfoDto.wallet.data!=null){
+                        if(mPersonalInfoDto.wallet.data.isPay_password()){
+                            BaseApplication.isSetPay =1;
+                        }else{
+                            BaseApplication.isSetPay =0;
+                        }
+                    }else {
+                        BaseApplication.isSetPay =0;
+                    }
                     ShareUtil.getInstance().save(Constants.USER_HEAD, personalInfoDto.getAvatar());
                     if (!TextUtils.isEmpty(personalInfoDto.getName())) {
                         ShareUtil.getInstance().save(Constants.USER_NAME, personalInfoDto.getName());
@@ -408,6 +434,7 @@ public class MeFragment extends BaseFragment {
                 }
                 break;
             case R.id.iv_setting://设置
+
                 gotoActivity(AccountSettingActivity.class);
                 break;
             case R.id.ll_gz://关注

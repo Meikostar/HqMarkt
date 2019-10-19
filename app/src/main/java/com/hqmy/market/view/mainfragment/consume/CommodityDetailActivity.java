@@ -36,6 +36,7 @@ import com.hqmy.market.view.adapter.CommodityCommentImageAdapter;
 import com.hqmy.market.view.widgets.ShopProductTypeDialog;
 import com.hqmy.market.view.widgets.dialog.ShareModeDialog;
 import com.hqmy.market.view.widgets.ratingbar.BaseRatingBar;
+import com.meiqia.meiqiasdk.util.MQIntentBuilder;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.loader.ImageLoader;
@@ -211,7 +212,13 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
         });
 
         bindClickEvent(layout_service, () -> {
-            Bundle bundle = new Bundle();
+            HashMap<String, String> clientInfo = new HashMap<>();
+            clientInfo.put("name", ShareUtil.getInstance().get(Constants.USER_NAME));
+            clientInfo.put("avatar", ShareUtil.getInstance().get(Constants.USER_HEAD));
+            Intent intent = new MQIntentBuilder(this)
+                    .setClientInfo(clientInfo)
+                    .build();
+            startActivity(intent);
 //            bundle.putString(ConversationActivity.TITLE, "客服");
 //            bundle.putString(ConversationActivity.TARGET_ID, commodityDetailInfoDto.getSlug());
 //            gotoActivity(ConversationActivity.class, true, bundle);
@@ -440,7 +447,8 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             @Override
             public void onError(Throwable throwable) {
                 if (!ApiException.getInstance().isSuccess()) {
-                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+//                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
                 } else {
                     iv_save.setImageResource(R.mipmap.ic_product_save_red);
                     tv_save.setText("收藏");
@@ -471,7 +479,8 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             @Override
             public void onError(Throwable throwable) {
                 if (!ApiException.getInstance().isSuccess()) {
-                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+//                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
                 } else {
                     iv_save.setImageResource(R.mipmap.ic_product_save);
                     tv_save.setTextColor(getResources().getColor(R.color.my_color_f79));

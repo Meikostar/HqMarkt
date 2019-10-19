@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF"
     android:orientation="vertical"
     android:paddingTop="@dimen/bj_24dp">
@@ -158,26 +159,33 @@
         android:paddingLeft="@dimen/wz_15sp"
         android:paddingTop="@dimen/bj_10dp"
         android:paddingBottom="@dimen/bj_10dp">
-
-        <CheckBox
+        <com.hqmy.market.view.widgets.MCheckBox
             android:id="@+id/cb_default_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            style="@style/checkbox.theme"
-           />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="6dp"
+            android:clickable="false"
+            android:padding="5dp"
+            android:gravity="center"
+            app:canNoClick="false"
+            app:drawablechoose="@mipmap/icon_collection_check_sel"
+            app:drawables="@mipmap/icon_collection_check_default" />
+
 
         <TextView
+            android:layout_centerVertical="true"
             android:id="@+id/tv_default_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="0dp"
             android:layout_toRightOf="@+id/cb_default_address"
             android:text="默认地址"
             android:textColor="#ff212121"
             android:textSize="15sp" />
 
         <TextView
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

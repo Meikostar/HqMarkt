@@ -461,7 +461,7 @@ public class BrandShopDetailActivity extends BaseActivity {
         showLoadDialog();
         HashMap<String, String> map = new HashMap<>();
         map.put("filter[brand_id]", id);
-        map.put("page", mPage + "");
+        map.put("page", mCurrentPage + "");
 
 
         if(isNew!=0){
@@ -469,7 +469,7 @@ public class BrandShopDetailActivity extends BaseActivity {
             map.put("filter[is_new]", 1 + "");
         }
         if (!TextUtils.isEmpty(sortStr)) {
-            map.put("sort[]", sortStr);
+            map.put("sort", sortStr);
         }
         DataManager.getInstance().getStProductList(new DefaultSingleObserver<HttpResult<List<NewListItemDto>>>() {
             @Override

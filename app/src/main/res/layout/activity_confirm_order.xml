@@ -58,10 +58,11 @@
                android:layout_height="wrap_content"
                android:orientation="vertical">
             <RelativeLayout
-            android:visibility="gone"
+                android:visibility="gone"
+                 android:background="@color/white"
                 android:id="@+id/rl_address"
                android:layout_width="match_parent"
-               android:layout_height="wrap_content"
+               android:layout_height="80dp"
                 android:minHeight="70dp"
                android:paddingTop="@dimen/bj_10dp"
                android:paddingBottom="@dimen/bj_10dp">
@@ -100,7 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:text="收货人:夏天的尾巴"
+                        android:text="收货人:"
                         android:textColor="@color/my_color_black"
                         android:textSize="14sp" />
                     <TextView
@@ -108,7 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="13852386714"
+                        android:text=""
                         android:textColor="@color/my_color_black"
                         android:textSize="14sp" />
                    </RelativeLayout>

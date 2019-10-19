@@ -192,8 +192,9 @@ public class RequestLivePermissionActivity extends BaseActivity {
             @Override
             public void onError(Throwable throwable) {
                 dissLoadDialog();
-                ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+//                ToastUtil.toast(ApiException.getInstance().getErrorMsg());
 
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
         }, "image", part);
     }

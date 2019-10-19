@@ -1,5 +1,7 @@
 package com.hqmy.market.view.adapter;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.hqmy.market.bean.TopicListItemDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.ScreenSizeUtil;
+import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 import com.hqmy.market.view.widgets.MCheckBox;
 
 public class CollectGoodsAdapter extends BaseQuickAdapter<TopicListItemDto, BaseViewHolder> {
@@ -60,6 +63,17 @@ public class CollectGoodsAdapter extends BaseQuickAdapter<TopicListItemDto, Base
         });
         FrameLayout frameLayout = helper.getView(R.id.fl_line);
         LinearLayout llab = helper.getView(R.id.ll_lab);
+        LinearLayout llbg = helper.getView(R.id.ll_bg);
+        llbg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(CommodityDetailActivity.PRODUCT_ID, item.getId());
+                Intent intent = new Intent(mContext,CommodityDetailActivity.class);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
+            }
+        });
         View line = helper.getView(R.id.line);
         if(!TextUtils.isEmpty(item.market_price)){
             frameLayout.setVisibility(View.VISIBLE);
@@ -79,6 +93,11 @@ public class CollectGoodsAdapter extends BaseQuickAdapter<TopicListItemDto, Base
         }
         if(!TextUtils.isEmpty(item.getTitle())){
             helper .setText(R.id.tv_title, item.getTitle());
+        }
+        if(item.brand!=null&&item.brand.data!=null&&item.brand.data.category.data!=null&&item.brand.data.category.data.title!=null){
+            helper.setText(R.id.tv_contury,  item.brand.data.category.data.title);
+            GlideUtils.getInstances().loadUserRoundImg(mContext, helper.getView(R.id.iv_contury), Constants.WEB_IMG_URL_UPLOADS + item.brand.data.category.data.icon);
+
         }
 
 

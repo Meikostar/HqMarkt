@@ -11,6 +11,7 @@ public class MyOrderDto{
     String pay_total;
     String product_total;
    public int refund_to_wallet;
+   public String rowId;
     String total;
     String count;
     MyorderItemsDto items;

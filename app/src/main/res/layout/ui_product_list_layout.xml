@@ -62,7 +62,7 @@
                     android:layout_height="30dp"
                     android:background="@null"
                     android:hint="请输入搜素关键字"
-
+                    android:imeOptions="actionSearch"
                     android:singleLine="true"
                     android:textColor="@color/my_color_333333"
                     android:textSize="14sp" />

@@ -38,6 +38,7 @@ public class IncomeActivity extends BaseActivity {
     @Override
     public void initView() {
         actionbar.setImgStatusBar(R.color.my_color_white);
+        actionbar.setTitle("收入流水");
         StatusBarUtils.StatusBarLightMode(this);
         initTab();
     }

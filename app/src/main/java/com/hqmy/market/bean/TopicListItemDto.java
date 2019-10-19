@@ -6,7 +6,7 @@ import java.util.List;
 public class TopicListItemDto implements Serializable {
     private String id;
     private String user_id;
-    private String title;
+    public String title;
     private String type;
     private String cover;
     private List<String> img;
@@ -26,8 +26,12 @@ public class TopicListItemDto implements Serializable {
     private String comments_count;
     private String likers_count;
     public String market_price;
+    public String icon;
     public boolean isChoose;
     private TopicUserDto user;
+    public TopicListItemDto brand;
+    public TopicListItemDto data;
+    public TopicListItemDto category;
 
     private boolean flag2;
     private ShopInfo shop;

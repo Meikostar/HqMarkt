@@ -11,16 +11,14 @@
        <ImageView
            android:id="@+id/iv_banner_family"
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:src="@mipmap/family_banner"/>
+           android:layout_height="wrap_content"/>
        <ImageView
            android:id="@+id/iv_banner_family_bottom"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_marginLeft="@dimen/dp_10"
            android:layout_marginRight="@dimen/dp_10"
-           android:layout_marginTop="@dimen/bj_100dp"
-           android:src="@mipmap/family_banner_bottom"/>
+           android:layout_marginTop="@dimen/bj_100dp"/>
    </RelativeLayout>
     <com.hqmy.market.view.widgets.autoview.NoScrollGridView
         android:id="@+id/gridview_family_sort"

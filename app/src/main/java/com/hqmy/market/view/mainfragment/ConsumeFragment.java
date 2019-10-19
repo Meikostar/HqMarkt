@@ -166,7 +166,10 @@ public class ConsumeFragment extends BaseFragment {
     @Override
     protected void initListener() {
         bindClickEvent(tv_location, () -> {
-            gotoActivity(SelectCityActivity.class, false, null);
+
+            Bundle bundle = new Bundle();
+            bundle.putString("from", "entityStore");
+            gotoActivity(SelectCityActivity.class, false, bundle);
         });
 
         bindClickEvent(find, () -> {

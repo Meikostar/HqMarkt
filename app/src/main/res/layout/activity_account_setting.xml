@@ -51,6 +51,22 @@
         android:layout_marginRight="@dimen/bj_15dp"
         android:background="#F5F5F5" />
     <TextView
+        android:id="@+id/tv_pay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_48dp"
+        android:layout_centerVertical="true"
+        android:drawableRight="@mipmap/arr_right"
+        android:gravity="center|start"
+        android:paddingLeft="@dimen/bj_15dp"
+        android:paddingRight="@dimen/bj_15dp"
+        android:text="设置密码" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/bj_15dp"
+        android:layout_marginRight="@dimen/bj_15dp"
+        android:background="#F5F5F5" />
+    <TextView
         android:id="@+id/tv_dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bj_48dp"
@@ -60,7 +76,6 @@
         android:paddingLeft="@dimen/bj_15dp"
         android:paddingRight="@dimen/bj_15dp"
         android:text="店铺服务协议" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

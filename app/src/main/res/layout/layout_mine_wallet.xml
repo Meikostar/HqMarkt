@@ -236,7 +236,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/bj_6dp"
-                    android:text="我的收益"
+                    android:text="我的钱包"
                     android:textColor="#ff333333"
                     android:textSize="12sp" />
             </LinearLayout>

@@ -15,7 +15,7 @@
         android:id="@+id/stb_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#F5F5F5"
+        android:background="#fff"
         tl:tl_indicator_color="@color/my_color_zs"
         tl:tl_indicator_width_equal_title="true"
         tl:tl_indicator_height="3dp"

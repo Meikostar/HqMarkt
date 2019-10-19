@@ -38,6 +38,7 @@ import com.hqmy.market.bean.HeadLineDetailDto;
 import com.hqmy.market.bean.HeadLineDto;
 import com.hqmy.market.bean.HotCityDto;
 import com.hqmy.market.bean.HotSearchInfo;
+import com.hqmy.market.bean.IncomeDto;
 import com.hqmy.market.bean.InviteFriendBean;
 import com.hqmy.market.bean.LearnRecordInfo;
 import com.hqmy.market.bean.LiveCatesBean;
@@ -140,6 +141,11 @@ public interface RetrofitService {
      */
     @POST("api/base/sms")
     Single<HttpResult<String>> getSmsCode(@Body RequestBody body);
+    /**
+     * 发送短信验证码
+     */
+    @POST("api/base/sms")
+    Single<HttpResult<String>> getSmsCodes(@Header("Authorization") String token,@Body RequestBody body);
 
     /**
      * 重设密码
@@ -155,12 +161,25 @@ public interface RetrofitService {
     @PUT("api/base/user")
     Single<HttpResult<PersonalInfoDto>> modifUserInfo(@Header("Authorization") String token, @Body HashMap<String, String> body);
 
+    /**
+     * 重设支付密码
+     */
+    @PUT("api/package/wallet/pay_password")
+    Single<Object> setPayPassword(@Header("Authorization") String token, @Body Map<String, Object> map);
 
     /**
      * 获取用户信息
      */
     @GET("api/base/user")
     Single<HttpResult<PersonalInfoDto>> getUserInfo(@Header("Authorization") String token,@Query("include") String include);
+
+    /**
+     * 获取用户信息
+     */
+    @GET("api/package/wallet/log")
+    Single<HttpResult<List<IncomeDto>>> getUserlog(@Header("Authorization") String token,@QueryMap Map<String, String> map);
+
+
 
     /**
      * 用户地址列表
@@ -521,7 +540,7 @@ public interface RetrofitService {
      * 消息通知列表
      */
     @GET("api/base/user/notifications")
-    Single<HttpResult<List<NoticeDto>>> getNoticeList(@Header("Authorization") String token, @Query("filter[type]") String type);
+    Single<HttpResult<List<NoticeDto>>> getNoticeList(@Header("Authorization") String token, @QueryMap Map<String, String> map);
 
     /**
      * 验证好友申请
@@ -587,6 +606,11 @@ public interface RetrofitService {
     @GET("api/package/pages/{type}/{id}")
     Single<HttpResult<DetailDto>> getHelpDetail(@Path("type") String type, @Path("id") String id);
 
+    /**
+     * 获取帮助详情
+     */
+    @GET("api/package/pages/page/shop_service")
+    Single<HttpResult<DetailDto>> getShopService();
 
     /**
      * 获取新闻详情
@@ -1001,7 +1025,7 @@ public interface RetrofitService {
 
 
     /**
-     * 售后详情
+     * 售后详情/api/package/mall/{mall_type}/user/orders/refund_list/{refund_id}/cancel
      */
     @PUT("/api/package/mall/default/user/orders/refund_list/{refund_id}/cancel")
     Single<HttpResult<Object>> getOrdercancel(@Header("Authorization") String token, @Path("refund_id") String id);
@@ -1022,7 +1046,7 @@ public interface RetrofitService {
      * 我邀请在好友列表
      */
     @GET("api/package/user/children")
-    Single<HttpResult<List<InviteFriendBean>>> getUserChildren(@Header("Authorization") String token);
+    Single<HttpResult<List<InviteFriendBean>>> getUserChildren(@Header("Authorization") String token, @QueryMap Map<String, String> map);
 
     /**
      * 我的订单数量

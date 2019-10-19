@@ -2,8 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="@color/my_color_f6f6f6">
-
+   <View
+       android:layout_width="match_parent"
+       android:layout_height="0.5dp"
+       android:background="@color/my_color_line"/>
     <com.hqmy.market.view.widgets.autoview.SuperSwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"

@@ -129,14 +129,18 @@ public class GlideUtils {
             content= imgUrl;
         }
         Glide.with(context)
-                .asBitmap()
-                .load(content)
-                .apply(new RequestOptions()
-                        .placeholder(R.mipmap.img_default_1)
-                        .error(R.mipmap.img_default_1)
-                        // .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .transforms(new CenterCrop(), new CircleTransform()))
+                .load(content).error(R.mipmap.img_default_1).placeholder(R.mipmap.img_default_1).transform( new CircleTransform())
+                .centerCrop()
                 .into(imageView);
+//        Glide.with(context)
+//                .asBitmap()
+//                .load(content)
+//                .apply(new RequestOptions()
+//                        .placeholder(R.mipmap.img_default_1)
+//                        .error(R.mipmap.img_default_1)
+//                        // .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                        .transforms(new CenterCrop(), new CircleTransform()))
+//                .into(imageView);
     }
     /**
      * 加载圆形图片
@@ -147,14 +151,18 @@ public class GlideUtils {
      */
     public void loadRoundImg(Context context, ImageView imageView, String imgUrl,int img_default) {
 
+//        Glide.with(context)
+//                .asBitmap()
+//                .load(TextUtils.isEmpty(imgUrl)?imgUrl:imgUrl.contains("http")?imgUrl:Constants.WEB_IMG_URL_UPLOADS+imgUrl)
+//                .apply(new RequestOptions()
+//                        .placeholder(img_default)
+//                        .error(img_default)
+//                        // .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                        .transforms(new CenterCrop(), new CircleTransform()))
+//                .into(imageView);
         Glide.with(context)
-                .asBitmap()
-                .load(TextUtils.isEmpty(imgUrl)?imgUrl:imgUrl.contains("http")?imgUrl:Constants.WEB_IMG_URL_UPLOADS+imgUrl)
-                .apply(new RequestOptions()
-                        .placeholder(img_default)
-                        .error(img_default)
-                        // .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .transforms(new CenterCrop(), new CircleTransform()))
+                .load(TextUtils.isEmpty(imgUrl)?imgUrl:imgUrl.contains("http")?imgUrl:Constants.WEB_IMG_URL_UPLOADS+imgUrl).error(img_default).placeholder(img_default).transform( new CircleTransform())
+                .centerCrop()
                 .into(imageView);
     }
     /**
@@ -179,14 +187,19 @@ public class GlideUtils {
         }else {
             content= imgUrl;
         }
+//        Glide.with(context)
+//                .asBitmap()
+//                .load(content)
+//                .apply(new RequestOptions()
+//                        .placeholder(R.drawable.moren_ren)
+//                        .error(R.drawable.moren_ren)
+////                         .diskCacheStrategy(DiskCacheStrategy.NONE)// 缓存策略
+//                        .transforms(new CenterCrop(), new CircleTransform()))
+//                .into(imageView);
+
         Glide.with(context)
-                .asBitmap()
-                .load(content)
-                .apply(new RequestOptions()
-                        .placeholder(R.drawable.moren_ren)
-                        .error(R.drawable.moren_ren)
-//                         .diskCacheStrategy(DiskCacheStrategy.NONE)// 缓存策略
-                        .transforms(new CenterCrop(), new CircleTransform()))
+                .load(content).error(R.drawable.moren_ren).placeholder(R.drawable.moren_ren).transform( new CircleTransform())
+                .centerCrop()
                 .into(imageView);
     }
 
@@ -230,16 +243,20 @@ public class GlideUtils {
         }else {
             content= imgUrl;
         }
-        try {
-            Glide.with(context).asBitmap().load(content).apply(new RequestOptions()
-                    .placeholder(R.drawable.moren_product) // 预加载图片
-                    .error(R.drawable.moren_product) // 加载失败显示图片
-                    .priority(Priority.LOW)) // 优先级
-                    .into(imageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-            LogUtil.d("loadNormalImg", "loadNormalImg--isDestroyed");
-        }
+        Glide.with(context)
+                .load(content).error(R.drawable.moren_product).placeholder(R.drawable.moren_product)
+                .centerCrop()
+                .into(imageView);
+//        try {
+//            Glide.with(context).asBitmap().load(content).apply(new RequestOptions()
+//                    .placeholder(R.drawable.moren_product) // 预加载图片
+//                    .error(R.drawable.moren_product) // 加载失败显示图片
+//                    .priority(Priority.LOW)) // 优先级
+//                    .into(imageView);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            LogUtil.d("loadNormalImg", "loadNormalImg--isDestroyed");
+//        }
 
     }
 
@@ -265,16 +282,21 @@ public class GlideUtils {
          }else {
              content= imgUrl;
          }
-        try {
-            Glide.with(context).asBitmap().load(content).apply(new RequestOptions()
-                    .placeholder(R.mipmap.img_default_three) // 预加载图片
-                    .error(R.mipmap.img_default_three) // 加载失败显示图片
-                    .priority(Priority.LOW)) // 优先级
-                    .into(imageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-            LogUtil.d("loadNormalImg", "loadNormalImg--isDestroyed");
-        }
+
+        Glide.with(context)
+                .load(content).error(R.drawable.img_default_three).placeholder(R.drawable.img_default_three)
+                .centerCrop()
+                .into(imageView);
+//        try {
+//            Glide.with(context).asBitmap().load(content).apply(new RequestOptions()
+//                    .placeholder(R.mipmap.img_default_three) // 预加载图片
+//                    .error(R.mipmap.img_default_three) // 加载失败显示图片
+//                    .priority(Priority.LOW)) // 优先级
+//                    .into(imageView);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            LogUtil.d("loadNormalImg", "loadNormalImg--isDestroyed");
+//        }
 
     }
 
@@ -300,16 +322,21 @@ public class GlideUtils {
         }else {
             content= imgUrl;
         }
-        try {
-            Glide.with(context).asBitmap().load(content).apply(new RequestOptions()
-                    .placeholder(defaultImgId) // 预加载图片
-                    .error(defaultImgId) // 加载失败显示图片
-                    .priority(Priority.LOW)) // 优先级
-                    .into(imageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-            LogUtil.d("loadNormalImg", "loadNormalImg--isDestroyed");
-        }
+
+        Glide.with(context)
+                .load(content).error(defaultImgId).placeholder(defaultImgId)
+                .centerCrop()
+                .into(imageView);
+//        try {
+//            Glide.with(context).asBitmap().load(content).apply(new RequestOptions()
+//                    .placeholder(defaultImgId) // 预加载图片
+//                    .error(defaultImgId) // 加载失败显示图片
+//                    .priority(Priority.LOW)) // 优先级
+//                    .into(imageView);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            LogUtil.d("loadNormalImg", "loadNormalImg--isDestroyed");
+//        }
 
     }
     /**

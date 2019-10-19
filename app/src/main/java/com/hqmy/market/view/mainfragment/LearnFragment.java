@@ -117,7 +117,7 @@ public class LearnFragment extends BaseFragment {
     private List<NewListItemDto> goodsLists = new ArrayList<NewListItemDto>();
     @Override
     public void initData() {
-        getAddressListData();
+
 
         if (again){
             again();
@@ -264,7 +264,13 @@ public class LearnFragment extends BaseFragment {
         findGussGoodLists();
     }
 
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            getAddressListData();
+        }
+    }
     private void findGussGoodLists() {
         //showLoadDialog();
         Map<String, String> map = new HashMap<>();

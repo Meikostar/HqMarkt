@@ -35,19 +35,33 @@ public class RegexUtils {
         return isMatch(RegexConstants.REGEX_MOBILE_EXACT, input);
     }
 
-    //验证银行卡号
+
+    /**
+     * 校验银行卡卡号
+     *
+     * @param cardId
+     * @return
+     */
     public static boolean checkBankCard(String cardId) {
-        char bit = getBankCardCheckCode(cardId.substring(0, cardId.length() - 1));
+        char bit = getBankCardCheckCode(cardId
+                .substring(0, cardId.length() - 1));
         if (bit == 'N') {
             return false;
         }
         return cardId.charAt(cardId.length() - 1) == bit;
     }
-    //从不含校验位的银行卡卡号采用 Luhm 校验算法获得校验位
+
+    /**
+     * 从不含校验位的银行卡卡号采用 Luhm 校验算法获得校验位
+     *
+     * @param nonCheckCodeCardId
+     * @return
+     */
     public static char getBankCardCheckCode(String nonCheckCodeCardId) {
-        if (nonCheckCodeCardId == null || nonCheckCodeCardId.trim().length() == 0
+        if (nonCheckCodeCardId == null
+                || nonCheckCodeCardId.trim().length() == 0
                 || !nonCheckCodeCardId.matches("\\d+")) {
-            //如果传的不是数据返回N
+            // 如果传的不是数据返回N
             return 'N';
         }
         char[] chs = nonCheckCodeCardId.trim().toCharArray();
@@ -62,6 +76,7 @@ public class RegexUtils {
         }
         return (luhmSum % 10 == 0) ? '0' : (char) ((10 - luhmSum % 10) + '0');
     }
+
     /**
      * Return whether input matches regex of telephone number.
      *

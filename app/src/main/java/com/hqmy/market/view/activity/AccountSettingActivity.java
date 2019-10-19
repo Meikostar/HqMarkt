@@ -1,5 +1,6 @@
 package com.hqmy.market.view.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,15 +10,19 @@ import android.widget.TextView;
 
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.base.BaseApplication;
 import com.hqmy.market.bean.PersonalInfoDto;
 import com.hqmy.market.common.Constants;
-import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.eventbus.LogoutEvent;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
+import com.hqmy.market.utils.DataCleanManager;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.view.SettingPasswordActivity;
+import com.hqmy.market.view.widgets.dialog.BaseDialog;
+import com.hqmy.market.view.widgets.dialog.ConfirmDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -49,6 +54,9 @@ public class AccountSettingActivity extends BaseActivity {
     TextView       tvBbx;
     @BindView(R.id.tv_hc)
     TextView       tvHc;
+    @BindView(R.id.tv_pay)
+    TextView       tv_pay;
+
     @BindView(R.id.rl_sex_container)
     RelativeLayout rlSexContainer;
     @BindView(R.id.tv_exit_login)
@@ -63,14 +71,27 @@ public class AccountSettingActivity extends BaseActivity {
     public void initView() {
 
         mTitleText.setText("设置");
-        tvHc.setText(com.zhongchuang.canting.utils.DataCleanManager.getExternalCacheSize(AccountSettingActivity.this));
+        tvHc.setText(DataCleanManager.getExternalCacheSize(AccountSettingActivity.this));
     }
-
 
 
     @Override
     public void initData() {
+        if( BaseApplication.isSetPay ==1){
+            tv_pay.setText("修改支付密码");
+        }else {
+            tv_pay.setText("设置支付密码");
+        }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if( BaseApplication.isSetPay ==1){
+            tv_pay.setText("修改支付密码");
+        }else {
+            tv_pay.setText("设置支付密码");
+        }
     }
 
     @Override
@@ -80,10 +101,11 @@ public class AccountSettingActivity extends BaseActivity {
 
     @OnClick({R.id.tv_dz
             , R.id.iv_title_back
+            , R.id.tv_pay
             , R.id.tv_ls
             , R.id.tv_dp
             , R.id.tv_bbx
-            , R.id.tv_hc
+            , R.id.rl_sex_container
             , R.id.tv_exit_login
     })
     public void onClick(View view) {
@@ -94,31 +116,55 @@ public class AccountSettingActivity extends BaseActivity {
             case R.id.tv_dz:
                 gotoActivity(ShippingAddressActivity.class);
                 break;
+            case R.id.tv_pay:
+                gotoActivity(SettingPasswordActivity.class);
+                break;
             case R.id.tv_ls://流水
                 gotoActivity(IncomeActivity.class);
 
                 break;
             case R.id.tv_dp://服务协议
-                gotoUserInfoActivity();
+                Intent intent = new Intent(this, WebUtilsActivity.class);
+                intent.putExtra("type",5);
+                startActivity(intent);
                 break;
             case R.id.tv_bbx://版本信息
                 gotoUserInfoActivity();
                 break;
-            case R.id.tv_hc://缓存
+            case R.id.rl_sex_container://缓存
+
+                showLoginHintDialog();
+                break;
+
+            case R.id.tv_exit_login:
+                logout();
+                break;
+        }
+    }
+
+
+    private void showLoginHintDialog() {
+        ConfirmDialog dialog = new ConfirmDialog(AccountSettingActivity.this);
+        dialog.setTitle("温馨提示");
+        dialog.setMessage("是否清除缓存?");
+        dialog.setYesOnclickListener("确定", new BaseDialog.OnYesClickListener() {
+            @Override
+            public void onYesClick() {
+                dialog.dismiss();
                 showLoadDialog();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        com.zhongchuang.canting.utils.DataCleanManager.deleteFolderFile(getExternalCacheDir().getPath(), true);
+                        DataCleanManager.deleteFolderFile(getExternalCacheDir().getPath(), true);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (com.zhongchuang.canting.utils.DataCleanManager.getExternalCacheSize(AccountSettingActivity.this).equals("0.0Byte")) {
+                                if (DataCleanManager.getExternalCacheSize(AccountSettingActivity.this).equals("0.0Byte")) {
 
                                     ToastUtil.showToast("已清除");
                                 } else {
-                                    ToastUtil.showToast("清除" + "(" + com.zhongchuang.canting.utils.DataCleanManager.getExternalCacheSize(AccountSettingActivity.this) + ")");
-                                    tvHc.setText(com.zhongchuang.canting.utils.DataCleanManager.getExternalCacheSize(AccountSettingActivity.this));
+                                    ToastUtil.showToast("清除成功" );
+                                    tvHc.setText(DataCleanManager.getExternalCacheSize(AccountSettingActivity.this));
 
                                 }
                                 dissLoadDialog();
@@ -128,21 +174,24 @@ public class AccountSettingActivity extends BaseActivity {
                     }
                 }).start();
 
-                com.zhongchuang.canting.utils.DataCleanManager.clearAllCache(AccountSettingActivity.this);
+                DataCleanManager.clearAllCache(AccountSettingActivity.this);
                 try {
-                    String size = com.zhongchuang.canting.utils.DataCleanManager.getTotalCacheSize(AccountSettingActivity.this);
+                    String size = DataCleanManager.getTotalCacheSize(AccountSettingActivity.this);
                     tvHc.setText(size);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                break;
+            }
+        });
+        dialog.setCancleClickListener("取消", new BaseDialog.OnCloseClickListener() {
+            @Override
+            public void onCloseClick() {
+                String cacheToken = ShareUtil.getInstance().getString(Constants.APP_USER_KEY, "");
 
-            case R.id.tv_exit_login:
-                logout();
-                break;
-        }
+            }
+        });
+        dialog.show();
     }
-
     private void logout() {
         DataManager.getInstance().logout(new DefaultSingleObserver<Object>() {
             @Override
@@ -169,19 +218,12 @@ public class AccountSettingActivity extends BaseActivity {
     }
 
     private void gotoUserInfoActivity() {
-        Intent intent = new Intent(this, UserInfoActivity.class);
+        Intent intent = new Intent(this, AboutUsActivity.class);
 
-        startActivityForResult(intent, 100);
+        startActivity(intent);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == 0 && data != null) {
-            PersonalInfoDto personalInfoDto = (PersonalInfoDto) data.getSerializableExtra("userInfo");
 
-        }
-    }
 
 
 }

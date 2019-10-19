@@ -19,6 +19,8 @@ import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
+import com.hqmy.market.utils.TextUtil;
+import com.hqmy.market.view.SettingPasswordActivity;
 import com.hqmy.market.view.widgets.dialog.InputPasswordDialog;
 
 import java.util.HashMap;
@@ -77,6 +79,7 @@ public class WithdrawActivity extends BaseActivity {
     @OnClick({R.id.iv_title_back
             , R.id.rl_withdraw_bank_card_container
             , R.id.tv_withdraw_all
+            , R.id.add_band_card
             , R.id.tv_withdraw_affirm
     })
     public void onClick(View view) {
@@ -85,10 +88,10 @@ public class WithdrawActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.rl_withdraw_bank_card_container://选择银行卡
-                checkBankCard();
+                checkBankCard(1);
                 break;
             case R.id.add_band_card:
-                checkBankCard();
+                checkBankCard(0);
                 break;
             case R.id.tv_withdraw_all://全部提现
                 et_withdraw_money.setText(money + "");
@@ -111,6 +114,7 @@ public class WithdrawActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         getData();
+        getDefaultCard();
     }
     private void checkWallet(String string) {
         DataManager.getInstance().getBalance(new DefaultSingleObserver<BalanceDto>() {
@@ -130,6 +134,7 @@ public class WithdrawActivity extends BaseActivity {
                         }
                     }).show();
                 } else {
+                    gotoActivity(SettingPasswordActivity.class);
                     ToastUtil.toast("请先设置支付密码");
                 }
 
@@ -193,7 +198,7 @@ public class WithdrawActivity extends BaseActivity {
     }
 
     private void setCardView() {
-        if (bankCardDto != null) {
+        if (bankCardDto != null&&TextUtil.isNotEmpty(bankCardDto.getOrg())) {
             add_band_card.setVisibility(View.GONE);
             rl_withdraw_bank_card_container.setVisibility(View.VISIBLE);
             String typeName = "储蓄卡";
@@ -218,10 +223,18 @@ public class WithdrawActivity extends BaseActivity {
         }
     }
 
-    private void checkBankCard() {
-        Intent intent = new Intent(this, BankCardManagerActivity.class);
-        intent.putExtra("selCard", true);
-        startActivityForResult(intent, CHECK_BANK_CARD);
+    private void checkBankCard(int type) {
+        if(type==0){
+            Intent intent = new Intent(WithdrawActivity.this, AddBandCardActivity.class);
+            intent.putExtra("type",1);
+            startActivity(intent);
+//            gotoActivity(AddBandCardActivity.class);
+        }else {
+            Intent intent = new Intent(this, BankCardManagerActivity.class);
+            intent.putExtra("selCard", true);
+            startActivityForResult(intent, CHECK_BANK_CARD);
+        }
+
     }
 
     @Override

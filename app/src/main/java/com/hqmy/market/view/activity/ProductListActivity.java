@@ -8,7 +8,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
@@ -228,6 +230,7 @@ public class ProductListActivity extends BaseActivity {
                     }
                 } else {
                     EmptyView emptyView = new EmptyView(ProductListActivity.this);
+                    hScroll.setVisibility(View.GONE);
                     if (!TextUtils.isEmpty(searchKey)) {
                         mAdapter.setNewData(data.getData());
                         emptyView.setTvEmptyTip(String.format("没搜索到%s相关数据", searchKey));
@@ -290,6 +293,19 @@ public class ProductListActivity extends BaseActivity {
                     ToastUtil.showToast("请输入关键词");
                 }
 
+            }
+        });
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                /*判断是否是“搜索”键*/
+                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                    getProductListData();
+                    closeKeyBoard();
+
+                    return true;
+                }
+                return false;
             }
         });
         bindClickEvent(tv_shop_product_1, () -> {

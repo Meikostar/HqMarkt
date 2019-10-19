@@ -6,6 +6,7 @@ public class BalanceDto {
     private boolean pay_password;//      	false
     private int     user_id;//  1
     private String score;
+    public BalanceDto data;
 
     public double getMoney() {
         return money;

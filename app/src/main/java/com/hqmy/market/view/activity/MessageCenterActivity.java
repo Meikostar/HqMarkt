@@ -1,21 +1,24 @@
 package com.hqmy.market.view.activity;
 
-import android.support.v7.widget.DividerItemDecoration;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
 import com.hqmy.market.bean.NoticeDto;
-import com.hqmy.market.http.DefaultSingleObserver;
-import com.hqmy.market.http.manager.DataManager;
-import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.view.adapter.NewFriendNoticeAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -23,11 +26,19 @@ import butterknife.OnClick;
  */
 public class MessageCenterActivity extends BaseActivity {
     @BindView(R.id.tv_title_text)
-    TextView     mTitleText;
-    @BindView(R.id.recyclerview)
-    RecyclerView mRecyclerView;
+    TextView       mTitleText;
+    @BindView(R.id.iv_title_back)
+    ImageView      ivTitleBack;
+    @BindView(R.id.tv_title_right)
+    TextView       tvTitleRight;
+    @BindView(R.id.layout_top)
+    RelativeLayout layoutTop;
+    @BindView(R.id.ll_xt)
+    LinearLayout   llXt;
+    @BindView(R.id.ll_dd)
+    LinearLayout   llDd;
     private NewFriendNoticeAdapter mAdapter;
-    private List<NoticeDto> data = new ArrayList<>();
+    private List<NoticeDto>        data = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -41,46 +52,36 @@ public class MessageCenterActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        initRecyclerView();
-        getNoticeList();
+        //        initRecyclerView();
+        //        getNoticeList();
     }
 
     @Override
     public void initListener() {
-
-    }
-
-    private void initRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        mAdapter = new NewFriendNoticeAdapter(data,this);
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
-    private void getNoticeList(){
-        showLoadDialog();
-        DataManager.getInstance().getNoticeList(new DefaultSingleObserver<HttpResult<List<NoticeDto>>>() {
+        llDd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(HttpResult<List<NoticeDto>> result) {
-                dissLoadDialog();
-                if(result != null) {
-//                    if(result.getData() != null){
-//                        List<NoticeDto>  nliList =  result.getData();
-//                        if (nliList != null) {
-//                            mAdapter.setNewData(nliList);
-//                        }
-//                    }
-                }
+            public void onClick(View v) {
+                startActivity(new Intent(MessageCenterActivity.this,MessageOrderActivity.class));
             }
+        });
+        llXt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onError(Throwable throwable) {
-                dissLoadDialog();
+            public void onClick(View v) {
+                startActivity(new Intent(MessageCenterActivity.this,MessageXtActivity.class));
             }
         });
     }
 
-    @OnClick({ R.id.iv_title_back
+    private void initRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        //        mRecyclerView.setLayoutManager(layoutManager);
+        //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //        mAdapter = new NewFriendNoticeAdapter(data,this);
+        //        mRecyclerView.setAdapter(mAdapter);
+    }
+
+
+    @OnClick({R.id.iv_title_back
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -88,5 +89,12 @@ public class MessageCenterActivity extends BaseActivity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -140,7 +140,7 @@ public class CollectActivity extends BaseActivity {
     private void getCollectData() {
         Map<String, String> map = new HashMap<>();
         map.put("object", "SMG\\Mall\\Models\\MallProduct");
-        map.put("include", "shop,user");
+        map.put("include", "shop,user,brand.category");
 
         DataManager.getInstance().getCollectionList(new DefaultSingleObserver<HttpResult<List<TopicListItemDto>>>() {
             @Override

@@ -215,11 +215,18 @@
                 android:layout_height="wrap_content"
                 style="@style/checkbox.theme"
                 android:checked="false"
-                android:text="注册即视为同意 "
+                android:text=""
                 android:textColor="#ff838383"
                 android:textSize="11sp" />
-
             <TextView
+                android:layout_marginLeft="11dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册即视为同意"
+                android:textColor="#ff838383"
+                android:textSize="11sp" />
+            <TextView
+                android:layout_marginLeft="2dp"
                 android:id="@+id/tv_register_protocol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

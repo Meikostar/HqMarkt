@@ -213,7 +213,8 @@ public class UserDetailActivity extends BaseActivity {
                 if (ApiException.getInstance().isSuccess()) {
                     ToastUtil.showToast("删除好友成功");
                 }else{
-                    ToastUtil.showToast(ApiException.getInstance().getErrorMsg());
+//                    ToastUtil.showToast(ApiException.getInstance().getErrorMsg());
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
                 }
                 finish();
             }

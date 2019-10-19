@@ -186,7 +186,8 @@ public class ShopCartAdapter extends BaseQuickAdapter<ShopCartListDto, BaseViewH
             @Override
             public void onError(Throwable throwable) {
                 if (!ApiException.getInstance().isSuccess()) {
-                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+//                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
                 } else {
                     ToastUtil.showToast("收藏成功");
                 }

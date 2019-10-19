@@ -55,6 +55,7 @@ import com.hqmy.market.qiniu.chatroom.message.ChatroomWelcome;
 import com.hqmy.market.qiniu.chatroom.messageview.HeartLayout;
 import com.hqmy.market.qiniu.live.ui.InputPanel;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.view.SettingPasswordActivity;
 import com.hqmy.market.view.adapter.LiveProductItemAdapter;
 import com.hqmy.market.view.mainfragment.community.TopicDetailActivity;
 import com.hqmy.market.view.mainfragment.consume.BrandShopDetailActivity;
@@ -764,6 +765,7 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
                     }).show();
                 } else {
                     ToastUtil.toast("请先设置支付密码");
+                    gotoActivity(SettingPasswordActivity.class);
                 }
 
             }

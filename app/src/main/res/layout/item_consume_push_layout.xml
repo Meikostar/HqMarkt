@@ -6,7 +6,7 @@
 
     tools:targetApi="lollipop"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="255dp"
     android:stateListAnimator="@drawable/lift_on_touch"
     android:layout_marginBottom="8dp"
     android:clickable="true"

@@ -111,6 +111,16 @@ public class ConfirmOrderActivity extends BaseActivity {
                 startActivityForResult(intent,6);
             }
         });
+
+        rlAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isShow=false;
+                Intent intent = new Intent(ConfirmOrderActivity.this, ShippingAddressActivity.class);
+                intent.putExtra("tag",1);
+                startActivityForResult(intent,6);
+            }
+        });
     }
 
     @Override

@@ -7,10 +7,14 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
+import android.widget.Toast;
 
 import com.hqmy.market.qiniu.chatroom.ChatroomKit;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
+import com.meiqia.core.MQManager;
+import com.meiqia.core.callback.OnInitCallback;
+import com.meiqia.meiqiasdk.util.MQConfig;
 import com.qiniu.pili.droid.streaming.StreamingEnv;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -36,6 +40,7 @@ public class BaseApplication extends Application{
     private static List<Activity> activityList = new ArrayList<>();
     private static Context mContext;
     private static Handler mHandler;
+    public static int  isSetPay;
 
     public static BaseApplication getInstance() {
         return instance;
@@ -59,7 +64,7 @@ public class BaseApplication extends Application{
         builder.detectFileUriExposure();
         //GreenDao数据库管理初始化
         DaoManager.getInstance().init(this);
-
+        initMeiqiaSDK();
         //初始化融云
         initRongCloud();
         StreamingEnv.init(getApplicationContext());
@@ -70,6 +75,42 @@ public class BaseApplication extends Application{
                         .readTimeout(15_000) // set read timeout.
                 ))
                 .commit();
+    }
+
+    private void initMeiqiaSDK() {
+        MQManager.setDebugMode(true);
+
+        // 替换成自己的key
+//        String meiqiaKey = "a71c257c80dfe883d92a64dca323ec20";
+        String meiqiaKey = "c391f32ffa6cd59b339a8a1d7847c354";
+        MQConfig.init(this, meiqiaKey, new OnInitCallback() {
+            @Override
+            public void onSuccess(String clientId) {
+//                Toast.makeText(BaseApplication.this, "init success", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+                Toast.makeText(BaseApplication.this, "int failure message = " + message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 可选
+        customMeiqiaSDK();
+    }
+    private void customMeiqiaSDK() {
+        // 配置自定义信息
+        MQConfig.ui.titleGravity = MQConfig.ui.MQTitleGravity.LEFT;
+//        MQConfig.ui.backArrowIconResId = R.drawable.ic_arrow_back_white_24dp;
+        //        MQConfig.ui.titleBackgroundResId = R.color.test_red;
+        //        MQConfig.ui.titleTextColorResId = R.color.test_blue;
+        //        MQConfig.ui.leftChatBubbleColorResId = R.color.test_green;
+        //        MQConfig.ui.leftChatTextColorResId = R.color.test_red;
+        //        MQConfig.ui.rightChatBubbleColorResId = R.color.test_red;
+        //        MQConfig.ui.rightChatTextColorResId = R.color.test_green;
+        //        MQConfig.ui.robotEvaluateTextColorResId = R.color.test_red;
+        //        MQConfig.ui.robotMenuItemTextColorResId = R.color.test_blue;
+        //        MQConfig.ui.robotMenuTipTextColorResId = R.color.test_blue;
     }
 
     private static void initSmartRefreshLayout() {

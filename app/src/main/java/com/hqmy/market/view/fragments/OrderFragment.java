@@ -100,6 +100,7 @@ public class OrderFragment extends BaseFragment {
     @Override
     protected void initData() {
         mRefreshLayout.autoRefresh();
+        getAddressListData();
     }
 
 
@@ -421,7 +422,7 @@ public class OrderFragment extends BaseFragment {
     private int                       RQ_WEIXIN_PAY = 12;
     private void checkOutOrder(String no) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("rows[" + String.valueOf(1) + "]", no);
+        map.put("rows[0]", no);
         map.put("address_id", addressId);
         DataManager.getInstance().checkOutOrder(new DefaultSingleObserver<HttpResult<List<CheckOutOrderResult>>>() {
             @Override

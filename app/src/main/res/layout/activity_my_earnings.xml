@@ -8,78 +8,171 @@
 
     <include layout="@layout/layout_title_view" />
 
-    <View
+    <LinearLayout
+        android:background="#f8efef"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bj_10dp"
-        android:background="#F5F5F5" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="@dimen/bj_17dp"
-        android:layout_marginRight="@dimen/bj_10dp"
-        android:background="@mipmap/my_earnings_bg">
-
+        android:layout_height="207dp">
         <LinearLayout
+
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/bj_40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/bj_25dp"
-            android:orientation="vertical">
-
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView
+                android:visibility="gone"
+                android:layout_width="@dimen/bj_17dp"
+                android:layout_height="@dimen/bj_17dp"
+                android:layout_marginRight="@dimen/bj_6dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:gravity="center"
                 android:text="当前余额"
-                android:textColor="#ffffffff"
-                android:textSize="19sp" />
+                android:textColor="@color/my_color_535353"
+                android:textSize="17sp" />
+        </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_ye"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/bj_8dp"
+            android:text="0"
+            android:textColor="@color/my_color_333333"
+            android:textSize="27sp" />
+
+        <TextView
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="@dimen/bj_6dp"
+            android:paddingBottom="@dimen/bj_6dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="@dimen/bj_18dp"
+            android:id="@+id/tv_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_radius_14_blue"
+            android:gravity="center"
+            android:text="立即提现"
+            android:textColor="#fff"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="87dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bj_77dp">
+
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/bj_15dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+
+
+                    android:layout_marginLeft="@dimen/bj_8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="总收益(元)"
+                    android:textColor="@color/my_color_333333"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
             <TextView
-                android:id="@+id/tv_earnings_balance"
+                android:id="@+id/tv_sy"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/bj_18dp"
-                android:text=""
-                android:textColor="#ffffffff"
-                android:textSize="33sp" />
+                android:text="0"
+                android:textColor="#1a2fb0"
+                android:textSize="18sp" />
         </LinearLayout>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/bj_19dp"
-        android:layout_marginTop="@dimen/bj_37dp"
-        android:layout_marginRight="@dimen/bj_19dp"
-        android:layout_marginBottom="42dp">
-
-        <TextView
-            android:id="@+id/tv_earnings_recharge"
-            android:layout_width="@dimen/bj_0dp"
-            android:layout_height="45dp"
+        <LinearLayout
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:background="@drawable/shape_recharge_bg"
-            android:gravity="center"
-            android:text="充值"
-            android:textColor="#ffffffff"
-            android:textSize="17sp" />
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bj_77dp">
 
-        <TextView
-            android:id="@+id/tv_earnings_withdraw"
-            android:layout_width="@dimen/bj_0dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="@dimen/bj_37dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_withdraw_bg"
-            android:gravity="center"
-            android:text="提现"
-            android:textColor="#ffe10020"
-            android:textSize="17sp" />
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/bj_15dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+
+
+                    android:layout_marginLeft="@dimen/bj_8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已提现(元)"
+                    android:textColor="@color/my_color_333333"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_tx"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="#1a2fb0"
+                android:textSize="18sp" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f5f5f5" />
+        android:layout_height="28dp"
+        android:text="变动明细"
+        android:textColor="#555"
+        android:textSize="11sp" />
+   <View
+       android:layout_width="match_parent"
+       android:layout_height="0.5dp"
+       android:background="@color/my_color_line"/>
+
+
+    <com.hqmy.market.view.widgets.autoview.SuperSwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </com.hqmy.market.view.widgets.autoview.SuperSwipeRefreshLayout>
 </LinearLayout>

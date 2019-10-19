@@ -183,13 +183,13 @@ public class ShopClassFragment extends BaseFragment {
     }
     private List<StoreCategoryDto> allData=new ArrayList<>();
     private void findStoreCategory() {
-        showLoadDialog();
+//        showLoadDialog();
         DataManager.getInstance().findStoreCategory(new DefaultSingleObserver<HttpResult<List<StoreCategoryDto>>>() {
             @Override
             public void onSuccess(HttpResult<List<StoreCategoryDto>> data) {
 
                 //                LogUtil.i(TAG, "--RxLog-Thread: onSuccess() = " + data);
-                dissLoadDialog();
+//                dissLoadDialog();
                 mListCategorys = data.getData();
                 List<StoreCategoryDto> data1 = data.getData();
                 StoreCategoryDto dto=new StoreCategoryDto();
@@ -220,14 +220,14 @@ public class ShopClassFragment extends BaseFragment {
                         gotoActivity(LoginActivity.class, true, null);
                     }
                 }
-                dissLoadDialog();
+//                dissLoadDialog();
             }
         });
     }
     private List<BaseDto2> mDto1;
     private List<BaseDto2> mDto2;
     private void findOneCategory() {
-        showLoadDialog();
+//        showLoadDialog();
         Map<String, String> map = new HashMap<>();
         map.put("no_tree", ""+1);
         map.put("include", "mallBrands");
@@ -238,7 +238,7 @@ public class ShopClassFragment extends BaseFragment {
             public void onSuccess(HttpResult<List<BaseDto2>> data) {
 
                 //                LogUtil.i(TAG, "--RxLog-Thread: onSuccess() = " + data);
-                dissLoadDialog();
+//                dissLoadDialog();
                 mDto1 = data.getData();
 
             }
@@ -253,12 +253,12 @@ public class ShopClassFragment extends BaseFragment {
                         gotoActivity(LoginActivity.class, true, null);
                     }
                 }
-                dissLoadDialog();
+//                dissLoadDialog();
             }
         },map);
     }
     private void findTwoCategory() {
-        showLoadDialog();
+//        showLoadDialog();
         Map<String, String> map = new HashMap<>();
         map.put("no_tree", ""+1);
         map.put("filter[is_recommend]", ""+1);
@@ -268,7 +268,7 @@ public class ShopClassFragment extends BaseFragment {
             public void onSuccess(HttpResult<List<BaseDto2>> data) {
 
                 //                LogUtil.i(TAG, "--RxLog-Thread: onSuccess() = " + data);
-                dissLoadDialog();
+//                dissLoadDialog();
                 mDto2=data.getData();
                 BaseDto2 baseDto2 = new BaseDto2();
                 baseDto2.title="常用分类";
@@ -291,7 +291,7 @@ public class ShopClassFragment extends BaseFragment {
                         gotoActivity(LoginActivity.class, true, null);
                     }
                 }
-                dissLoadDialog();
+//                dissLoadDialog();
             }
         },map);
     }

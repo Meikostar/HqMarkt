@@ -62,9 +62,10 @@ public class AddBandCardActivity extends BaseActivity {
     public int getLayoutId() {
         return R.layout.activity_add_bank_card;
     }
-
+    private int type;
     @Override
     public void initView() {
+        type=getIntent().getIntExtra("type",0);
         mTitleText.setText("添加银行卡");
     }
 
@@ -127,7 +128,7 @@ public class AddBandCardActivity extends BaseActivity {
             ToastUtil.showToast("请输入合法手机号");
             return;
         }
-        if(!RegexUtils.checkBankCard(mBankCardBindPhone.getText().toString().trim())){
+        if(!RegexUtils.checkBankCard(mBankCardNum.getText().toString().trim())){
             ToastUtil.showToast("请输入正确的卡号");
             return;
         }
@@ -140,6 +141,7 @@ public class AddBandCardActivity extends BaseActivity {
         DataManager.getInstance().addBankCard(new DefaultSingleObserver<HttpResult<Object>>() {
             @Override
             public void onSuccess(HttpResult<Object> result) {
+
                 finish();
             }
 

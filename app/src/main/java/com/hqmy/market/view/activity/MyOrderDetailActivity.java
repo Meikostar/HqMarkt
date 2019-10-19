@@ -288,7 +288,7 @@ public class MyOrderDetailActivity extends BaseActivity {
             public void onSuccess(HttpResult<MyOrderDto> result) {
                 dealView(result.getData());
             }
-        }, id, type, "shop,items.product,shipment,refundInfo");
+        }, id, "default", "shop,items.product,shipment,refundInfo,address");
     }
 
     private void dealView(MyOrderDto myOrderDto) {
@@ -296,6 +296,7 @@ public class MyOrderDetailActivity extends BaseActivity {
             mmyOrderDto = myOrderDto;
             tvOrderStatus.setText(myOrderDto.getStatus_msg());
             if (myOrderDto.getAddress() != null && myOrderDto.getAddress().getData() != null) {
+                rl_adress.setVisibility(View.VISIBLE);
                 tvMyorderConsignee.setText("收货人：" + myOrderDto.getAddress().getData().getName());
                 tvMyorderPhone.setText(myOrderDto.getAddress().getData().getMobile());
                 tvMyorderAddress.setText("收货地址：" + myOrderDto.getAddress().getData().getArea() + myOrderDto.getAddress().getData().getDetail());
@@ -375,6 +376,15 @@ public class MyOrderDetailActivity extends BaseActivity {
                     btnDetailOperationTwo.setVisibility(View.GONE);
                     btnDetailOperationOne.setText("再来一单");
                     break;
+                case "completed":
+                    rl_bg.setBackgroundResource(R.color.my_color_order_state4);
+                    llDetailBottom.setVisibility(View.VISIBLE);
+                    imgOrderStatus.setImageResource(R.mipmap.img_receiver);
+                    btnDetailOperationOne.setVisibility(View.VISIBLE);
+                    btnDetailOperationTwo.setVisibility(View.GONE);
+                    btnDetailOperationOne.setText("再来一单");
+                    break;
+
             }
         }
     }

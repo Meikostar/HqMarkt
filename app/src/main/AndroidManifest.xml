@@ -143,7 +143,12 @@
         <activity
             android:name=".view.activity.ConturyDetialActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".view.ForgetPayPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.SettingPasswordActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.ConturyActivity"
             android:screenOrientation="portrait" />
@@ -425,6 +430,17 @@
             android:name="com.hqmy.market.view.activity.MyOrderEvaluateActivity"
 
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hqmy.market.view.activity.IncomeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.hqmy.market.view.activity.MessageXtActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hqmy.market.view.activity.MessageOrderActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name="com.hqmy.market.view.activity.MyOrderEvaluateListActivity"
             android:screenOrientation="portrait" />

@@ -236,8 +236,8 @@ public class EditGoodsActivity extends BaseActivity {
                 @Override
                 public void onError(Throwable throwable) {
                     dissLoadDialog();
-                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
-
+//                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
                 }
             }, "image", part);
         } else {
@@ -297,7 +297,8 @@ public class EditGoodsActivity extends BaseActivity {
                     setResult(Activity.RESULT_OK);
                     finish();
                 } else {
-                    ToastUtil.showToast(ApiException.getInstance().getErrorMsg());
+//                    ToastUtil.showToast(ApiException.getInstance().getErrorMsg());
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
                 }
             }
         }, publishInfo.getId(), map);

@@ -259,8 +259,10 @@ public class BabyPublishActivity extends BaseActivity {
                 if(ApiException.getInstance().isSuccess()){
                     ToastUtil.showToast("宝贝发布成功");
                 }else{
-                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+//                    ToastUtil.toast(ApiException.getInstance().getErrorMsg());
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
                 }
+
                 setResult(Activity.RESULT_OK);
                 finish();
             }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -41,10 +42,11 @@ public class RefundAfterSalesAdapter extends BaseQuickAdapter<MyOrderDto, BaseVi
             recyclerView.setVisibility(View.GONE);
         }
         helper.addOnClickListener(R.id.tv_itme_refund_after_sales_text);
+        LinearLayout llbg = helper.getView(R.id.ll_bg);
         helper.setText(R.id.tv_status,item.getStatus_msg());
         switch (item.getStatus_msg()) {
             case "再来一单"://待支付
-
+                llbg.setVisibility(View.VISIBLE);
                     if (item.getOrder() != null&&item.getOrder().getData() != null ) {
                         helper.setText(R.id.tv_prices, "￥"+item.getOrder().getData().pay_total);
                         helper.setVisible(R.id.tv_itme_refund_after_sales_text, true)
@@ -55,6 +57,7 @@ public class RefundAfterSalesAdapter extends BaseQuickAdapter<MyOrderDto, BaseVi
 
                 break;
             case "审核中"://待支付
+                llbg.setVisibility(View.VISIBLE);
                 if (item.getOrder() != null&&item.getOrder().getData() != null ) {
                     helper.setText(R.id.tv_prices, "￥"+item.getOrder().getData().pay_total);
                     helper.setVisible(R.id.tv_itme_refund_after_sales_text, true)
@@ -63,6 +66,30 @@ public class RefundAfterSalesAdapter extends BaseQuickAdapter<MyOrderDto, BaseVi
                 }
 
                 break;
+            case "待审核"://待支付
+                llbg.setVisibility(View.VISIBLE);
+                if (item.getOrder() != null&&item.getOrder().getData() != null ) {
+                    helper.setText(R.id.tv_prices, "￥"+item.getOrder().getData().pay_total);
+                    helper.setVisible(R.id.tv_itme_refund_after_sales_text, true)
+                            .setText(R.id.tv_itme_refund_after_sales_text, "取消申请")
+                            .setText(R.id.tv_detail, "共"+item.getOrder().getData().count+"件商品, "+"待退款");
+                }
+
+                break;
+            case "取消申请"://待支付
+                llbg.setVisibility(View.VISIBLE);
+                if (item.getOrder() != null&&item.getOrder().getData() != null ) {
+                    helper.setText(R.id.tv_prices, "￥"+item.getOrder().getData().pay_total);
+                    helper.setVisible(R.id.tv_itme_refund_after_sales_text, true)
+                            .setText(R.id.tv_itme_refund_after_sales_text, "再来一单")
+                            .setText(R.id.tv_detail, "共"+item.getOrder().getData().count+"件商品, "+"待退款");
+                }
+
+
+                break;
+                default:
+                    llbg.setVisibility(View.VISIBLE);
+                    break;
 
         }
 

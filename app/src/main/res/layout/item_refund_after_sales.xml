@@ -83,6 +83,7 @@
         android:layout_alignParentBottom="true"
         android:background="#F5F5F5" />
     <LinearLayout
+        android:id="@+id/ll_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bj_50dp"
         android:gravity="right|center_vertical">

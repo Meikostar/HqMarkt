@@ -22,6 +22,7 @@ public class AttentionStoreAdapter extends BaseQuickAdapter<AttentionCommunityBe
     @Override
     protected void convert(BaseViewHolder helper, AttentionCommunityBean item) {
         helper.setText(R.id.tv_collect_store_name, item.getShop_name());
+        helper.setText(R.id.tv_care, item.followers_count+"人关注");
         CircleImageView imageView = helper.getView(R.id.iv_collect_store_icon);
         GlideUtils.getInstances().loadNormalImg(mContext, imageView, Constants.WEB_IMG_URL_UPLOADS + item.getLogo());
     }

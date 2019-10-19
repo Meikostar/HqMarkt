@@ -16,6 +16,7 @@ public class PersonalInfoDto implements Serializable {
     private String isFollowing;
     public BaseDto1 real_name;//实名认证
     public BaseDto1 seller;
+    public BalanceDto wallet;
 //    "is_realname": false,
 //            "is_shop": false,
 //            "is_live": false,
@@ -25,6 +26,8 @@ public class PersonalInfoDto implements Serializable {
     public boolean is_shop;
     public boolean is_liveing;
     public int apply_check_status;
+    public String live_reward;
+    public String withdraw;
     public boolean is_live;
 
     public String getId() {

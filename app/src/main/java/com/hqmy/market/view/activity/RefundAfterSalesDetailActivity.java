@@ -2,7 +2,10 @@ package com.hqmy.market.view.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -10,6 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hqmy.market.view.mainfragment.community.TopicDetailActivity;
+import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
@@ -34,27 +40,27 @@ import io.reactivex.functions.Consumer;
  */
 public class RefundAfterSalesDetailActivity extends BaseActivity {
     @BindView(R.id.tv_title_text)
-    TextView mTitleText;
+    TextView     mTitleText;
     @BindView(R.id.tv_status_msg)
-    TextView tvStatusMsg;
+    TextView     tvStatusMsg;
     @BindView(R.id.tv_time)
-    TextView tvTime;
+    TextView     tvTime;
     @BindView(R.id.tv_total_money)
-    TextView tvTotalMoney;
+    TextView     tvTotalMoney;
     @BindView(R.id.tv_back_money)
-    TextView tvBackMoney;
+    TextView     tvBackMoney;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.tv_back_no)
-    TextView tvBackNo;
+    TextView     tvBackNo;
     @BindView(R.id.tv_back_money_2)
-    TextView tvBackMoney2;
+    TextView     tvBackMoney2;
     @BindView(R.id.tv_apply_time)
-    TextView tvApplyTime;
+    TextView     tvApplyTime;
     @BindView(R.id.tv_back_reason)
-    TextView tvBackReason;
+    TextView     tvBackReason;
     @BindView(R.id.iv_status)
-    ImageView ivStatus;
+    ImageView    ivStatus;
     private String id;
     private String customer_phone;
 
@@ -88,9 +94,9 @@ public class RefundAfterSalesDetailActivity extends BaseActivity {
                 dissLoadDialog();
                 if (httpResult != null && httpResult.getData() != null) {
                     MyOrderDto myOrderDto = httpResult.getData();
-                    if ("0".equals(myOrderDto.getStatus())){
+                    if ("0".equals(myOrderDto.getStatus())) {
                         ivStatus.setImageResource(R.mipmap.img_checking);
-                    }else {
+                    } else {
                         ivStatus.setImageResource(R.mipmap.refund_success);
                     }
                     tvStatusMsg.setText(myOrderDto.getStatus_msg());
@@ -129,11 +135,33 @@ public class RefundAfterSalesDetailActivity extends BaseActivity {
         }
     }
 
-    private void setGoodsListData(List<MyOrderItemDto> items) {
-        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerview.setAdapter(new OrderGoodsListAdapter(items));
-    }
+    private OrderGoodsListAdapter mAdapter;
 
+    private void setGoodsListData(List<MyOrderItemDto> items) {
+        mAdapter = new OrderGoodsListAdapter(items);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerview.setAdapter(mAdapter);
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.rl_bg:
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CommodityDetailActivity.PRODUCT_ID, mAdapter.getData().get(position).getProduct_id());
+                        gotoActivity(CommodityDetailActivity.class, bundle);
+                        break;
+
+                }
+            }
+        });
+    }
+    public void gotoActivity(Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent(RefundAfterSalesDetailActivity.this, clz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+    }
     /**
      * 是否拨打电话弹窗
      * @param phone
@@ -152,6 +180,7 @@ public class RefundAfterSalesDetailActivity extends BaseActivity {
         });
         confirmDialog.show();
     }
+
     /**
      * 拨打客服电话
      * @param phone
@@ -164,6 +193,16 @@ public class RefundAfterSalesDetailActivity extends BaseActivity {
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     Uri data = Uri.parse("tel:" + phone);
                     intent.setData(data);
+                    if (ActivityCompat.checkSelfPermission(RefundAfterSalesDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
                     startActivity(intent);
                 }
             }

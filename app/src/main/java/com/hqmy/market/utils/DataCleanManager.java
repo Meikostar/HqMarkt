@@ -1,4 +1,4 @@
-package com.zhongchuang.canting.utils;
+package com.hqmy.market.utils;
 
 import android.content.Context;
 import android.os.Environment;

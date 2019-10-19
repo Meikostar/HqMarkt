@@ -146,7 +146,59 @@ public class RefundAfterSalesActivity extends BaseActivity {
                             }
                             break;
                         }else   if(mAdapter.getItem(position).getStatus_msg().equals("审核中")){
-                            cancelOrder(mAdapter.getItem(position).getOrder().getData().getId());
+                            cancelOrder(mAdapter.getItem(position).getId());
+                            break;
+                        }else   if(mAdapter.getItem(position).getStatus_msg().equals("待审核")){
+                            cancelOrder(mAdapter.getItem(position).getId());
+                            break;
+                        }else   if(mAdapter.getItem(position).getStatus_msg().equals("取消申请")){
+                            if (mAdapter.getItem(position).getOrder().getData().getItems() !=null && mAdapter.getItem(position).getOrder().getData().getItems().getData() != null && mAdapter.getItem(position).getOrder().getData().getItems().getData().size() > 0){
+                                ArrayList<String> product_id = new ArrayList<>();
+                                ArrayList<String> qty = new ArrayList<>();
+                                ArrayList<String> stock_id = new ArrayList<>();
+                                for (MyOrderItemDto myOrderItemDto: mAdapter.getItem(position).getOrder().getData().getItems().getData()){
+                                    product_id.add(myOrderItemDto.getProduct_id());
+                                    qty.add(myOrderItemDto.getQty());
+                                    stock_id.add(myOrderItemDto.getSku_id());
+                                }
+                                showLoadDialog();
+
+                                HashMap<String,Object> map = new HashMap<>();
+                                map.put("qty",qty);
+                                if(product_id!= null && product_id.size()>0){
+                                    for(int i =0;i< product_id.size();i++){
+                                        if(!TextUtils.isEmpty(product_id.get(i))){
+                                            map.put("product_id["+i+"]",product_id.get(i)) ;
+                                        }
+                                    }
+                                }
+                                if(stock_id!= null && stock_id.size()>0){
+                                    for(int i =0;i< stock_id.size();i++){
+                                        if(!TextUtils.isEmpty(stock_id.get(i))){
+                                            map.put("stock_id["+i+"]",stock_id.get(i)) ;
+                                        }
+                                    }
+                                }
+                                DataManager.getInstance().addShoppingCart(new DefaultSingleObserver<HttpResult<Object>>() {
+                                    @Override
+                                    public void onSuccess(HttpResult<Object> result) {
+                                        dissLoadDialog();
+                                        finishAll();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putInt(MainActivity.PAGE_INDEX, 3);
+                                        gotoActivity(MainActivity.class, true, bundle);
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        dissLoadDialog();
+
+                                    }
+                                }, "default", map);
+
+
+
+                            }
                             break;
                         }
 

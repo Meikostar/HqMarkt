@@ -1,1 +1,1 @@
-include ':app', ':ImagePicker', ':IMLib'
+include ':app', ':ImagePicker', ':IMLib', ':meiqiasdk'

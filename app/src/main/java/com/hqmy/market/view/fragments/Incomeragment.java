@@ -7,14 +7,21 @@ import android.text.TextUtils;
 
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseFragment;
+import com.hqmy.market.bean.IncomeDto;
+import com.hqmy.market.bean.PersonalInfoDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.SwipeRefreshLayoutUtil;
+import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.manager.DataManager;
+import com.hqmy.market.http.response.HttpResult;
+import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.view.adapter.IncomeRecordAdapter;
+import com.hqmy.market.view.mainfragment.consume.BrandShopDetailActivity;
 import com.hqmy.market.view.widgets.autoview.EmptyView;
 import com.hqmy.market.view.widgets.autoview.SuperSwipeRefreshLayout;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -22,7 +29,7 @@ public class Incomeragment extends BaseFragment {
     @BindView(R.id.recy_my_comment)
     RecyclerView            rvList;
     @BindView(R.id.refresh)
-    SuperSwipeRefreshLayout swipeRefreshLayout;
+    SuperSwipeRefreshLayout refreshLayout;
 
     private SwipeRefreshLayoutUtil mSwipeRefreshLayoutUtil;
     private int                    mCurrentPage = Constants.PAGE_NUM;
@@ -42,6 +49,7 @@ public class Incomeragment extends BaseFragment {
     protected void initView() {
         initAdapter();
 
+
     }
 
     @Override
@@ -55,15 +63,49 @@ public class Incomeragment extends BaseFragment {
         setListener();
     }
 
-
+    private int                    mPage        = 1;
     private void loadData(boolean isLoad) {
         if (isLoad) {
             showLoadDialog();
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("page", mCurrentPage + "");
+        DataManager.getInstance().getUserlog(new DefaultSingleObserver<HttpResult<List<IncomeDto>>>() {
+            @Override
+            public void onSuccess(HttpResult<List<IncomeDto>> result) {
+                dissLoadDialog();
+                if (null != result.getData() && result.getData().size() > 0) {
+
+                    if (mCurrentPage == 1) {
+
+                        mAdapter.setNewData(result.getData());
+                        refreshLayout.setRefreshing(false);
+                    } else {
+
+                        mAdapter.addData(result.getData());
+                        refreshLayout.setLoadMore(false);
+                    }
+
+                } else {
+                    EmptyView emptyView = new EmptyView(getActivity());
+
+                        emptyView.setTvEmptyTip("暂无数据");
+
+                    mAdapter.setEmptyView(emptyView);
 
 
+                }
+                mSwipeRefreshLayoutUtil.isMoreDate(mCurrentPage, Constants.PAGE_SIZE, result.getMeta().getPagination().getTotal());
+
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+                
+            }
+        },map);
 
 
     }
@@ -78,7 +120,7 @@ public class Incomeragment extends BaseFragment {
 
     private void setListener() {
         mSwipeRefreshLayoutUtil = new SwipeRefreshLayoutUtil();
-        mSwipeRefreshLayoutUtil.setSwipeRefreshView(swipeRefreshLayout, new SwipeRefreshLayoutUtil.OnRefreshAndLoadMoreListener() {
+        mSwipeRefreshLayoutUtil.setSwipeRefreshView(refreshLayout, new SwipeRefreshLayoutUtil.OnRefreshAndLoadMoreListener() {
             @Override
             public void onRefresh() {
                 mCurrentPage = Constants.PAGE_NUM;
@@ -96,9 +138,9 @@ public class Incomeragment extends BaseFragment {
     @Override
     protected void dissLoadDialog() {
         super.dissLoadDialog();
-        if (swipeRefreshLayout != null) {
-            swipeRefreshLayout.setRefreshing(false);
-            swipeRefreshLayout.setLoadMore(false);
+        if (refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+            refreshLayout.setLoadMore(false);
         }
     }
 

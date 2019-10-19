@@ -170,12 +170,19 @@ public class OnLineLiveFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mRefreshLayout.autoRefresh();
-        getLiveCates();
-        getLiveTop();
-        getHotLive();
-    }
 
+
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            mRefreshLayout.autoRefresh();
+            getLiveCates();
+            getLiveTop();
+            getHotLive();
+        }
+    }
     @Override
     protected void initListener() {
         tvText1.setOnClickListener(new View.OnClickListener() {
@@ -402,14 +409,14 @@ public class OnLineLiveFragment extends BaseFragment {
     }
     private void liveVideos(String id) {
 
-        showLoadDialog();
+//        showLoadDialog();
         HashMap<String, String> map = new HashMap<>();
         map.put("filter[live_video_cate_id]", id);
         map.put("include", "apply,room");
         DataManager.getInstance().liveVideos(new DefaultSingleObserver<HttpResult<List<VideoLiveBean>>>() {
             @Override
             public void onSuccess(HttpResult<List<VideoLiveBean>> result) {
-                dissLoadDialog();
+//                dissLoadDialog();
                 mRefreshLayout.finishRefresh();
                 mRefreshLayout.finishLoadMore();
                 if (result != null && result.getData() != null && result.getData().size() > 0) {
@@ -422,7 +429,7 @@ public class OnLineLiveFragment extends BaseFragment {
 
             @Override
             public void onError(Throwable throwable) {
-                dissLoadDialog();
+//                dissLoadDialog();
                 mRefreshLayout.finishRefresh();
                 mRefreshLayout.finishLoadMore();
 

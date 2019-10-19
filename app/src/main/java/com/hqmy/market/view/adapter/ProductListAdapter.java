@@ -1,6 +1,7 @@
 package com.hqmy.market.view.adapter;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.hqmy.market.bean.NewListItemDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.ScreenSizeUtil;
+import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 
 import java.util.List;
@@ -54,8 +56,8 @@ public class ProductListAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
                 GlideUtils.getInstances().loadUserRoundImg(mContext, helper.getView(R.id.iv_contury), Constants.WEB_IMG_URL_UPLOADS + item.brand.data.category.data.icon);
 
             }
-            FrameLayout frameLayout = helper.getView(R.id.fl_line);
-            View line = helper.getView(R.id.line);
+//            FrameLayout frameLayout = helper.getView(R.id.fl_line);
+            TextView labe = helper.getView(R.id.tv_labe);
             int i=0;
             String content="";
             if (item.labels!=null&&item.labels.size()>0) {
@@ -68,21 +70,24 @@ public class ProductListAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
                     i++;
                 }
                 String sapce = getSapce(content.length());
+                if(TextUtil.isNotEmpty(content)){
+                    labe.setVisibility(View.VISIBLE);
+                }else {
+                    labe.setVisibility(View.GONE);
+                }
                 helper.setText(R.id.tv_labe,content);
                 helper.setText(R.id.tv_title,sapce+ item.getTitle());
-                frameLayout.setVisibility(View.VISIBLE);
+//                frameLayout.setVisibility(View.VISIBLE);
 
                 String name ="￥"+ item.market_price;
-                TextPaint textPaint = new TextPaint();
-                textPaint.setTextSize(12);
-                int with = (int) textPaint.measureText(name);
-                FrameLayout.LayoutParams linearParams = (FrameLayout.LayoutParams) line.getLayoutParams(); //取控件textView当前的布局参数 linearParams.height = 20;// 控件的高强制设成20
 
-                linearParams.width = ScreenSizeUtil.dp2px(with - 1);// 控件的宽强制设成30
-
-                line.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
-                helper.setText(R.id.market_price, name);
+                TextView textview = helper.getView(R.id.market_price);
+                textview.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG ); //中间横线下划线
+                textview.getPaint().setAntiAlias(true);// 抗锯齿
+                textview.setText(name);
+//                helper.setText(R.id.market_price, name);
             } else {
+                labe.setVisibility(View.GONE);
                 helper.setText(R.id.tv_title, item.getTitle());
             }
 

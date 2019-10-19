@@ -11,9 +11,12 @@ public class NoticeDto implements Serializable {
     private String type;
     private NoticeDetailDto data;
     private String read_at;
-    private String created_at;
+    public String created_at;
     private String updated_at;
+    public String subject;
+    public String content;
 
+    public String img;
     public String getId() {
         return id;
     }

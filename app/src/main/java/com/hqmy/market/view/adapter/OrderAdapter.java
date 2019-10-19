@@ -2,6 +2,7 @@ package com.hqmy.market.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.hqmy.market.bean.MyOrderItemDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.view.activity.MyOrderDetailActivity;
+import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 
 import java.util.List;
 
@@ -103,15 +105,21 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         OrderGoodsListAdapter mAdapter = new OrderGoodsListAdapter(items);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+   
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (item != null) {
-                    Intent intent = new Intent(mContext, MyOrderDetailActivity.class);
-                    intent.putExtra(Constants.INTENT_ID, item.getId());
-                    intent.putExtra(Constants.INTENT_TYPE, item.getType());
-                    mContext.startActivity(intent);
-                    return;
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.rl_bg:
+                        if (item != null) {
+                            Intent intent = new Intent(mContext, MyOrderDetailActivity.class);
+                            intent.putExtra(Constants.INTENT_ID, item.getId());
+                            intent.putExtra(Constants.INTENT_TYPE, item.getType());
+                            mContext.startActivity(intent);
+
+                        }
+                        break;
+
                 }
             }
         });

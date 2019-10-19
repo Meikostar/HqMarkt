@@ -39,6 +39,7 @@ import com.hqmy.market.bean.HeadLineDetailDto;
 import com.hqmy.market.bean.HeadLineDto;
 import com.hqmy.market.bean.HotCityDto;
 import com.hqmy.market.bean.HotSearchInfo;
+import com.hqmy.market.bean.IncomeDto;
 import com.hqmy.market.bean.InviteFriendBean;
 import com.hqmy.market.bean.LearnRecordInfo;
 import com.hqmy.market.bean.LiveCatesBean;
@@ -196,6 +197,17 @@ public class DataManager {
      * @param observer
      * @param baseRequestModel
      */
+    public void getSmsCodes(DefaultSingleObserver<String> observer, BaseRequestModel baseRequestModel) {
+        Single<String> observable = retrofitService.getSmsCodes(getToken(),getRequestBody(baseRequestModel))
+                .map(new HttpResultData<>(baseRequestModel));
+        subscribe(observable, observer);
+    }
+    /**
+     * 获取手机验证码
+     *
+     * @param observer
+     * @param baseRequestModel
+     */
     public void getSmsCode(DefaultSingleObserver<String> observer, BaseRequestModel baseRequestModel) {
         Single<String> observable = retrofitService.getSmsCode(getRequestBody(baseRequestModel))
                 .map(new HttpResultData<>(baseRequestModel));
@@ -223,14 +235,26 @@ public class DataManager {
         subscribe(observable, observer);
     }
 
+
+    public void setPayPassword(DefaultSingleObserver<Object> observer, Map<String, Object> map) {
+        Single<Object> observable = retrofitService.setPayPassword(getToken(), map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
     /**
      * 获取用户信息
      *
      * @param observer
      */
     public void getUserInfo(DefaultSingleObserver<PersonalInfoDto> observer) {
-        Single<PersonalInfoDto> observable = retrofitService.getUserInfo(getToken(),"seller,real_name")
+        Single<PersonalInfoDto> observable = retrofitService.getUserInfo(getToken(),"seller,real_name,wallet")
                 .map(new HttpResultData<>(null));
+        subscribe(observable, observer);
+    }
+
+    public void getUserlog(DefaultSingleObserver<HttpResult<List<IncomeDto>>> observer, Map<String, String> map) {
+        Single<HttpResult<List<IncomeDto>>> observable = retrofitService.getUserlog(getToken(),map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
 
@@ -864,8 +888,8 @@ public class DataManager {
     /**
      * 消息通知列表
      */
-   public void getNoticeList(DefaultSingleObserver<HttpResult<List<NoticeDto>>> observer) {
-       Single<HttpResult<List<NoticeDto>>> observable = retrofitService.getNoticeList(getToken(),"Modules\\Project\\Notifications\\FriendNotify")
+   public void getNoticeList(DefaultSingleObserver<HttpResult<List<NoticeDto>>> observer, Map<String, String> map) {
+       Single<HttpResult<List<NoticeDto>>> observable = retrofitService.getNoticeList(getToken(),map)
                .map(new HttpResultMapper.HttpResultOtheData<>(null));
        subscribe(observable, observer);
    }
@@ -937,6 +961,11 @@ public class DataManager {
     }
     public void getHelpDetail(DefaultSingleObserver<HttpResult<DetailDto>> observer, String type,String id) {
         Single<HttpResult<DetailDto>> observable = retrofitService.getHelpDetail(type,id)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+    public void getShopService(DefaultSingleObserver<HttpResult<DetailDto>> observer) {
+        Single<HttpResult<DetailDto>> observable = retrofitService.getShopService()
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -1502,8 +1531,8 @@ public class DataManager {
         subscribe(observable, observer);
     }
 
-    public void getUserChildren(DefaultSingleObserver<HttpResult<List<InviteFriendBean>>> observer) {
-        Single<HttpResult<List<InviteFriendBean>>> observable = retrofitService.getUserChildren(getToken())
+    public void getUserChildren(DefaultSingleObserver<HttpResult<List<InviteFriendBean>>> observer, Map<String, String> map) {
+        Single<HttpResult<List<InviteFriendBean>>> observable = retrofitService.getUserChildren(getToken(),map)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }

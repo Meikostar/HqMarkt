@@ -7,9 +7,15 @@ import java.io.Serializable;
  */
 public class NoticeDetailDto implements Serializable {
     private String send_user_id;
-    private String content;
+    public String content;
     private String opt_type;
     private String msg_type;
+    public String type;
+    public String subject;
+    public String id;
+    public String img;
+
+    public NoticeDetailDto data;
 
     public String getSend_user_id() {
         return send_user_id;
