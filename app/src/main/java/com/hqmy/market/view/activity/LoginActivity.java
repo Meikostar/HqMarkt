@@ -1,5 +1,6 @@
 package com.hqmy.market.view.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -61,7 +62,7 @@ public class LoginActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             if(bundle.getString("log_out").equals("LOG_OUT")){
-                isRememberPasswordChecked = false;
+                isRememberPasswordChecked = true;
             }
         }
         if (isRememberPasswordChecked){        //若记住密码，则在SharedPreferences中获取进行自动登录
@@ -71,7 +72,7 @@ public class LoginActivity extends BaseActivity {
             mPassword.setText(password);
             mRememberPassword.setChecked(true);
             //记住密码自动登录
-            login(username,password);
+//            login(username,password);
         }else{
             isRememberPasswordChecked = false;
             mRememberPassword.setChecked(false);
@@ -122,11 +123,21 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void register() {
-        gotoActivity(RegisterActivity.class);
+
+        startActivityForResult(new Intent(this,RegisterActivity.class),100);
     }
 
     private void forgetPassword() {
         gotoActivity(ForgetPasswordActivity.class);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100&&resultCode==RESULT_OK){
+            String phone = data.getStringExtra("phone");
+            mAccountNumber.setText(phone);
+        }
     }
 
     /**
@@ -197,7 +208,7 @@ public class LoginActivity extends BaseActivity {
             }
         }
           ShareUtil.getInstance().save(Constants.USER_ACCOUNT_NUMBER, mAccountNumber.getText().toString().trim());
-          if(isRememberPasswordChecked) {
+          if(mRememberPassword.isChecked()) {
               ShareUtil.getInstance().save(Constants.USER_PASSWORD, mPassword.getText().toString().trim());
               ShareUtil.getInstance().saveBoolean(Constants.REMEMBER_PASSWORD,true);
           }else{

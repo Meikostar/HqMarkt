@@ -4,6 +4,7 @@ public class ShopBean {
     private String shop_name;
     private String background_img;
     private String follow_count;
+    public String id;
     private float comment_average_score;
     public String getShop_name() {
         return shop_name;

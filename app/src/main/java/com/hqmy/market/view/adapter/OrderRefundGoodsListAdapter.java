@@ -23,7 +23,7 @@ public class OrderRefundGoodsListAdapter extends BaseQuickAdapter<MyOrderItemDto
         GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_img), Constants.WEB_IMG_URL_UPLOADS+item.getProduct().getData().getCover());
         helper.setText(R.id.tv_name, item.getTitle())
                 .setText(R.id.tv_cout, "x" + item.getQty())
-                .setText(R.id.tv_price, "￥" + item.getPrice());
+                .setText(R.id.tv_price, "¥" + item.getPrice());
         String content="";
         if(item.getOptions()!=null){
             int i=0;

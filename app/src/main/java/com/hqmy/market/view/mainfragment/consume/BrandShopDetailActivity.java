@@ -1,6 +1,7 @@
 package com.hqmy.market.view.mainfragment.consume;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -65,21 +68,21 @@ public class BrandShopDetailActivity extends BaseActivity {
     public static final String MALL_TYPE      = "mall_type";
 
     @BindView(R.id.banner)
-    Banner                  banner;
+    Banner    banner;
     @BindView(R.id.acb_status_bar)
-    ImageView               acbStatusBar;
+    ImageView acbStatusBar;
     @BindView(R.id.actionbar_back)
-    ImageView               actionbarBack;
+    ImageView actionbarBack;
     @BindView(R.id.et_search)
-    ClearEditText           etSearch;
+    EditText  etSearch;
     @BindView(R.id.iv_labe)
-    ImageView               ivLabe;
+    ImageView ivLabe;
     @BindView(R.id.iv_img)
-    ImageView               ivImg;
+    ImageView ivImg;
     @BindView(R.id.tv_title)
-    TextView                tvTitle;
+    TextView  tvTitle;
     @BindView(R.id.tv_detail)
-    TextView                tv_detail;
+    TextView  tv_detail;
 
     @BindView(R.id.tv_content)
     TextView                tvContent;
@@ -196,12 +199,12 @@ public class BrandShopDetailActivity extends BaseActivity {
                     if(data!=null){
                         lists.clear();
                         GlideUtils.getInstances().loadRoundCornerImg(BrandShopDetailActivity.this,ivImg,3,data.logo,R.drawable.moren_product);
-                        if(data.ext!=null&&data.ext.imgs!=null&&data.ext.imgs.size()>0){
-                            for(String url:data.ext.imgs){
+                        if(data.ext!=null&&data.ext.brand_page_background!=null){
+//                            for(String url:data.ext.imgs){
                                 BannerItemDto dto=new BannerItemDto();
-                                dto.setPath(url);
+                                dto.setPath(data.ext.brand_page_background);
                                 lists.add(dto);
-                            }
+//                            }
                         }
                         startBanner(lists);
                         if(TextUtil.isNotEmpty(data.name)){
@@ -300,27 +303,47 @@ public class BrandShopDetailActivity extends BaseActivity {
                 postAttention();
             }
         });
-        etSearch.addTextChangedListener(new TextWatcher() {
+//        etSearch.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                if (TextUtil.isNotEmpty(charSequence.toString())) {
+//
+//                    searchKey = charSequence.toString();
+//                } else {
+//                    searchKey = "";
+//                    getStProductList();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
 
-            }
+                //点击搜索要做的操作
+                if (TextUtil.isNotEmpty(etSearch.getText().toString())) {
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (TextUtil.isNotEmpty(charSequence.toString())) {
+                    searchKey = etSearch.getText().toString();
 
-                    searchKey = charSequence.toString();
                 } else {
                     searchKey = "";
-                    getStProductList();
+
 
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+                getStProductList();
+                return false;
             }
         });
 
@@ -330,7 +353,7 @@ public class BrandShopDetailActivity extends BaseActivity {
         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this, 2) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         };
         mAdapter = new ConsumePushAdapter(goodsLists, this);
@@ -375,7 +398,28 @@ public class BrandShopDetailActivity extends BaseActivity {
                     GlideUtils.getInstances().loadNormalImg(BrandShopDetailActivity.this, imageView, Constants.WEB_IMG_URL_UPLOADS + imgStr,  R.drawable.img_default_three);
                 }
             }
-
+            imageView.setOnClickListener(new View.OnClickListener() {
+                //                product_default:商品
+                //                seller_default:商家
+                @Override
+                public void onClick(View v) {
+//                    if(slidersDto.getClick_event_type().equals("product_default")){
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString(CommodityDetailActivity.FROM, "gc");
+//                        bundle.putString(CommodityDetailActivity.PRODUCT_ID, slidersDto.getClick_event_value());
+//                        bundle.putString(CommodityDetailActivity.MALL_TYPE, "gc");
+//                        Intent intent = new Intent(context, CommodityDetailActivity.class);
+//                        if (bundle != null) {
+//                            intent.putExtras(bundle);
+//                        }
+//                        startActivity(intent);
+//                    }else if(slidersDto.getClick_event_type().equals("seller_default")){
+//                        Intent intent = new Intent(context, BrandShopDetailActivity.class);
+//                        intent.putExtra("id",slidersDto.getClick_event_value());
+//                        context.startActivity(intent);
+//                    }
+                }
+            });
 
         }
     }
@@ -386,12 +430,12 @@ public class BrandShopDetailActivity extends BaseActivity {
 
             ivShopProduct3.setTag("unselect");
             ivShopProduct3.setImageResource(R.mipmap.shop_product_price_drop);
-            sortStr="-sales_count";
+            sortStr="-price";
         } else {
 
             ivShopProduct3.setTag("select");
             ivShopProduct3.setImageResource(R.mipmap.shop_product_price_litre);
-            sortStr="sales_count";
+            sortStr="price";
         }
         getStProductList();
     }
@@ -463,7 +507,9 @@ public class BrandShopDetailActivity extends BaseActivity {
         map.put("filter[brand_id]", id);
         map.put("page", mCurrentPage + "");
 
-
+        if (!TextUtils.isEmpty(searchKey)) {
+            map.put("filter[scopeSearch]", searchKey);
+        }
         if(isNew!=0){
             isNew=0;
             map.put("filter[is_new]", 1 + "");

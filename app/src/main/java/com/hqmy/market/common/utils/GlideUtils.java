@@ -151,19 +151,19 @@ public class GlideUtils {
      */
     public void loadRoundImg(Context context, ImageView imageView, String imgUrl,int img_default) {
 
-//        Glide.with(context)
-//                .asBitmap()
-//                .load(TextUtils.isEmpty(imgUrl)?imgUrl:imgUrl.contains("http")?imgUrl:Constants.WEB_IMG_URL_UPLOADS+imgUrl)
-//                .apply(new RequestOptions()
-//                        .placeholder(img_default)
-//                        .error(img_default)
-//                        // .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                        .transforms(new CenterCrop(), new CircleTransform()))
-//                .into(imageView);
         Glide.with(context)
-                .load(TextUtils.isEmpty(imgUrl)?imgUrl:imgUrl.contains("http")?imgUrl:Constants.WEB_IMG_URL_UPLOADS+imgUrl).error(img_default).placeholder(img_default).transform( new CircleTransform())
-                .centerCrop()
+                .asBitmap()
+                .load(TextUtils.isEmpty(imgUrl)?imgUrl:imgUrl.contains("http")?imgUrl:Constants.WEB_IMG_URL_UPLOADS+imgUrl)
+                .apply(new RequestOptions()
+                        .placeholder(img_default)
+                        .error(img_default)
+                        // .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .transforms(new CenterCrop(), new CircleTransform()))
                 .into(imageView);
+//        Glide.with(context)
+//                .load(TextUtils.isEmpty(imgUrl)?imgUrl:imgUrl.contains("http")?imgUrl:Constants.WEB_IMG_URL_UPLOADS+imgUrl).error(img_default).placeholder(img_default).transform( new CircleTransform())
+//                .centerCrop()
+//                .into(imageView);
     }
     /**
      * 加载用户圆形图片

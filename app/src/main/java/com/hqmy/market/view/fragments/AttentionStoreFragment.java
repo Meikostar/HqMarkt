@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hqmy.market.view.activity.ShopDetailActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -19,7 +20,6 @@ import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.view.adapter.AttentionStoreAdapter;
 import com.hqmy.market.view.mainfragment.consume.BrandShopDetailActivity;
-import com.hqmy.market.view.mainfragment.consume.ShopDetailActivity;
 import com.hqmy.market.view.widgets.autoview.EmptyView;
 
 import java.util.HashMap;
@@ -132,8 +132,8 @@ public class AttentionStoreFragment extends BaseFragment {
                 if("st".equals(type)){
                     Bundle bundle = new Bundle();
                     bundle.putString(ShopDetailActivity.SHOP_DETAIL_ID, mAdapter.getItem(position).getId()+"");
-                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LAT, mAdapter.getItem(position).getLat());
-                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LNG, mAdapter.getItem(position).getLng());
+//                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LAT, mAdapter.getItem(position).getLat());
+//                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LNG, mAdapter.getItem(position).getLng());
                     gotoActivity(ShopDetailActivity.class, false,bundle);
                 }else{
                     Bundle bundle = new Bundle();

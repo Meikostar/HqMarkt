@@ -70,6 +70,7 @@ import com.hqmy.market.bean.ScoreIncomeBean;
 import com.hqmy.market.bean.ServiceMenuBean;
 import com.hqmy.market.bean.ShopCartInfoDto;
 import com.hqmy.market.bean.ShopCartListItemDto;
+import com.hqmy.market.bean.ShopInfoBean;
 import com.hqmy.market.bean.ShopInfoDto;
 import com.hqmy.market.bean.StoreCategoryDto;
 import com.hqmy.market.bean.TagBean;
@@ -179,7 +180,11 @@ public interface RetrofitService {
     @GET("api/package/wallet/log")
     Single<HttpResult<List<IncomeDto>>> getUserlog(@Header("Authorization") String token,@QueryMap Map<String, String> map);
 
-
+    /**
+     * 获取会员基本信息
+     */
+    @POST("noSilent/member/findMemberBaseInfo")
+    Single<HttpResult<UserInfoDto>> getMemberBaseInfo();
 
     /**
      * 用户地址列表
@@ -406,7 +411,7 @@ public interface RetrofitService {
      * 广告(共用)
      */
     @GET("api/package/sliders/list")
-    Single<HttpResult<BannerInfoDto>> getBannerProductId(@Query("position_code") String pCode, @QueryMap Map<String, String> map);
+    Single<HttpResult<BannerInfoDto>> getBannerProductId(@QueryMap Map<String, String> map);
 
     /**
      * 联盟商城列表
@@ -594,9 +599,10 @@ public interface RetrofitService {
     @GET("api/package/pages/page/shop_service")
     Single<HttpResult<DetailDto>> shop_service();
 
-
+    @GET("api/package/pages/page/reg_agreement")
+    Single<HttpResult<DetailDto>> reg_agreement();
     /**
-     *
+     *http://app.b-market.shop/
      */
     @GET("api/package/pages/{type}")
     Single<HttpResult<List<DetailDto>>> getHelpData(@Path("type") String type);
@@ -627,8 +633,10 @@ public interface RetrofitService {
     Single<HttpResult<ShopInfoDto>> getShopInfo(@Header("Authorization") String token, @Path("id") String id);
 
 
-    @GET("api/user/following_shops_detai")
-    Single<HttpResult<ShopInfoDto>> following_shops_detai(@Header("Authorization") String token, @Query("user_id") String user_id);
+
+
+    @GET("api/user/following_shops_detail")
+    Single<HttpResult<ShopInfoBean>> following_shops_detai(@Header("Authorization") String token, @Query("user_id") String user_id);
 
 
     @GET("api/package/mall/default/brands/{brand_id}")
@@ -747,7 +755,7 @@ public interface RetrofitService {
      * 实名认证
      */
     @POST("api/package/user/real_name")
-    Single<HttpResult<Object>> applyrealName(@Header("Authorization") String token, @Body HashMap<String, String> map);
+    Single<HttpResult<Object>> applyrealName(@Header("Authorization") String token, @QueryMap HashMap<String, String> map);
 
 
     /**
@@ -789,7 +797,7 @@ public interface RetrofitService {
     /**
      * 停播成功，返回数据
      */
-    @GET("api/live/video/close_success")
+    @GET("api/live/video/close")
     Single<HttpResult<OnlineLiveFinishBean>> liveVideosCloseSuccess(@Query("id") String id);
     /**
      * 直播详情
@@ -805,7 +813,7 @@ public interface RetrofitService {
 //    /**
 //     * 直播详情
 //     */
-//    @POST("/api/sellers{id}")
+//    @GET("/api/sellers{id}")
 //    Single<HttpResult<Object>> getShopInfo(@Header("Authorization") String token, @Path("id") String id);
 //
 
@@ -1210,6 +1218,11 @@ public interface RetrofitService {
      */
     @POST("api/package/pay/union")
     Single<HttpResult<String>> submitZfbOrder(@Header("Authorization") String token, @QueryMap Map<String, String> map);
+    /**
+     * 支付zfb
+     */
+    @POST("api/package/pay/union")
+    Single<HttpResult<Object>> submitWalletOrder(@Header("Authorization") String token, @QueryMap Map<String, String> map);
 
     /**
      * 获取用户详情

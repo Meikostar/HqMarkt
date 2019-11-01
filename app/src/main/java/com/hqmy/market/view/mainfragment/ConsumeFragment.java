@@ -39,8 +39,11 @@ import com.hqmy.market.view.activity.ConturyActivity;
 import com.hqmy.market.view.activity.HotActivity;
 import com.hqmy.market.view.activity.MessageCenterActivity;
 import com.hqmy.market.view.activity.SpikeActivity;
+import com.hqmy.market.view.activity.WebUtilsActivity;
 import com.hqmy.market.view.adapter.ConsumePushAdapter;
 import com.hqmy.market.view.adapter.Homedapter;
+import com.hqmy.market.view.mainfragment.consume.BrandShopDetailActivity;
+import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 import com.hqmy.market.view.mainfragment.consume.ProductSearchActivity;
 import com.hqmy.market.view.mainfragment.consume.SelectCityActivity;
 import com.hqmy.market.view.widgets.RecyclerItemDecoration;
@@ -131,11 +134,12 @@ public class ConsumeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+
         header.setColorSchemeResources(R.color.my_color_head1);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         };
         mHomedapter=new Homedapter(getActivity());
@@ -149,7 +153,7 @@ public class ConsumeFragment extends BaseFragment {
         GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivTwo, 8f, "",R.drawable.home_2);
         GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivThree, 8f, "",R.drawable.home_3);
         GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivFour, 8f, "",R.drawable.home_4);
-        GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivFive, 8f, "",R.drawable.home_5);
+
 
         refreshLayout.autoRefresh();
         initViewPager();
@@ -166,6 +170,12 @@ public class ConsumeFragment extends BaseFragment {
     @Override
     protected void initListener() {
         bindClickEvent(tv_location, () -> {
+
+            Bundle bundle = new Bundle();
+            bundle.putString("from", "entityStore");
+            gotoActivity(SelectCityActivity.class, false, bundle);
+        });
+        bindClickEvent(ivLocation, () -> {
 
             Bundle bundle = new Bundle();
             bundle.putString("from", "entityStore");
@@ -281,6 +291,8 @@ public class ConsumeFragment extends BaseFragment {
                 }
             }
         });
+
+        getProductTopBanner();
     }
 
     private void initViewPager() {
@@ -360,7 +372,65 @@ public class ConsumeFragment extends BaseFragment {
             }
         }, "index_top");
     }
+    private void getProductTopBanner() {
+        //showLoadDialog();
+        DataManager.getInstance().getBannerList(new DefaultSingleObserver<HttpResult<BannerInfoDto>>() {
+            @Override
+            public void onSuccess(HttpResult<BannerInfoDto> result) {
+                //dissLoadDialog();
+                if (result != null) {
+                    if (result.getData() != null) {
+                        List<BannerItemDto> bannerList = result.getData().index_product_list_top;
+                        if(bannerList!=null){
+                            ban=bannerList.get(0);
+                            String imgStr = ban.getPath();
+                            if (imgStr != null) {
+                                if (imgStr.contains("http://")) {
+                                    GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivFive, 3,imgStr, R.mipmap.img_default_2);
+                                } else {
+                                    GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivFive, 3,Constants.WEB_IMG_URL_UPLOADS + imgStr, R.drawable.home_5);
+                                }
+                            }
+                            ivFive.setOnClickListener(new View.OnClickListener() {
+                                //                product_default:商品
+                                //                seller_default:商家
+                                @Override
+                                public void onClick(View v) {
+                                    //                    Intent intent = new Intent(getActivity(), WebUtilsActivity.class);
+                                    //                    intent.putExtra("weburl","http://pszlgl.zhinf.net/guangming/#/pages/authorize/index");
+                                    //                    intent.putExtra("webtitle","webtitle");
+                                    //                    startActivity(intent);
+                                    if(ban.getClick_event_type().equals("product_default")){
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString(CommodityDetailActivity.FROM, "gc");
+                                        bundle.putString(CommodityDetailActivity.PRODUCT_ID, ban.getClick_event_value());
+                                        bundle.putString(CommodityDetailActivity.MALL_TYPE, "gc");
+                                        Intent intent = new Intent(getActivity(), CommodityDetailActivity.class);
+                                        if (bundle != null) {
+                                            intent.putExtras(bundle);
+                                        }
+                                        startActivity(intent);
+                                    }else if(ban.getClick_event_type().equals("seller_default")){
+                                        Intent intent = new Intent(getActivity(), BrandShopDetailActivity.class);
+                                        intent.putExtra("id",ban.getClick_event_value());
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
+                        }
 
+
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                //dissLoadDialog();
+            }
+        }, "index_product_list_top");
+    }
+    private BannerItemDto ban;
     private void startBanner(List<BannerItemDto> data) {
         //设置banner样式(显示圆形指示器)
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
@@ -395,7 +465,32 @@ public class ConsumeFragment extends BaseFragment {
                     GlideUtils.getInstances().loadNormalImg(getActivity(), imageView, Constants.WEB_IMG_URL_UPLOADS + imgStr, R.mipmap.img_default_2);
                 }
             }
-
+            imageView.setOnClickListener(new View.OnClickListener() {
+                //                product_default:商品
+                //                seller_default:商家
+                @Override
+                public void onClick(View v) {
+//                    Intent intent = new Intent(getActivity(), WebUtilsActivity.class);
+//                    intent.putExtra("weburl","http://pszlgl.zhinf.net/guangming/#/pages/authorize/index");
+//                    intent.putExtra("webtitle","webtitle");
+//                    startActivity(intent);
+                    if(slidersDto.getClick_event_type().equals("product_default")){
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CommodityDetailActivity.FROM, "gc");
+                        bundle.putString(CommodityDetailActivity.PRODUCT_ID, slidersDto.getClick_event_value());
+                        bundle.putString(CommodityDetailActivity.MALL_TYPE, "gc");
+                        Intent intent = new Intent(context, CommodityDetailActivity.class);
+                        if (bundle != null) {
+                            intent.putExtras(bundle);
+                        }
+                        startActivity(intent);
+                    }else if(slidersDto.getClick_event_type().equals("seller_default")){
+                        Intent intent = new Intent(context, BrandShopDetailActivity.class);
+                        intent.putExtra("id",slidersDto.getClick_event_value());
+                        context.startActivity(intent);
+                    }
+                }
+            });
 
         }
     }
@@ -453,6 +548,7 @@ public class ConsumeFragment extends BaseFragment {
         //showLoadDialog();
         Map<String, String> map = new HashMap<>();
         map.put("include",  "brand.category");
+        map.put("page", mPage + "");
         DataManager.getInstance().findHomeGoodLists(new DefaultSingleObserver<HttpResult<List<NewListItemDto>>>() {
             @Override
             public void onSuccess(HttpResult<List<NewListItemDto>> result) {
@@ -475,14 +571,24 @@ public class ConsumeFragment extends BaseFragment {
         }
 
 
-            goodsLists.clear();
-            goodsLists.addAll(httpResult.getData());
+        if (mPage <= 1) {
             mConsumePushAdapter.setNewData(httpResult.getData());
             if (httpResult.getData() == null || httpResult.getData().size() == 0) {
-                mConsumePushAdapter.setEmptyView(new EmptyView(this.getActivity()));
+                mConsumePushAdapter.setEmptyView(new EmptyView(getActivity()));
             }
             refreshLayout.finishRefresh();
+            refreshLayout.setEnableLoadMore(true);
+        } else {
+            refreshLayout.finishLoadMore();
+            refreshLayout.setEnableRefresh(true);
+            mConsumePushAdapter.addData(httpResult.getData());
+        }
 
+        if (httpResult.getMeta() != null && httpResult.getMeta().getPagination() != null) {
+            if (httpResult.getMeta().getPagination().getTotal_pages() == httpResult.getMeta().getPagination().getCurrent_page()) {
+                refreshLayout.finishLoadMoreWithNoMoreData();
+            }
+        }
 
 
     }

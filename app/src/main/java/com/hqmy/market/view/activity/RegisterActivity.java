@@ -1,5 +1,6 @@
 package com.hqmy.market.view.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import com.hqmy.market.base.BaseActivity;
 import com.hqmy.market.bean.CaptchaImgDto;
 import com.hqmy.market.bean.GetSmsCode;
 import com.hqmy.market.bean.RegisterDto;
+import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.LogUtil;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
@@ -24,6 +26,7 @@ import com.hqmy.market.type.SmsType;
 import com.hqmy.market.utils.CountDownTimerUtils;
 import com.hqmy.market.utils.ImagePickerUtils;
 import com.hqmy.market.utils.RegexUtils;
+import com.hqmy.market.utils.ShareUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -154,6 +157,10 @@ public class RegisterActivity extends BaseActivity {
             ToastUtil.showToast("请输入短信验证码");
             return false;
         }
+        if(TextUtils.isEmpty(mRegisterPassword.getText().toString().trim())||mRegisterPassword.getText().toString().trim().length()<6){
+            ToastUtil.showToast("请输入不少于6位数密码");
+            return false;
+        }
 
         if(!cb_register_check_box.isChecked()){
             ToastUtil.showToast("请先勾选注册协议");
@@ -207,6 +214,9 @@ public class RegisterActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_register_protocol://点击注册协议
+                Intent intent1 = new Intent(RegisterActivity.this, WebUtilsActivity.class);
+                intent1.putExtra("type",6);
+                startActivity(intent1);
                 break;
         }
 
@@ -223,6 +233,10 @@ public class RegisterActivity extends BaseActivity {
             public void onSuccess(RegisterDto object) {
                 LogUtil.i(TAG, "RxLog-Thread: onSuccess() Data= " + object.getPhone());
                 ToastUtil.toast("注册成功");
+                Intent intent = new Intent();
+                intent.putExtra("phone",mRegisterPhone.getText().toString().trim());
+                setResult(RESULT_OK,intent);
+                ShareUtil.getInstance().save(Constants.USER_ACCOUNT_NUMBER, mRegisterPhone.getText().toString().trim());
                 finish();
             }
 

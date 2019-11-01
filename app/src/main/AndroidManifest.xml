@@ -95,9 +95,11 @@
         <activity
             android:name="com.hqmy.market.SplashActivity"
             android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
 
@@ -132,11 +134,23 @@
             android:name=".view.activity.EnterprisePermissionActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".view.XgPwdActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".view.activity.ProductListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.SpikeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.MoreHotLiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.ShopStoreDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+
         <activity
             android:name=".view.activity.HotActivity"
             android:screenOrientation="portrait" />
@@ -306,7 +320,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hqmy.market.view.mainfragment.consume.BrandShopDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name="com.hqmy.market.view.mainfragment.consume.EntityStoreActivity"
             android:screenOrientation="portrait" />
@@ -314,11 +329,12 @@
             android:name="com.hqmy.market.view.mainfragment.consume.SelectCityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hqmy.market.view.mainfragment.consume.ShopDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.hqmy.market.view.mainfragment.consume.ConfirmOrderActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.GlobeConturyActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name="com.hqmy.market.view.mainfragment.consume.LoveFactoryMoreActivity"
             android:screenOrientation="portrait" />

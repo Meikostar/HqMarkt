@@ -16,7 +16,7 @@ public class MyOrderEvaluateSuccessAdapter extends BaseQuickAdapter<ProductBean,
     protected void convert(BaseViewHolder helper, ProductBean item) {
         GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_goods_icon), Constants.WEB_IMG_URL_UPLOADS + item.getCover());
         helper.setText(R.id.tv_goods_name, item.getTitle())
-                .setText(R.id.tv_goods_price, "￥" + item.getPrice());
+                .setText(R.id.tv_goods_price, "¥" + item.getPrice());
         helper.setGone(R.id.tv_status, false);
         if (item.isIs_hot()) {
             helper.setVisible(R.id.tv_status, true)

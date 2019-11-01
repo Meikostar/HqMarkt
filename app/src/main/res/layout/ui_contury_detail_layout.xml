@@ -43,7 +43,7 @@
                         android:layout_marginLeft="@dimen/bj_6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="全球大牌"/>
+                        android:text="热门品牌"/>
 
 
 
@@ -80,7 +80,7 @@
                         android:layout_marginLeft="@dimen/bj_6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="热单销售"/>
+                        android:text="热销单品"/>
 
 
 

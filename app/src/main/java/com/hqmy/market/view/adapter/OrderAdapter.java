@@ -3,11 +3,15 @@ package com.hqmy.market.view.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hqmy.market.R;
@@ -17,6 +21,8 @@ import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.view.activity.MyOrderDetailActivity;
 import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
+import com.hqmy.market.view.widgets.GlideCircleBorderTransform;
+import com.youth.banner.loader.ImageLoader;
 
 import java.util.List;
 
@@ -25,13 +31,25 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
         super(R.layout.item_order_fragment, null);
         mContext = context;
     }
-
+//    public static void loadCircle(GlideContextWrapper glideContextWrapper, ImageView imageView, String url, float borderWidth, int borderColor, @IdRes int placeholder) {
+//        RequestOptions options = new RequestOptions()
+//                .placeholder(placeholder)
+//                .fallback(placeholder)
+//                .centerCrop()
+//                .bitmapTransform(new GlideCircleBorderTransform(borderWidth, borderColor))
+//                .diskCacheStrategy(DiskCacheStrategy.DATA);
+//        ImageLoader.getRequestManager(glideContextWrapper)
+//                .load(url)
+//                .apply(options)
+//                .into(imageView);
+//    }
     @Override
     protected void convert(BaseViewHolder helper, MyOrderDto item) {
+
         helper.addOnClickListener(R.id.item_order_content);
-        if (item.getShop() != null) {
+        if (item.getShop_id()!= null) {
             helper.setText(R.id.tv_shop_name, item.getShop().getShop_name());
-            GlideUtils.getInstances().loadRoundImg(mContext,helper.getView(R.id.iv_img),item.getShop().getLogo(),R.drawable.moren_ren);
+            GlideUtils.getInstances().loadRoundImg(mContext,helper.getView(R.id.iv_img),"http://app.b-market.shop/seller/"+item.getShop_id()+"/logo",R.drawable.moren_ren);
 
         } else {
             helper.setText(R.id.tv_shop_name, "");
@@ -50,7 +68,7 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
                 .addOnClickListener(R.id.tv_button_1)
                 .addOnClickListener(R.id.tv_button_2);
         if (item.getTotal() != null) {
-            helper.setText(R.id.tv_prices, "￥"+item.getTotal());
+            helper.setText(R.id.tv_prices, "¥"+item.getTotal());
         }
         helper.setText(R.id.tv_status, item.getStatus_msg());
         helper.setText(R.id.tv_detail, "共"+item.getCount()+"件商品, "+"已付款");
@@ -67,7 +85,7 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
                 helper.setVisible(R.id.tv_button_1, true);
                 if (item.getRefundInfo() != null && item.getRefundInfo().getData() != null) {
                     //退款中
-                    helper.setText(R.id.tv_button_1, "退款中");
+                    helper.setText(R.id.tv_button_1, "取消退款");
                 } else {
                     helper.setVisible(R.id.tv_button_2, true)
                             .setText(R.id.tv_button_1, "申请退款")

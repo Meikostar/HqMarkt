@@ -5,6 +5,10 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hqmy.market.R;
@@ -17,23 +21,41 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
+    @BindView(R.id.iv_title_back)
+    ImageView      ivTitleBack;
+    @BindView(R.id.tv_title_text)
+    TextView       tvTitleText;
+    @BindView(R.id.tv_title_right)
+    TextView       tvTitleRight;
+    @BindView(R.id.layout_top)
+    RelativeLayout layoutTop;
     private IWXAPI api;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay_result);
+        ButterKnife.bind(this);
+        tvTitleText.setText("微信支付");
+        ivTitleBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         api = WXAPIFactory.createWXAPI(this, AppRegister.APP_ID);
         api.handleIntent(getIntent(), this);
-        sb=new StringBuffer();
+        sb = new StringBuffer();
         sendPayReq();
     }
 
@@ -48,7 +70,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
         req.nonceStr = weixinreq.noncestr;
         req.timeStamp = weixinreq.timestamp;
-        req.packageValue ="Sign=WXPay";
+        req.packageValue = "Sign=WXPay";
         List<NameValuePair> signParams = new LinkedList<NameValuePair>();
         signParams.add(new BasicNameValuePair("appid", req.appId));
         signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
@@ -58,7 +80,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
 
         //        req.sign = genAppSign(signParams);
-        sb.append("sign"+req.sign+"\n\n");
+        sb.append("sign" + req.sign + "\n\n");
         req.sign = weixinreq.sign;
         api.registerApp(AppRegister.APP_ID);
         boolean b = api.sendReq(req);
@@ -68,6 +90,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         }
         System.out.println("weixin" + b);
     }
+
     private StringBuffer sb;
 
     @Override
@@ -104,6 +127,9 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 startWX(); //启动微信
             } else if (resp.errCode == -2) {
                 Toast.makeText(this, "取消支付", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                setResult(111, intent);
+                //                finish();
             }
         }
         finish();

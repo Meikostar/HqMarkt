@@ -36,6 +36,8 @@ public  class BrandBaseAdapter extends BaseRecycleViewAdapter implements AutoLoc
         BaseDto2 data= (BaseDto2) datas.get(position);
         if(TextUtil.isNotEmpty(data.title)){
             holders.tv_content.setText(data.title);
+        }else {
+            holders.tv_content.setText("");
         }
 
 //
@@ -72,13 +74,13 @@ public  class BrandBaseAdapter extends BaseRecycleViewAdapter implements AutoLoc
         ItemViewHolder holders = (ItemViewHolder) holder;
 
         if(isSelected){
-            holders.tv_content.setTextSize(15);
+            holders.tv_content.setTextSize(18);
             TextPaint tp = holders.tv_content.getPaint();
             tp.setFakeBoldText(true);
             holders.tv_content.setTextColor(context.getColor(R.color.my_color_zs));
 
         }else {
-            holders.tv_content.setTextSize(14);
+            holders.tv_content.setTextSize(13);
             TextPaint tp = holders.tv_content.getPaint();
             tp.setFakeBoldText(false);
             holders.tv_content.setTextColor(context.getColor(R.color.my_color_333333));

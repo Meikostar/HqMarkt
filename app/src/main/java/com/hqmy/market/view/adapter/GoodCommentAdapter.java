@@ -32,7 +32,7 @@ public class GoodCommentAdapter extends BaseQuickAdapter<CommentTopicBean, BaseV
                     .setGone(R.id.tv_commented_deleted, false);
             GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_item_good_icon), Constants.WEB_IMG_URL_UPLOADS + item.getCommented().getData().getCover());
             helper.setText(R.id.tv_item_good_name, item.getCommented().getData().getTitle())
-                    .setText(R.id.tv_item_good_price, "￥" + item.getCommented().getData().getPrice());
+                    .setText(R.id.tv_item_good_price, "¥" + item.getCommented().getData().getPrice());
         } else {
             helper.setGone(R.id.rl_goods, false)
                     .setGone(R.id.tv_commented_deleted, true);

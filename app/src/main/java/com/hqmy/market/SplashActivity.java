@@ -43,7 +43,7 @@ public class SplashActivity extends BaseActivity {
 
 
 
-        RxTimerUtil.timer(3000, number -> {
+        RxTimerUtil.timer(1800, number -> {
             gotoActivity(MainActivity.class, true);
         });
     }

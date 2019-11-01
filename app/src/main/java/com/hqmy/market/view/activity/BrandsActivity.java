@@ -64,7 +64,7 @@ public class BrandsActivity extends BaseActivity {
     @Override
     public void initView() {
         actionbar.setImgStatusBar(R.color.my_color_white);
-        actionbar.setTitle("品牌管");
+        actionbar.setTitle("品牌馆");
         actionbar.setTitleColor(R.color.my_color_212121);
         actionbar.setRightImageAction(R.mipmap.black_message, new View.OnClickListener() {
             @Override
@@ -145,6 +145,10 @@ public class BrandsActivity extends BaseActivity {
 
                     data.add(bannerDto);
                     data.addAll(datas.getData());
+                    BaseDto2 bannerDto1 = new BaseDto2();
+                    bannerDto1.title="";
+                    bannerDto1.id="-2";
+                    data.add(bannerDto1);
                     testAdapter.setDatas(data);
                     testAdapter.notifyDataSetChanged();
                     initFragMents();

@@ -101,10 +101,10 @@ public class RefundAfterSalesDetailActivity extends BaseActivity {
                     }
                     tvStatusMsg.setText(myOrderDto.getStatus_msg());
                     tvTime.setText(myOrderDto.getUpdated_at());
-                    tvTotalMoney.setText("￥" + myOrderDto.getRefund_money());
-                    tvBackMoney.setText("￥" + myOrderDto.getRefund_money());
+                    tvTotalMoney.setText("¥" + myOrderDto.getRefund_money());
+                    tvBackMoney.setText("¥" + myOrderDto.getRefund_money());
                     tvBackNo.setText("退款编号: " + myOrderDto.getMall_order_sn());
-                    tvBackMoney2.setText("退款金额: " + "￥" + myOrderDto.getRefund_money());
+                    tvBackMoney2.setText("退款金额: " + "¥" + myOrderDto.getRefund_money());
                     tvApplyTime.setText("申请时间: " + myOrderDto.getCreated_at());
                     tvBackReason.setText("退款原因: " + myOrderDto.getReason());
                     if (myOrderDto.getOrder() != null && myOrderDto.getOrder().getData() != null && myOrderDto.getOrder().getData().getItems() != null && myOrderDto.getOrder().getData().getItems().getData() != null) {

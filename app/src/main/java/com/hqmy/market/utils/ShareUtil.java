@@ -55,7 +55,7 @@ public class ShareUtil {
     public static final String PLAYONNET = "PLAYONNET"; // 普通网络也能播放
     public static final String RECEIVEPUSH = "RECEIVEPUSH";
 
-    public static final String SHARE_APP_ID ="wxb581256530affa17";
+    public static final String SHARE_APP_ID ="wx3d60d453e26acc76";
 
     private ShareUtil() {
         if (shareUtil == null) {

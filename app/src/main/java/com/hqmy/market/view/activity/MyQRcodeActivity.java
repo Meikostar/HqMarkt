@@ -19,7 +19,9 @@ import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.manager.DataManager;
 
+import com.hqmy.market.qiniu.AVStreamingActivity;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.view.widgets.dialog.ShareModeDialog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -109,15 +111,28 @@ public class MyQRcodeActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_title_back,  R.id.btn_save_qcode})
+    @OnClick({R.id.iv_title_back,  R.id.btn_save_qcode,  R.id.ll_share})
     public void toClick(View view) {
         switch (view.getId()) {
             case R.id.iv_title_back:
                 finish();
                 break;
-//            case R.id.btn_friend:
-//                gotoActivity(InviteFriendsActivity.class);
-//                break;
+            case R.id.ll_share:
+                ShareModeDialog dialog1 = new ShareModeDialog(this, new ShareModeDialog.DialogListener() {
+                    @Override
+                    public void sureItem(int position) {
+                        boolean isTimelineCb = false;
+                        //http://ax.jmlax.com/api/package/user/invitation_img?user_id=14
+                        String url = "http://app.b-market.shop/register?invite_code=from_id_" + ShareUtil.getInstance().getString(Constants.USER_ID, "");
+                        String title = "我的推广码";
+                        if (position == ShareModeDialog.SHARE_PYQ) {
+                            isTimelineCb = true;
+                        }
+                        ShareUtil.sendToWeaChat(MyQRcodeActivity.this, isTimelineCb, title, url);
+                    }
+                });
+                dialog1.show();
+                break;
             case R.id.btn_save_qcode:
                 downImg(shareUrl);
                 break;

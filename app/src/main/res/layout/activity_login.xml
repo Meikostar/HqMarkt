@@ -68,7 +68,6 @@
             android:layout_toRightOf="@+id/tv_login_password"
             android:background="@null"
             android:hint="密码"
-            android:maxLength="6"
             android:inputType="textPassword"
             android:textColorHint="#ff838383"
             android:textSize="15sp" />
@@ -92,20 +91,33 @@
         android:text="登录"
         android:textColor="#ffffffff"
         android:textSize="16sp" />
-
-    <CheckBox
-        android:id="@+id/cb_remember_password"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="@dimen/bj_25dp"
-        android:button="@null"
-        android:checked="false"
+        android:gravity="center">
 
-        android:drawablePadding="@dimen/bj_5dp"
-        android:text="记住密码"
-        android:textColor="#ff4b4b4b"
-        android:textSize="15sp"/>
+        <CheckBox
+            android:id="@+id/cb_remember_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/checkbox.theme"
+            android:checked="false"
+            android:text=""
+            android:textColor="#ff838383"
+            android:textSize="11sp" />
+        <TextView
+            android:layout_marginLeft="11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="记住密码"
+            android:textColor="#ff4b4b4b"
+            android:textSize="15sp" />"
+
+
+    </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

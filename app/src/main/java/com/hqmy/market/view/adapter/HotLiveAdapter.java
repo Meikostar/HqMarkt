@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,6 +25,8 @@ import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.ScreenSizeUtil;
 import com.hqmy.market.utils.TextUtil;
+import com.hqmy.market.view.activity.LiveVideoViewActivity;
+import com.hqmy.market.view.activity.RequestLivePermissionActivity;
 import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 
 import java.util.List;
@@ -80,6 +83,7 @@ public class HotLiveAdapter extends BaseAdapter {
             holder.tv_title = view.findViewById(R.id.tv_title);
             holder.img_icon = view.findViewById(R.id.iv_img);
             holder.tv_cout = view.findViewById(R.id.tv_cout);
+            holder.ll_bg = view.findViewById(R.id.rl_bg);
 
             view.setTag(holder);
         } else {
@@ -96,10 +100,7 @@ public class HotLiveAdapter extends BaseAdapter {
         holder.ll_bg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //                Intent intent = new Intent(context, ConturyDetialActivity.class);
-                //                intent.putExtra("id",bannerDto.id+"");
-                //                intent.putExtra("title",bannerDto.title+"");
-                //                context.startActivity(intent);
+                startLiveVideoActivity(bannerDto);
             }
         });
 
@@ -107,13 +108,26 @@ public class HotLiveAdapter extends BaseAdapter {
         // PROFILE_ITEM item = list.get(i);
         return view;
     }
+    private void startLiveVideoActivity(VideoLiveBean videoLiveBean) {
+        Intent intent = new Intent(context, LiveVideoViewActivity.class);
+        intent.putExtra("videoPath", videoLiveBean.getRtmp_play_url());
+        if (videoLiveBean.getRoom() != null && videoLiveBean.getRoom().getData() != null) {
+            intent.putExtra("roomId", videoLiveBean.getRoom().getData().getId());
+        }
+        if (videoLiveBean.apply != null && videoLiveBean.apply.getData() != null) {
+            intent.putExtra("userId", videoLiveBean.apply.getData().getUser_id());
+        }
 
+        intent.putExtra("videoId", videoLiveBean.getId());
+        intent.putExtra("liveStreaming", 1);
+        context.startActivity(intent);
+    }
 
     class ViewHolder {
-        TextView     tv_title;
-        ImageView    img_icon;
-        TextView     tv_cout;
-        LinearLayout ll_bg;
+        TextView       tv_title;
+        ImageView      img_icon;
+        TextView       tv_cout;
+        RelativeLayout ll_bg;
 
     }
 

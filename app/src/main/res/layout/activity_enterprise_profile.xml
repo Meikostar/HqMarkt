@@ -25,7 +25,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:background="@mipmap/enterprise_profile" />
+           />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.base.BaseApplication;
 import com.hqmy.market.bean.AddressDto;
+import com.hqmy.market.bean.BalanceDto;
 import com.hqmy.market.bean.CheckOutOrderResult;
 import com.hqmy.market.bean.CouponCodeInfo;
 import com.hqmy.market.bean.MyOrderDto;
@@ -36,10 +38,12 @@ import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.view.MainActivity;
+import com.hqmy.market.view.SettingPasswordActivity;
 import com.hqmy.market.view.adapter.OrderDetailGoodsListAdapter;
 import com.hqmy.market.view.fragments.PayResultListener;
 import com.hqmy.market.view.mainfragment.consume.ConfirmOrderActivity;
 import com.hqmy.market.view.mainfragment.consume.ShopCartActivity;
+import com.hqmy.market.view.widgets.InputPwdDialog;
 import com.hqmy.market.view.widgets.MCheckBox;
 import com.hqmy.market.view.widgets.PhotoPopupWindow;
 import com.hqmy.market.view.widgets.dialog.CouponCodeDialog;
@@ -117,6 +121,9 @@ public class MyOrderDetailActivity extends BaseActivity {
                         return;
                     }
                     cancelOrder(mmyOrderDto.getId());
+                    break;
+                case "取消退款":
+                    cancelRefuendOrder(mmyOrderDto.getRefundInfo().getData().getId());
                     break;
                 case "申请退款":
                     if (mmyOrderDto == null) {
@@ -209,6 +216,9 @@ public class MyOrderDetailActivity extends BaseActivity {
                     }
                     checkOutOrder();
                     break;
+                case "取消退款":
+                    cancelRefuendOrder(mmyOrderDto.getRefundInfo().getData().getId());
+                    break;
                 case "催发货":
                     if (mmyOrderDto == null) {
                         return;
@@ -256,7 +266,34 @@ public class MyOrderDetailActivity extends BaseActivity {
             //            }
         }
     }
+    /**
+     * 取消的订单
+     *
+     * @param id
+     */
+    private void cancelRefuendOrder(String id) {
+        showLoadDialog();
+        DataManager.getInstance().getOrdercancel(new DefaultSingleObserver<HttpResult<Object>>() {
+            @Override
+            public void onSuccess(HttpResult<Object> httpResult) {
+                dissLoadDialog();
+                ToastUtil.showToast("取消成功");
+                getOrderDetail();
+            }
 
+            @Override
+            public void onError(Throwable throwable) {
+                if (ApiException.getInstance().isSuccess()) {
+                    ToastUtil.showToast("取消成功");
+                    getOrderDetail();
+                } else {
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+                }
+                dissLoadDialog();
+
+            }
+        }, id);
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -280,6 +317,7 @@ public class MyOrderDetailActivity extends BaseActivity {
     @Override
     public void initData() {
         getOrderDetail();
+        getBalance();
     }
 
     private void getOrderDetail() {
@@ -309,10 +347,10 @@ public class MyOrderDetailActivity extends BaseActivity {
             } else {
                 recyMyOrder.setVisibility(View.GONE);
             }
-            tvDetailPrice.setText("￥" + myOrderDto.getProduct_total());
-            tvDetailExpressMoney.setText("￥" + myOrderDto.getShipping_price());
+            tvDetailPrice.setText("¥" + myOrderDto.getProduct_total());
+            tvDetailExpressMoney.setText("¥" + myOrderDto.getShipping_price());
             tvTotalNum.setText("共" + myOrderDto.getCount() + "件商品,总计：");
-            tvDetailPayMoney.setText("￥" + myOrderDto.getPay_total());
+            tvDetailPayMoney.setText("¥" + myOrderDto.getPay_total());
             tvDetailNumber.setText("订单编号：" + myOrderDto.getNo());
             tvDetailCreatTime.setText("创建时间：" + myOrderDto.getCreated_at());
             switch (myOrderDto.getStatus()) {
@@ -333,7 +371,10 @@ public class MyOrderDetailActivity extends BaseActivity {
 
 
                     if (myOrderDto.getRefundInfo() != null && myOrderDto.getRefundInfo().getData() != null) {
-                        tvOrderStatus.setText("退款中");
+                        btnDetailOperationOne.setVisibility(View.VISIBLE);
+                        btnDetailOperationTwo.setVisibility(View.GONE);
+                        btnDetailOperationOne.setText("取消退款");
+                        llDetailBottom.setVisibility(View.VISIBLE);
                         imgOrderStatus.setImageResource(R.mipmap.img_packing);
                         //退款中
                         return;
@@ -447,7 +488,24 @@ public class MyOrderDetailActivity extends BaseActivity {
             }
         }, id);
     }
+    private double GdBalance;
 
+    public void getBalance() {
+        DataManager.getInstance().getBalance(new DefaultSingleObserver<BalanceDto>() {
+            @Override
+            public void onSuccess(BalanceDto balanceDto) {
+                super.onSuccess(balanceDto);
+                GdBalance = balanceDto.getMoney();
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+
+            }
+        });
+    }
     /**
      * 确认收货
      *
@@ -516,16 +574,20 @@ public class MyOrderDetailActivity extends BaseActivity {
                 public void onClick(View v) {
                     switch (state){
                         case 0:
-                            //                            getMemberBaseInfo(new InputPwdDialog.InputPasswordListener() {
-                            //                                @Override
-                            //                                public void callbackPassword(String password) {
-                            //                                    if(Double.valueOf(GdBalance)<Double.valueOf(tv_confirm_order_total_money.getText().toString())){
-                            //                                        ToastUtil.showToast("余额不足");
-                            //                                        return;
-                            //                                    }
-                            //                                    submitOrder(balance.getId() + "", password,balance.getPaymentCode());
-                            //                                }
-                            //                            });
+                            if (Double.valueOf(GdBalance) < Double.valueOf(mmyOrderDto.getPay_total())) {
+                                ToastUtil.showToast("余额不足");
+                                return;
+                            }
+                            getMemberBaseInfo(new InputPwdDialog.InputPasswordListener() {
+                                @Override
+                                public void callbackPassword(String password) {
+                                    if (Double.valueOf(GdBalance) < Double.valueOf(mmyOrderDto.getPay_total())) {
+                                        ToastUtil.showToast("余额不足");
+                                        return;
+                                    }
+                                    submitWalletOrder(password);
+                                }
+                            });
                             break;
 
                         case 1:
@@ -547,12 +609,65 @@ public class MyOrderDetailActivity extends BaseActivity {
             });
 
             mWindowAddPhoto = new PhotoPopupWindow(this).bindView(view);
-            mWindowAddPhoto.showAtLocation(tv_title, Gravity.BOTTOM, 0, 0);
+            mWindowAddPhoto.showAtLocation(tvTitleText, Gravity.BOTTOM, 0, 0);
         } else {
-            mWindowAddPhoto.showAtLocation(tv_title, Gravity.BOTTOM, 0, 0);
+            mWindowAddPhoto.showAtLocation(tvTitleText, Gravity.BOTTOM, 0, 0);
         }
 
 
+    }
+
+    /**
+     * zfb
+     */
+    private void submitWalletOrder(String payment_password) {
+
+        HashMap<String, String> map = new HashMap<>();
+        int i = 0;
+        for (CheckOutOrderResult result : ruslts) {
+            map.put("order_no[" + i + "]", result.no);
+        }
+        map.put("platform", "wallet");
+        map.put("scene", "balance");
+        map.put("payment_password", payment_password);
+        //        map.put("realOrderMoney", realOrderMoney);  //订单支付 去掉参数 订单金额  realOrderMoney
+
+        DataManager.getInstance().submitWalletOrder(new DefaultSingleObserver<HttpResult<Object>>() {
+            @Override
+            public void onSuccess(HttpResult<Object> httpResult) {
+                dissLoadDialog();
+                Intent intent = new Intent(MyOrderDetailActivity.this, PaySuccessActivity.class);
+                intent.putExtra("state", 1);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+                if (ApiException.getInstance().isSuccess()) {
+                    Intent intent = new Intent(MyOrderDetailActivity.this, PaySuccessActivity.class);
+                    intent.putExtra("state", 1);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+                }
+            }
+        }, map);
+
+
+    }
+    /**
+     * 余额支付时，查询是否设置支付密码
+     */
+    private void getMemberBaseInfo(InputPwdDialog.InputPasswordListener listener) {
+        if (BaseApplication.isSetPay == 1) {
+            InputPwdDialog inputPasswordDialog = new InputPwdDialog(MyOrderDetailActivity.this, listener);
+            inputPasswordDialog.show();
+        } else {
+            gotoActivity(SettingPasswordActivity.class);
+        }
     }
     /**
      * 获取收货地址
@@ -584,32 +699,38 @@ public class MyOrderDetailActivity extends BaseActivity {
             }
         });
     }
-    private List<CheckOutOrderResult> ruslts;
+    private List<CheckOutOrderResult> ruslts =new ArrayList<>();
     private int RQ_WEIXIN_PAY = 12;
     private void checkOutOrder() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("rows[" + String.valueOf(1) + "]", mmyOrderDto.getNo());
-        map.put("address_id", addressId);
-        DataManager.getInstance().checkOutOrder(new DefaultSingleObserver<HttpResult<List<CheckOutOrderResult>>>() {
-            @Override
-            public void onSuccess(HttpResult<List<CheckOutOrderResult>> result) {
-                ruslts=result.getData();
-                if(ruslts!=null&&ruslts.size()>0){
-                    showPopPayWindows();
-                }
 
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                if (ApiException.getInstance().isSuccess()) {
-                    ToastUtil.showToast("下单成功");
-                } else {
-                    ToastUtil.showToast("下单失败");
-                }
-                finish();
-            }
-        }, "default", map);
+        CheckOutOrderResult checkOutOrderResult = new CheckOutOrderResult();
+        checkOutOrderResult.no=mmyOrderDto.getNo();
+        ruslts.clear();
+        ruslts.add(checkOutOrderResult);
+        showPopPayWindows();
+//        HashMap<String, String> map = new HashMap<>();
+//        map.put("rows[" + String.valueOf(0) + "]", mmyOrderDto.getNo());
+//        map.put("address_id", addressId);
+//        DataManager.getInstance().checkOutOrder(new DefaultSingleObserver<HttpResult<List<CheckOutOrderResult>>>() {
+//            @Override
+//            public void onSuccess(HttpResult<List<CheckOutOrderResult>> result) {
+//                ruslts=result.getData();
+//                if(ruslts!=null&&ruslts.size()>0){
+//                    showPopPayWindows();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable throwable) {
+//                if (ApiException.getInstance().isSuccess()) {
+//                    ToastUtil.showToast("下单成功");
+//                } else {
+//                    ToastUtil.showToast("下单失败");
+//                }
+//                finish();
+//            }
+//        }, "default", map);
     }
 
     /**

@@ -12,8 +12,11 @@
         android:orientation="horizontal">
 
         <com.hqmy.market.view.widgets.ratingbar.BaseRatingBar
+
             android:id="@+id/rb_evaluate"
             android:layout_width="wrap_content"
+            android:clickable="false"
+            app:srb_scrollable="false"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/bj_15dp"
@@ -27,14 +30,16 @@
             app:srb_starWidth="@dimen/bj_15dp" />
 
         <TextView
+
             android:id="@+id/tv_commodity_comments_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/bj_15dp"
+            android:layout_marginLeft="150dp"
             android:layout_marginRight="@dimen/bj_10dp"
             android:gravity="center_vertical"
-            android:text="麦****海"
+            android:text=""
+            android:lines="1"
             android:textColor="@color/my_color_666666"
             android:textSize="@dimen/wz_11sp" />
     </RelativeLayout>

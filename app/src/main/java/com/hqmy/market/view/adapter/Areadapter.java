@@ -11,11 +11,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hqmy.market.R;
 import com.hqmy.market.bean.AreaDto;
 import com.hqmy.market.bean.BannerDto;
+import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.common.utils.StringUtil;
 import com.hqmy.market.view.activity.ConturyDetialActivity;
+import com.hqmy.market.view.widgets.GlideCircleBorderTransform;
 
 import java.util.List;
 
@@ -75,9 +79,15 @@ public class Areadapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         AreaDto bannerDto = list.get(i);
-
+        if(bannerDto.id==-2){
+            holder.img_icon.setVisibility(View.GONE);
+        }else {
+            holder.img_icon.setVisibility(View.VISIBLE);
+        }
         if(!TextUtils.isEmpty(bannerDto.title)){
             holder.txt_name.setText(bannerDto.title);
+        }else {
+            holder.txt_name.setText("");
         }
         holder.ll_bg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +98,12 @@ public class Areadapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-
-        GlideUtils.getInstances().loadRoundImg(context,holder.img_icon,bannerDto.icon,R.drawable.moren_sf);
+        Glide.with(context).load(Constants.WEB_IMG_URL_UPLOADS+bannerDto.icon)
+                .placeholder(R.drawable.moren_sf)
+                .error(R.drawable.moren_sf)
+                .transform(new GlideCircleBorderTransform(1,R.color.my_color_line))
+                .into(holder.img_icon);
+//        GlideUtils.getInstances().loadRoundImg(context,holder.img_icon,bannerDto.icon,R.drawable.moren_sf);
         // PROFILE_ITEM item = list.get(i);
         return view;
     }

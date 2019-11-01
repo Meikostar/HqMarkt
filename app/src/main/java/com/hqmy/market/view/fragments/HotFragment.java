@@ -163,14 +163,14 @@ public class HotFragment extends BaseFragment implements LoadingDialog.LoadingLi
      *
      * @param rows 每页加载行数
      */
-    private int currentPage=1;
+
     private void setScrollListener(int rows) {
         swipeRefreshLayoutUtil = new SwipeRefreshLayoutUtil();
 //        swipeRefreshLayout.setEnablePull(false);
         swipeRefreshLayoutUtil.setSwipeRefreshView(refreshLayout, new SwipeRefreshLayoutUtil.OnRefreshAndLoadMoreListener() {
             @Override
             public void onRefresh() {
-                currentPage = Constants.PAGE_NUM;
+                mCurrentPage = Constants.PAGE_NUM;
                 swipeRefreshLayoutUtil.setCanLoadMore(true);
                 getProductListData();
 
@@ -179,7 +179,7 @@ public class HotFragment extends BaseFragment implements LoadingDialog.LoadingLi
             @Override
             public void onLoadMore() {
                 swipeRefreshLayoutUtil.setCanLoadMore(true);
-                currentPage++;
+                mCurrentPage++;
                 getProductListData();
 
             }

@@ -115,6 +115,8 @@ public class WebUtilsActivity extends BaseActivity {
                     getInfoDp();
                 }else if(type==5){
                     getShopService();
+                }else if(type==6){
+                    reg_agreement();
                 }
             }
 
@@ -219,6 +221,34 @@ public class WebUtilsActivity extends BaseActivity {
     private void getInfoYs() {
         showLoadDialog();
         DataManager.getInstance().tos(new DefaultSingleObserver<HttpResult<DetailDto>>() {
+            @Override
+            public void onSuccess(HttpResult<DetailDto> imgUrl) {
+                DetailDto data = imgUrl.getData();
+                if(data!=null){
+                    if(!TextUtils.isEmpty(data.title)){
+                        actionbar.setTitle(data.title);
+                    }
+
+                    if (imgUrl != null && !TextUtils.isEmpty(data.content)) {
+
+                        WebViewUtil.setWebView(webviewWebView, Objects.requireNonNull(WebUtilsActivity.this));
+                        WebViewUtil.loadHtml(webviewWebView, data.content);
+                    }
+                }
+
+                dissLoadDialog();
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+            }
+        });
+    }
+    private void reg_agreement() {
+        showLoadDialog();
+        DataManager.getInstance().reg_agreement(new DefaultSingleObserver<HttpResult<DetailDto>>() {
             @Override
             public void onSuccess(HttpResult<DetailDto> imgUrl) {
                 DetailDto data = imgUrl.getData();

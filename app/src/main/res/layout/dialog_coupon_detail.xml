@@ -6,8 +6,7 @@
 
     <RelativeLayout
         android:layout_width="300dp"
-        android:layout_height="@dimen/bj_260dp"
-        android:background="@mipmap/bg_coupon">
+        android:layout_height="@dimen/bj_260dp">
 
         <TextView
             android:id="@+id/tv_coupon_code"

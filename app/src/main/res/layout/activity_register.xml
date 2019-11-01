@@ -170,9 +170,9 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/bj_67dp"
             android:background="@null"
-            android:hint="请输入6位数密码"
+            android:hint="请输入不少于6位数密码"
             android:inputType="textPassword"
-            android:maxLength="6"
+
             android:textColorHint="#ff838383"
             android:textSize="15sp" />
 

@@ -157,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/bj_17dp"
                     android:layout_marginTop="@dimen/bj_8dp"
-                    android:text="退款金额：￥586.00"
+                    android:text="退款金额：¥586.00"
                     android:textColor="#ff999999"
                     android:textSize="13sp" />
 
@@ -184,6 +184,7 @@
             </LinearLayout>
         </ScrollView>
         <LinearLayout
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:id="@+id/tv_contact_phone"
             android:layout_width="match_parent"

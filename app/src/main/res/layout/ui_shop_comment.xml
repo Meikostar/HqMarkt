@@ -40,6 +40,7 @@
 
             <com.hqmy.market.view.widgets.ratingbar.BaseRatingBar
                 android:id="@+id/rb_shop"
+                app:srb_scrollable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_shop_name"

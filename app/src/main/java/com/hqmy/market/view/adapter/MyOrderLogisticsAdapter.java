@@ -35,7 +35,7 @@ public class MyOrderLogisticsAdapter extends BaseQuickAdapter<MyOrderItemDto, Ba
 
     @Override
     protected void convert(BaseViewHolder helper, MyOrderItemDto item) {
-        helper.setText(R.id.tv_goods_price, "￥" + item.getPrice());
+        helper.setText(R.id.tv_goods_price, "¥" + item.getPrice());
         if (item.getProduct() != null && item.getProduct().getData() != null) {
             GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.img_logistics_logo), Constants.WEB_IMG_URL_UPLOADS + item.getProduct().getData().getCover());
             if (item.getProduct().getData().isFlag2()) {

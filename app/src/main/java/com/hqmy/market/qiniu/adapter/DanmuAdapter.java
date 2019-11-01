@@ -7,8 +7,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.hqmy.market.R;
+import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.view.widgets.autoview.CircleTransform;
 import com.orzangleli.xdanmuku.XAdapter;
 
 import java.util.Random;
@@ -42,7 +47,32 @@ public class DanmuAdapter extends XAdapter<DanmuEntity> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        GlideUtils.getInstances().loadUserRoundImg(context,holder.image,danmuEntity.getUrl());
+        Object content;
+        Object imgUrl=danmuEntity.getUrl();
+
+        if(imgUrl!=null){
+            if(imgUrl instanceof String){
+                if(((String) imgUrl).contains("http")){
+                    content= imgUrl;
+                }else{
+                    content=Constants.WEB_IMG_URL_UPLOADS+(String)imgUrl;
+                }
+            }else {
+                content= imgUrl;
+            }
+        }else {
+            content= imgUrl;
+        }
+                Glide.with(context)
+                        .asBitmap()
+                        .load(content)
+                        .apply(new RequestOptions()
+                                .placeholder(R.drawable.moren_ren)
+                                .error(R.drawable.moren_ren)
+        //                         .diskCacheStrategy(DiskCacheStrategy.NONE)// 缓存策略
+                                .transforms(new CenterCrop(), new CircleTransform()))
+                        .into(holder.image);
+//        GlideUtils.getInstances().loadUserRoundImg(context,holder.image,danmuEntity.getUrl());
         holder.content.setText(danmuEntity.getContent());
         // holder.content.setTextColor(Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         holder.tvName.setText(danmuEntity.getName());

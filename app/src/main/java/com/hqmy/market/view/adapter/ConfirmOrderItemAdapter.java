@@ -21,7 +21,7 @@ public class ConfirmOrderItemAdapter extends BaseQuickAdapter<OrderProductDto, B
     @Override
     protected void convert(BaseViewHolder helper, OrderProductDto item) {
         helper.setText(R.id.tv_item_confirm_order_title, item.getName())
-                .setText(R.id.tv_item_confirm_order_price, "￥"+item.getPrice())
+                .setText(R.id.tv_item_confirm_order_price, "¥"+item.getPrice())
                 .setText(R.id.tv_count, "x"+item.getQty());
         GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_item_confirm_order_cover),
                 Constants.WEB_IMG_URL_UPLOADS + item.getCover());

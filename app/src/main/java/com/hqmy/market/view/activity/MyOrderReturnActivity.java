@@ -96,8 +96,8 @@ public class MyOrderReturnActivity extends BaseActivity {
                 tvOrderGoodsPrice.setText(intent.getStringExtra("score")+"积分");
                 tvReturnMoney.setText(intent.getStringExtra("score")+"积分");
             }else {
-                tvOrderGoodsPrice.setText("￥" + intent.getStringExtra("price"));
-                tvReturnMoney.setText("￥" + intent.getStringExtra("price"));
+                tvOrderGoodsPrice.setText("¥" + intent.getStringExtra("price"));
+                tvReturnMoney.setText("¥" + intent.getStringExtra("price"));
             }
             tvOrderGoodsNum.setText("x" + intent.getStringExtra("num"));
 
@@ -313,6 +313,15 @@ public class MyOrderReturnActivity extends BaseActivity {
                 showReasonDialog();
                 break;
             case R.id.btn_sure:
+
+                if (TextUtils.isEmpty(tvReason.getText().toString())){
+                ToastUtil.showToast("请选择退款原因");
+                return;
+                }
+                if (TextUtils.isEmpty(edReturnDes.getText().toString())){
+                    ToastUtil.showToast("请填写退款说明");
+                    return;
+                }
                 initUploadData();
                 break;
         }

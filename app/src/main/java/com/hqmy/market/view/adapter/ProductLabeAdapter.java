@@ -74,7 +74,7 @@ public class ProductLabeAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
             TextView textview = helper.getView(R.id.market_price);
             textview.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG ); //中间横线下划线
             textview.getPaint().setAntiAlias(true);// 抗锯齿
-            textview.setText("￥"+item.market_price);
+            textview.setText("¥"+item.market_price);
 
         } else {
             labe.setVisibility(View.GONE);
@@ -111,7 +111,7 @@ public class ProductLabeAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
     }
 
     public String getSapce(int length){
-        String content="\t";
+        String content="\t\t\t\t\t";
         for(int i=0;i<length;i++){
             content=content+"\t";
         }

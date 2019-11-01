@@ -4,6 +4,13 @@ import android.view.View;
 import android.widget.TextView;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.bean.AnchorInfo;
+import com.hqmy.market.common.utils.ToastUtil;
+import com.hqmy.market.http.DefaultSingleObserver;
+import com.hqmy.market.http.error.ApiException;
+import com.hqmy.market.http.manager.DataManager;
+import com.hqmy.market.http.response.HttpResult;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -39,8 +46,30 @@ public class LiveCheckFailActivity extends BaseActivity {
     public void toOnclick(View view){
         switch (view.getId()){
             case R.id.btn_sure:
-                gotoActivity(RequestLivePermissionActivity.class,true);
+                applyLives();
                 break;
         }
+    }
+    public void applyLives() {
+        //        showLoadDialog();
+        DataManager.getInstance().applyLive(new DefaultSingleObserver<HttpResult<AnchorInfo>>() {
+            @Override
+            public void onSuccess(HttpResult<AnchorInfo> result) {
+                //                dissLoadDialog();
+                gotoActivity(LiveCheckingActivity.class);
+                                finish();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (ApiException.getInstance().isSuccess()) {
+                    gotoActivity(LiveCheckingActivity.class);
+                    finish();
+                } else {
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+                }
+                //                dissLoadDialog();
+            }
+        });
     }
 }

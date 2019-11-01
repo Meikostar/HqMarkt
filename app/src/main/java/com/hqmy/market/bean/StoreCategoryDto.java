@@ -11,6 +11,8 @@ public class StoreCategoryDto implements Serializable {
     public String                 title;
     private String                 imgUrl;
     private String                 adUrl;
+    public String                 click_event_type;
+    public String                 click_event_value;
     private String                 adClickUrl;
     private long                   parentId;
     private String                 sort;

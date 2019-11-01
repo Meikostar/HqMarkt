@@ -85,8 +85,8 @@
 
         <ImageView
             android:id="@+id/iv_attention"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/bj_36dp"
+            android:layout_height="@dimen/bj_36dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/bj_5dp"
             android:layout_toRightOf="@+id/tv_name"
@@ -182,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center_horizontal"
-                android:text="12"
+                android:text="0"
                 android:textColor="@color/white"
                 android:textSize="@dimen/wz_11sp" />
             <TextView
@@ -190,9 +190,9 @@
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="商品"
+                android:text="商 品"
                 android:textColor="#ffffff"
-                android:textSize="8sp" />
+                android:textSize="9sp" />
         </FrameLayout>
         <ImageView
             android:visibility="gone"
@@ -211,6 +211,7 @@
             android:src="@mipmap/liwu" />
 
         <ImageView
+            android:layout_marginTop="2dp"
             android:layout_marginRight="@dimen/bj_7dp"
             android:id="@+id/iv_share"
             android:layout_width="@dimen/bj_34dp"

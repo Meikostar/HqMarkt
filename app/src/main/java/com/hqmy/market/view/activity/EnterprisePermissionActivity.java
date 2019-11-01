@@ -247,39 +247,39 @@ public class EnterprisePermissionActivity extends BaseActivity {
                 dissLoadDialog();
                 if (object != null) {
                     if(poition==1){
-                        img1=object.getUrl();
+                        img1=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg11, Constants.BASE_URL +img1);
 
                     }else if(poition==2){
-                        img2=object.getUrl();
+                        img2=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg22, Constants.BASE_URL +img2);
                     }else if(poition==3){
-                        img3=object.getUrl();
+                        img3=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg33, Constants.BASE_URL +img3);
                     }else if(poition==4){
-                        img4=object.getUrl();
+                        img4=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg44, Constants.BASE_URL +img4);
                     }else if(poition==5){
-                        img5=object.getUrl();
+                        img5=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg55, Constants.BASE_URL +img5);
                     }
 
                 } else {
                     if(poition==1){
-                        img1=object.getUrl();
+                        img1=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg11, R.drawable.icon_cer_1);
 
                     }else if(poition==2){
-                        img2=object.getUrl();
+                        img2=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg22, R.drawable.icon_cer_2);
                     }else if(poition==3){
-                        img3=object.getUrl();
+                        img3=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg33, R.drawable.icon_cer_3);
                     }else if(poition==4){
-                        img4=object.getUrl();
+                        img4=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg44, R.drawable.icon_cer_4);
                     }else if(poition==5){
-                        img5=object.getUrl();
+                        img5=object.getPath();
                         GlideUtils.getInstances().loadNormalImg(EnterprisePermissionActivity.this, ivImg55, R.drawable.icon_cer_5);
                     }
                     ToastUtil.showToast("上传图片失败");
@@ -346,7 +346,6 @@ public class EnterprisePermissionActivity extends BaseActivity {
         map.put("id_cards",content);
         map.put("credentials",img3);
         map.put("photos",img4);
-        map.put("logo",img5);
         DataManager.getInstance().upSellers(new DefaultSingleObserver<HttpResult<Object>>() {
             @Override
             public void onSuccess(HttpResult<Object> result) {
@@ -358,8 +357,13 @@ public class EnterprisePermissionActivity extends BaseActivity {
             @Override
             public void onError(Throwable throwable) {
                 dissLoadDialog();
-                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
-                finish();
+                if (ApiException.getInstance().isSuccess()) {
+                    ToastUtil.showToast("提交成功，请等待审核");
+                    finish();
+                } else {
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+                }
+
             }
         }, map);
     }

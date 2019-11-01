@@ -9,7 +9,8 @@
     android:layout_height="@dimen/bj_23dp"
     android:background="@color/white"/>
     <!--开播-->
-    <include layout="@layout/layout_online_live_oplayer" />
+    <include
+        layout="@layout/layout_online_live_oplayer" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
 

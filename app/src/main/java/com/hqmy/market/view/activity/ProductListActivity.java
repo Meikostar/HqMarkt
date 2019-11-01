@@ -1,5 +1,6 @@
 package com.hqmy.market.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.adapter.BrandImgAdapter;
 import com.hqmy.market.view.adapter.ProductLabeAdapter;
 import com.hqmy.market.view.adapter.ProductListAdapter;
+import com.hqmy.market.view.mainfragment.consume.BrandShopDetailActivity;
 import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 import com.hqmy.market.view.widgets.RecyclerItemDecoration;
 import com.hqmy.market.view.widgets.autoview.ClearEditText;
@@ -176,12 +178,15 @@ public class ProductListActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
+                Intent intent = new Intent(ProductListActivity.this, BrandShopDetailActivity.class);
+                intent.putExtra("id",lists.get(position));
+                startActivity(intent);
 
             }
         });
     }
     private List<String> list=new ArrayList<>();
+    private List<String> lists=new ArrayList<>();
     private void getProductListData() {
         showLoadDialog();
         mParamsMaps.put("page", mCurrentPage + "");
@@ -205,6 +210,7 @@ public class ProductListActivity extends BaseActivity {
             public void onSuccess(HttpResult<List<NewListItemDto>> data) {
                 dissLoadDialog();
                 list.clear();
+                lists.clear();
                 if (null != data.getData() && data.getData().size() > 0) {
 
                     if (mCurrentPage == 1) {
@@ -220,6 +226,7 @@ public class ProductListActivity extends BaseActivity {
                     for(ExtDto dto:data.getMeta().brand){
                         if(TextUtil.isNotEmpty(dto.logo)){
                             list.add(dto.logo);
+                            lists.add(dto.id);
                         }
                     }
                     if(list.size()>0){
@@ -387,7 +394,7 @@ public class ProductListActivity extends BaseActivity {
                 iv_shop_product_3.setTag("priceSelect");
                 iv_shop_product_3.setImageResource(R.mipmap.shop_product_price_litre);
 
-                mParamsMaps.put("sales_count", "");
+                mParamsMaps.put("sort", "");
                 getProductListData();
                 break;
             case R.id.tv_shop_product_2:
@@ -426,12 +433,12 @@ public class ProductListActivity extends BaseActivity {
             loadDataType = ProductListType.priceLitre.getType();
             iv_shop_product_3.setTag("unPriceSelect");
             iv_shop_product_3.setImageResource(R.mipmap.shop_product_price_drop);
-            mParamsMaps.put("sales_count", "price");
+            mParamsMaps.put("sort", "price");
         } else {
             loadDataType = ProductListType.priceDrop.getType();
             iv_shop_product_3.setTag("priceSelect");
             iv_shop_product_3.setImageResource(R.mipmap.shop_product_price_litre);
-            mParamsMaps.put("sales_count", "-price");
+            mParamsMaps.put("sort", "-price");
         }
         getProductListData();
     }

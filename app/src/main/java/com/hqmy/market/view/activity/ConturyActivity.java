@@ -1,14 +1,15 @@
 package com.hqmy.market.view.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
 import com.hqmy.market.bean.AreaDto;
@@ -16,7 +17,6 @@ import com.hqmy.market.bean.BannerDto;
 import com.hqmy.market.bean.BannerInfoDto;
 import com.hqmy.market.bean.BannerItemDto;
 import com.hqmy.market.bean.BaseDto;
-import com.hqmy.market.bean.HeadLineDto;
 import com.hqmy.market.bean.NewListItemDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
@@ -27,8 +27,8 @@ import com.hqmy.market.view.adapter.Areadapter;
 import com.hqmy.market.view.adapter.ConturyAdapter;
 import com.hqmy.market.view.adapter.ConturyCagoriadapter;
 import com.hqmy.market.view.adapter.ConturyProcutAdapter;
-import com.hqmy.market.view.adapter.Homedapter;
-import com.hqmy.market.view.adapter.TestAdapter;
+import com.hqmy.market.view.mainfragment.consume.BrandShopDetailActivity;
+import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 import com.hqmy.market.view.widgets.AutoLocateHorizontalView;
 import com.hqmy.market.view.widgets.RecyclerItemDecoration;
 import com.hqmy.market.view.widgets.autoview.ActionbarView;
@@ -72,6 +72,8 @@ public class ConturyActivity extends BaseActivity {
     CustomView               consumeScrollView;
     @BindView(R.id.consume_srl)
     SmartRefreshLayout       refreshLayout;
+    @BindView(R.id.ll_bg)
+    LinearLayout             llBg;
 
     @Override
     public void initListener() {
@@ -94,7 +96,7 @@ public class ConturyActivity extends BaseActivity {
     @Override
     public void initView() {
         actionbar.setImgStatusBar(R.color.my_color_white);
-        actionbar.setTitle("热门产品");
+        actionbar.setTitle("国家地区馆");
         actionbar.setRightImageAction(R.mipmap.black_message, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,19 +113,19 @@ public class ConturyActivity extends BaseActivity {
         autoScroll.setOnSelectedPositionChangedListener(new AutoLocateHorizontalView.OnSelectedPositionChangedListener() {
             @Override
             public void selectedPositionChanged(int pos) {
-//                viewpagerMain.setCurrentItem(pos, false);
+//                                viewpagerMain.setCurrentItem(pos, false);
 
-                if(datas!=null&&pos>=0){
-                    showLoadDialog();
-                    getConturyProducts(datas.get(pos).id+"");
-                }
+                                if(datas!=null&&pos>=0){
+                                    showLoadDialog();
+                                    getConturyProducts(datas.get(pos).id+"");
+                                }
 
 
             }
         });
 
         testAdapter = new ConturyAdapter();
-        mProcutAdapter = new ConturyProcutAdapter(lists,this);
+        mProcutAdapter = new ConturyProcutAdapter(lists, this);
         mCagoriadapter = new ConturyCagoriadapter(this);
         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this, 3) {
             @Override
@@ -150,14 +152,15 @@ public class ConturyActivity extends BaseActivity {
         getConturyProduct();
     }
 
-    private List<AreaDto> datas;
-    private List<NewListItemDto> lists=new ArrayList<>();
+    private List<AreaDto>        datas = new ArrayList<>();
+    private List<NewListItemDto> lists = new ArrayList<>();
+    private BannerItemDto        ban;
 
 
     private void getConturyProduct() {
         //showLoadDialog();
         Map<String, String> map = new HashMap<>();
-        map.put("include",  "category");
+        map.put("include", "category");
         map.put("filter[is_recommend]", 1 + "");
         DataManager.getInstance().getConturyProduct(new DefaultSingleObserver<HttpResult<List<NewListItemDto>>>() {
             @Override
@@ -177,13 +180,15 @@ public class ConturyActivity extends BaseActivity {
             }
         }, map);
     }
+
     private ConturyProcutAdapter mProcutAdapter;
     private ConturyCagoriadapter mCagoriadapter;
+
     private void getConturyProducts(String id) {
         //showLoadDialog();
         Map<String, String> map = new HashMap<>();
-        map.put("include",  "category");
-        map.put("filter[category_id]",id + "");
+        map.put("include", "category");
+        map.put("filter[category_id]", id + "");
         DataManager.getInstance().getConturyProduct(new DefaultSingleObserver<HttpResult<List<NewListItemDto>>>() {
             @Override
             public void onSuccess(HttpResult<List<NewListItemDto>> result) {
@@ -211,8 +216,8 @@ public class ConturyActivity extends BaseActivity {
         refreshLayout.finishRefresh();
 
 
-
     }
+
     private void getCategorisContury() {
         //showLoadDialog();
         DataManager.getInstance().getCategorisContury(new DefaultSingleObserver<HttpResult<List<AreaDto>>>() {
@@ -221,12 +226,17 @@ public class ConturyActivity extends BaseActivity {
                 //dissLoadDialog();
                 if (result != null) {
                     if (result.getData() != null) {
-                        datas=result.getData();
+                        datas.clear();
+                        datas.addAll(result.getData());
                         mHomedapter.setData(datas);
+                        AreaDto liveCatesBean = new AreaDto();
+                        liveCatesBean.title = "";
+                        liveCatesBean.setId(-2);
+                        datas.add(liveCatesBean);
                         testAdapter.setDatas(datas);
                         testAdapter.notifyDataSetChanged();
-                        if(datas.size()>0){
-                            getConturyProducts(datas.get(0).id+"");
+                        if (datas.size() > 0) {
+                            getConturyProducts(datas.get(0).id + "");
                         }
 
                     }
@@ -239,6 +249,7 @@ public class ConturyActivity extends BaseActivity {
             }
         });
     }
+
     private void getTopBanner() {
         //showLoadDialog();
         DataManager.getInstance().getBannerList(new DefaultSingleObserver<HttpResult<BannerInfoDto>>() {
@@ -260,6 +271,7 @@ public class ConturyActivity extends BaseActivity {
             }
         }, "country_list_top");
     }
+
     private void getBottenBanner() {
         //showLoadDialog();
         DataManager.getInstance().getBannerList(new DefaultSingleObserver<HttpResult<BannerInfoDto>>() {
@@ -267,10 +279,38 @@ public class ConturyActivity extends BaseActivity {
             public void onSuccess(HttpResult<BannerInfoDto> result) {
                 //dissLoadDialog();
                 if (result != null) {
-                    if (result.getData() != null&&result.getData().country_list_below_country.size()>0) {
+                    if (result.getData() != null && result.getData().country_list_below_country.size() > 0) {
                         List<BannerItemDto> bannerList = result.getData().country_list_below_country;
-                        GlideUtils.getInstances().loadNormalImg(ConturyActivity.this,ivOne,bannerList.get(0).getPath(),R.drawable.moren_fldb);
-
+                        if (bannerList != null) {
+                            ban = bannerList.get(0);
+                            GlideUtils.getInstances().loadNormalImg(ConturyActivity.this, ivOne, bannerList.get(0).getPath(), R.drawable.moren_fldb);
+                            ivOne.setOnClickListener(new View.OnClickListener() {
+                                //                product_default:商品
+                                //                seller_default:商家
+                                @Override
+                                public void onClick(View v) {
+                                    //                    Intent intent = new Intent(getActivity(), WebUtilsActivity.class);
+                                    //                    intent.putExtra("weburl","http://pszlgl.zhinf.net/guangming/#/pages/authorize/index");
+                                    //                    intent.putExtra("webtitle","webtitle");
+                                    //                    startActivity(intent);
+                                    if (ban.getClick_event_type().equals("product_default")) {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString(CommodityDetailActivity.FROM, "gc");
+                                        bundle.putString(CommodityDetailActivity.PRODUCT_ID, ban.getClick_event_value());
+                                        bundle.putString(CommodityDetailActivity.MALL_TYPE, "gc");
+                                        Intent intent = new Intent(ConturyActivity.this, CommodityDetailActivity.class);
+                                        if (bundle != null) {
+                                            intent.putExtras(bundle);
+                                        }
+                                        startActivity(intent);
+                                    } else if (ban.getClick_event_type().equals("seller_default")) {
+                                        Intent intent = new Intent(ConturyActivity.this, BrandShopDetailActivity.class);
+                                        intent.putExtra("id", ban.getClick_event_value());
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -281,6 +321,7 @@ public class ConturyActivity extends BaseActivity {
             }
         }, "country_list_below_country");
     }
+
     private void startBanner(List<BannerItemDto> data) {
         //设置banner样式(显示圆形指示器)
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
@@ -302,6 +343,8 @@ public class ConturyActivity extends BaseActivity {
         //banner设置方法全部调用完毕时最后调用
         banner.start();
     }
+
+
     public class GlideImageLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
@@ -314,15 +357,42 @@ public class ConturyActivity extends BaseActivity {
                     GlideUtils.getInstances().loadNormalImg(ConturyActivity.this, imageView, Constants.WEB_IMG_URL_UPLOADS + imgStr, R.mipmap.img_default_2);
                 }
             }
-
+            imageView.setOnClickListener(new View.OnClickListener() {
+                //                product_default:商品
+                //                seller_default:商家
+                @Override
+                public void onClick(View v) {
+                    if (slidersDto.getClick_event_type().equals("product_default")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CommodityDetailActivity.FROM, "gc");
+                        bundle.putString(CommodityDetailActivity.PRODUCT_ID, slidersDto.getClick_event_value());
+                        bundle.putString(CommodityDetailActivity.MALL_TYPE, "gc");
+                        Intent intent = new Intent(ConturyActivity.this, CommodityDetailActivity.class);
+                        if (bundle != null) {
+                            intent.putExtras(bundle);
+                        }
+                        startActivity(intent);
+                    } else if (slidersDto.getClick_event_type().equals("seller_default")) {
+                        Intent intent = new Intent(context, BrandShopDetailActivity.class);
+                        intent.putExtra("id", slidersDto.getClick_event_value());
+                        context.startActivity(intent);
+                    }
+                }
+            });
 
         }
     }
+
     @Override
     public void initData() {
 
         getHomeCategorie();
-
+        llBg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoActivity(GlobeConturyActivity.class);
+            }
+        });
 
     }
 
@@ -347,7 +417,6 @@ public class ConturyActivity extends BaseActivity {
             }
         }, map);
     }
-
 
 
 }

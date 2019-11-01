@@ -22,7 +22,7 @@ public class OrderDetailGoodsListAdapter extends BaseQuickAdapter<MyOrderItemDto
     protected void convert(BaseViewHolder helper, MyOrderItemDto item) {
         GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_order_goods_icon), Constants.WEB_IMG_URL_UPLOADS+item.getProduct().getData().getCover());
         helper.setText(R.id.tv_order_goods_name, item.getTitle())
-                .setText(R.id.tv_order_goods_price, "￥" + item.getPrice())
+                .setText(R.id.tv_order_goods_price, "¥" + item.getPrice())
                 .setText(R.id.tv_order_goods_num, "x" + item.getQty());
         String content="";
         if(item.getOptions()!=null){

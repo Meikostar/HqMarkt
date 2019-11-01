@@ -48,7 +48,7 @@ public class RefundAfterSalesAdapter extends BaseQuickAdapter<MyOrderDto, BaseVi
             case "再来一单"://待支付
                 llbg.setVisibility(View.VISIBLE);
                     if (item.getOrder() != null&&item.getOrder().getData() != null ) {
-                        helper.setText(R.id.tv_prices, "￥"+item.getOrder().getData().pay_total);
+                        helper.setText(R.id.tv_prices, "¥"+item.getOrder().getData().pay_total);
                         helper.setVisible(R.id.tv_itme_refund_after_sales_text, true)
                                 .setText(R.id.tv_itme_refund_after_sales_text, "再来一单")
                                 .setText(R.id.tv_detail, "共"+item.getOrder().getData().count+"件商品, "+"待退款");
@@ -59,7 +59,7 @@ public class RefundAfterSalesAdapter extends BaseQuickAdapter<MyOrderDto, BaseVi
             case "审核中"://待支付
                 llbg.setVisibility(View.VISIBLE);
                 if (item.getOrder() != null&&item.getOrder().getData() != null ) {
-                    helper.setText(R.id.tv_prices, "￥"+item.getOrder().getData().pay_total);
+                    helper.setText(R.id.tv_prices, "¥"+item.getOrder().getData().pay_total);
                     helper.setVisible(R.id.tv_itme_refund_after_sales_text, true)
                             .setText(R.id.tv_itme_refund_after_sales_text, "取消申请")
                             .setText(R.id.tv_detail, "共"+item.getOrder().getData().count+"件商品, "+"待退款");
@@ -69,7 +69,7 @@ public class RefundAfterSalesAdapter extends BaseQuickAdapter<MyOrderDto, BaseVi
             case "待审核"://待支付
                 llbg.setVisibility(View.VISIBLE);
                 if (item.getOrder() != null&&item.getOrder().getData() != null ) {
-                    helper.setText(R.id.tv_prices, "￥"+item.getOrder().getData().pay_total);
+                    helper.setText(R.id.tv_prices, "¥"+item.getOrder().getData().pay_total);
                     helper.setVisible(R.id.tv_itme_refund_after_sales_text, true)
                             .setText(R.id.tv_itme_refund_after_sales_text, "取消申请")
                             .setText(R.id.tv_detail, "共"+item.getOrder().getData().count+"件商品, "+"待退款");
@@ -79,7 +79,7 @@ public class RefundAfterSalesAdapter extends BaseQuickAdapter<MyOrderDto, BaseVi
             case "取消申请"://待支付
                 llbg.setVisibility(View.VISIBLE);
                 if (item.getOrder() != null&&item.getOrder().getData() != null ) {
-                    helper.setText(R.id.tv_prices, "￥"+item.getOrder().getData().pay_total);
+                    helper.setText(R.id.tv_prices, "¥"+item.getOrder().getData().pay_total);
                     helper.setVisible(R.id.tv_itme_refund_after_sales_text, true)
                             .setText(R.id.tv_itme_refund_after_sales_text, "再来一单")
                             .setText(R.id.tv_detail, "共"+item.getOrder().getData().count+"件商品, "+"待退款");

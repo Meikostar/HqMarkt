@@ -71,6 +71,7 @@ import com.hqmy.market.bean.ScoreIncomeBean;
 import com.hqmy.market.bean.ServiceMenuBean;
 import com.hqmy.market.bean.ShopCartInfoDto;
 import com.hqmy.market.bean.ShopCartListItemDto;
+import com.hqmy.market.bean.ShopInfoBean;
 import com.hqmy.market.bean.ShopInfoDto;
 import com.hqmy.market.bean.StoreCategoryDto;
 import com.hqmy.market.bean.TagBean;
@@ -269,6 +270,17 @@ public class DataManager {
         subscribe(observable, observer);
     }
 
+
+    /**
+     * 获取会员基本信息
+     *
+     * @param observer 由调用者传过来的观察者对象
+     */
+    public void getMemberBaseInfo(DefaultSingleObserver<UserInfoDto> observer) {
+        Single<UserInfoDto> observable = retrofitService.getMemberBaseInfo()
+                .map(new HttpResultMapper.HttpResultData<>(null));
+        subscribe(observable, observer);
+    }
     /**
      * 地区列表
      *
@@ -693,8 +705,8 @@ public class DataManager {
     /**
      * 广告(公用)
      */
-    public void getBannerList(DefaultSingleObserver<HttpResult<BannerInfoDto>> observer, String pCode, Map<String, String> map) {
-        Single<HttpResult<BannerInfoDto>> observable = retrofitService.getBannerProductId(pCode,map)
+    public void getBannerList(DefaultSingleObserver<HttpResult<BannerInfoDto>> observer,  Map<String, String> map) {
+        Single<HttpResult<BannerInfoDto>> observable = retrofitService.getBannerProductId(map)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -915,6 +927,13 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
+    public void reg_agreement(DefaultSingleObserver<HttpResult<DetailDto>> observer) {
+        Single<HttpResult<DetailDto>> observable = retrofitService.reg_agreement()
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+
     public void shop_service(DefaultSingleObserver<HttpResult<DetailDto>> observer) {
         Single<HttpResult<DetailDto>> observable = retrofitService.shop_service()
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
@@ -932,8 +951,8 @@ public class DataManager {
     /**
      * 店铺信息
      */
-    public void following_shops_detai(DefaultSingleObserver<HttpResult<ShopInfoDto>> observer, String user_id) {
-        Single<HttpResult<ShopInfoDto>> observable = retrofitService.following_shops_detai(getToken(), user_id)
+    public void following_shops_detai(DefaultSingleObserver<HttpResult<ShopInfoBean>> observer, String user_id) {
+        Single<HttpResult<ShopInfoBean>> observable = retrofitService.following_shops_detai(getToken(), user_id)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -1797,6 +1816,15 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
+    /**
+     * zfb
+     */
+    public void submitWalletOrder(DefaultSingleObserver<HttpResult<Object>> observer, Map<String, String> map) {
+        Single<HttpResult<Object>> observable = retrofitService.submitWalletOrder(getToken(), map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
 
     /**
      * 取消点赞

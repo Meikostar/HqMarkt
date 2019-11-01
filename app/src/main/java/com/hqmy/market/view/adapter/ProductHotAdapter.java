@@ -99,7 +99,7 @@ public class ProductHotAdapter extends BaseQuickAdapter<NewListItemDto, BaseView
 
             frameLayout.setVisibility(View.VISIBLE);
 
-            String name =  "￥"+item.market_price;
+            String name =  "¥"+item.market_price;
             TextPaint textPaint = new TextPaint();
             textPaint.setTextSize(12);
             int with = (int) textPaint.measureText(name);

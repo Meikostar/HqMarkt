@@ -77,7 +77,11 @@ public class SpikeActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-             autoScroll.moveToPosition(position);
+                if(isFirst){
+                    autoScroll.moveToPosition(position);
+                }else {
+                    isFirst=true;
+                }
             }
 
             @Override
@@ -111,7 +115,7 @@ public class SpikeActivity extends BaseActivity {
     }
 
 
-
+    private boolean isFirst;
     @Override
     public void initData() {
 
@@ -134,6 +138,11 @@ public class SpikeActivity extends BaseActivity {
                     bannerDto.id="-1";
                     data.add(bannerDto);
                     data.addAll(result.getData());
+
+                    BannerDto bannerDto1 = new BannerDto();
+                    bannerDto1.title="";
+                    bannerDto1.id="-2";
+                    data.add(bannerDto1);
                     testAdapter.setDatas(data);
                     testAdapter.notifyDataSetChanged();
                     initFragMents(state);

@@ -53,7 +53,9 @@ import com.hqmy.market.qiniu.live.ui.InputPanel;
 import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.view.activity.OnlineLiveFinishActivity;
 import com.hqmy.market.view.activity.RoomUserListActivity;
+import com.hqmy.market.view.widgets.dialog.BaseDialog;
 import com.hqmy.market.view.widgets.dialog.BeautyDialog;
+import com.hqmy.market.view.widgets.dialog.ConfirmDialog;
 import com.hqmy.market.view.widgets.dialog.ShareModeDialog;
 import com.orzangleli.xdanmuku.DanmuContainerView;
 import com.qiniu.pili.droid.streaming.AVCodecType;
@@ -279,7 +281,31 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
         switch (view.getId()) {
             case R.id.iv_title_back:
                 //结束直播
-                liveVideosClose();
+                ConfirmDialog dialogs = new ConfirmDialog(AVStreamingActivity.this);
+                dialogs.setTitle("温馨提示");
+                dialogs.setMessage("确定要退出直播？");
+                dialogs.setCancelable(false);
+                dialogs.setYesOnclickListener("确定", new BaseDialog.OnYesClickListener() {
+
+                    @Override
+                    public void onYesClick() {
+                        sendEndLive();
+                        //                        sendTextMessage("#@@直播已结束@@#");
+                        //结束直播
+                        liveVideosClose();
+                        dialogs.dismiss();
+                    }
+                });
+                dialogs.setCancleClickListener("继续直播", new BaseDialog.OnCloseClickListener() {
+                    @Override
+                    public void onCloseClick() {
+                        dialogs.dismiss();
+                    }
+                });
+                dialogs.show();
+//                break;
+                //结束直播
+//                liveVideosClose();
                 break;
             case R.id.iv_scan:
                 //切换摄像头
@@ -387,7 +413,29 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
     @Override
     public void onBackPressed() {
         //结束直播
-        liveVideosClose();
+        ConfirmDialog dialog = new ConfirmDialog(this);
+        dialog.setTitle("温馨提示");
+        dialog.setMessage("确定要退出直播？");
+        dialog.setCancelable(false);
+        dialog.setYesOnclickListener("确定", new BaseDialog.OnYesClickListener() {
+
+            @Override
+            public void onYesClick() {
+
+                //                sendTextMessage("#@@!直播已结束!@@#");
+                sendEndLive();
+                //结束直播
+                liveVideosClose();
+                dialog.dismiss();
+            }
+        });
+        dialog.setCancleClickListener("继续直播", new BaseDialog.OnCloseClickListener() {
+            @Override
+            public void onCloseClick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     @Override
@@ -471,12 +519,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
         return mMediaStreamingManager.stopStreaming();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 
 
     //    private class EncodingOrientationSwitcher implements Runnable {
@@ -1109,7 +1152,9 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
     @Override
     public boolean handleMessage(android.os.Message msg) {
         switch (msg.what) {
-            case ChatroomKit.MESSAGE_ARRIVED:
+            case 30001:
+                joinChatRoom();
+                break;
             case ChatroomKit.MESSAGE_SENT: {
                 MessageContent messageContent = ((Message) msg.obj).getContent();
                 setData(messageContent);

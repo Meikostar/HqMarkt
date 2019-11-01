@@ -54,6 +54,7 @@
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_bg"
         android:gravity="center_vertical"
        android:background="@color/white"
         android:layout_width="match_parent"

@@ -14,6 +14,7 @@ public class HttpResult<T> {
     private Object debug;
     private T data;
     private T live_apply;
+    public T seller;
     private T live_video;
     MetaDto meta;
 

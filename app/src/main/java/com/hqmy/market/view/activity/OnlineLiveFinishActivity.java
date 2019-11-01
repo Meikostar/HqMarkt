@@ -8,7 +8,9 @@ import com.hqmy.market.base.BaseActivity;
 import com.hqmy.market.bean.OnlineLiveFinishBean;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
+import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 
@@ -60,7 +62,7 @@ public class OnlineLiveFinishActivity extends BaseActivity {
             @Override
             public void onSuccess(HttpResult<OnlineLiveFinishBean> result) {
                 if (result != null && result.getData() !=null){
-                    GlideUtils.getInstances().loadRoundImg(OnlineLiveFinishActivity.this,imgUserHeader,Constants.WEB_IMG_URL_STORAGE+result.getData().getImages());
+                    GlideUtils.getInstances().loadRoundImg(OnlineLiveFinishActivity.this,imgUserHeader,Constants.WEB_IMG_URL_STORAGE+result.getData().getImages(),R.drawable.moren_ren);
                     tvHomeNumber.setText("房间号："+result.getData().getLive_title());
                     tvDianZan.setText(result.getData().getLikers_count());
                     tvPeopleNumber.setText(result.getData().getPlay_count());
@@ -71,7 +73,7 @@ public class OnlineLiveFinishActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable throwable) {
-
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
         }, id);
     }

@@ -16,6 +16,7 @@ public class ExtDto implements Serializable {
     public  List<String> imgs;
     public  String       name;
     public  String       logo;
+    public  String       id;
     public  String       title;
     public  String       icon;
     public  ExtDto       category;

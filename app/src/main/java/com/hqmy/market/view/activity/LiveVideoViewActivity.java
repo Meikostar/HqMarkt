@@ -547,9 +547,10 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.rl_bg:
-                        Intent intent = new Intent(LiveVideoViewActivity.this, BrandShopDetailActivity.class);
-                        intent.putExtra("id", products.get(position).getId());
-                        startActivity(intent);
+                        Bundle bundle = new Bundle();
+                        bundle.getString(CommodityDetailActivity.PRODUCT_ID, products.get(position).getId());
+                        gotoActivity(CommodityDetailActivity.class, false, bundle);
+             
                         break;
                     case R.id.img:
 
@@ -567,11 +568,11 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
      * 获取首页直播列表数据
      */
     private void liveVideosInfo() {
-        showLoadDialog();
+//        showLoadDialog();
         DataManager.getInstance().liveVideosInfo(new DefaultSingleObserver<HttpResult<VideoLiveBean>>() {
             @Override
             public void onSuccess(HttpResult<VideoLiveBean> result) {
-                dissLoadDialog();
+//                dissLoadDialog();
                 if (result != null && result.getData() != null) {
                     chatterTotal = result.getData().getChatter_total();
                     tv_count.setText(chatterTotal + "人");
@@ -607,7 +608,7 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
 
             @Override
             public void onError(Throwable throwable) {
-                dissLoadDialog();
+//                dissLoadDialog();
 
             }
         }, videoId);
@@ -924,14 +925,16 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
             dialog.setTitle("温馨提示");
             dialog.setMessage("主播已离开");
             dialog.setCancelable(false);
+            dialog.setCancelGone();
             dialog.setYesOnclickListener("确定", new BaseDialog.OnYesClickListener() {
 
                 @Override
                 public void onYesClick() {
+                    finish();
                     dialog.dismiss();
                 }
             });
-            dialog.show();
+
         } else if (messageContent instanceof ChatroomUser) {
             //房间人数
             ChatroomUser chatroomUser = (ChatroomUser) messageContent;
@@ -1082,7 +1085,7 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
                         boolean isTimelineCb = false;
                         //http://ax.jmlax.com/api/package/user/invitation_img?user_id=14
                         String url = Constants.BASE_URL + "api/package/user/invitation_img?user_id=" + ShareUtil.getInstance().getString(Constants.USER_ID, "");
-                        String title = "我的推广码";
+                        String title = "环球贸易下载";
                         if (position == ShareModeDialog.SHARE_PYQ) {
                             isTimelineCb = true;
                         }
@@ -1128,6 +1131,9 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
     public boolean handleMessage(android.os.Message msg) {
         switch (msg.what) {
             case ChatroomKit.MESSAGE_ARRIVED:
+            case 30001:
+                joinChatRoom();
+                break;
             case ChatroomKit.MESSAGE_SENT: {
                 MessageContent messageContent = ((Message) msg.obj).getContent();
                 setData(messageContent);

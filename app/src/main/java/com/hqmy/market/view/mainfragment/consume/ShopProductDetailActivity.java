@@ -206,6 +206,7 @@ public class ShopProductDetailActivity extends BaseActivity {
         map.put("filter[shop_id]", shopId);
 //        map.put("page", "1");
         map.put("sort[]", "-sales_count");
+
         DataManager.getInstance().getFamilyLikeList(new DefaultSingleObserver<HttpResult<List<NewListItemDto>>>() {
             @Override
             public void onSuccess(HttpResult<List<NewListItemDto>> result) {

@@ -62,7 +62,7 @@ public class RequestLivePermissionActivity extends BaseActivity {
     public void initView() {
         state=getIntent().getIntExtra("state",0);
         if(state==1){
-            mTitleText.setText("我要开播");
+            mTitleText.setText("实名认证");
         }else {
             mTitleText.setText("实名认证");
         }
@@ -132,11 +132,10 @@ public class RequestLivePermissionActivity extends BaseActivity {
                 map.put("real_name",et_name.getText().toString().trim());
                 map.put("no",et_id_card.getText().toString().trim());
                 map.put("imgs[0]",uploadFilesDto.getId()+"");
-                if(state==1){
-                    applyLives();
-                }else {
+                map.put("status",0+"");
+
                     applyLive(map);
-                }
+
 
                 break;
         }
@@ -212,26 +211,16 @@ public class RequestLivePermissionActivity extends BaseActivity {
             @Override
             public void onError(Throwable throwable) {
                 dissLoadDialog();
-                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+                if (ApiException.getInstance().isSuccess()) {
+                    ToastUtil.showToast("实名认证已提交，请耐心等待审核!");
+                    finish();
+                } else {
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+                }
+
             }
         }, map);
     }
 
-    public void applyLives() {
-        showLoadDialog();
-        DataManager.getInstance().applyLive(new DefaultSingleObserver<HttpResult<AnchorInfo>>() {
-            @Override
-            public void onSuccess(HttpResult<AnchorInfo> result) {
-                dissLoadDialog();
-                gotoActivity(LiveCheckingActivity.class,true);
-                finish();
-            }
 
-            @Override
-            public void onError(Throwable throwable) {
-                dissLoadDialog();
-                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
-            }
-        });
-    }
 }

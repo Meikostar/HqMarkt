@@ -13,6 +13,8 @@ public class OrderShopDto implements Serializable {
     private boolean available_coupon;
     private String coupon_discount;
     private String total;
+    public String shop_name;
+    public String product_total;
     private String score;
 
     public List<OrderProductDto> getProducts() {

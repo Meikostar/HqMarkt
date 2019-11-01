@@ -83,7 +83,12 @@ public class HotActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                autoScroll.moveToPosition(position);
+                if(isFirst){
+                    autoScroll.moveToPosition(position);
+                }else {
+                    isFirst=true;
+                }
+
             }
 
             @Override
@@ -116,7 +121,7 @@ public class HotActivity extends BaseActivity {
         });
     }
 
-
+    private boolean isFirst;
 
     @Override
     public void initData() {
@@ -145,6 +150,7 @@ public class HotActivity extends BaseActivity {
                     testAdapter.setDatas(data);
                     testAdapter.notifyDataSetChanged();
                     initFragMents(state);
+
                 }
 
             }

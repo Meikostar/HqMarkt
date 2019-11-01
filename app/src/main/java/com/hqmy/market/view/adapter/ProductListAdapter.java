@@ -79,16 +79,22 @@ public class ProductListAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
                 helper.setText(R.id.tv_title,sapce+ item.getTitle());
 //                frameLayout.setVisibility(View.VISIBLE);
 
-                String name ="￥"+ item.market_price;
 
-                TextView textview = helper.getView(R.id.market_price);
-                textview.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG ); //中间横线下划线
-                textview.getPaint().setAntiAlias(true);// 抗锯齿
-                textview.setText(name);
 //                helper.setText(R.id.market_price, name);
             } else {
                 labe.setVisibility(View.GONE);
                 helper.setText(R.id.tv_title, item.getTitle());
+            }
+            TextView textview = helper.getView(R.id.market_price);
+            if(TextUtil.isNotEmpty(item.market_price)){
+                String name ="¥"+ item.market_price;
+
+
+                textview.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG ); //中间横线下划线
+                textview.getPaint().setAntiAlias(true);// 抗锯齿
+                textview.setText(name);
+            }else {
+                textview.setText("");
             }
 
             if (item.ext != null && TextUtils.isEmpty(item.ext.slogan)) {
@@ -119,7 +125,7 @@ public class ProductListAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
         }
 
         public String getSapce(int length){
-         String content="\t";
+         String content="\t\t\t\t\t";
          for(int i=0;i<length;i++){
              content=content+"\t";
          }

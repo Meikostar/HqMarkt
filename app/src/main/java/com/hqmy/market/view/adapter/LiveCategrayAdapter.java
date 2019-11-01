@@ -36,6 +36,8 @@ public  class LiveCategrayAdapter extends BaseRecycleViewAdapter implements Auto
         LiveCatesBean data= (LiveCatesBean) datas.get(position);
         if(TextUtil.isNotEmpty(data.cat_name)){
             holders.tv_content.setText(data.cat_name);
+        }else {
+            holders.tv_content.setText("");
         }
 
 //
@@ -72,7 +74,7 @@ public  class LiveCategrayAdapter extends BaseRecycleViewAdapter implements Auto
         ItemViewHolder holders = (ItemViewHolder) holder;
 
         if(isSelected){
-            holders.tv_content.setTextSize(15);
+            holders.tv_content.setTextSize(18);
             TextPaint tp = holders.tv_content.getPaint();
             tp.setFakeBoldText(true);
 
@@ -80,7 +82,7 @@ public  class LiveCategrayAdapter extends BaseRecycleViewAdapter implements Auto
 
         }else {
 
-            holders.tv_content.setTextSize(14);
+            holders.tv_content.setTextSize(13);
             TextPaint tp = holders.tv_content.getPaint();
             tp.setFakeBoldText(false);
             holders.tv_content.setTextColor(context.getColor(R.color.my_color_333333));

@@ -26,6 +26,7 @@ public abstract class BaseDialog extends Dialog {
     protected String titleStr;//从外界设置的title文本
     protected String messageStr;//从外界设置的消息文本
     protected Button btn_sure;//确定按钮
+    protected View line;//确定按钮
     protected Button btn_cancel;//取消按钮
     protected TextView titleTv;//消息标题文本
     //确定文本和取消文本的显示内容

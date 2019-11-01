@@ -8,7 +8,7 @@
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/bg_white_shape"
+        android:background="@drawable/shape_white_2"
         android:orientation="vertical">
 
         <TextView
@@ -61,6 +61,7 @@
                 android:textSize="16sp" />
 
             <View
+                android:id="@+id/line"
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="#E4E4E4" />

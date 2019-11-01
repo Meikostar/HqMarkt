@@ -92,7 +92,7 @@ public class ConturyDetialActivity extends BaseActivity {
         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this, 2) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         };
 

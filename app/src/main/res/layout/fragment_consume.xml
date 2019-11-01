@@ -98,6 +98,7 @@
                 android:gravity="center"
                 android:clickable="true">
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/iv_scan"
                     android:src="@drawable/home_scan"
                     android:layout_width="@dimen/bj_19dp"
@@ -106,6 +107,7 @@
                     android:layout_marginRight="12dp"
                      />
                 <ImageView
+                    android:visibility="gone"
                     android:src="@drawable/home_message"
                     android:id="@+id/iv_message"
                     android:layout_width="@dimen/bj_21dp"

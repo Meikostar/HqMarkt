@@ -58,7 +58,7 @@ public class VideoPayMethodActivity extends BaseActivity {
         product_id = getIntent().getStringExtra("product_id");
         tv_title.setText(getIntent().getStringExtra("title"));
         tv_author.setText(getIntent().getStringExtra("author"));
-        tv_money.setText("￥" + getIntent().getStringExtra("money"));
+        tv_money.setText("¥" + getIntent().getStringExtra("money"));
     }
 
     private void orderCheckout() {

@@ -65,14 +65,19 @@
               <include layout="@layout/layout_mine_guess_like" />
 
               <include layout="@layout/layout_mine_order" />
-              <ImageView
+
+              <com.youth.banner.Banner
+                  android:id="@+id/iv_banner"
                   android:layout_width="match_parent"
-                  android:layout_height="@dimen/bj_89dp"
+                  android:layout_height="89dp"
                   android:layout_marginLeft="@dimen/bj_12dp"
                   android:layout_marginRight="12dp"
                   android:layout_marginBottom="10dp"
-                  android:id="@+id/iv_banner"/>
-
+                  app:indicator_height="6dp"
+                  app:indicator_margin="4dp"
+                  app:indicator_width="6dp"
+                  app:image_scale_type="fit_xy"
+                  app:is_auto_play="true"/>
               <include layout="@layout/layout_mine_wallet" />
           </LinearLayout>
 

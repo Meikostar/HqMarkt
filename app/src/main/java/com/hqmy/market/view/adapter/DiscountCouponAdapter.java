@@ -20,7 +20,7 @@ public class DiscountCouponAdapter extends BaseQuickAdapter<CouponDto, BaseViewH
                 helper.setText(R.id.tv_coupon_money, Double.valueOf(item.getCoupon().getData().getDiscount_value()) * 10 + "折")
                         .setText(R.id.tv_coupon_title, Double.valueOf(item.getCoupon().getData().getDiscount_value()) * 10 + "折优惠券");
             } else {
-                helper.setText(R.id.tv_coupon_money, "￥" + item.getCoupon().getData().getDiscount_value())
+                helper.setText(R.id.tv_coupon_money, "¥" + item.getCoupon().getData().getDiscount_value())
                         .setText(R.id.tv_coupon_title, item.getCoupon().getData().getDiscount_value() + "元优惠券");
             }
         }else {

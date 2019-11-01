@@ -12,8 +12,7 @@
     <ImageView
         android:id="@+id/iv_banner_factory"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bj_152dp"
-        android:src="@mipmap/banner_factoty"/>
+        android:layout_height="@dimen/bj_152dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -24,7 +24,7 @@ public class MyOrderEvaluateAdapter extends BaseQuickAdapter<MyOrderItemDto, Bas
     @Override
     protected void convert(BaseViewHolder helper, MyOrderItemDto item) {
         helper.setText(R.id.tv_evaluate_des, item.getTitle())
-                .setText(R.id.tv_evaluate_money, "￥" + item.getPrice())
+                .setText(R.id.tv_evaluate_money, "¥" + item.getPrice())
                 .setText(R.id.tv_evaluate_number, "X" + item.getQty());
         String imgUrl = Constants.WEB_IMG_URL_UPLOADS + item.getProduct().getData().getCover();
         GlideUtils.getInstances().loadNormalImg(mContext, (ImageView) helper.getView(R.id.tv_evaluate_logo), imgUrl, R.mipmap.img_default_1);

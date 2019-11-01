@@ -14,8 +14,7 @@
             android:id="@+id/iv_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/img_default_topic" />
+            android:scaleType="centerCrop" />
     </android.support.v7.widget.CardView>
 
     <TextView

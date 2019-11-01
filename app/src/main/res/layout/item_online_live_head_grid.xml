@@ -8,8 +8,7 @@
         android:id="@+id/item_online_live_grid"
         android:layout_width="match_parent"
         android:layout_height="107dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/img_default_topic" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:layout_width="match_parent"

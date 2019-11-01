@@ -335,6 +335,7 @@ public class ChatroomKit {
 
             @Override
             public void onError(Message message, RongIMClient.ErrorCode errorCode) {
+
                 handleEvent(MESSAGE_SEND_ERROR, errorCode.getValue(), 0, message);
             }
         });

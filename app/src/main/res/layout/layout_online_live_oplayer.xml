@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/bj_48dp"
     android:paddingLeft="@dimen/dp_10"
+    android:id="@+id/rl_bgs"
     android:background="@color/white"
     android:paddingRight="@dimen/dp_10">
 

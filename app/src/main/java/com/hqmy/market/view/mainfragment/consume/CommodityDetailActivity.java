@@ -19,6 +19,7 @@ import com.hqmy.market.base.BaseActivity;
 import com.hqmy.market.bean.AddressDto;
 import com.hqmy.market.bean.CommentDto;
 import com.hqmy.market.bean.CommodityDetailInfoDto;
+import com.hqmy.market.bean.MapDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.LogUtil;
@@ -32,7 +33,10 @@ import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.MainActivity;
 import com.hqmy.market.view.activity.LoginActivity;
+import com.hqmy.market.view.activity.ShopStoreDetailActivity;
 import com.hqmy.market.view.adapter.CommodityCommentImageAdapter;
+import com.hqmy.market.view.adapter.ShopItemAdapter;
+import com.hqmy.market.view.widgets.RegularListView;
 import com.hqmy.market.view.widgets.ShopProductTypeDialog;
 import com.hqmy.market.view.widgets.dialog.ShareModeDialog;
 import com.hqmy.market.view.widgets.ratingbar.BaseRatingBar;
@@ -43,9 +47,11 @@ import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import butterknife.BindView;
 
@@ -147,19 +153,21 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
     @BindView(R.id.tv_commodity_comments_msg)
     TextView       tv_commodity_comments_msg;
     @BindView(R.id.ll_evaluate_view_notice)
-    RelativeLayout ll_evaluate_view_notice;
+    RelativeLayout  ll_evaluate_view_notice;
     @BindView(R.id.ll_no_evaluate)
-    LinearLayout   ll_no_evaluate;
+    LinearLayout    ll_no_evaluate;
     @BindView(R.id.rb_evaluate)
-    BaseRatingBar  rb_evaluate;
+    BaseRatingBar   rb_evaluate;
     @BindView(R.id.recyclerView_images)
-    RecyclerView   recyclerViewImages;
+    RecyclerView    recyclerViewImages;
     @BindView(R.id.tv_min_bug_num)
-    TextView       tvMinBugNum;
+    TextView        tvMinBugNum;
     @BindView(R.id.layout_share_product)
-    LinearLayout   layout_share_product;
+    LinearLayout    layout_share_product;
     @BindView(R.id.line)
-    View           line;
+    View            line;
+    @BindView(R.id.list_info)
+    RegularListView list_info;
 
     private CommodityDetailInfoDto commodityDetailInfoDto;
     private String                 isFavorite = "false";//是否收藏
@@ -169,10 +177,22 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
     public int getLayoutId() {
         return R.layout.ui_commodity_detail_layout;
     }
-
+    private ShopItemAdapter mAdapter;
     @Override
     public void initView() {
-        getAddressListData();
+        mAdapter=new ShopItemAdapter(this);
+        list_info.setAdapter(mAdapter);
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ShareUtil.getInstance().isLogin()) {
+            getAddressListData();
+        }
+
     }
 
     @Override
@@ -205,10 +225,12 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
         });
 
         bindClickEvent(layout_shop, () -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(BrandShopDetailActivity.MALL_TYPE, commodityDetailInfoDto.getType());
-            bundle.putString(BrandShopDetailActivity.SHOP_DETAIL_ID, commodityDetailInfoDto.getId());
-            gotoActivity(BrandShopDetailActivity.class, false, bundle);
+            if(commodityDetailInfoDto.getShop()!=null&&commodityDetailInfoDto.getShop().getData()!=null){
+                Bundle bundle = new Bundle();
+                bundle.putString(ShopStoreDetailActivity.SHOP_DETAIL_ID, commodityDetailInfoDto.getShop().getData().id);
+                gotoActivity(ShopStoreDetailActivity.class, false, bundle);
+            }
+
         });
 
         bindClickEvent(layout_service, () -> {
@@ -282,11 +304,15 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                                 Bundle bundle = new Bundle();
 
                                 bundle.putString(ConfirmOrderActivity.MALL_TYPE, "default");
+                                if(TextUtil.isNotEmpty(countBuy)){
+
+                                    bundle.putString("countBuy", countBuy);
+                                }
                                 if(TextUtil.isNotEmpty(stockId)){
 
                                     bundle.putString("stock_id", stockId);
                                 }else {
-                                    bundle.putString("product_id", productId);
+                                    bundle.putString("product_id", product_id);
                                 }
 
                                 if(defaultAddress!=null){
@@ -350,7 +376,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
     private void getGoodsDetail(String mType, String goodsId) {
         showLoadDialog();
         HashMap<String, String> map = new HashMap<>();
-        map.put("include", "attrs,freight,isFavorited,brand.productsCount");
+        map.put("include", "attrs,freight,isFavorited,brand.productsCount,shop");
         DataManager.getInstance().getGoodsDetail(new DefaultSingleObserver<HttpResult<CommodityDetailInfoDto>>() {
             @Override
             public void onSuccess(HttpResult<CommodityDetailInfoDto> result) {
@@ -367,6 +393,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             public void onError(Throwable throwable) {
                 LogUtil.i(TAG, "--RxLog-Thread: onError()");
                 dissLoadDialog();
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
         }, "default", goodsId, map);
     }
@@ -396,6 +423,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             @Override
             public void onError(Throwable throwable) {
                 //dissLoadDialog();
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
         });
     }
@@ -407,7 +435,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
     private void getGoodsDetailToken(String mType, String goodsId) {
         showLoadDialog();
         HashMap<String, String> map = new HashMap<>();
-        map.put("include", "attrs,freight,isFavorited,brand.productsCount");
+        map.put("include", "attrs,freight,isFavorited,brand.productsCount,shop");
         DataManager.getInstance().getGoodsDetailToken(new DefaultSingleObserver<HttpResult<CommodityDetailInfoDto>>() {
             @Override
             public void onSuccess(HttpResult<CommodityDetailInfoDto> result) {
@@ -424,6 +452,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             public void onError(Throwable throwable) {
                 LogUtil.i(TAG, "--RxLog-Thread: onError()");
                 dissLoadDialog();
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
         }, "default", goodsId, map);
     }
@@ -516,6 +545,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             @Override
             public void onError(Throwable throwable) {
                 dissLoadDialog();
+                ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
         }, "default", map);
     }
@@ -530,6 +560,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                     ll_no_evaluate.setVisibility(View.GONE);
                     CommentDto commentDto = httpResult.getData().get(0);
                     rb_evaluate.setRating(Integer.valueOf(commentDto.getScore()));
+                    rb_evaluate.setClickable(false);
                     if (commentDto.getUser() != null && commentDto.getUser().getData() != null) {
                         tv_commodity_comments_name.setText(commentDto.getUser().getData().getName());
                     }
@@ -570,26 +601,42 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
         tv_commodity_info_title.setText(commodityDetailDto.getTitle());
         tv_commodity_info_price.setText( commodityDetailDto.getPrice());
         tv_commodity_info_market_price.setText("¥" + commodityDetailDto.getMarket_price());
-        if(commodityDetailDto.parameter!=null){
-            int i=0;
-            for (Map.Entry<String, String> entry : commodityDetailDto.parameter.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                if(i==0){
-                    i=1;
-                    tv_content1.setText(key);
-                    tv_content2.setText(value);
-                }else {
-                    tv_content3.setText(key);
-                    tv_content4.setText(value);
-                }
+        List<MapDto> mList = new ArrayList<>();
+        MapDto mapDtos = new MapDto();
+        if (commodityDetailDto.getFreight() != null) {
 
-
-
+            if (Double.valueOf(commodityDetailDto.getFreight().getFreight())==0) {
+                mapDtos.setKey("快递");
+                mapDtos.setValue("包邮");
+                mList.add(mapDtos);
+            } else {
+                mapDtos.setKey("快递");
+                mapDtos.setValue("¥" + commodityDetailDto.getFreight().getFreight());
+                mList.add(mapDtos);
 
             }
+        } else {
+            mapDtos.setKey("快递");
+            mapDtos.setValue("包邮");
+            mList.add(mapDtos);
         }
-//        String name = "￥" + commodityDetailDto.getMarket_price();
+
+
+        if(commodityDetailDto.getParameter() != null){
+            Map<String,String> paramMap = commodityDetailDto.getParameter();
+            Set set = paramMap.keySet();
+            Iterator iter = set.iterator();
+            while (iter.hasNext()) {
+                String key = (String) iter.next();
+                String value = (String) paramMap.get(key);
+                MapDto mapDto = new MapDto();
+                mapDto.setKey(key);
+                mapDto.setValue(value);
+                mList.add(mapDto);
+            }
+        }
+        mAdapter.setData(mList);
+//        String name = "¥" + commodityDetailDto.getMarket_price();
 //        TextPaint textPaint = new TextPaint();
 //        textPaint.setTextSize(12);
 //        int with = (int) textPaint.measureText(name);
@@ -600,7 +647,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
 //        line.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
         tv_commodity_info_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中间横线
         if (commodityDetailDto.getFreight() != null) {
-            if (commodityDetailDto.getFreight().getFreight().equals("0")) {
+            if (Double.valueOf(commodityDetailDto.getFreight().getFreight())==0) {
                 tv_commodity_info_courier.setText("包邮");
             } else {
                 tv_commodity_info_courier.setText(commodityDetailDto.getFreight().getFreight());

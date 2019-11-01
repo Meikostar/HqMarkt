@@ -102,15 +102,16 @@ public class SelectCityActivity extends BaseActivity {
             public void onItemClick(View v, int originalPosition, int currentPosition, CityDto entity) {
                 if (originalPosition >= 0) {
                     String cityName = entity.getCityName();
-                    if(fromStr.equals("entityStore")) {
-                        Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
-                        intent.putExtra("city", cityName);
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }else {
+//                    if(fromStr.equals("entityStore")) {
+
+//                        Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
+//                        intent.putExtra("city", cityName);
+//                        setResult(RESULT_OK, intent);
+//                        finish();
+//                    }else {
                         BroadcastManager.getInstance(SelectCityActivity.this).sendBroadcast(Constants.CHOICE_CITY, cityName);
                         finish();
-                    }
+
                 }
             }
         });
@@ -172,9 +173,11 @@ public class SelectCityActivity extends BaseActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if(TextUtil.isNotEmpty(fromStr)){
                         if(fromStr.equals("entityStore")){
-                            Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
-                            intent.putExtra("city", hList.get(position).getName());
-                            setResult(RESULT_OK, intent);
+//                            Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
+//                            intent.putExtra("city", hList.get(position).getName());
+//                            setResult(RESULT_OK, intent);
+//                            finish();
+                            BroadcastManager.getInstance(SelectCityActivity.this).sendBroadcast(Constants.CHOICE_CITY, hList.get(position).getName());
                             finish();
                         }else {
                             String cityName = hList.get(position).getName();
@@ -189,9 +192,11 @@ public class SelectCityActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     if(fromStr.equals("entityStore")){
-                        Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
-                        intent.putExtra("city", vh.item_header_city_dw.getText().toString());
-                        setResult(RESULT_OK, intent);
+//                        Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
+                        //                        intent.putExtra("city", vh.item_header_city_dw.getText().toString());
+                        //                        setResult(RESULT_OK, intent);
+                        //                        finish();
+                        BroadcastManager.getInstance(SelectCityActivity.this).sendBroadcast(Constants.CHOICE_CITY, vh.item_header_city_dw.getText().toString());
                         finish();
                     }else {
                         String cityName = vh.item_header_city_dw.getText().toString();
@@ -207,10 +212,12 @@ public class SelectCityActivity extends BaseActivity {
                     getLocation();
                     vh.item_header_city_dw.setText(cName);
                     if(fromStr.equals("entityStore")){
-                        Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
-                        intent.putExtra("city", cName);
-                        setResult(RESULT_OK, intent);
+                        BroadcastManager.getInstance(SelectCityActivity.this).sendBroadcast(Constants.CHOICE_CITY, cName);
                         finish();
+//                        Intent intent = new Intent(SelectCityActivity.this, EntityStoreActivity.class);
+//                        intent.putExtra("city", cName);
+//                        setResult(RESULT_OK, intent);
+//                        finish();
                     }else {
                         BroadcastManager.getInstance(SelectCityActivity.this).sendBroadcast(Constants.CHOICE_CITY, cName);
                         finish();

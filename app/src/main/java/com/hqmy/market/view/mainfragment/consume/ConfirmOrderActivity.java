@@ -19,11 +19,14 @@ import android.widget.TextView;
 
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.base.BaseApplication;
 import com.hqmy.market.bean.AddressDto;
+import com.hqmy.market.bean.BalanceDto;
 import com.hqmy.market.bean.CheckOutOrderResult;
 import com.hqmy.market.bean.OrderPreviewDto;
 import com.hqmy.market.bean.OrderProductDto;
 import com.hqmy.market.bean.OrderShopDto;
+import com.hqmy.market.bean.UserInfoDto;
 import com.hqmy.market.bean.WEIXINREQ;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.LogUtil;
@@ -35,10 +38,13 @@ import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.TextUtil;
+import com.hqmy.market.view.SettingPasswordActivity;
+import com.hqmy.market.view.activity.OrderActivity;
 import com.hqmy.market.view.activity.PaySuccessActivity;
 import com.hqmy.market.view.activity.ShippingAddressActivity;
 import com.hqmy.market.view.adapter.ConfirmOrderAdapter;
 import com.hqmy.market.view.fragments.PayResultListener;
+import com.hqmy.market.view.widgets.InputPwdDialog;
 import com.hqmy.market.view.widgets.MCheckBox;
 import com.hqmy.market.view.widgets.PhotoPopupWindow;
 import com.hqmy.market.view.widgets.autoview.MaxRecyclerView;
@@ -81,6 +87,7 @@ public class ConfirmOrderActivity extends BaseActivity {
     private String              mall_type;
     private String              product_id;
     private String              stock_id;
+    private String              countBuy;
     private String              id;
     private String              addressId;
     private AddressDto          defaultAddress = null;
@@ -107,18 +114,18 @@ public class ConfirmOrderActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ConfirmOrderActivity.this, ShippingAddressActivity.class);
-                intent.putExtra("tag",1);
-                startActivityForResult(intent,6);
+                intent.putExtra("tag", 1);
+                startActivityForResult(intent, 6);
             }
         });
 
         rlAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isShow=false;
+                isShow = false;
                 Intent intent = new Intent(ConfirmOrderActivity.this, ShippingAddressActivity.class);
-                intent.putExtra("tag",1);
-                startActivityForResult(intent,6);
+                intent.putExtra("tag", 1);
+                startActivityForResult(intent, 6);
             }
         });
     }
@@ -128,23 +135,24 @@ public class ConfirmOrderActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             id = bundle.getString("id");
+            product_id = bundle.getString("product_id");
+            stock_id = bundle.getString("stock_id");
+            countBuy = bundle.getString("countBuy");
             if (TextUtil.isNotEmpty(id)) {
                 rlAddress.setVisibility(View.VISIBLE);
                 llAddress.setVisibility(View.GONE);
                 defaultAddress = (AddressDto) bundle.getSerializable(ADDRESS_DETAIL);
                 rowList = bundle.getStringArrayList(ROW_STR);
                 mall_type = bundle.getString(MALL_TYPE);
-                product_id = bundle.getString("product_id");
-                stock_id = bundle.getString("stock_id");
-                 if(defaultAddress!=null){
-                     addressId = "" + defaultAddress.getId();
-                     tv_order_to_name.setText("收货人: " + defaultAddress.getName());
-                     tv_order_to_phone.setText(defaultAddress.getMobile());
-                     tv_order_address_title.setText("收货地址 " + defaultAddress.getArea() + "," + defaultAddress.getDetail());
-                 }else {
-                     addressId = "" + id;
-                 }
 
+                if (defaultAddress != null) {
+                    addressId = "" + defaultAddress.getId();
+                    tv_order_to_name.setText("收货人: " + defaultAddress.getName());
+                    tv_order_to_phone.setText(defaultAddress.getMobile());
+                    tv_order_address_title.setText("收货地址 " + defaultAddress.getArea() + "," + defaultAddress.getDetail());
+                } else {
+                    addressId = "" + id;
+                }
 
 
                 HashMap<String, String> map = new HashMap<>();
@@ -152,32 +160,45 @@ public class ConfirmOrderActivity extends BaseActivity {
                     for (int i = 0; i < rowList.size(); i++) {
                         map.put("rows[" + String.valueOf(i) + "]", rowList.get(i));
                     }
-                }else {
-                    if(TextUtil.isNotEmpty(stock_id)){
-                        map.put("stock_id", stock_id);
-                    }else {
-                        map.put("product_id", product_id);
-                    }
+                }
+                if (TextUtil.isNotEmpty(stock_id)) {
+                    map.put("stock_id", stock_id);
+                }
+                if (TextUtil.isNotEmpty(countBuy)) {
+                    map.put("qty", countBuy);
+                }
+
+                if (TextUtil.isNotEmpty(product_id)) {
+                    map.put("product_id", product_id);
+
                 }
                 map.put("address_id", addressId);
+                map.put("include", "shop_name");
                 getOrderPreInfo(mall_type, map);
-            }else {
+            } else {
                 rowList = bundle.getStringArrayList(ROW_STR);
                 mall_type = bundle.getString(MALL_TYPE);
                 HashMap<String, String> map = new HashMap<>();
-                if (rowList != null) {
+                if (rowList != null && rowList.size() > 0) {
                     for (int i = 0; i < rowList.size(); i++) {
                         map.put("rows[" + String.valueOf(i) + "]", rowList.get(i));
                     }
                 }
-
-
+                if (TextUtil.isNotEmpty(countBuy)) {
+                    map.put("qty", countBuy);
+                }
+                if (TextUtil.isNotEmpty(stock_id)) {
+                    map.put("stock_id", stock_id);
+                } else {
+                    map.put("product_id", product_id);
+                }
+                map.put("include", "shop_name");
                 getOrderPreInfo(mall_type, map);
                 rlAddress.setVisibility(View.GONE);
                 llAddress.setVisibility(View.VISIBLE);
             }
         }
-
+        getBalance();
     }
 
 
@@ -212,7 +233,7 @@ public class ConfirmOrderActivity extends BaseActivity {
                         }
                     }
                 }
-                if(defaultAddress!=null&&defaultAddress.getId()!=0){
+                if (defaultAddress != null && defaultAddress.getId() != 0) {
                     rlAddress.setVisibility(View.VISIBLE);
                     llAddress.setVisibility(View.GONE);
                     addressId = "" + defaultAddress.getId();
@@ -227,9 +248,15 @@ public class ConfirmOrderActivity extends BaseActivity {
                             map.put("rows[" + String.valueOf(i) + "]", rowList.get(i));
                         }
                     }
+                    if (TextUtil.isNotEmpty(stock_id)) {
+                        map.put("stock_id", stock_id);
+                    } else {
+                        map.put("product_id", product_id);
+                    }
                     map.put("address_id", addressId);
+                    map.put("include", "shop_name");
                     getOrderPreInfo(mall_type, map);
-                }else {
+                } else {
                     rlAddress.setVisibility(View.GONE);
                     llAddress.setVisibility(View.VISIBLE);
                 }
@@ -242,12 +269,14 @@ public class ConfirmOrderActivity extends BaseActivity {
             }
         });
     }
+
     private int RQ_WEIXIN_PAY = 12;
     private int RQ_PAYPAL_PAY = 16;
     private int RQ_ALIPAY_PAY = 10;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode == Activity.RESULT_OK ) {
+        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RQ_WEIXIN_PAY) {
                 ToastUtil.showToast("支付成功");
                 gotoActivity(PaySuccessActivity.class);
@@ -255,7 +284,7 @@ public class ConfirmOrderActivity extends BaseActivity {
                 //           if (requestCode == RQ_WEIXIN_PAY) {
                 //                RxBus.getInstance().send(SubscriptionBean.createSendBean(SubscriptionBean.CHAEGE_SUCCESS,""));
                 //            }
-            }else {
+            } else {
                 Serializable serializable = data.getSerializableExtra("result");
                 if (serializable != null) {
                     AddressDto addressDto = (AddressDto) serializable;
@@ -263,21 +292,49 @@ public class ConfirmOrderActivity extends BaseActivity {
                 }
             }
 
-        }else {
-            if(defaultAddress==null){
-                getAddressListData();
+        } else {
+            if (resultCode == 111) {
+                Intent intent = new Intent(ConfirmOrderActivity.this, OrderActivity.class);
+                intent.putExtra("page", 1);
+                startActivity(intent);
+                finish();
+
+            } else {
+                if (defaultAddress == null) {
+                    getAddressListData();
+                }
             }
+
 
         }
     }
 
-    public void initAddress( AddressDto addressDto){
+    private double GdBalance;
+
+    public void getBalance() {
+        DataManager.getInstance().getBalance(new DefaultSingleObserver<BalanceDto>() {
+            @Override
+            public void onSuccess(BalanceDto balanceDto) {
+                super.onSuccess(balanceDto);
+                GdBalance = balanceDto.getMoney();
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+
+            }
+        });
+    }
+
+    public void initAddress(AddressDto addressDto) {
         rlAddress.setVisibility(View.VISIBLE);
         llAddress.setVisibility(View.GONE);
         addressId = "" + addressDto.getId();
 
         tv_order_to_name.setText("收货人: " + addressDto.getName());
-        tv_order_to_phone.setText(defaultAddress.getMobile());
+        tv_order_to_phone.setText(addressDto.getMobile());
         tv_order_address_title.setText("收货地址 " + addressDto.getArea() + "," + addressDto.getDetail());
 
         HashMap<String, String> map = new HashMap<>();
@@ -286,9 +343,16 @@ public class ConfirmOrderActivity extends BaseActivity {
                 map.put("rows[" + String.valueOf(i) + "]", rowList.get(i));
             }
         }
+        if (TextUtil.isNotEmpty(stock_id)) {
+            map.put("stock_id", stock_id);
+        } else {
+            map.put("product_id", product_id);
+        }
         map.put("address_id", addressId);
+        map.put("include", "shop_name");
         getOrderPreInfo(mall_type, map);
     }
+
     /**
      * 获取预订单详情
      */
@@ -330,10 +394,16 @@ public class ConfirmOrderActivity extends BaseActivity {
             for (int i = 0; i < shopLists.size(); i++) {
                 products.addAll(shopLists.get(i).getProducts());
             }
+            if (TextUtil.isEmpty(addressId)) {
+                ToastUtil.showToast("请先添加收货地址");
+                return;
+            }
             checkOutOrder(products, addressId);
         });
     }
+
     private List<CheckOutOrderResult> ruslts;
+
     private void checkOutOrder(List<OrderProductDto> products, String addressId) {
         HashMap<String, String> map = new HashMap<>();
         if (rowList != null) {
@@ -342,10 +412,10 @@ public class ConfirmOrderActivity extends BaseActivity {
                     map.put("rows[" + String.valueOf(i) + "]", products.get(i).getRowId());
                 }
             }
-        }else {
-            if(TextUtil.isNotEmpty(stock_id)){
+        } else {
+            if (TextUtil.isNotEmpty(stock_id)) {
                 map.put("stock_id", stock_id);
-            }else {
+            } else {
                 map.put("product_id", product_id);
             }
         }
@@ -354,8 +424,8 @@ public class ConfirmOrderActivity extends BaseActivity {
         DataManager.getInstance().checkOutOrder(new DefaultSingleObserver<HttpResult<List<CheckOutOrderResult>>>() {
             @Override
             public void onSuccess(HttpResult<List<CheckOutOrderResult>> result) {
-                ruslts=result.getData();
-                if(ruslts!=null&&ruslts.size()>0){
+                ruslts = result.getData();
+                if (ruslts != null && ruslts.size() > 0) {
                     showPopPayWindows();
                 }
 
@@ -368,10 +438,11 @@ public class ConfirmOrderActivity extends BaseActivity {
                 } else {
                     ToastUtil.showToast("下单失败");
                 }
-//                finish();
+                //                finish();
             }
         }, mall_type, map);
     }
+
     public void showPopPayWindows() {
 
         if (view == null) {
@@ -385,43 +456,50 @@ public class ConfirmOrderActivity extends BaseActivity {
             mcbBalance = view.findViewById(R.id.mcb_balance);
             mcbZfb = view.findViewById(R.id.mcb_zfb);
             mcbWx = view.findViewById(R.id.mcb_wx);
-
+            tv_balance = view.findViewById(R.id.tv_balance);
+            if (GdBalance != 0) {
+                tv_balance.setText("(" + GdBalance + ")");
+            }
             llBalance.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     setChoose(0);
-                    state=0;
+                    state = 0;
                 }
             });
             llWx.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    state=1;
+                    state = 1;
                     setChoose(1);
                 }
             });
             llZfb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    state=2;
+                    state = 2;
                     setChoose(2);
                 }
             });
             btSure.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    switch (state){
+                    switch (state) {
                         case 0:
-//                            getMemberBaseInfo(new InputPwdDialog.InputPasswordListener() {
-//                                @Override
-//                                public void callbackPassword(String password) {
-//                                    if(Double.valueOf(GdBalance)<Double.valueOf(tv_confirm_order_total_money.getText().toString())){
-//                                        ToastUtil.showToast("余额不足");
-//                                        return;
-//                                    }
-//                                    submitOrder(balance.getId() + "", password,balance.getPaymentCode());
-//                                }
-//                            });
+                            if (Double.valueOf(GdBalance) < Double.valueOf(tv_confirm_order_price.getText().toString())) {
+                                ToastUtil.showToast("余额不足");
+                                return;
+                            }
+                            getMemberBaseInfo(new InputPwdDialog.InputPasswordListener() {
+                                @Override
+                                public void callbackPassword(String password) {
+                                    if (Double.valueOf(GdBalance) < Double.valueOf(tv_confirm_order_price.getText().toString())) {
+                                        ToastUtil.showToast("余额不足");
+                                        return;
+                                    }
+                                    submitWalletOrder(password);
+                                }
+                            });
                             break;
 
                         case 1:
@@ -431,8 +509,7 @@ public class ConfirmOrderActivity extends BaseActivity {
                             submitOrder();
                             break;
                     }
-                    mWindowAddPhoto
-                            .dismiss();
+                    mWindowAddPhoto.dismiss();
                 }
             });
             iv_close.setOnClickListener(new View.OnClickListener() {
@@ -452,14 +529,26 @@ public class ConfirmOrderActivity extends BaseActivity {
     }
 
     /**
+     * 余额支付时，查询是否设置支付密码
+     */
+    private void getMemberBaseInfo(InputPwdDialog.InputPasswordListener listener) {
+        if (BaseApplication.isSetPay == 1) {
+            InputPwdDialog inputPasswordDialog = new InputPwdDialog(ConfirmOrderActivity.this, listener);
+            inputPasswordDialog.show();
+        } else {
+            gotoActivity(SettingPasswordActivity.class);
+        }
+    }
+
+    /**
      * zfb
      */
     private void submitOrder() {
 
         HashMap<String, String> map = new HashMap<>();
-        int i=0;
-        for(CheckOutOrderResult result:ruslts){
-            map.put("order_no["+i+"]",result.no);
+        int i = 0;
+        for (CheckOutOrderResult result : ruslts) {
+            map.put("order_no[" + i + "]", result.no);
         }
         map.put("platform", "alipay");
         map.put("scene", "app");
@@ -469,19 +558,22 @@ public class ConfirmOrderActivity extends BaseActivity {
             @Override
             public void onSuccess(HttpResult<String> httpResult) {
                 dissLoadDialog();
-                if(httpResult != null && !TextUtils.isEmpty(httpResult.getData())){
+                if (httpResult != null && !TextUtils.isEmpty(httpResult.getData())) {
                     PayUtils.getInstances().zfbPaySync(ConfirmOrderActivity.this, httpResult.getData(), new PayResultListener() {
                         @Override
                         public void zfbPayOk(boolean payOk) {
                             Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
 
-                            if(payOk){
-                                intent.putExtra("state",1);
+                            if (payOk) {
+                                intent.putExtra("state", 1);
                                 startActivity(intent);
                                 finish();
-                            }else {
+                            } else {
                                 ToastUtil.showToast("支付已取消");
-//                                finish();
+                                Intent intents = new Intent(ConfirmOrderActivity.this, OrderActivity.class);
+                                intents.putExtra("page", 1);
+                                startActivity(intents);
+                                finish();
                             }
 
 
@@ -505,15 +597,58 @@ public class ConfirmOrderActivity extends BaseActivity {
 
 
     }
+
+    /**
+     * zfb
+     */
+    private void submitWalletOrder(String payment_password) {
+
+        HashMap<String, String> map = new HashMap<>();
+        int i = 0;
+        for (CheckOutOrderResult result : ruslts) {
+            map.put("order_no[" + i + "]", result.no);
+        }
+        map.put("platform", "wallet");
+        map.put("scene", "balance");
+        map.put("payment_password", payment_password);
+        //        map.put("realOrderMoney", realOrderMoney);  //订单支付 去掉参数 订单金额  realOrderMoney
+
+        DataManager.getInstance().submitWalletOrder(new DefaultSingleObserver<HttpResult<Object>>() {
+            @Override
+            public void onSuccess(HttpResult<Object> httpResult) {
+                dissLoadDialog();
+                Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
+                intent.putExtra("state", 1);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dissLoadDialog();
+                if (ApiException.getInstance().isSuccess()) {
+                    Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
+                    intent.putExtra("state", 1);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
+                }
+            }
+        }, map);
+
+
+    }
+
     /**
      * wx
      */
     private void submitWxOrder() {
 
         HashMap<String, String> map = new HashMap<>();
-        int i=0;
-        for(CheckOutOrderResult result:ruslts){
-            map.put("order_no["+i+"]",result.no);
+        int i = 0;
+        for (CheckOutOrderResult result : ruslts) {
+            map.put("order_no[" + i + "]", result.no);
         }
         map.put("platform", "wechat");
         map.put("scene", "app");
@@ -535,7 +670,8 @@ public class ConfirmOrderActivity extends BaseActivity {
             }
         }, map);
     }
-    private View             mView;
+
+    private View mView;
 
     private RecyclerView     recyclerView;
     private Button           btSure;
@@ -549,10 +685,12 @@ public class ConfirmOrderActivity extends BaseActivity {
     private MCheckBox        mcbBalance;
     private MCheckBox        mcbZfb;
     private MCheckBox        mcbWx;
+    private TextView         tv_balance;
     private double           total;
     private double           totals;
-    public void setChoose(int state){
-        switch (state){
+
+    public void setChoose(int state) {
+        switch (state) {
             case 0:
                 mcbBalance.setChecked(true);
                 mcbZfb.setChecked(false);
@@ -571,7 +709,8 @@ public class ConfirmOrderActivity extends BaseActivity {
                 break;
         }
     }
-    private int state;
+
+    private int              state;
     private PhotoPopupWindow mWindowAddPhoto;
 
 }

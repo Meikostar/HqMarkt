@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.view.SettingPasswordActivity;
+import com.hqmy.market.view.XgPwdActivity;
 import com.lwkandroid.imagepicker.ImagePicker;
 import com.lwkandroid.imagepicker.data.ImageBean;
 import com.lwkandroid.imagepicker.data.ImagePickType;
@@ -121,6 +123,7 @@ public class UserInfoActivity extends BaseActivity {
     @OnClick({  R.id.iv_title_back
             , R.id.rl_sex_container
             , R.id.rl_user_name_container
+            , R.id.rl_xgmm
             , R.id.rl_user_avatar
     })
     public void onClick(View view) {
@@ -133,6 +136,9 @@ public class UserInfoActivity extends BaseActivity {
                 break;
             case R.id.rl_user_name_container:
                 gotoModifyNicknameActivity();
+                break;
+            case R.id.rl_xgmm:
+                gotoActivity(XgPwdActivity.class);
                 break;
             case R.id.rl_user_avatar:
                 avatar();

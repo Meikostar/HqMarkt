@@ -78,7 +78,7 @@ public class CollectGoodsAdapter extends BaseQuickAdapter<TopicListItemDto, Base
         if(!TextUtils.isEmpty(item.market_price)){
             frameLayout.setVisibility(View.VISIBLE);
 
-            String name = "￥"+item.market_price;
+            String name = "¥"+item.market_price;
             TextPaint textPaint = new TextPaint();
             textPaint.setTextSize(12);
             int with = (int) textPaint.measureText(name);

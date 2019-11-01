@@ -183,6 +183,17 @@ public class CollectActivity extends BaseActivity {
                 ToastUtil.showToast("删除成功");
 
                 getCollectData();
+                if (type == 0) {
+                    type = 1;
+                    mAdapter.setType(1);
+                    tvTitleRight.setText("完成");
+                    llBg.setVisibility(View.VISIBLE);
+                } else {
+                    type = 0;
+                    mAdapter.setType(0);
+                    tvTitleRight.setText("编辑");
+                    llBg.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -190,6 +201,17 @@ public class CollectActivity extends BaseActivity {
                 if (ApiException.getInstance().isSuccess()) {
                     ToastUtil.showToast("成功");
                     getCollectData();
+                    if (type == 0) {
+                        type = 1;
+                        mAdapter.setType(1);
+                        tvTitleRight.setText("完成");
+                        llBg.setVisibility(View.VISIBLE);
+                    } else {
+                        type = 0;
+                        mAdapter.setType(0);
+                        tvTitleRight.setText("编辑");
+                        llBg.setVisibility(View.GONE);
+                    }
                 } else {
                     dissLoadDialog();
                     ApiException.getHttpExceptionMessage(throwable);

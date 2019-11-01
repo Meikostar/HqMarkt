@@ -21,8 +21,8 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<OrderShopDto, BaseView
 
     @Override
     protected void convert(BaseViewHolder helper, OrderShopDto item) {
-        helper.setText(R.id.tv_dianpu_name, "自营店铺")
-              .setText(R.id.tv_shop_price, "¥" + item.getTotal());
+        helper.setText(R.id.tv_dianpu_name, item.shop_name==null?"自营店铺":item.shop_name)
+              .setText(R.id.tv_shop_price, "¥" + item.product_total);
         if(item.getFreight() != null) {
             helper.setText(R.id.tv_kuaidi_fee, "¥" + item.getFreight().getFreight());
         }
@@ -30,7 +30,7 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<OrderShopDto, BaseView
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         };
         rvlist.setLayoutManager(linearLayoutManager);

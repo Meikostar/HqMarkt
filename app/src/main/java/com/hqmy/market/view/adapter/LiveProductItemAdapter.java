@@ -28,7 +28,7 @@ public class LiveProductItemAdapter extends BaseQuickAdapter<MyOrderItemDto, Bas
     protected void convert(BaseViewHolder helper, MyOrderItemDto item) {
         GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_img), Constants.WEB_IMG_URL_UPLOADS+item.getCover());
         helper.setText(R.id.tv_name, item.getTitle())
-                .setText(R.id.tv_price, "￥" + item.getPrice());
+                .setText(R.id.tv_price, "¥" + item.getPrice());
 
         helper.addOnClickListener(R.id.rl_bg)
                 .addOnClickListener(R.id.img);

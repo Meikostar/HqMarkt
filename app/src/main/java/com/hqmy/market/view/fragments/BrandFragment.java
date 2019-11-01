@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseFragment;
+import com.hqmy.market.bean.BaseDto3;
+import com.hqmy.market.bean.FootInfoDto;
 import com.hqmy.market.bean.NewListItemDto;
 import com.hqmy.market.bean.ShopCartDto;
 import com.hqmy.market.common.Constants;
@@ -17,6 +19,7 @@ import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.TextUtil;
+import com.hqmy.market.view.activity.MyFootprintActivity;
 import com.hqmy.market.view.adapter.BrandsAdapter;
 import com.hqmy.market.view.adapter.ProductListAdapter;
 import com.hqmy.market.view.widgets.RecyclerItemDecoration;
@@ -100,7 +103,7 @@ public class BrandFragment extends BaseFragment implements LoadingDialog.Loading
     private void getConturyProduct() {
         showLoadDialog();
         Map<String, String> map = new HashMap<>();
-//        map.put("include",  "category");
+        map.put("page",  currentPage+"");
         if(!id.equals("-1")){
             map.put("filter[scopeMallCategory]", id + "");
         }
@@ -109,12 +112,32 @@ public class BrandFragment extends BaseFragment implements LoadingDialog.Loading
             @Override
             public void onSuccess(HttpResult<List<NewListItemDto>> result) {
                 dissLoadDialog();
-                if (result != null) {
-                    if (result.getData() != null) {
+                if (null != result.getData() && result.getData().size() > 0) {
+
+                    if (currentPage == 1) {
 
                         mAdapter.setNewData(result.getData());
+                        refreshLayout.setRefreshing(false);
+                    } else {
+
+                        mAdapter.addData(result.getData());
+                        refreshLayout.setLoadMore(false);
                     }
+
+
+
+                } else {
+                    EmptyView emptyView = new EmptyView(getActivity());
+
+                    emptyView.setTvEmptyTip("暂无数据");
+
+                    mAdapter.setEmptyView(emptyView);
+
+
                 }
+                swipeRefreshLayoutUtil.isMoreDate(mCurrentPage, Constants.PAGE_SIZE, result.getMeta().getPagination().getTotal());
+
+
             }
 
             @Override

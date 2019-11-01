@@ -193,28 +193,12 @@ public class AccountSettingActivity extends BaseActivity {
         dialog.show();
     }
     private void logout() {
-        DataManager.getInstance().logout(new DefaultSingleObserver<Object>() {
-            @Override
-            public void onSuccess(Object obj) {
-                super.onSuccess(obj);
-                ShareUtil.getInstance().cleanUserInfo();
-                gotoActivity(LoginActivity.class, true, null);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                if (ApiException.getInstance().isSuccess()) {
-                    ToastUtil.showToast("退出登录成功");
-                    ShareUtil.getInstance().cleanUserInfo();
-                    EventBus.getDefault().post(new LogoutEvent());
-                    Bundle bundle = new Bundle();
-                    bundle.putString("log_out", "LOG_OUT");
-                    gotoActivity(LoginActivity.class, true, bundle);
-                } else {
-                    ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
-                }
-            }
-        });
+        ToastUtil.showToast("退出登录成功");
+        ShareUtil.getInstance().cleanUserInfo();
+        EventBus.getDefault().post(new LogoutEvent());
+        Bundle bundle = new Bundle();
+        bundle.putString("log_out", "LOG_OUT");
+        gotoActivity(LoginActivity.class, true, bundle);
     }
 
     private void gotoUserInfoActivity() {

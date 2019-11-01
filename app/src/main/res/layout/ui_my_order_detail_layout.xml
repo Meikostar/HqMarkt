@@ -142,7 +142,7 @@
                         android:id="@+id/tv_detail_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="￥0"
+                        android:text="¥0"
                         android:textColor="@color/my_color_999999"
                         android:textSize="@dimen/wz_13sp" />
                 </LinearLayout>
@@ -165,7 +165,7 @@
                         android:id="@+id/tv_detail_express_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="￥0"
+                        android:text="¥0"
                         android:textColor="@color/my_color_999999"
                         android:textSize="@dimen/wz_13sp" />
                 </LinearLayout>

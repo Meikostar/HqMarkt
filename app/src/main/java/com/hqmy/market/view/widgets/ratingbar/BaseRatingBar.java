@@ -342,7 +342,6 @@ public class BaseRatingBar extends LinearLayout implements SimpleRatingBar {
         if (isIndicator()) {
             return false;
         }
-
         float eventX = event.getX();
         float eventY = event.getY();
         switch (event.getAction()) {

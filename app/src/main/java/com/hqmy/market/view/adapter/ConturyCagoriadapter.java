@@ -88,7 +88,7 @@ public class ConturyCagoriadapter extends BaseAdapter {
         if(item.category!=null&&item.category.data!=null&&!TextUtils.isEmpty(item.category.data.title)){
 
 
-            GlideUtils.getInstances().loadUserRoundImg(context, holder.iv_contury, Constants.WEB_IMG_URL_UPLOADS + item.category.data.icon);
+            GlideUtils.getInstances().loadRoundImg(context, holder.iv_contury, Constants.WEB_IMG_URL_UPLOADS + item.category.data.icon);
 
         }
         if(!TextUtils.isEmpty(item.name)){

@@ -19,7 +19,7 @@ public class MyFootPrintSubAdapter extends BaseQuickAdapter<MyOrderItemDto, Base
         if (item.getObject() != null && item.getObject().getData() != null){
             GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_item_my_buy_good_icon), Constants.WEB_IMG_URL_UPLOADS+item.getObject().getData().getCover());
             helper.setText(R.id.tv_item_my_buy_good_name,item.getObject().getData().getTitle())
-                    .setText(R.id.tv_item_my_buy_good_integral,"￥"+item.getObject().getData().getPrice());
+                    .setText(R.id.tv_item_my_buy_good_integral,"¥"+item.getObject().getData().getPrice());
         }else {
             GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_item_my_buy_good_icon), R.drawable.glide_default_picture);
             helper.setText(R.id.tv_item_my_buy_good_name,"")

@@ -17,7 +17,13 @@ public class BannerInfoDto implements Serializable {
       private List<BannerItemDto>  love_factory_categories_top;
       private List<BannerItemDto>  news_detail_middle;//新闻详情中部
       public List<BannerItemDto>  country_list_below_country;//新闻详情中部
+      public List<BannerItemDto>  user_center_center;//新闻详情中部
       public List<BannerItemDto>  country_list_top;//新闻详情中部
+      public List<BannerItemDto>  index_product_list_top;//新闻详情中部
+      public List<BannerItemDto>  category_list_brand_list_top;//新闻详情中部
+      public List<BannerItemDto>  category_list_recommend_top;//新闻详情中部
+      public List<BannerItemDto>  category_list_top
+              ;//新闻详情中部
 
 
 

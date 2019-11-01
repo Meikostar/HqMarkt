@@ -20,6 +20,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hqmy.market.utils.TextUtil;
 import com.lwkandroid.imagepicker.ImagePicker;
 import com.lwkandroid.imagepicker.data.ImageBean;
 import com.lwkandroid.imagepicker.data.ImagePickType;
@@ -131,10 +132,10 @@ public class MyOrderEvaluateActivity extends BaseActivity {
             String imgUrl =  bundle.getString(Constants.IMAGEITEM_IMG_URL);
             GlideUtils.getInstances().loadNormalImg(this, tvEvaluateLogo, imgUrl,R.drawable.moren_sf);
             tvEvaluateDes.setText(getIntent().getStringExtra("goods_title"));
-            tvEvaluateMoney.setText("￥"+getIntent().getStringExtra("goods_price"));
+            tvEvaluateMoney.setText("¥"+getIntent().getStringExtra("goods_price"));
             tvEvaluateNumber.setText("x"+getIntent().getStringExtra("goods_num"));
             tvOrderGoodsParams.setText(getIntent().getStringExtra("goods_options"));
-            tvTotalPrice.setText("合计：￥"+getIntent().getStringExtra("goods_price"));
+            tvTotalPrice.setText("合计：¥"+getIntent().getStringExtra("goods_price"));
         }
         initPicAdapter();
 
@@ -149,7 +150,9 @@ public class MyOrderEvaluateActivity extends BaseActivity {
                 Log.e(TAG, "键盘显示 高度" + height);
 //                ll_bg.setPadding(0, 0, 0, height);
                 sr_view.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
-
+                ed_info.setFocusable(true);
+                ed_info.setFocusableInTouchMode(true);
+                ed_info.requestFocus();
             }
 
             @Override
@@ -171,6 +174,11 @@ public class MyOrderEvaluateActivity extends BaseActivity {
 
 
     private void initUploadData() {
+
+        if(TextUtil.isEmpty(ed_info.getText().toString())){
+            ToastUtil.showToast("请输入评价内容");
+            return;
+        }
         showLoadDialog();
         upPicPosition = 0;
         areadUploadImg.clear();
@@ -195,6 +203,7 @@ public class MyOrderEvaluateActivity extends BaseActivity {
     }
 
     private void upLoadFinish() {
+
         Map<String, Object> map = new HashMap<>();
         map.put("id", itemId);
         map.put("object","SMG\\Mall\\Models\\MallProduct");

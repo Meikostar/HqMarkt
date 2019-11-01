@@ -16,6 +16,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/rl_bg"
             android:layout_width="@dimen/bj_120dp"
             android:layout_height="@dimen/bj_120dp">
             <ImageView

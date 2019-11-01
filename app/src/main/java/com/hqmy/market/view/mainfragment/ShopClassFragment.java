@@ -29,11 +29,14 @@ import com.hqmy.market.http.error.ErrorUtil;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.MainActivity;
 import com.hqmy.market.view.activity.LoginActivity;
 import com.hqmy.market.view.activity.MessageCenterActivity;
 import com.hqmy.market.view.adapter.ClassifyOneAdapter;
 import com.hqmy.market.view.adapter.ClassifyTwoAdapter;
+import com.hqmy.market.view.mainfragment.consume.BrandShopDetailActivity;
+import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 import com.hqmy.market.view.mainfragment.consume.ProductSearchActivity;
 import com.hqmy.market.view.widgets.HorizontalDividerItemDecoration;
 
@@ -101,7 +104,7 @@ public class ShopClassFragment extends BaseFragment {
         findStoreCategory();
         findOneCategory();
         findTwoCategory();
-        getTopBanner();
+        getMiddleBanner(1,null);
     }
    private List<BaseDto2> lists=new ArrayList<>();
     @Override
@@ -116,22 +119,25 @@ public class ShopClassFragment extends BaseFragment {
                     mClassifyOneAdapter.notifyItemChanged(prePos);
                     mClassifyOneAdapter.notifyItemChanged(position);
                     if(position==0){
+                        getMiddleBanner(1,null);
                          id=-1;
                         mClassifyTwoAdapter.setNewData(lists);
-                        setAdData(mListCategorys.get(position).getImgUrl(), mListCategorys.get(position).getAdClickUrl());
+
                     }else if(position==1){
+                        getMiddleBanner(2,null);
                         id=-2;
                         mClassifyTwoAdapter.setNewData(mDto1);
-                        setAdData(mListCategorys.get(position).getImgUrl(), mListCategorys.get(position).getAdClickUrl());
+//                        setAdData(mListCategorys.get(position).getImgUrl(), mListCategorys.get(position).getAdClickUrl());
                     }else {
                         id=(int)mListCategorys.get(position-2).getId();
                         mClassifyTwoAdapter.setNewData(mListCategorys.get(position-2).children.data);
-                        setAdData(mListCategorys.get(position).getImgUrl(), mListCategorys.get(position-2).getAdClickUrl());
+                        getMiddleBanner(2,id+"");
+//                        setAdData(mListCategorys.get(position-2).getImgUrl(), mListCategorys.get(position-2).click_event_type,mListCategorys.get(position-2).click_event_value);
                     }
 
                 }
 
-                getTopBanner();
+
             }
         });
 
@@ -150,25 +156,36 @@ public class ShopClassFragment extends BaseFragment {
         });
     }
     private int id=0;
-    private void getTopBanner() {
-        //showLoadDialog();
+
+    private void getMiddleBanner(int type,String id) {
+        String code=TextUtil.isEmpty(id)?(type==1?"category_list_recommend_top":"category_list_brand_list_top"):"category_list_top";
         Map<String, String> map = new HashMap<>();
-        if(id>=0){
-            map.put("category_list_recommend_top", ""+id);
-
-        }else if(id==-1){
-            map.put("category_list_brand_list_top", ""+1);
-        }else if(id==-2){
-            map.put("category_list_recommend_top", ""+1);
+        map.put("position_code", code);
+        //        map.put("page", "1");
+        if(!TextUtil.isEmpty(id)){
+            map.put("product_category_id", id);
         }
-
+        //showLoadDialog();
         DataManager.getInstance().getBannerList(new DefaultSingleObserver<HttpResult<BannerInfoDto>>() {
             @Override
             public void onSuccess(HttpResult<BannerInfoDto> result) {
                 //dissLoadDialog();
                 if (result != null) {
                     if (result.getData() != null) {
-                        List<BannerItemDto> bannerList = result.getData().getIndex_top();
+                        List<BannerItemDto> bannerList = null;
+
+                        if(type==1){
+                            bannerList=result.getData().category_list_recommend_top;
+                        }else if(type==2){
+                            bannerList=result.getData().category_list_brand_list_top;
+                        }else if(type==3){
+                            bannerList=result.getData().category_list_top;
+                        }
+                        if(bannerList!=null&&bannerList.size()>0){
+                            setAdData(bannerList.get(0).getPath(),bannerList.get(0).getClick_event_type(),bannerList.get(0).getClick_event_value());
+                        }else {
+                            setAdData(null,null,null);
+                        }
 
 
                     }
@@ -179,8 +196,9 @@ public class ShopClassFragment extends BaseFragment {
             public void onError(Throwable throwable) {
                 //dissLoadDialog();
             }
-        }, "category_list_recommend_top",map);
+        }, map);
     }
+
     private List<StoreCategoryDto> allData=new ArrayList<>();
     private void findStoreCategory() {
 //        showLoadDialog();
@@ -205,7 +223,7 @@ public class ShopClassFragment extends BaseFragment {
                 mClassifyOneAdapter.setNewData(allData);
                 if (mListCategorys.size() > 0) {
                     StoreCategoryDto firstData = mListCategorys.get(0);
-                    setAdData(firstData.getImgUrl(), firstData.getAdClickUrl());
+//                    setAdData(firstData.getImgUrl(), firstData.getAdClickUrl());
                     mClassifyTwoAdapter.setNewData(firstData.children.data);
                 }
             }
@@ -298,12 +316,34 @@ public class ShopClassFragment extends BaseFragment {
 
 
 
-    private void setAdData(String imgUrl, String adClickUrl) {
-        GlideUtils.getInstances().loadNormalImg(getActivity(), mIvAd, Constants.WEB_IMG_URL_UPLOADS + imgUrl, R.mipmap.img_default_3);
+    private void setAdData(String imgUrl, String type,String value) {
+        if(TextUtil.isNotEmpty(imgUrl)){
+            GlideUtils.getInstances().loadNormalImg(getActivity(), mIvAd, Constants.WEB_IMG_URL_UPLOADS + imgUrl, R.mipmap.img_default_3);
+            mIvAd.setVisibility(View.VISIBLE);
+        }else {
+            mIvAd.setVisibility(View.GONE);
+        }
         bindClickEvent(mIvAd, new Action() {
             @Override
             public void run() throws Exception {
                 //TODO 实现 跳转 adClickUrl
+                if(TextUtil.isEmpty(type)){
+                    return;
+                }
+                if(type.equals("product_default")){
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString(CommodityDetailActivity.PRODUCT_ID, value);
+                    Intent intent = new Intent(getActivity(), CommodityDetailActivity.class);
+                    if (bundle != null) {
+                        intent.putExtras(bundle);
+                    }
+                    startActivity(intent);
+                }else if(type.equals("seller_default")){
+                    Intent intent = new Intent(getActivity(), BrandShopDetailActivity.class);
+                    intent.putExtra("id",value);
+                    startActivity(intent);
+                }
             }
         });
     }

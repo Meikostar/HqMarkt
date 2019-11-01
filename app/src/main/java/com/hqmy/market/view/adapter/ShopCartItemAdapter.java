@@ -22,7 +22,7 @@ public class ShopCartItemAdapter extends BaseQuickAdapter<ShopCartListItemDto, B
     @Override
     protected void convert(BaseViewHolder helper, ShopCartListItemDto item) {
         helper.setText(R.id.tv_item_shop_cart_title, item.getName())
-                .setText(R.id.tv_item_shop_cart_price,"￥"+ item.getPrice())
+                .setText(R.id.tv_item_shop_cart_price,"¥"+ item.getPrice())
                 .setText(R.id.count, item.getQty())
 //                .addOnClickListener(R.id.tv_item_shop_cart_delete)
 //                .addOnClickListener(R.id.tv_item_shop_cart_save)

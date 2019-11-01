@@ -1,5 +1,6 @@
 package com.hqmy.market.view.mainfragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseApplication;
 import com.hqmy.market.base.BaseFragment;
+import com.hqmy.market.bean.BannerInfoDto;
+import com.hqmy.market.bean.BannerItemDto;
 import com.hqmy.market.bean.CountOrderBean;
 import com.hqmy.market.bean.CountStatisticsBean;
 import com.hqmy.market.bean.PersonalInfoDto;
@@ -35,6 +38,7 @@ import com.hqmy.market.view.activity.AccountSettingActivity;
 import com.hqmy.market.view.activity.AttentionActivity;
 import com.hqmy.market.view.activity.BankCardManagerActivity;
 import com.hqmy.market.view.activity.CollectActivity;
+import com.hqmy.market.view.activity.ConturyActivity;
 import com.hqmy.market.view.activity.EnterprisePermissionActivity;
 import com.hqmy.market.view.activity.HelpCenterActivity;
 import com.hqmy.market.view.activity.InviteFriendsActivity;
@@ -49,10 +53,16 @@ import com.hqmy.market.view.activity.OrderActivity;
 import com.hqmy.market.view.activity.RechargeWebActivity;
 import com.hqmy.market.view.activity.RefundAfterSalesActivity;
 import com.hqmy.market.view.activity.RequestLivePermissionActivity;
+import com.hqmy.market.view.activity.ShopStoreDetailActivity;
 import com.hqmy.market.view.activity.UserInfoActivity;
 import com.hqmy.market.view.adapter.ServiceMenuAdapter;
+import com.hqmy.market.view.mainfragment.consume.BrandShopDetailActivity;
+import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 import com.hqmy.market.view.widgets.CircleImageView;
 import com.hqmy.market.view.widgets.RedDotLayout;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.loader.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -119,7 +129,7 @@ public class MeFragment extends BaseFragment {
     LinearLayout   llRefundAfterSales;
 
     @BindView(R.id.iv_banner)
-    ImageView    ivBanner;
+    Banner       banner;
     @BindView(R.id.ll_sm)
     LinearLayout llSm;
     @BindView(R.id.ll_dp)
@@ -195,26 +205,105 @@ public class MeFragment extends BaseFragment {
             }
         });
     }
+    private void startBanner(List<BannerItemDto> data) {
+        //设置banner样式(显示圆形指示器)
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        //设置指示器位置（指示器居右）
+        banner.setIndicatorGravity(BannerConfig.CENTER);
 
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        banner.setImages(data);
+        //设置banner动画效果
+        //        banner.setBannerAnimation(Transformer.DepthPage);
+        //设置标题集合（当banner样式有显示title时）
+        //        banner.setBannerTitles(titles);
+        //设置自动轮播，默认为true
+        banner.isAutoPlay(true);
+        //设置轮播时间
+        banner.setDelayTime(3000);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
+    }
+
+    public class GlideImageLoader extends ImageLoader {
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            BannerItemDto slidersDto = (BannerItemDto) path;
+            String imgStr = slidersDto.getPath();
+            if (imgStr != null) {
+                if (imgStr.contains("http://")) {
+                    GlideUtils.getInstances().loadRoundCornerImg(getActivity(), imageView, 2,imgStr, R.mipmap.img_default_3);
+                } else {
+                    GlideUtils.getInstances().loadRoundCornerImg(getActivity(), imageView, 2,Constants.WEB_IMG_URL_UPLOADS + imgStr, R.mipmap.img_default_3);
+                }
+            }
+            imageView.setOnClickListener(new View.OnClickListener() {
+//                product_default:商品
+//                seller_default:商家
+                @Override
+                public void onClick(View v) {
+                    if(slidersDto.getClick_event_type().equals("product_default")){
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CommodityDetailActivity.FROM, "gc");
+                        bundle.putString(CommodityDetailActivity.PRODUCT_ID, slidersDto.getClick_event_value());
+                        bundle.putString(CommodityDetailActivity.MALL_TYPE, "gc");
+                        gotoActivity(CommodityDetailActivity.class, bundle);
+                    }else if(slidersDto.getClick_event_type().equals("seller_default")){
+                        Intent intent = new Intent(context, BrandShopDetailActivity.class);
+                        intent.putExtra("id",slidersDto.getClick_event_value());
+                        context.startActivity(intent);
+                    }
+                }
+            });
+
+
+        }
+    }
+
+    public void gotoActivity(Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent(getActivity(), clz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+    }
     @Override
     protected void initData() {
 
-        getMenu();
+        getBottenBanner();
     }
 
     @Override
     protected void initListener() {
 
     }
-     public boolean isFisrt;
+    private void getBottenBanner() {
+        //showLoadDialog();
+        DataManager.getInstance().getBannerList(new DefaultSingleObserver<HttpResult<BannerInfoDto>>() {
+            @Override
+            public void onSuccess(HttpResult<BannerInfoDto> result) {
+                //dissLoadDialog();
+                if (result != null) {
+                    if (result.getData() != null&&result.getData().user_center_center.size()>0) {
+                        List<BannerItemDto> bannerList = result.getData().user_center_center;
+                        startBanner(bannerList);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                //dissLoadDialog();
+            }
+        }, "user_center_center");
+    }
     @Override
     public void onResume() {
         super.onResume();
-        if(isFisrt){
-            getUserInfo();
-        }else {
-            isFisrt=true;
-        }
+        getUserInfo();
 
     }
     @Override
@@ -222,6 +311,7 @@ public class MeFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             getUserInfo();
+            getMenu();
         }
     }
     private void userCountStatistics() {
@@ -256,12 +346,21 @@ public class MeFragment extends BaseFragment {
                     CountOrderBean data = countOrderBean.getData();
                     if(TextUtil.isNotEmpty(data.getPaid())){
                         reOrderDaifahuo.setText(data.getPaid());
-                    }if(TextUtil.isNotEmpty(data.getShipped())){
+                    }else {
+                        reOrderDaifahuo.setText("");
+                    }
+                    if(TextUtil.isNotEmpty(data.getShipped())){
                         reOrderDaipingjia.setText(data.getShipped());
+                    }else {
+                        reOrderDaipingjia.setText("");
                     }if(TextUtil.isNotEmpty(data.getShipping())){
                         reOrderDaishouhuo.setText(data.getShipping());
+                    }else {
+                        reOrderDaishouhuo.setText("");
                     }if(TextUtil.isNotEmpty(data.getCreated())){
                         reOrderDaifukuan.setText(data.getCreated());
+                    }else {
+                        reOrderDaifukuan.setText("");
                     }
                 }
             }
@@ -280,6 +379,8 @@ public class MeFragment extends BaseFragment {
                 if (countOrderBean != null && countOrderBean.getData() != null) {
                     if(Double.valueOf(countOrderBean.getData())!=0){
                         reOrderTuikuan.setText(countOrderBean.getData());
+                    }else {
+                        reOrderTuikuan.setText("");
                     }
 
                 }
@@ -295,24 +396,6 @@ public class MeFragment extends BaseFragment {
     }
 
 
-    private void getShopInfo() {
-        DataManager.getInstance().getShopInfo(new DefaultSingleObserver<HttpResult<ShopInfoDto>>() {
-            @Override
-            public void onSuccess(HttpResult<ShopInfoDto> countOrderBean) {
-                if (countOrderBean != null && countOrderBean.getData() != null) {
-
-                }
-
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-
-
-            }
-        }, id);
-    }
-
 
     private String id;
     private int state;
@@ -327,22 +410,26 @@ public class MeFragment extends BaseFragment {
                 userCountStatistics();
                 getAllUserOrdersCount();
                 getAlOrdersRefundCount();
-                getShopInfo();
+//                getShopInfo();
                 if (mPersonalInfoDto != null) {
                     if(mPersonalInfoDto.real_name!=null&&TextUtils.isEmpty(mPersonalInfoDto.real_name.status)){
                         tvState.setVisibility(View.VISIBLE);
                         tvState.setVisibility(View.VISIBLE);
 
                         if(mPersonalInfoDto.real_name!=null&&mPersonalInfoDto.real_name.data!=null&&mPersonalInfoDto.real_name.data.status!=null){
+                            BaseApplication.real_state=mPersonalInfoDto.real_name.data.status;
                             if(mPersonalInfoDto.real_name.data.status.equals("1")&&!TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
                                 tvState.setText("已认证");
                                 state=1;
                             }else if(mPersonalInfoDto.real_name.data.status.equals("0")&&TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
-                                tvState.setText("未审核");
+                                tvState.setText("认证中");
                                 state=1;
 
-                            }else if(mPersonalInfoDto.real_name.data.status.equals("1")&&TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
-                                tvState.setText("认证拒绝");
+                            }else if(mPersonalInfoDto.real_name.data.status.equals("2")&&!TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
+                                tvState.setText("认证失败");
+                                state=0;
+                            }else if(mPersonalInfoDto.real_name.data.status.equals("-1")&&TextUtils.isEmpty(mPersonalInfoDto.real_name.data.real_name)){
+                                tvState.setText("未认证");
                                 state=0;
                             }else {
                                 tvState.setText("认证中");
@@ -353,12 +440,14 @@ public class MeFragment extends BaseFragment {
                             tvSh.setText("未认证");
                         }
                         if(mPersonalInfoDto.seller!=null&&mPersonalInfoDto.seller.data!=null&&mPersonalInfoDto.seller.data.status!=null){
+
+
                             if(mPersonalInfoDto.seller.data.status.equals("1")){
                                 tvSh.setText("待审核");
                                 states=1;
                             }else if(mPersonalInfoDto.seller.data.status.equals("2")){
                                 tvSh.setText("审核通过");
-                                states=1;
+                                states=2;
                             }else if(mPersonalInfoDto.seller.data.status.equals("3")){
                                 tvSh.setText("审核拒绝");
                                 states=0;
@@ -449,13 +538,23 @@ public class MeFragment extends BaseFragment {
             case R.id.ll_sm://实名
                 if(state==0){
                     gotoActivity(RequestLivePermissionActivity.class);
+                }else {
+                    ToastUtil.showToast(tvState.getText().toString());
                 }
 
                 break;
             case R.id.ll_dp://店铺
                 if(states==0){
                     gotoActivity(EnterprisePermissionActivity.class);
-                }
+                }  else if(states==2) {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ShopStoreDetailActivity.SHOP_DETAIL_ID, mPersonalInfoDto.seller.data.id);
+                    gotoActivity(ShopStoreDetailActivity.class, false, bundle);
+                }else {
+
+                ToastUtil.showToast(tvSh.getText().toString());
+            }
 
                 break;
             case R.id.ll_kf://客服
@@ -576,6 +675,17 @@ public class MeFragment extends BaseFragment {
      * 退出登录 重置UI
      */
     private void resetUI() {
+        GlideUtils.getInstances().loadUserRoundImg(getActivity(), civUserAvatar, "");
+        tvName.setText("");
+
+            tvSc.setText("");
+            tvGz.setText("");
+            tvZj.setText("");
+        reOrderTuikuan.setText("");
+        reOrderDaifahuo.setText("");
+        reOrderDaipingjia.setText("");
+        reOrderDaishouhuo.setText("");
+        reOrderDaifukuan.setText("");
 
     }
 

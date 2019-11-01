@@ -52,6 +52,8 @@
                 <RelativeLayout
                     android:layout_marginLeft="55dp"
                     android:layout_marginRight="50dp"
+                    android:focusableInTouchMode="true"
+                    android:focusable="true"
                     android:layout_marginTop="@dimen/bj_7dp"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/shop_searh_bg"
@@ -73,6 +75,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
                         android:background="@null"
+
+                        android:imeOptions="actionSearch"
                         android:hint="请输入搜素关键字"
                         android:textColorHint="@color/white"
                         android:singleLine="true"
@@ -128,6 +132,7 @@
 
             </LinearLayout>
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_attention"
                 android:layout_marginRight="13dp"
                 android:layout_marginLeft="13dp"

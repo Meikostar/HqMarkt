@@ -13,6 +13,7 @@ public class BaseDto1 {
     public String         instructions;
     public List<String>         imgs;
     public String         real_name;
+    public String         brand_page_background;
     public String         status;
     public String         price;
     public String         logo;

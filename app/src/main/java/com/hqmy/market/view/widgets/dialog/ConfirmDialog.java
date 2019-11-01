@@ -1,6 +1,7 @@
 package com.hqmy.market.view.widgets.dialog;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class ConfirmDialog extends BaseDialog {
         //按空白处不能取消动画
         setCanceledOnTouchOutside(false);
         btn_sure = (Button) findViewById(R.id.yes);
+        line = (View) findViewById(R.id.line);
         btn_cancel = (Button) findViewById(R.id.no);
         titleTv = (TextView) findViewById(R.id.title);
         messageTv = (TextView) findViewById(R.id.message);
@@ -64,7 +66,12 @@ public class ConfirmDialog extends BaseDialog {
             btn_cancel.setText(noStr);
         }
     }
-
+    public void setCancelGone(){
+        if(btn_cancel!=null){
+            btn_cancel.setVisibility(View.GONE);
+            line.setVisibility(View.GONE);
+        }
+    }
     /**
      * 初始化界面的确定和取消监听器
      */

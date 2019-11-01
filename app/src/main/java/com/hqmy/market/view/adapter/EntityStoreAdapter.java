@@ -11,7 +11,7 @@ import com.hqmy.market.R;
 import com.hqmy.market.bean.RecommendListDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
-import com.hqmy.market.view.mainfragment.consume.ShopDetailActivity;
+import com.hqmy.market.view.activity.ShopDetailActivity;
 
 import java.util.List;
 import java.text.DecimalFormat;
@@ -48,8 +48,8 @@ public class EntityStoreAdapter extends BaseQuickAdapter<RecommendListDto, BaseV
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
                     bundle.putString(ShopDetailActivity.SHOP_DETAIL_ID, item.getId());
-                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LAT, item.getLat());
-                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LNG, item.getLng());
+//                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LAT, item.getLat());
+//                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LNG, item.getLng());
                     gotoActivity(ShopDetailActivity.class, bundle);
                 }
             });

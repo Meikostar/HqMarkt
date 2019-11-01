@@ -27,6 +27,8 @@ import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.view.adapter.GoodsAttrAdapter;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,13 +120,19 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
             }
             tv_dialog_select_commodity_count.setText("" + goodscount);
             tv_commodity_count.setText("" + goodscount);
-            tv_commodity_total_price.setText("￥"+String.valueOf(Double.valueOf(strPrice) * Double.parseDouble("" + goodscount)));
+            double price=Double.valueOf(strPrice) * Double.parseDouble("" + goodscount);
+            DecimalFormat decimalFormat =new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+            String distanceString = decimalFormat.format(price) ;
+            tv_commodity_total_price.setText("¥"+distanceString);
         });
         bindClickEvent(iv_dialog_select_commodity_increase, () -> {
               ++goodscount;
               tv_dialog_select_commodity_count.setText("" + goodscount);
               tv_commodity_count.setText("" + goodscount);
-              tv_commodity_total_price.setText("￥"+String.valueOf(Double.parseDouble(strPrice) * Double.parseDouble("" + goodscount)));
+            double price=Double.valueOf(strPrice) * Double.parseDouble("" + goodscount);
+            DecimalFormat decimalFormat =new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+            String distanceString = decimalFormat.format(price) ;
+              tv_commodity_total_price.setText("¥"+distanceString);
         });
         bindClickEvent(clean, () -> {
             hide();
@@ -172,7 +180,10 @@ public class ShopProductTypeDialog extends Dialog implements GoodsAttrAdapter.Go
             goodscount = minBuy;
             tv_commodity_count.setText(cDetailInfo.getExt().getMin_buy());
             tv_dialog_select_commodity_count.setText("" + goodscount);
-            tv_commodity_total_price.setText(String.valueOf(Double.valueOf(strPrice) * Double.parseDouble("" + goodscount)));
+            double prices=Double.valueOf(strPrice) * Double.parseDouble("" + goodscount);
+            DecimalFormat decimalFormat =new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+            String  distanceString= decimalFormat.format(prices) ;
+            tv_commodity_total_price.setText(distanceString);
         }else {
             tv_commodity_count.setText("1");
         }

@@ -37,6 +37,8 @@ public  class ConturyAdapter extends BaseRecycleViewAdapter implements AutoLocat
         AreaDto data= (AreaDto) datas.get(position);
         if(TextUtil.isNotEmpty(data.title)){
             holders.tv_content.setText(data.title);
+        }else {
+            holders.tv_content.setText("");
         }
 
 //
@@ -73,7 +75,7 @@ public  class ConturyAdapter extends BaseRecycleViewAdapter implements AutoLocat
         ItemViewHolder holders = (ItemViewHolder) holder;
 
         if(isSelected){
-            holders.tv_content.setTextSize(15);
+            holders.tv_content.setTextSize(18);
             TextPaint tp = holders.tv_content.getPaint();
             tp.setFakeBoldText(true);
             holders.line.setVisibility(View.VISIBLE);
@@ -81,7 +83,7 @@ public  class ConturyAdapter extends BaseRecycleViewAdapter implements AutoLocat
 
         }else {
             holders.line.setVisibility(View.GONE);
-            holders.tv_content.setTextSize(14);
+            holders.tv_content.setTextSize(13);
             TextPaint tp = holders.tv_content.getPaint();
             tp.setFakeBoldText(false);
             holders.tv_content.setTextColor(context.getColor(R.color.my_color_333333));

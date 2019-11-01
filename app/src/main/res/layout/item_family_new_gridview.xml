@@ -9,8 +9,7 @@
         android:id="@+id/iv_item_family_new"
         android:layout_width="@dimen/bj_110dp"
         android:layout_height="@dimen/bj_110dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/family_new_default" />
+        android:scaleType="centerCrop" />
     <TextView
         android:id="@+id/tv_item_family_new_title"
         android:layout_width="match_parent"

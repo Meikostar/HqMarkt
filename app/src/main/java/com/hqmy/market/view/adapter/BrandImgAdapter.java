@@ -83,12 +83,7 @@ public class BrandImgAdapter extends BaseAdapter {
         }
         GlideUtils.getInstances().loadNormalImg(context,holder.iv_img,data.get(i));
 
-        holder.ll_bg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
         // PROFILE_ITEM item = list.get(i);
         return view;
     }

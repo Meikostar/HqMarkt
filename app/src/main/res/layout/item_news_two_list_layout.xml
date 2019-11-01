@@ -54,7 +54,7 @@
             android:layout_height="@dimen/bj_60dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/img_default_one"
+
             android:scaleType="fitXY"/>
      <TextView
          android:id="@+id/tv_two_title"

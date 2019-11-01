@@ -9,8 +9,7 @@
         android:id="@+id/iv_item_integral_balance_icon"
         android:layout_width="@dimen/bj_55dp"
         android:layout_height="@dimen/bj_55dp"
-        android:layout_centerVertical="true"
-        android:src="@mipmap/img_default_topic" />
+        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/tv_item_integral_balance_name"

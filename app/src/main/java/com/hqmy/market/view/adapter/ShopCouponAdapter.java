@@ -53,7 +53,7 @@ public class ShopCouponAdapter extends MyBaseAdapter<CouponBean> {
         if ("2".equals(item.getDiscount_type())) {
             holder.tv_coupon_title.setText(Double.valueOf(item.getDiscount_value()) * 10 + "折优惠券");
         } else {
-            holder.tv_coupon_title.setText("￥" + item.getDiscount_value() + "元优惠券");
+            holder.tv_coupon_title.setText("¥" + item.getDiscount_value() + "元优惠券");
         }
         if ("2".equals(item.getCoupon_type())) {
             holder.tv_coupon_description.setVisibility(View.VISIBLE);
