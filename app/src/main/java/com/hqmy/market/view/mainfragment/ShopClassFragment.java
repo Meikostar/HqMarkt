@@ -214,7 +214,7 @@ public class ShopClassFragment extends BaseFragment {
                 dto.title="为你推荐";
                 dto.setId(-1);
                 StoreCategoryDto dto1=new StoreCategoryDto();
-                dto1.title="品牌管";
+                dto1.title="品牌馆";
                 dto1.setId(-2);
                 allData.add(dto);
                 allData.add(dto1);

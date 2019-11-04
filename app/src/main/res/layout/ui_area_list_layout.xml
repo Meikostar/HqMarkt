@@ -8,6 +8,7 @@
     <include layout="@layout/action_bar" />
 
     <TextView
+
         android:id="@+id/tv_area_parent_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bj_40dp"

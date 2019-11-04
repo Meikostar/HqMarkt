@@ -9,6 +9,8 @@ import java.util.List;
 public class AllCityDto implements Serializable {
      private String                   id;
      private String                   name;
+     public String                   cat_name;
+     public String                   title;
      private String                   parent_id;
      private String                   _lft;
      private String                   _rgt;

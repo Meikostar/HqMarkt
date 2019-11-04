@@ -93,7 +93,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.hqmy.market.SplashActivity"
+            android:name=".view.WelcomeActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -135,6 +135,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.XgPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.SelectConturyActivity"
             android:screenOrientation="portrait" />
 
         <activity

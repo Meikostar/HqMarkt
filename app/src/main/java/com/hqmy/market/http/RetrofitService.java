@@ -405,6 +405,12 @@ public interface RetrofitService {
     Single<HttpResult<List<AreaDto>>> getCategorisContury();
 
 
+    /**
+     * 国家
+     */
+    @GET("api/package/category_new/brand/categories")
+    Single<HttpResult<List<AllCityDto>>> getConturyData();
+
     @GET("api/package/mall/default/brands")
     Single<HttpResult<List<AreaDto>>> getBrandsByCate(@Query("filter[category_id]") String id);
     /**
@@ -821,7 +827,11 @@ public interface RetrofitService {
     @POST("/api/sellers")
     Single<HttpResult<Object>> upSellers(@Header("Authorization") String token, @Body HashMap<String, String> map);
 
-
+    /**
+     * 分类列表
+     */
+    @GET("api/live/cates")
+    Single<HttpResult<List<AllCityDto>>> liveCate(@Query("is_recommended") int is_recommended);
     /**
      * 分类列表
      */
@@ -957,6 +967,8 @@ public interface RetrofitService {
     @GET("api/package/mall/default/brands")
     Single<HttpResult<List<NewListItemDto>>> getConturyProduct(@QueryMap Map<String, String> map);
 
+    @GET("api/package/mall/default/brands")
+    Single<HttpResult<List<AllCityDto>>> getConturyProducts(@QueryMap Map<String, String> map);
 
     /**
      * 爱心头条详情

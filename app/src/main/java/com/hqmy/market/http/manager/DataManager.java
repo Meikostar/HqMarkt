@@ -695,6 +695,11 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
+    public void getConturyData(DefaultSingleObserver<HttpResult<List<AllCityDto>>> observer) {
+        Single<HttpResult<List<AllCityDto>>> observable = retrofitService.getConturyData()
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
 
     public void getBrandsByCate(DefaultSingleObserver<HttpResult<List<AreaDto>>> observer,String id) {
         Single<HttpResult<List<AreaDto>>> observable = retrofitService.getBrandsByCate(id)
@@ -1152,11 +1157,21 @@ public class DataManager {
         subscribe(observable, observer);
     }
 
+
     /**
      * 获取直播分类
      */
     public void getLiveCates(DefaultSingleObserver<HttpResult<List<LiveCatesBean>>> observer, int is_recommended) {
         Single<HttpResult<List<LiveCatesBean>>> observable = retrofitService.liveCates(is_recommended)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+    /**
+     * 获取直播分类
+     */
+    public void getLiveCate(DefaultSingleObserver<HttpResult<List<AllCityDto>>> observer, int is_recommended) {
+        Single<HttpResult<List<AllCityDto>>> observable = retrofitService.liveCate(is_recommended)
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
@@ -1466,7 +1481,11 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
-
+    public void getConturyProducts(DefaultSingleObserver<HttpResult<List<AllCityDto>>> observer, Map<String, String> map) {
+        Single<HttpResult<List<AllCityDto>>> observable = retrofitService.getConturyProducts(map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
     /**
      *爱心头条详情
      */
