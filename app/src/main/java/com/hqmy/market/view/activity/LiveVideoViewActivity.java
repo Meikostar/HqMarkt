@@ -128,13 +128,10 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
     LinearLayout ll_bg;
     @BindView(R.id.fl_shop)
     FrameLayout  fl_shop;
-
     @BindView(R.id.view)
     View     mView;
     @BindView(R.id.tv_size)
     TextView tv_size;
-
-
     private LiveVideoViewAdapter   mAdapter;
     private LiveProductItemAdapter mProductAdapter;
     @BindView(R.id.giftView)
@@ -547,13 +544,17 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.rl_bg:
-                        Bundle bundle = new Bundle();
-                        bundle.getString(CommodityDetailActivity.PRODUCT_ID, products.get(position).getId());
-                        gotoActivity(CommodityDetailActivity.class, false, bundle);
-             
-                        break;
-                    case R.id.img:
 
+                    case R.id.img:
+                        Bundle bundle = new Bundle();
+                        String id = products.get(position).getId();
+                        //                        bundle.getString(CommodityDetailActivity.PRODUCT_ID, id);
+                        //                        gotoActivity(CommodityDetailActivity.class, false, bundle);
+                        //                        Bundle bundle = new Bundle();
+                        bundle.putString(CommodityDetailActivity.PRODUCT_ID, id);
+                        Intent intent = new Intent(LiveVideoViewActivity.this,CommodityDetailActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                         break;
                 }
             }

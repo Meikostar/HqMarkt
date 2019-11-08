@@ -33,7 +33,7 @@ public class WelcomeActivity extends BaseActivity {
     @BindView(R.id.time)
     TextView  time;
     @BindView(R.id.btn)
-    TextView  btn;
+    View  btn;
     @BindView(R.id.viewpager)
     ViewPager viewpager;
 
@@ -81,7 +81,7 @@ public class WelcomeActivity extends BaseActivity {
 
         viewpager.setVisibility(View.VISIBLE);
         viewpager.setAdapter(new SplashAdapter(this));
-
+        btn.setVisibility(View.GONE);
         handler.sendEmptyMessageDelayed(0, delay);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +156,7 @@ public class WelcomeActivity extends BaseActivity {
         if (!isFirstRun) {
             firstRun();
         } else {
+            btn.setVisibility(View.GONE);
             webView.setVisibility(View.VISIBLE);
             webView.setVerticalScrollBarEnabled(false); //垂直滚动条不显示
             webView.setHorizontalScrollBarEnabled(false);//水平不显示

@@ -222,7 +222,7 @@ public class EntityStoreActivity extends BaseActivity {
                         singleFirstList.add(firstClassItem);
                     }
                 }
-                initLevelsAllPopup();
+//                initLevelsAllPopup();
             }
 
             @Override
@@ -318,103 +318,103 @@ public class EntityStoreActivity extends BaseActivity {
     }
 
     private void initLevelsAllPopup(){
-        levelsAllPopupWindow = new PopupWindow(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.levels_all_popup_layout, null);
-        singleLeftLV = (ListView) view.findViewById(R.id.pop_listview_single_left);
-
-        levelsAllPopupWindow.setContentView(view);
-        levelsAllPopupWindow.setBackgroundDrawable(new PaintDrawable());
-        levelsAllPopupWindow.setFocusable(false);
-        levelsAllPopupWindow.setHeight(ScreenUtils.getScreenH(this) * 1 / 2);
-        levelsAllPopupWindow.setWidth(ScreenUtils.getScreenW(this));
-        levelsAllPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                singleLeftLV.setSelection(0);
-            }
-        });
-        //加载一级分类
-        SingleFirstClassAdapter singleFirstAdapter = new SingleFirstClassAdapter(this, singleFirstList);
-        singleLeftLV.setAdapter(singleFirstAdapter);
-        singleLeftLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                 levelsAllPopupWindow.dismiss();
-
-             }
-        });
-    }
+//        levelsAllPopupWindow = new PopupWindow(this);
+//    View view = LayoutInflater.from(this).inflate(R.layout.levels_all_popup_layout, null);
+////    singleLeftLV = (ListView) view.findViewById(R.id.pop_listview_single_left);
+//
+//        levelsAllPopupWindow.setContentView(view);
+//        levelsAllPopupWindow.setBackgroundDrawable(new PaintDrawable());
+//        levelsAllPopupWindow.setFocusable(false);
+//        levelsAllPopupWindow.setHeight(ScreenUtils.getScreenH(this) * 1 / 2);
+//        levelsAllPopupWindow.setWidth(ScreenUtils.getScreenW(this));
+//        levelsAllPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//        @Override
+//        public void onDismiss() {
+//            singleLeftLV.setSelection(0);
+//        }
+//    });
+//    //加载一级分类
+//    SingleFirstClassAdapter singleFirstAdapter = new SingleFirstClassAdapter(this, singleFirstList);
+//        singleLeftLV.setAdapter(singleFirstAdapter);
+//        singleLeftLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            levelsAllPopupWindow.dismiss();
+//
+//        }
+//    });
+}
 
 
     private void initLevelsNearPopup() {
-        levelsPopupWindow = new PopupWindow(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.levels_popup_layout, null);
-        leftLV = (ListView) view.findViewById(R.id.pop_listview_left);
-        rightLV = (ListView) view.findViewById(R.id.pop_listview_right);
-
-        levelsPopupWindow.setContentView(view);
-        levelsPopupWindow.setBackgroundDrawable(new PaintDrawable());
-        levelsPopupWindow.setFocusable(false);
-        levelsPopupWindow.setHeight(ScreenUtils.getScreenH(this) * 1 / 2);
-        levelsPopupWindow.setWidth(ScreenUtils.getScreenW(this));
-        levelsPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                leftLV.setSelection(0);
-                rightLV.setSelection(0);
-            }
-        });
-        //为了方便扩展，这里的两个ListView均使用BaseAdapter.如果分类名称只显示一个字符串，建议改为ArrayAdapter.
-        //加载一级分类
-        final FirstClassAdapter firstAdapter = new FirstClassAdapter(this, firstList);
-        leftLV.setAdapter(firstAdapter);
-        //加载左侧第一行对应右侧二级分类
-        secondList = new ArrayList<SecondClassItem>();
-        secondList.addAll(firstList.get(0).getSecondList());
-        final SecondClassAdapter secondAdapter = new SecondClassAdapter(this, secondList);
-        rightLV.setAdapter(secondAdapter);
-        //左侧ListView点击事件
-        leftLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //二级数据
-                List<SecondClassItem> list2 = firstList.get(position).getSecondList();
-                //如果没有二级类，则直接跳转
-                if (list2 == null || list2.size() == 0) {
-                    levelsPopupWindow.dismiss();
-                    int firstId = firstList.get(position).getId();
-                    String selectedName = firstList.get(position).getName();
-                    handleResult(firstId, -1, selectedName);
-                    return;
-                }
-                FirstClassAdapter adapter = (FirstClassAdapter) (parent.getAdapter());
-                //如果上次点击的就是这一个item，则不进行任何操作
-                if (adapter.getSelectedPosition() == position){
-                    return;
-                }
-                //根据左侧一级分类选中情况，更新背景色
-                adapter.setSelectedPosition(position);
-                adapter.notifyDataSetChanged();
-                //显示右侧二级分类
-                updateSecondListView(list2, secondAdapter);
-            }
-        });
-
-        //右侧ListView点击事件
-        rightLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //关闭popupWindow，显示用户选择的分类
-                levelsPopupWindow.dismiss();
-
-                int firstPosition = firstAdapter.getSelectedPosition();
-                int firstId = firstList.get(firstPosition).getId();
-                int secondId = firstList.get(firstPosition).getSecondList().get(position).getId();
-                String selectedName = firstList.get(firstPosition).getSecondList().get(position)
-                        .getName();
-                handleResult(firstId, secondId, selectedName);
-            }
-        });
+//        levelsPopupWindow = new PopupWindow(this);
+//        View view = LayoutInflater.from(this).inflate(R.layout.levels_popup_layout, null);
+//        leftLV = (ListView) view.findViewById(R.id.pop_listview_left);
+//        rightLV = (ListView) view.findViewById(R.id.pop_listview_right);
+//
+//        levelsPopupWindow.setContentView(view);
+//        levelsPopupWindow.setBackgroundDrawable(new PaintDrawable());
+//        levelsPopupWindow.setFocusable(false);
+//        levelsPopupWindow.setHeight(ScreenUtils.getScreenH(this) * 1 / 2);
+//        levelsPopupWindow.setWidth(ScreenUtils.getScreenW(this));
+//        levelsPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                leftLV.setSelection(0);
+//                rightLV.setSelection(0);
+//            }
+//        });
+//        //为了方便扩展，这里的两个ListView均使用BaseAdapter.如果分类名称只显示一个字符串，建议改为ArrayAdapter.
+//        //加载一级分类
+//        final FirstClassAdapter firstAdapter = new FirstClassAdapter(this, firstList);
+//        leftLV.setAdapter(firstAdapter);
+//        //加载左侧第一行对应右侧二级分类
+//        secondList = new ArrayList<SecondClassItem>();
+//        secondList.addAll(firstList.get(0).getSecondList());
+//        final SecondClassAdapter secondAdapter = new SecondClassAdapter(this, secondList);
+//        rightLV.setAdapter(secondAdapter);
+//        //左侧ListView点击事件
+//        leftLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                //二级数据
+//                List<SecondClassItem> list2 = firstList.get(position).getSecondList();
+//                //如果没有二级类，则直接跳转
+//                if (list2 == null || list2.size() == 0) {
+//                    levelsPopupWindow.dismiss();
+//                    int firstId = firstList.get(position).getId();
+//                    String selectedName = firstList.get(position).getName();
+//                    handleResult(firstId, -1, selectedName);
+//                    return;
+//                }
+//                FirstClassAdapter adapter = (FirstClassAdapter) (parent.getAdapter());
+//                //如果上次点击的就是这一个item，则不进行任何操作
+//                if (adapter.getSelectedPosition() == position){
+//                    return;
+//                }
+//                //根据左侧一级分类选中情况，更新背景色
+//                adapter.setSelectedPosition(position);
+//                adapter.notifyDataSetChanged();
+//                //显示右侧二级分类
+//                updateSecondListView(list2, secondAdapter);
+//            }
+//        });
+//
+//        //右侧ListView点击事件
+//        rightLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                //关闭popupWindow，显示用户选择的分类
+//                levelsPopupWindow.dismiss();
+//
+//                int firstPosition = firstAdapter.getSelectedPosition();
+//                int firstId = firstList.get(firstPosition).getId();
+//                int secondId = firstList.get(firstPosition).getSecondList().get(position).getId();
+//                String selectedName = firstList.get(firstPosition).getSecondList().get(position)
+//                        .getName();
+//                handleResult(firstId, secondId, selectedName);
+//            }
+//        });
     }
 
     //刷新右侧ListView

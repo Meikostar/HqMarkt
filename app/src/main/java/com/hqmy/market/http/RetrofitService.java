@@ -783,7 +783,7 @@ public interface RetrofitService {
     Single<HttpResult<List<ScoreBean>>> liveRewardWater(@Header("Authorization") String token, @QueryMap HashMap<String, String> map);
 
     /**
-     * 直播列表
+     * 直播列表/api/live/videos
      */
     @GET("api/live/video")
     Single<HttpResult<List<VideoLiveBean>>> liveVideos(@QueryMap HashMap<String, String> map);
