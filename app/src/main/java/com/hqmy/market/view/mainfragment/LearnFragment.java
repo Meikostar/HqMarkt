@@ -1,6 +1,7 @@
 package com.hqmy.market.view.mainfragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -28,6 +29,7 @@ import com.hqmy.market.http.response.HttpResult;
 import com.hqmy.market.view.activity.AddShippingAddressActivity;
 import com.hqmy.market.view.adapter.ConsumePushAdapter;
 import com.hqmy.market.view.adapter.ShopCartAdapter;
+import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 import com.hqmy.market.view.mainfragment.consume.ConfirmOrderActivity;
 import com.hqmy.market.view.mainfragment.consume.ShopCartActivity;
 import com.hqmy.market.view.widgets.RecyclerItemDecoration;
@@ -197,6 +199,16 @@ public class LearnFragment extends BaseFragment {
                 }
             }
         });
+        shopCartAdapter.setOnItemListener(new ShopCartAdapter.ClickItemListener() {
+            @Override
+            public void OnClickItemListerner(String id) {
+                Bundle bundle = new Bundle();
+                bundle.putString(CommodityDetailActivity.FROM, "gc");
+                bundle.putString(CommodityDetailActivity.PRODUCT_ID, id);
+                bundle.putString(CommodityDetailActivity.MALL_TYPE, "gc");
+                gotoActivity(CommodityDetailActivity.class, bundle);
+            }
+        });
 
         bindClickEvent(cb_shop_cart_all_sel, () -> {
             setAllCheckBoxStatus();
@@ -250,6 +262,13 @@ public class LearnFragment extends BaseFragment {
                 ToastUtil.showToast("请先选择商品");
             }
         });
+    }
+    public void gotoActivity(Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent(getActivity(), clz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
     }
     private boolean isGet;
     private int tag;

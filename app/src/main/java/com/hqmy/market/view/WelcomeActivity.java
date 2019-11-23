@@ -21,7 +21,17 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import com.hqmy.market.R;
 import com.hqmy.market.base.BaseActivity;
+import com.hqmy.market.bean.LoginDto;
+import com.hqmy.market.common.Constants;
+import com.hqmy.market.common.utils.ToastUtil;
+import com.hqmy.market.http.DefaultSingleObserver;
+import com.hqmy.market.http.error.ApiException;
+import com.hqmy.market.http.manager.DataManager;
+import com.hqmy.market.http.request.UserRegister;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.utils.TextUtil;
+import com.hqmy.market.view.activity.AfterLoginActivity;
+import com.hqmy.market.view.activity.LoginActivity;
 import com.hqmy.market.view.adapter.SplashAdapter;
 import com.tencent.smtt.sdk.TbsDownloader;
 
@@ -49,9 +59,23 @@ public class WelcomeActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
-            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            int anInt = ShareUtil.getInstance().getInt(Constants.IS_PASS, -1);
+            if(anInt==1){
+                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }else {
+                String username = ShareUtil.getInstance().getString(Constants.USER_ACCOUNT_NUMBER,"");
+                String password = ShareUtil.getInstance().getString(Constants.USER_PASSWORD,"");
+                if(TextUtil.isNotEmpty(username)&&TextUtil.isNotEmpty(password)){
+                    login(username,password);
+                }else {
+                    Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
         }
     };
     private Handler handler = new Handler() {
@@ -72,7 +96,32 @@ public class WelcomeActivity extends BaseActivity {
     public void initListener() {
 
     }
+    private void login(String username, String password) {
+        UserRegister userRegister = new UserRegister();
+        userRegister.setPhone(username);
+        userRegister.setPassword(password);
+        userRegister.setInclude("user.userExt");
 
+        DataManager.getInstance().login(new DefaultSingleObserver<LoginDto>() {
+            @Override
+            public void onSuccess(LoginDto loginDto) {
+                if(loginDto.getUser().getData().userExt!=null&&loginDto.getUser().getData() .userExt.data!=null){
+                    ShareUtil.getInstance().saveInt(Constants.IS_PASS, loginDto.getUser().getData().userExt.data.status);
+
+
+                }else {
+                    ShareUtil.getInstance().saveInt(Constants.IS_PASS, -1);
+                }
+                gotoActivity(LoginActivity.class, true);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+                ToastUtil.toast(ApiException.getHttpExceptionMessage(throwable));
+            }
+        }, userRegister);
+    }
 
     private void firstRun() {
 //        PreferenceManager.save("isFirstRun", false);
@@ -87,9 +136,15 @@ public class WelcomeActivity extends BaseActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                String username = ShareUtil.getInstance().getString(Constants.USER_ACCOUNT_NUMBER,"");
+                String password = ShareUtil.getInstance().getString(Constants.USER_PASSWORD,"");
+                if(TextUtil.isNotEmpty(username)&&TextUtil.isNotEmpty(password)){
+                    login(username,password);
+                }else {
+                    Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -156,6 +211,7 @@ public class WelcomeActivity extends BaseActivity {
         if (!isFirstRun) {
             firstRun();
         } else {
+
             btn.setVisibility(View.GONE);
             webView.setVisibility(View.VISIBLE);
             webView.setVerticalScrollBarEnabled(false); //垂直滚动条不显示

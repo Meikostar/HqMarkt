@@ -75,7 +75,7 @@ public class HotActivity extends BaseActivity {
         viewpagerMain.setBackgroundColor(getResources().getColor(R.color.my_color_9f));
         actionbar.setTitleColor(R.color.my_color_212121);
         spikeDto= (BaseDto) getIntent().getSerializableExtra("data");
-        state=getIntent().getIntExtra("state",1);
+        state=getIntent().getIntExtra("state",0);
         viewpagerMain.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

@@ -138,7 +138,7 @@ public class MyFootprintActivity extends BaseActivity {
         map.put("group_by_date", "1");
         map.put("include", "have_footprint.have_footprint");
         //        map.put("object_filter[type]", "lm,gc,st");
-        map.put("page", mPage + "");
+        map.put("page", currpage + "");
         //        map.put("per_page","100");
         DataManager.getInstance().userFootprints(new DefaultSingleObserver<HttpResult<List<FootInfoDto>>>() {
             @Override
@@ -184,14 +184,14 @@ public class MyFootprintActivity extends BaseActivity {
         }
 
 
-        if (haveNext) {
+        if (list.size()%15==0) {
             mSuperRecyclerView.setupMoreListener(new OnMoreListener() {
                 @Override
                 public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
                     currpage++;
                     mSuperRecyclerView.showMoreProgress();
 
-                    if (haveNext)
+                    if (list.size()%15==0)
                         loadData(TYPE_PULL_MORE);
                     mSuperRecyclerView.hideMoreProgress();
 

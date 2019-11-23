@@ -125,9 +125,9 @@ public class AttentionCommunityFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(TopicDetailActivity.TOPIC_ID, mAdapter.getItem(position).getId());
-                gotoActivity(TopicDetailActivity.class, false, bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(TopicDetailActivity.TOPIC_ID, mAdapter.getItem(position).getId());
+//                gotoActivity(TopicDetailActivity.class, false, bundle);
             }
         });
     }

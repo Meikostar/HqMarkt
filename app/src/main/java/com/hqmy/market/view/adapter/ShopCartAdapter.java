@@ -11,6 +11,7 @@ import com.hqmy.market.R;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hqmy.market.bean.ShopCartListDto;
 import com.hqmy.market.bean.ShopCartListItemDto;
+import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
@@ -45,6 +46,8 @@ public class ShopCartAdapter extends BaseQuickAdapter<ShopCartListDto, BaseViewH
         } else {
             helper.setText(R.id.tv_dianpu_name, "自营店铺");
         }
+        GlideUtils.getInstances().loadRoundImg(mContext,helper.getView(R.id.iv_shop),"http://app.b-market.shop/seller/"+item.getShop_id()+"/logo",R.drawable.moren_ren);
+
         helper.setChecked(R.id.cb_shop_cart, item.isSelect());
         helper.addOnClickListener(R.id.cb_shop_cart);
         RecyclerView rvlist = helper.getView(R.id.recy_shop_cart_item);
@@ -64,6 +67,13 @@ public class ShopCartAdapter extends BaseQuickAdapter<ShopCartListDto, BaseViewH
                 TextView tvCount = view.findViewById(R.id.count);
                 switch (view.getId()) {
 
+                    case R.id.ll_item_shop_cart_content_view:
+                        if(mClickItemListener!=null){
+                            mClickItemListener.OnClickItemListerner(shopCartListItemDto.getId());
+                        }
+                        setCommodityCountIncrease(shopCartItemAdapter, shopCartListItemDto);
+
+                        break;
                     case R.id.increase:
                         setCommodityCountIncrease(shopCartItemAdapter, shopCartListItemDto);
                         updateBottomView(selectList);
@@ -209,7 +219,13 @@ public class ShopCartAdapter extends BaseQuickAdapter<ShopCartListDto, BaseViewH
     public interface UpdateBottomListener {
         void OnBottomListener(Set<ShopCartListItemDto> selectList);
     }
-
+    public interface ClickItemListener {
+        void OnClickItemListerner(String id);
+    }
+    private ClickItemListener mClickItemListener;
+    public void setOnItemListener(ClickItemListener listener){
+        mClickItemListener=listener;
+    }
     private void refreshList(boolean isFresh){
         if (mRefreshListsListener != null) {
             mRefreshListsListener.OnRefreshListener(isFresh);

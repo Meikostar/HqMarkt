@@ -51,13 +51,13 @@
                           android:textColor="@color/my_color_333333"
                           android:textSize="@dimen/wz_16sp" />
                       <TextView
-                          android:visibility="gone"
+
                           android:id="@+id/tv_tgm"
                           android:layout_marginTop="@dimen/bj_5dp"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text=""
-                          android:textColor="@color/my_color_999999"
+                          android:text="邀请码:"
+                          android:textColor="@color/my_color_333333"
                           android:textSize="@dimen/wz_14sp" />
                   </LinearLayout>
 

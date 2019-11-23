@@ -120,9 +120,7 @@ dependencies {
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     //adapter 适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
-
     implementation 'com.malinskiy:superrecyclerview:1.1.4'
-
     //图片预览
     //融云 IM 通讯能力库
     //融云 IM 界面组件

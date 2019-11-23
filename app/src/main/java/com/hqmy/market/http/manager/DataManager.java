@@ -57,6 +57,7 @@ import com.hqmy.market.bean.OnlineApplyInfo;
 import com.hqmy.market.bean.OnlineLiveFinishBean;
 import com.hqmy.market.bean.OrderCheckoutBean;
 import com.hqmy.market.bean.OrderPreviewDto;
+import com.hqmy.market.bean.Param;
 import com.hqmy.market.bean.PersonalInfoDto;
 import com.hqmy.market.bean.ProductBean;
 import com.hqmy.market.bean.ProductDto;
@@ -1157,6 +1158,14 @@ public class DataManager {
         subscribe(observable, observer);
     }
 
+    /**
+     * 申请主播
+     */
+    public void afterLogin(DefaultSingleObserver<HttpResult<Object>> observer, HashMap<String, String> map) {
+        Single<HttpResult<Object>> observable = retrofitService.afterLogin(getToken(), map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
 
     /**
      * 获取直播分类
@@ -1202,7 +1211,14 @@ public class DataManager {
                 .map(new HttpResultMapper.HttpResultOtheData<>(null));
         subscribe(observable, observer);
     }
-
+    /**
+     * 课件分类
+     */
+    public void getTags(DefaultSingleObserver<Param> observer) {
+        Single<Param> observable = retrofitService.getTags()
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
     /**
      * 课件分类
      */

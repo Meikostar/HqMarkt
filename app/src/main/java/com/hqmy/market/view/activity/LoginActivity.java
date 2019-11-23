@@ -19,12 +19,20 @@ import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.LogUtil;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.db.bean.UserInfo;
+import com.hqmy.market.eventbus.FinishEvent;
+import com.hqmy.market.eventbus.LogoutEvent;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.http.request.UserRegister;
 import com.hqmy.market.utils.ShareUtil;
+import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.MainActivity;
+import com.hqmy.market.view.WelcomeActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,16 +57,29 @@ public class LoginActivity extends BaseActivity {
     public int getLayoutId() {
         return R.layout.activity_login;
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(FinishEvent event) {
+        finish();
+    }
 
     @Override
     public void initView() {
+        EventBus.getDefault().register(this);
+
         mTitleText.setText("登录");
         mBackImage.setImageResource(R.mipmap.arrow_topbar);
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void initData() {
         isRememberPasswordChecked = ShareUtil.getInstance().getBoolean(Constants.REMEMBER_PASSWORD,false);
+
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             if(bundle.getString("log_out").equals("LOG_OUT")){
@@ -79,6 +100,15 @@ public class LoginActivity extends BaseActivity {
             ShareUtil.getInstance().saveBoolean(Constants.REMEMBER_PASSWORD,false);
             ShareUtil.getInstance().save(Constants.USER_PASSWORD,"");
         }
+        mRememberPassword.setChecked(true);
+        int anInt = ShareUtil.getInstance().getInt(Constants.IS_PASS, -1);
+        if(anInt==0){
+            ToastUtil.showToast("审核中，请耐心等待审核!");
+        }else if(anInt==2) {
+            ToastUtil.showToast("审核失败，请重新提交审核");
+            gotoActivity(AfterLoginActivity.class, false);
+        }
+
     }
 
     @Override
@@ -130,12 +160,16 @@ public class LoginActivity extends BaseActivity {
     private void forgetPassword() {
         gotoActivity(ForgetPasswordActivity.class);
     }
-
+    private String initvate;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==100&&resultCode==RESULT_OK){
             String phone = data.getStringExtra("phone");
+            String phones = data.getStringExtra("phones");
+            if(TextUtil.isNotEmpty(phones)){
+                initvate=phones;
+            }
             mAccountNumber.setText(phone);
         }
     }
@@ -160,7 +194,7 @@ public class LoginActivity extends BaseActivity {
         UserRegister userRegister = new UserRegister();
         userRegister.setPhone(username);
         userRegister.setPassword(password);
-        userRegister.setInclude("user");
+        userRegister.setInclude("user.userExt");
         showLoadDialog();
         DataManager.getInstance().login(new DefaultSingleObserver<LoginDto>() {
             @Override
@@ -211,6 +245,7 @@ public class LoginActivity extends BaseActivity {
           if(mRememberPassword.isChecked()) {
               ShareUtil.getInstance().save(Constants.USER_PASSWORD, mPassword.getText().toString().trim());
               ShareUtil.getInstance().saveBoolean(Constants.REMEMBER_PASSWORD,true);
+
           }else{
               ShareUtil.getInstance().saveBoolean(Constants.REMEMBER_PASSWORD,false);
               ShareUtil.getInstance().save(Constants.USER_PASSWORD,"");
@@ -223,7 +258,38 @@ public class LoginActivity extends BaseActivity {
           }*/
           //setResult(Activity.RESULT_OK);
           //finish();
-          gotoActivity(MainActivity.class, true);
+          if(loginDto.getUser().getData().userExt!=null&&loginDto.getUser().getData() .userExt.data!=null){
+              ShareUtil.getInstance().saveInt(Constants.IS_PASS, loginDto.getUser().getData().userExt.data.status);
+              if(loginDto.getUser().getData().userExt.data.status==1){
+                  ShareUtil.getInstance().saveInt(Constants.IS_PASS, 1);
+                  gotoActivity(MainActivity.class, true);
+              }else if(loginDto.getUser().getData().userExt.data.status==2) {
+                  ToastUtil.showToast("审核失败，请重新提交审核");
+                  Intent intent = new Intent(LoginActivity.this, AfterLoginActivity.class);
+
+                  if(TextUtil.isNotEmpty(initvate)){
+                      intent.putExtra("phone",initvate);
+                  }
+                  startActivity(intent);
+//                  gotoActivity(AfterLoginActivity.class, false);
+              }else if(loginDto.getUser().getData().userExt.data.status==0){
+                  ToastUtil.showToast("审核中，请耐心等待审核!");
+
+              }
+
+
+          }else {
+              ToastUtil.showToast("审核失败，请重新提交审核");
+              Intent intent = new Intent(LoginActivity.this, AfterLoginActivity.class);
+
+              if(TextUtil.isNotEmpty(initvate)){
+                  intent.putExtra("phone",initvate);
+              }
+              startActivity(intent);
+          }
+
           LogUtil.i(TAG, "RxLog-Thread: onSuccess() = " + Long.toString(Thread.currentThread().getId()));
     }
+
+
 }

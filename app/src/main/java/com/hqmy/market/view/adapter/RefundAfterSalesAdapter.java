@@ -28,7 +28,8 @@ public class RefundAfterSalesAdapter extends BaseQuickAdapter<MyOrderDto, BaseVi
     protected void convert(BaseViewHolder helper, MyOrderDto item) {
         if (item.getOrder() != null&&item.getOrder().getData() != null && item.getOrder().getData().getShop() != null) {
             helper.setText(R.id.tv_item_order_store_name, item.getOrder().getData().getShop().getShop_name());
-            GlideUtils.getInstances().loadRoundImg(mContext,helper.getView(R.id.iv_img),item.getOrder().getData().getShop().getLogo(),R.drawable.moren_ren);
+//            GlideUtils.getInstances().loadRoundImg(mContext,helper.getView(R.id.iv_img),item.getOrder().getData().getShop().getLogo(),R.drawable.moren_ren);
+            GlideUtils.getInstances().loadRoundImg(mContext,helper.getView(R.id.iv_img),"http://app.b-market.shop/seller/"+ item.getShop_id()+"/logo",R.drawable.moren_ren);
 
         } else {
             helper.setText(R.id.tv_item_order_store_name, "");
@@ -53,6 +54,17 @@ public class RefundAfterSalesAdapter extends BaseQuickAdapter<MyOrderDto, BaseVi
                                 .setText(R.id.tv_itme_refund_after_sales_text, "再来一单")
                                 .setText(R.id.tv_detail, "共"+item.getOrder().getData().count+"件商品, "+"待退款");
                     }
+
+
+                break;
+            case "退款成功"://待支付
+                llbg.setVisibility(View.GONE);
+                if (item.getOrder() != null&&item.getOrder().getData() != null ) {
+                    helper.setText(R.id.tv_prices, "¥"+item.getOrder().getData().pay_total);
+                    helper.setVisible(R.id.tv_itme_refund_after_sales_text, true)
+                            .setText(R.id.tv_itme_refund_after_sales_text, "再来一单")
+                            .setText(R.id.tv_detail, "共"+item.getOrder().getData().count+"件商品, "+"待退款");
+                }
 
 
                 break;

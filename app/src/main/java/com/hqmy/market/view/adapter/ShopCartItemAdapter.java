@@ -27,6 +27,7 @@ public class ShopCartItemAdapter extends BaseQuickAdapter<ShopCartListItemDto, B
 //                .addOnClickListener(R.id.tv_item_shop_cart_delete)
 //                .addOnClickListener(R.id.tv_item_shop_cart_save)
                 .addOnClickListener(R.id.increase)
+                .addOnClickListener(R.id.ll_item_shop_cart_content_view)
                 .addOnClickListener(R.id.decrease);
         helper.setChecked(R.id.cb_item_shop_cart, item.isSelect());
         helper.addOnClickListener(R.id.cb_item_shop_cart);

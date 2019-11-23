@@ -63,6 +63,7 @@ import com.hqmy.market.view.mainfragment.consume.CommodityDetailActivity;
 import com.hqmy.market.view.widgets.PhotoPopupWindow;
 import com.hqmy.market.view.widgets.dialog.BaseDialog;
 import com.hqmy.market.view.widgets.dialog.ConfirmDialog;
+import com.hqmy.market.view.widgets.dialog.ConfirmDialogs;
 import com.hqmy.market.view.widgets.dialog.GifListDialog;
 import com.hqmy.market.view.widgets.dialog.InputPasswordDialog;
 import com.hqmy.market.view.widgets.dialog.PointAmountDialog;
@@ -922,10 +923,9 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
             danmuContainerView.addDanmu(danmuEntity);
         } else if (messageContent instanceof ChatroomEnd) {
             //主播结束直播
-            ConfirmDialog dialog = new ConfirmDialog(this);
+            ConfirmDialogs dialog = new ConfirmDialogs(this);
             dialog.setTitle("温馨提示");
             dialog.setMessage("主播已离开");
-            dialog.setCancelable(false);
             dialog.setCancelGone();
             dialog.setYesOnclickListener("确定", new BaseDialog.OnYesClickListener() {
 
@@ -935,6 +935,7 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
                     dialog.dismiss();
                 }
             });
+            dialog.show();
 
         } else if (messageContent instanceof ChatroomUser) {
             //房间人数
@@ -1128,13 +1129,31 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
         }, 500);
     }
 
+//    @Override
+//    public boolean handleMessage(android.os.Message msg) {
+//        switch (msg.what) {
+//            case ChatroomKit.MESSAGE_ARRIVED:
+//            case 30001:
+//                joinCha-`-
+    // +    +`-``+
+    //
+    //
+    // ·+-0987654321tRoom();
+//                break;
+//            case ChatroomKit.MESSAGE_SENT: {
+//                MessageContent messageContent = ((Message) msg.obj).getContent();
+//                setData(messageContent);
+//                break;
+//            }
+//
+//        }
+//        return false;
+//    }
+
     @Override
     public boolean handleMessage(android.os.Message msg) {
         switch (msg.what) {
             case ChatroomKit.MESSAGE_ARRIVED:
-            case 30001:
-                joinChatRoom();
-                break;
             case ChatroomKit.MESSAGE_SENT: {
                 MessageContent messageContent = ((Message) msg.obj).getContent();
                 setData(messageContent);

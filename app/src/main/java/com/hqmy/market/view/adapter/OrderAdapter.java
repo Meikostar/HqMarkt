@@ -85,6 +85,7 @@ public class OrderAdapter extends BaseQuickAdapter<MyOrderDto, BaseViewHolder> {
                 helper.setVisible(R.id.tv_button_1, true);
                 if (item.getRefundInfo() != null && item.getRefundInfo().getData() != null) {
                     //退款中
+
                     helper.setText(R.id.tv_button_1, "取消退款");
                 } else {
                     helper.setVisible(R.id.tv_button_2, true)

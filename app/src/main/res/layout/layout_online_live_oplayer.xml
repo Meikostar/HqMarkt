@@ -38,7 +38,7 @@
         android:background="@drawable/shape_radius_15_f7f7f7"
         android:drawableLeft="@mipmap/search"
         android:drawablePadding="@dimen/bj_10dp"
-        android:hint="搜索房间号或主播"
+        android:hint="搜索房间号/标题"
         android:paddingLeft="@dimen/bj_10dp"
         android:textColorHint="#ffa8a8ad"
         android:textSize="14sp" />

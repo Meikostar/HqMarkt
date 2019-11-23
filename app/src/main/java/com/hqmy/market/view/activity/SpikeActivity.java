@@ -69,7 +69,7 @@ public class SpikeActivity extends BaseActivity {
             }
         });
         spikeDto= (BaseDto) getIntent().getSerializableExtra("data");
-        state=getIntent().getIntExtra("state",1);
+        state=getIntent().getIntExtra("state",0);
         viewpagerMain.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

@@ -7,19 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hqmy.market.R;
 import com.hqmy.market.bean.AreaDto;
-import com.hqmy.market.bean.BannerDto;
 import com.hqmy.market.common.Constants;
-import com.hqmy.market.common.utils.GlideUtils;
-import com.hqmy.market.common.utils.StringUtil;
 import com.hqmy.market.view.activity.ConturyDetialActivity;
-import com.hqmy.market.view.widgets.GlideCircleBorderTransform;
+import com.hqmy.market.view.widgets.CircleImageView;
+
 
 import java.util.List;
 
@@ -70,7 +67,7 @@ public class Areadapter extends BaseAdapter {
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = inflater.inflate(R.layout.tools_item, null);
+            view = inflater.inflate(R.layout.tools_items, null);
             holder.txt_name = view.findViewById(R.id.txt_name);
             holder.img_icon = view.findViewById(R.id.img_icon);
             holder.ll_bg = view.findViewById(R.id.ll_bg);
@@ -98,11 +95,12 @@ public class Areadapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-        Glide.with(context).load(Constants.WEB_IMG_URL_UPLOADS+bannerDto.icon)
-                .placeholder(R.drawable.moren_sf)
-                .error(R.drawable.moren_sf)
-                .transform(new GlideCircleBorderTransform(1,R.color.my_color_line))
-                .into(holder.img_icon);
+        Glide.with(context).load(Constants.WEB_IMG_URL_UPLOADS+bannerDto.icon).placeholder(R.drawable.moren_sf).into(holder.img_icon);
+//        Glide.with(context).load()
+//                .placeholder(R.drawable.moren_sf)
+//                .error(R.drawable.moren_sf)
+//                .transform(new GlideCircleBorderTransform(1,R.color.my_color_line))
+//                .into(holder.img_icon);
 //        GlideUtils.getInstances().loadRoundImg(context,holder.img_icon,bannerDto.icon,R.drawable.moren_sf);
         // PROFILE_ITEM item = list.get(i);
         return view;
@@ -111,9 +109,9 @@ public class Areadapter extends BaseAdapter {
 
 
     class ViewHolder {
-        TextView     txt_name;
-        ImageView    img_icon;
-        LinearLayout ll_bg;
+        TextView        txt_name;
+        CircleImageView img_icon;
+        LinearLayout    ll_bg;
 
     }
 }

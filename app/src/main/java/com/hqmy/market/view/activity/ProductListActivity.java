@@ -213,15 +213,31 @@ public class ProductListActivity extends BaseActivity {
                 lists.clear();
                 if (null != data.getData() && data.getData().size() > 0) {
 
-                    if (mCurrentPage == 1) {
-                        datas.clear();
-                        datas.addAll(data.getData());
-                        mAdapter.setNewData(data.getData());
-                        refreshLayout.setRefreshing(false);
-                    } else {
-                        datas.addAll(data.getData());
-                        mAdapter.addData(data.getData());
-                        refreshLayout.setLoadMore(false);
+
+                    if(isLabe){
+                        if (mCurrentPage == 1) {
+                            datas.clear();
+                            datas.addAll(data.getData());
+                            mLabAdapter.setNewData(data.getData());
+                            refreshLayout.setRefreshing(false);
+                        } else {
+                            datas.addAll(data.getData());
+                            mLabAdapter.addData(data.getData());
+                            refreshLayout.setLoadMore(false);
+                        }
+                    }else {
+                        //                    List<NewListItemDto> data = mAdapter.getData();
+
+                        if (mCurrentPage == 1) {
+                            datas.clear();
+                            datas.addAll(data.getData());
+                            mAdapter.setNewData(data.getData());
+                            refreshLayout.setRefreshing(false);
+                        } else {
+                            datas.addAll(data.getData());
+                            mAdapter.addData(data.getData());
+                            refreshLayout.setLoadMore(false);
+                        }
                     }
                     for(ExtDto dto:data.getMeta().brand){
                         if(TextUtil.isNotEmpty(dto.logo)){
@@ -395,6 +411,7 @@ public class ProductListActivity extends BaseActivity {
                 iv_shop_product_3.setImageResource(R.mipmap.shop_product_price_litre);
 
                 mParamsMaps.put("sort", "");
+
                 getProductListData();
                 break;
             case R.id.tv_shop_product_2:
@@ -405,7 +422,7 @@ public class ProductListActivity extends BaseActivity {
                 tv_shop_product_4.setSelected(false);
                 iv_shop_product_3.setTag("priceSelect");
                 iv_shop_product_3.setImageResource(R.mipmap.shop_product_price_litre);
-
+                mParamsMaps.put("sort", "-sales_count");
                 getProductListData();
                 break;
             case R.id.ll_shop_product_3:

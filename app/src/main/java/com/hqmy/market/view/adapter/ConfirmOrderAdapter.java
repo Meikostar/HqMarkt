@@ -2,10 +2,17 @@ package com.hqmy.market.view.adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hqmy.market.R;
 import com.hqmy.market.bean.OrderShopDto;
+import com.hqmy.market.utils.TextUtil;
+
 import java.util.List;
 
 /**
@@ -33,6 +40,27 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<OrderShopDto, BaseView
                 return true;
             }
         };
+        EditText view = helper.getView(R.id.et_beizhu);
+        view.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                 if(TextUtil.isNotEmpty(s.toString())){
+                     item.comment=s.toString();
+                 }else {
+                     item.comment="";
+                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         rvlist.setLayoutManager(linearLayoutManager);
         mConfirmOrderItemAdapter  = new ConfirmOrderItemAdapter(item.getProducts());
         rvlist.setAdapter(mConfirmOrderItemAdapter);

@@ -75,7 +75,45 @@
             android:layout_alignParentBottom="true"
             android:background="#F5F5F5" />
     </RelativeLayout>
+    <RelativeLayout
 
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:singleLine="true"
+            android:text="身份证号"
+            android:textColor="#ff282828"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="start|top"
+            android:hint="请输入身份证号码"
+            android:paddingTop="@dimen/bj_10dp"
+            android:inputType="number"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+            android:layout_marginLeft="100dp"
+            android:textColor="#ff9b9b9b"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#F5F5F5" />
+
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_address_area_container"
         android:layout_width="match_parent"
@@ -152,6 +190,7 @@
             android:background="#F5F5F5" />
 
     </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

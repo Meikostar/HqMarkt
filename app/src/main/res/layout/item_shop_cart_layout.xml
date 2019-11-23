@@ -50,7 +50,7 @@
             android:layout_height="@dimen/bj_40dp"
             android:gravity="center_vertical"
             android:drawablePadding="@dimen/bj_10dp"
-            android:text="联系商家"
+            android:text=""
             android:textColor="@color/my_color_333333"
             android:textSize="@dimen/wz_13sp" />
     </LinearLayout>

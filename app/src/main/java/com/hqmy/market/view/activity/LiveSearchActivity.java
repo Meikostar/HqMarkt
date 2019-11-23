@@ -175,9 +175,9 @@ public class LiveSearchActivity extends BaseActivity {
         levelsAllPopupWindows = new PopupWindow(this);
         View view = LayoutInflater.from(this).inflate(R.layout.levels_all_popup_layout, null);
         singleLeftLV = (LabelsView) view.findViewById(R.id.tv_item_select_contury);
-
+        line = (View) view.findViewById(R.id.line);
         levelsAllPopupWindows.setContentView(view);
-        levelsAllPopupWindows.setBackgroundDrawable(new PaintDrawable());
+
         levelsAllPopupWindows.setFocusable(false);
         levelsAllPopupWindows.setHeight(ScreenUtils.getScreenH(this) * 1 / 2);
         levelsAllPopupWindows.setWidth(ScreenUtils.getScreenW(this));
@@ -185,6 +185,14 @@ public class LiveSearchActivity extends BaseActivity {
             @Override
             public void onDismiss() {
 
+            }
+        });
+        line.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(levelsAllPopupWindows!=null&&levelsAllPopupWindows.isShowing()){
+                    levelsAllPopupWindows.dismiss();
+                }
             }
         });
         singleLeftLV.setSelectType(LabelsView.SelectType.SINGLE);
@@ -210,6 +218,9 @@ public class LiveSearchActivity extends BaseActivity {
                     tvBrand.setText(dto.getName());
                     tvBrand.setTextColor(getResources().getColor(R.color.my_color_F53C10));
                 }
+                if(levelsAllPopupWindows!=null&&levelsAllPopupWindows.isShowing()){
+                    levelsAllPopupWindows.dismiss();
+                }
             }
         });
     }
@@ -221,9 +232,10 @@ public class LiveSearchActivity extends BaseActivity {
         levelsAllPopupWindow = new PopupWindow(this);
         View view = LayoutInflater.from(this).inflate(R.layout.levels_all_popup_layout, null);
         singleLeftLVs = (LabelsView) view.findViewById(R.id.tv_item_select_contury);
+        lines = (View) view.findViewById(R.id.line);
 
         levelsAllPopupWindow.setContentView(view);
-        levelsAllPopupWindow.setBackgroundDrawable(new PaintDrawable());
+
         levelsAllPopupWindow.setFocusable(false);
         levelsAllPopupWindow.setHeight(ScreenUtils.getScreenH(this) * 1 / 2);
         levelsAllPopupWindow.setWidth(ScreenUtils.getScreenW(this));
@@ -231,6 +243,14 @@ public class LiveSearchActivity extends BaseActivity {
             @Override
             public void onDismiss() {
 
+            }
+        });
+        lines.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(levelsAllPopupWindow!=null&&levelsAllPopupWindow.isShowing()){
+                    levelsAllPopupWindow.dismiss();
+                }
             }
         });
         singleLeftLVs.setSelectType(LabelsView.SelectType.SINGLE);
@@ -255,6 +275,9 @@ public class LiveSearchActivity extends BaseActivity {
                     tvContury.setText(dto.title);
                     tvContury.setTextColor(getResources().getColor(R.color.my_color_F53C10));
                 }
+                if(levelsAllPopupWindow!=null&&levelsAllPopupWindow.isShowing()){
+                    levelsAllPopupWindow.dismiss();
+                }
             }
         });
     }
@@ -263,9 +286,9 @@ public class LiveSearchActivity extends BaseActivity {
         levelsAllPopupWindowss = new PopupWindow(this);
         View view = LayoutInflater.from(this).inflate(R.layout.levels_all_popup_layout, null);
         singleLeftLVss = (LabelsView) view.findViewById(R.id.tv_item_select_contury);
-
+        liness = (View) view.findViewById(R.id.line);
         levelsAllPopupWindowss.setContentView(view);
-        levelsAllPopupWindowss.setBackgroundDrawable(new PaintDrawable());
+
         levelsAllPopupWindowss.setFocusable(false);
         levelsAllPopupWindowss.setHeight(ScreenUtils.getScreenH(this) * 1 / 2);
         levelsAllPopupWindowss.setWidth(ScreenUtils.getScreenW(this));
@@ -273,6 +296,14 @@ public class LiveSearchActivity extends BaseActivity {
             @Override
             public void onDismiss() {
 
+            }
+        });
+        liness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(levelsAllPopupWindowss!=null&&levelsAllPopupWindowss.isShowing()){
+                    levelsAllPopupWindowss.dismiss();
+                }
             }
         });
         singleLeftLVss.setSelectType(LabelsView.SelectType.SINGLE);
@@ -290,12 +321,15 @@ public class LiveSearchActivity extends BaseActivity {
                 AllCityDto dto= (AllCityDto) data;
                 if(dto.getId().equals("-1")){
                     TypeId=null;
-                    tvContury.setText("分类");
-                    tvContury.setTextColor(getResources().getColor(R.color.my_color_999999));
+                    tvType.setText("分类");
+                    tvType.setTextColor(getResources().getColor(R.color.my_color_999999));
                 }else {
                     TypeId=dto.getId();
-                    tvContury.setText(dto.getName());
-                    tvContury.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+                    tvType.setText(dto.cat_name);
+                    tvType.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+                }
+                if(levelsAllPopupWindowss!=null&&levelsAllPopupWindowss.isShowing()){
+                    levelsAllPopupWindowss.dismiss();
                 }
             }
         });
@@ -309,6 +343,9 @@ public class LiveSearchActivity extends BaseActivity {
     private LabelsView           singleLeftLV;
     private LabelsView           singleLeftLVs;
     private LabelsView           singleLeftLVss;
+    private View           line;
+    private View           lines;
+    private View           liness;
     //分类数据
     private List<FirstClassItem> singleFirstList = new ArrayList<FirstClassItem>();
 
@@ -384,40 +421,99 @@ public class LiveSearchActivity extends BaseActivity {
         if (type == 1) {
             if (ishow) {
                 ivContury.setImageResource(R.mipmap.sjx_sel);
-                tvContury.setTextColor(getResources().getColor(R.color.my_color_333333));
+                if(tvContury.getText().equals("国家")){
+                    tvContury.setTextColor(getResources().getColor(R.color.my_color_333333));
+                }else {
+                    tvContury.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+                }
+
             } else {
                 ivContury.setImageResource(R.mipmap.sjx_unsel);
-                tvContury.setTextColor(getResources().getColor(R.color.my_color_999999));
+                if(tvContury.getText().equals("国家")){
+                    tvContury.setTextColor(getResources().getColor(R.color.my_color_999999));
+                }else {
+                    tvContury.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+                }
+
             }
             ivBrand.setImageResource(R.mipmap.sjx_unsel);
-            tvBrand.setTextColor(getResources().getColor(R.color.my_color_999999));
+            if(tvBrand.getText().equals("品牌")){
+                tvBrand.setTextColor(getResources().getColor(R.color.my_color_999999));
+            }else {
+                tvBrand.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+            }
+            if(tvType.getText().equals("分类")){
+                tvType.setTextColor(getResources().getColor(R.color.my_color_999999));
+            }else {
+                tvType.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+            }
+
             ivType.setImageResource(R.mipmap.sjx_unsel);
-            tvType.setTextColor(getResources().getColor(R.color.my_color_999999));
+
         } else if (type == 2) {
             if (ishow) {
                 ivBrand.setImageResource(R.mipmap.sjx_sel);
-                tvBrand.setTextColor(getResources().getColor(R.color.my_color_333333));
+                if(tvBrand.getText().equals("品牌")){
+                    tvBrand.setTextColor(getResources().getColor(R.color.my_color_333333));
+                }else {
+                    tvBrand.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+                }
+
             } else {
                 ivBrand.setImageResource(R.mipmap.sjx_unsel);
-                tvBrand.setTextColor(getResources().getColor(R.color.my_color_999999));
+                if(tvBrand.getText().equals("品牌")){
+                    tvBrand.setTextColor(getResources().getColor(R.color.my_color_999999));
+                }else {
+                    tvBrand.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+                }
+
 
             }
+
+            if(tvType.getText().equals("分类")){
+                tvType.setTextColor(getResources().getColor(R.color.my_color_999999));
+            }else {
+                tvType.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+            }
+            if(tvContury.getText().equals("国家")){
+                tvContury.setTextColor(getResources().getColor(R.color.my_color_999999));
+            }else {
+                tvContury.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+            }
             ivContury.setImageResource(R.mipmap.sjx_unsel);
-            tvContury.setTextColor(getResources().getColor(R.color.my_color_999999));
             ivType.setImageResource(R.mipmap.sjx_unsel);
-            tvType.setTextColor(getResources().getColor(R.color.my_color_999999));
         } else if (type == 3) {
             if (ishow) {
                 ivType.setImageResource(R.mipmap.sjx_sel);
-                tvType.setTextColor(getResources().getColor(R.color.my_color_333333));
+                if(tvType.getText().equals("分类")){
+                    tvType.setTextColor(getResources().getColor(R.color.my_color_333333));
+                }else {
+                    tvType.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+                }
+
             } else {
                 ivType.setImageResource(R.mipmap.sjx_unsel);
-                tvType.setTextColor(getResources().getColor(R.color.my_color_999999));
+                ivType.setImageResource(R.mipmap.sjx_sel);
+                if(tvType.getText().equals("分类")){
+                    tvType.setTextColor(getResources().getColor(R.color.my_color_999999));
+                }else {
+                    tvType.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+                }
+
+            }
+            if(tvBrand.getText().equals("品牌")){
+                tvBrand.setTextColor(getResources().getColor(R.color.my_color_999999));
+            }else {
+                tvBrand.setTextColor(getResources().getColor(R.color.my_color_F53C10));
+            }
+
+            if(tvContury.getText().equals("国家")){
+                tvContury.setTextColor(getResources().getColor(R.color.my_color_999999));
+            }else {
+                tvContury.setTextColor(getResources().getColor(R.color.my_color_F53C10));
             }
             ivBrand.setImageResource(R.mipmap.sjx_unsel);
-            tvBrand.setTextColor(getResources().getColor(R.color.my_color_999999));
             ivContury.setImageResource(R.mipmap.sjx_unsel);
-            tvContury.setTextColor(getResources().getColor(R.color.my_color_999999));
 
         }
     }

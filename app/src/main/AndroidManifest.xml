@@ -116,7 +116,16 @@
                     android:pathPrefix="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
+                <data
+                    android:scheme="hqmy"
+                    android:host="com.hqmy.market"
+                    android:path="/openPage"/>
+            </intent-filter>
         </activity>
         <activity
             android:name="com.hqmy.market.view.mainfragment.consume.LoveFactoryActivity"
@@ -474,6 +483,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".qiniu.AVStreamingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.AfterLoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.LiveVideoViewActivity"

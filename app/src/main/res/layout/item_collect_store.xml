@@ -41,8 +41,9 @@
             android:textSize="12sp" />
     </LinearLayout>
     <TextView
+        android:id="@+id/tv_couts"
         android:gravity="right"
-        android:text="10\n上新"
+        android:text="10+\n上新"
         android:layout_marginRight="12dp"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"

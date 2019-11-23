@@ -438,6 +438,7 @@ public class OrderFragment extends BaseFragment {
         int i = 0;
         for (CheckOutOrderResult result : ruslts) {
             map.put("order_no[" + i + "]", result.no);
+            i++;
         }
         map.put("platform", "wallet");
         map.put("scene", "balance");
@@ -553,6 +554,7 @@ public class OrderFragment extends BaseFragment {
         int i=0;
         for(CheckOutOrderResult result:ruslts){
             map.put("order_no["+i+"]",result.no);
+            i++;
         }
         map.put("platform", "alipay");
         map.put("scene", "app");
@@ -607,6 +609,7 @@ public class OrderFragment extends BaseFragment {
         int i=0;
         for(CheckOutOrderResult result:ruslts){
             map.put("order_no["+i+"]",result.no);
+            i++;
         }
         map.put("platform", "wechat");
         map.put("scene", "app");

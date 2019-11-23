@@ -56,6 +56,7 @@ import com.hqmy.market.bean.OnlineApplyInfo;
 import com.hqmy.market.bean.OnlineLiveFinishBean;
 import com.hqmy.market.bean.OrderCheckoutBean;
 import com.hqmy.market.bean.OrderPreviewDto;
+import com.hqmy.market.bean.Param;
 import com.hqmy.market.bean.PersonalInfoDto;
 import com.hqmy.market.bean.ProductBean;
 import com.hqmy.market.bean.ProductDto;
@@ -822,6 +823,8 @@ public interface RetrofitService {
 //    @GET("/api/sellers{id}")
 //    Single<HttpResult<Object>> getShopInfo(@Header("Authorization") String token, @Path("id") String id);
 //
+     @POST("api/user/ext")
+     Single<HttpResult<Object>> afterLogin(@Header("Authorization") String token, @Body HashMap<String, String> map);
 
 
     @POST("/api/sellers")
@@ -857,6 +860,11 @@ public interface RetrofitService {
     Single<HttpResult<List<CategorieBean>>> categories();
 
 
+    /**
+     * 课件分类
+     */
+    @GET("api/package/tags")
+    Single<Param> getTags();
 
     /**
      *

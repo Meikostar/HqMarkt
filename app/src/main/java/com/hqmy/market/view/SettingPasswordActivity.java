@@ -196,11 +196,12 @@ public class SettingPasswordActivity extends BaseActivity {
                 if (!ApiException.getInstance().isSuccess()) {
                     ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
                     //                    tvVerification.setText("获取验证码");
+
+                } else {
                     if (countDownTimerUtils != null) {
                         countDownTimerUtils.cancel();
                         countDownTimerUtils.onFinish();
                     }
-                } else {
                     ToastUtil.showToast("已发送验证码");
                 }
             }

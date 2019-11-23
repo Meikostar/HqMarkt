@@ -130,6 +130,7 @@ public class ConfirmOrderActivity extends BaseActivity {
         });
     }
 
+
     @Override
     public void initData() {
         Bundle bundle = getIntent().getExtras();
@@ -189,7 +190,9 @@ public class ConfirmOrderActivity extends BaseActivity {
                 }
                 if (TextUtil.isNotEmpty(stock_id)) {
                     map.put("stock_id", stock_id);
-                } else {
+                }
+
+                if (TextUtil.isNotEmpty(product_id)){
                     map.put("product_id", product_id);
                 }
                 map.put("include", "shop_name");
@@ -398,14 +401,19 @@ public class ConfirmOrderActivity extends BaseActivity {
                 ToastUtil.showToast("请先添加收货地址");
                 return;
             }
-            checkOutOrder(products, addressId);
+            checkOutOrder(shopLists,products, addressId);
         });
     }
 
     private List<CheckOutOrderResult> ruslts;
 
-    private void checkOutOrder(List<OrderProductDto> products, String addressId) {
+    private void checkOutOrder( List<OrderShopDto> data,List<OrderProductDto> products, String addressId) {
         HashMap<String, String> map = new HashMap<>();
+        for(OrderShopDto dto:data){
+            if(TextUtil.isNotEmpty(dto.comment)){
+                map.put("comment[" + dto.getShop_id() + "]", dto.comment);
+            }
+        }
         if (rowList != null) {
             if (products != null) {
                 for (int i = 0; i < products.size(); i++) {

@@ -48,6 +48,9 @@ public class RegisterActivity extends BaseActivity {
     /**密码*/
     @BindView(R.id.et_register_password)
     EditText  mRegisterPassword;
+    @BindView(R.id.et_tv_yqm)
+    EditText  et_tv_yqm;
+
     @BindView(R.id.iv_register_icon_code)
     ImageView mRegisterIcon;
     @BindView(R.id.cb_register_check_box)
@@ -143,6 +146,12 @@ public class RegisterActivity extends BaseActivity {
             ToastUtil.showToast("请输入手机号");
             return false;
         }
+        if(!TextUtils.isEmpty(et_tv_yqm.getText().toString().trim())){
+            if(!RegexUtils.isMobileExact(et_tv_yqm.getText().toString().trim())){
+                ToastUtil.showToast("请输入正确邀请码");
+                return false;
+            }
+        }
 
         if(!RegexUtils.isMobileExact(mRegisterPhone.getText().toString().trim())){
             ToastUtil.showToast("请输入合法手机号");
@@ -226,6 +235,10 @@ public class RegisterActivity extends BaseActivity {
         UserRegister userRegister = new UserRegister();
         userRegister.setPassword(mRegisterPassword.getText().toString());
         userRegister.setPhone(mRegisterPhone.getText().toString().trim());
+        if(!TextUtils.isEmpty(et_tv_yqm.getText().toString().trim())){
+            userRegister.setInvite_code("from_phone_"+et_tv_yqm.getText().toString().trim());
+        }
+
         String codeStr = mRegisterNoteCode.getText().toString().trim();
         userRegister.setCode(codeStr);
         DataManager.getInstance().register(new DefaultSingleObserver<RegisterDto>() {
@@ -235,6 +248,10 @@ public class RegisterActivity extends BaseActivity {
                 ToastUtil.toast("注册成功");
                 Intent intent = new Intent();
                 intent.putExtra("phone",mRegisterPhone.getText().toString().trim());
+                if(!TextUtils.isEmpty(et_tv_yqm.getText().toString().trim())){
+                    intent.putExtra("phones",et_tv_yqm.getText().toString().trim());
+                }
+
                 setResult(RESULT_OK,intent);
                 ShareUtil.getInstance().save(Constants.USER_ACCOUNT_NUMBER, mRegisterPhone.getText().toString().trim());
                 finish();

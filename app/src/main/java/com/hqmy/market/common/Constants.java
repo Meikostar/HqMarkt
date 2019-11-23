@@ -45,7 +45,7 @@ public class Constants {
      * 当前用户凭证
      */
     public final static String APP_USER_KEY = "app_user_key";
-    public final static int PAGE_SIZE = 20;
+    public final static int PAGE_SIZE = 15;
     /**
      * 用户登录TOKEN
      */
@@ -78,6 +78,7 @@ public class Constants {
      * 记住密码
      */
     public final static String REMEMBER_PASSWORD  = "remember_password";
+    public final static String IS_PASS  = "isPass";
     /**
      * 用户账号
      */

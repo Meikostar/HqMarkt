@@ -166,6 +166,7 @@ public class OnLineLiveFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        getLiveTop();
      if(state==1){
          autoScroll.setVisibility(View.GONE);
          rlBgs.setVisibility(View.GONE);
@@ -511,6 +512,8 @@ public class OnLineLiveFragment extends BaseFragment {
                 mRefreshLayout.finishLoadMore();
                 if (result != null && result.getData() != null && result.getData().size() > 0) {
                     iniGridView(result.getData());
+                }else {
+                    iniGridView(new ArrayList<UserInfoDto>());
                 }
 
             }

@@ -14,6 +14,7 @@ public class AttentionCommunityBean {
     private String       lng;
     public String type;
     public String followers_count;
+    public String new_goods_count;
 
     public String getAvatar() {
         return avatar;

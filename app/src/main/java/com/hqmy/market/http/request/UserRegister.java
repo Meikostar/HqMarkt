@@ -9,6 +9,15 @@ public class UserRegister extends BaseRequestModel {
     private String code;
     private String password;
     private String include;
+    private String invite_code;
+
+    public String getInvite_code() {
+        return invite_code;
+    }
+
+    public void setInvite_code(String invite_code) {
+        this.invite_code = invite_code;
+    }
 
     public String getPhone() {
         return phone;

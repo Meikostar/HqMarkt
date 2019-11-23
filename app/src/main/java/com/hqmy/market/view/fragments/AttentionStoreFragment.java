@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hqmy.market.view.activity.ShopDetailActivity;
+import com.hqmy.market.view.activity.ShopStoreDetailActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -129,17 +130,18 @@ public class AttentionStoreFragment extends BaseFragment {
                 AttentionCommunityBean item = mAdapter.getItem(position);
 
                 String type = item.getType();
+
                 if("st".equals(type)){
                     Bundle bundle = new Bundle();
-                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_ID, mAdapter.getItem(position).getId()+"");
-//                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LAT, mAdapter.getItem(position).getLat());
-//                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_LNG, mAdapter.getItem(position).getLng());
-                    gotoActivity(ShopDetailActivity.class, false,bundle);
+//                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_ID, mAdapter.getItem(position).getId()+"");
+                    bundle.putString(ShopStoreDetailActivity.SHOP_DETAIL_ID,mAdapter.getItem(position).getId()+"");
+                    gotoActivity(ShopStoreDetailActivity.class, false, bundle);
+//                    gotoActivity(ShopDetailActivity.class, false,bundle);
                 }else{
                     Bundle bundle = new Bundle();
-                    bundle.putString(BrandShopDetailActivity.MALL_TYPE, type);
-                    bundle.putString(BrandShopDetailActivity.SHOP_DETAIL_ID, item.getId()+"");
-                    gotoActivity(BrandShopDetailActivity.class,false, bundle);
+//                    bundle.putString(ShopDetailActivity.SHOP_DETAIL_ID, mAdapter.getItem(position).getId()+"");
+                    bundle.putString(ShopStoreDetailActivity.SHOP_DETAIL_ID,mAdapter.getItem(position).getId()+"");
+                    gotoActivity(ShopStoreDetailActivity.class, false, bundle);
                 }
 
             }

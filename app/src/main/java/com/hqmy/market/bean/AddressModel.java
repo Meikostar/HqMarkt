@@ -8,7 +8,16 @@ public class AddressModel extends BaseRequestModel {
     private String mobile;
     private String area_id;
     private String detail;
+    private String id_card_no;
     private String is_default;
+
+    public String getId_card_no() {
+        return id_card_no;
+    }
+
+    public void setId_card_no(String id_card_no) {
+        this.id_card_no = id_card_no;
+    }
 
     public String getName() {
         return name;

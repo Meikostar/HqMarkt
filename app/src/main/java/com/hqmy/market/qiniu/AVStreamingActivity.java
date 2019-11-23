@@ -266,13 +266,16 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
     /**
      * 结束直播
      */
+
+    private int state;
     private void sendEndLive() {
         ChatroomEnd chatroomEnd = new ChatroomEnd();
-        chatroomEnd.setDuration(60);
+//        chatroomEnd.setDuration(60);
         chatroomEnd.setExtra("附加信息");
         chatroomEnd.setUrl(getUserUrl());
         chatroomEnd.setName(getUserName());
         ChatroomKit.sendMessage(chatroomEnd);
+        state=1;
     }
 
     @OnClick({R.id.iv_title_back, R.id.iv_scan, R.id.iv_mute, R.id.iv_beauty, R.id.iv_user_list,
@@ -292,7 +295,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
                         sendEndLive();
                         //                        sendTextMessage("#@@直播已结束@@#");
                         //结束直播
-                        liveVideosClose();
+
                         dialogs.dismiss();
                     }
                 });
@@ -425,7 +428,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
                 //                sendTextMessage("#@@!直播已结束!@@#");
                 sendEndLive();
                 //结束直播
-                liveVideosClose();
+
                 dialog.dismiss();
             }
         });
@@ -446,7 +449,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
             @Override
             public void onSuccess() {
                 ChatroomKit.removeEventHandler(handler);
-                sendEndLive();
+//                sendEndLive();
             }
 
             @Override
@@ -1155,9 +1158,16 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
             case 30001:
                 joinChatRoom();
                 break;
+            case ChatroomKit.MESSAGE_ARRIVED:
             case ChatroomKit.MESSAGE_SENT: {
-                MessageContent messageContent = ((Message) msg.obj).getContent();
-                setData(messageContent);
+                if(state==1) {
+                    state=0;
+                    liveVideosClose();
+                }else {
+                    MessageContent messageContent = ((Message) msg.obj).getContent();
+                    setData(messageContent);
+                }
+
                 break;
             }
 

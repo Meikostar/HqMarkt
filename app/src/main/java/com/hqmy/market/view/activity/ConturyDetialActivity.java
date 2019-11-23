@@ -3,6 +3,7 @@ package com.hqmy.market.view.activity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.hqmy.market.R;
@@ -46,8 +47,7 @@ public class ConturyDetialActivity extends BaseActivity {
     RecyclerView       consumePushRecy;
     @BindView(R.id.consume_srl)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.grid_content)
-    NoScrollGridView   gridContent;
+
     @BindView(R.id.consume_scrollView)
     CustomView         consumeScrollView;
 
@@ -96,14 +96,22 @@ public class ConturyDetialActivity extends BaseActivity {
             }
         };
 
-        gridContent.setAdapter(mHomedapter);
+
         mProcutAdapter = new ConsumePushAdapter(goodsLists, this);
         consumePushRecy.addItemDecoration(new RecyclerItemDecoration(5, 2));
         consumePushRecy.setLayoutManager(gridLayoutManager2);
         consumePushRecy.setAdapter(mProcutAdapter);
-
+        initHeadView();
     }
 
+    private NoScrollGridView   gridContent;
+    private View view;
+    public void initHeadView(){
+        view = LayoutInflater.from(this).inflate(R.layout.contury_head_view, null);
+        gridContent= view.findViewById(R.id.grid_content);
+        gridContent.setAdapter(mHomedapter);
+        mProcutAdapter.addHeaderView(view);
+    }
 
     private void setData(HttpResult<List<NewListItemDto>> httpResult) {
         if (httpResult == null || httpResult.getData() == null) {

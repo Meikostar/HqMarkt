@@ -33,7 +33,7 @@ public class ConsumePushAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
         super(R.layout.item_consume_push_layout, data);
         this.mContext = mContext;
     }
-
+    private int TYPE_HEADER = 1001;
     @Override
     protected void convert(BaseViewHolder helper, NewListItemDto item) {
         if (item != null) {

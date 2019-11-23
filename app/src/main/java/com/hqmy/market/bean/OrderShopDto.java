@@ -14,6 +14,7 @@ public class OrderShopDto implements Serializable {
     private String coupon_discount;
     private String total;
     public String shop_name;
+    public String comment;
     public String product_total;
     private String score;
 

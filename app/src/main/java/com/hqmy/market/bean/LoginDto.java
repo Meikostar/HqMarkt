@@ -4,7 +4,9 @@ public class LoginDto {
     private String  access_token;
     private String  token_type;
     private int     expires_in;
+    public int     status;
     private DataDto<PersonalInfoDto> user;
+
 
     public String getAccess_token() {
         return access_token;

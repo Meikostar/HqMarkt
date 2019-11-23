@@ -67,20 +67,23 @@ public class ProductLabeAdapter extends BaseQuickAdapter<NewListItemDto, BaseVie
             helper.setText(R.id.tv_title,sapce+ item.getTitle());
 
 
-            String name = item.market_price;
-            TextPaint textPaint = new TextPaint();
-            textPaint.setTextSize(12);
-            int with = (int) textPaint.measureText(name);
-            TextView textview = helper.getView(R.id.market_price);
-            textview.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG ); //中间横线下划线
-            textview.getPaint().setAntiAlias(true);// 抗锯齿
-            textview.setText("¥"+item.market_price);
-
         } else {
             labe.setVisibility(View.GONE);
             helper.setText(R.id.tv_title, item.getTitle());
         }
+        TextView textview = helper.getView(R.id.market_price);
+         if(TextUtil.isNotEmpty(item.market_price)){
+             String name = item.market_price;
+             TextPaint textPaint = new TextPaint();
+             textPaint.setTextSize(12);
+             int with = (int) textPaint.measureText(name);
 
+             textview.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG ); //中间横线下划线
+             textview.getPaint().setAntiAlias(true);// 抗锯齿
+             textview.setText("¥"+item.market_price);
+         }else{
+             textview.setText("");
+         }
         if (item.brand != null && item.brand.data.category.data != null && !TextUtils.isEmpty(item.brand.data.category.data.title)) {
             //                tvsin.setVisibility(View.VISIBLE);
             helper.setText(R.id.tv_contury, item.brand.data.category.data.title);

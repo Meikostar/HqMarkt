@@ -163,7 +163,7 @@ public class BrandShopDetailActivity extends BaseActivity {
                 getStProductList();
                 break;
             case 2:
-                sortStr="";
+                sortStr="-sales_count";
                 isNew=1;
                 ivShopProduct3.setTag("select");
                 tvShopProduct1.setSelected(false);
@@ -218,9 +218,9 @@ public class BrandShopDetailActivity extends BaseActivity {
                             attion="0";
                         }
                         if(data.category!=null&&data.category.data!=null&&TextUtil.isNotEmpty(data.category.data.title)){
-                            tvContent.setText(data.category.data.title+" | "+attion+"关注");
+                            tvContent.setText(data.category.data.title);
                         }else {
-                            tvContent.setText(attion+"关注");
+                            tvContent.setText("");
                         }
 
                         if(data.isFollowed){
@@ -535,6 +535,7 @@ public class BrandShopDetailActivity extends BaseActivity {
 
                 } else {
                     EmptyView emptyView = new EmptyView(BrandShopDetailActivity.this);
+                    mAdapter.setNewData(null);
                     if (!TextUtils.isEmpty(searchKey)) {
                         mAdapter.setNewData(result.getData());
                         emptyView.setTvEmptyTip(String.format("没搜索到%s相关数据", searchKey));

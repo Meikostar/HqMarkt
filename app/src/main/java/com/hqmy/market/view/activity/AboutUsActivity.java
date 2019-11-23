@@ -31,7 +31,7 @@ public class AboutUsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mTitleText.setText("关于我们");
+        mTitleText.setText("版本信息");
     }
 
     @Override

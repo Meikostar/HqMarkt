@@ -15,12 +15,15 @@ import com.hqmy.market.base.BaseActivity;
 import com.hqmy.market.bean.AddressDto;
 import com.hqmy.market.bean.AddressModel;
 import com.hqmy.market.common.Constants;
+import com.hqmy.market.common.utils.StringUtil;
 import com.hqmy.market.common.utils.ToastUtil;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
 import com.hqmy.market.utils.RegexUtils;
 import com.hqmy.market.view.widgets.MCheckBox;
+
+import java.text.ParseException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,6 +46,9 @@ public class AddShippingAddressActivity extends BaseActivity {
     EditText  mPhone;
     @BindView(R.id.et_detail_address)
     EditText  mDetailAddress;
+    @BindView(R.id.et_code)
+    EditText  et_code;
+
     @BindView(R.id.cb_default_address)
     MCheckBox mCheckBox;
     private AddressDto mAddressDto;
@@ -117,6 +123,7 @@ public class AddShippingAddressActivity extends BaseActivity {
         String mobile = mPhone.getText().toString();
         String detail = mDetailAddress.getText().toString();
         String area = mAddress.getText().toString();
+        String card = et_code.getText().toString();
 
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "请输入收货人的姓名", Toast.LENGTH_LONG).show();
@@ -125,6 +132,18 @@ public class AddShippingAddressActivity extends BaseActivity {
         if (TextUtils.isEmpty(mobile)) {
             Toast.makeText(this, "请输入手机号码", Toast.LENGTH_LONG).show();
             return;
+        }
+        if (TextUtils.isEmpty(et_code.getText().toString().trim())) {
+            ToastUtil.showToast("请输入身份证号码");
+            return;
+        }
+        try {
+            if (!StringUtil.IDCardValidate(et_code.getText().toString().trim())) {
+                ToastUtil.showToast("请输入正确的身份证");
+                return;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         if(!RegexUtils.isMobileExact(mobile)){
             ToastUtil.showToast("请输入合法手机号");
@@ -146,6 +165,7 @@ public class AddShippingAddressActivity extends BaseActivity {
         AddressModel addressModel = new AddressModel();
         addressModel.setName(name);
         addressModel.setMobile(mobile);
+        addressModel.setId_card_no(card);
         addressModel.setArea_id(areaId);
         addressModel.setDetail(detail);
         if (mCheckBox.isCheck()) {

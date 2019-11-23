@@ -4,6 +4,7 @@ public class MyOrderShopDto {
     String user_id;
     String name;
     String shop_name;
+    public String shop_id;
     String type;
     String category;
     String industry;

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+
+        android:layout_height="@dimen/bj_54dp"
+        android:orientation="horizontal">
+        <ImageView
+
+            android:src="@drawable/hot"
+            android:layout_width="16dp"
+            android:layout_height="18dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:textSize="@dimen/wz_15sp"
+            android:textColor="@color/my_color_333333"
+            android:layout_marginLeft="@dimen/bj_6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="热门品牌"/>
+
+
+
+
+    </LinearLayout>
+    <com.hqmy.market.view.widgets.autoview.NoScrollGridView
+
+        android:id="@+id/grid_content"
+        android:layout_width="match_parent"
+        android:layout_height="159dp"
+        android:background="@color/my_color_F5F5F5"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:listSelector="@color/transparent"
+        android:numColumns="3"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="@dimen/bj_54dp"
+        android:orientation="horizontal">
+        <ImageView
+
+            android:src="@drawable/hot"
+            android:layout_width="16dp"
+            android:layout_height="18dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:textSize="@dimen/wz_15sp"
+            android:textColor="@color/my_color_333333"
+            android:layout_marginLeft="@dimen/bj_6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="热销单品"/>
+
+
+
+
+    </LinearLayout>
+</LinearLayout>

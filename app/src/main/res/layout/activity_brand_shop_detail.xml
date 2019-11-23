@@ -153,7 +153,7 @@
             android:layout_marginBottom="15dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:lines="2"
+          android:text=""
             android:layout_marginTop="15dp"
             android:textColor="@color/my_color_999999"
             android:textSize="14sp"

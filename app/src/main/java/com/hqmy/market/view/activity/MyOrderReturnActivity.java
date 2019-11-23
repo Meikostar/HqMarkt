@@ -192,10 +192,14 @@ public class MyOrderReturnActivity extends BaseActivity {
 
     private void refundOrder() {
         Map<String, Object> map = new HashMap<>();
-        map.put("reason", tvReason.getText().toString());
+
         if (!TextUtils.isEmpty(edReturnDes.getText().toString())){
             map.put("describe", edReturnDes.getText().toString());
         }
+        if (!TextUtils.isEmpty(tvReason.getText().toString())){
+            map.put("reason", tvReason.getText().toString());
+        }
+
         if (areadUploadImg.size() > 0) {
             map.put("imgs", areadUploadImg);
         }
@@ -314,7 +318,7 @@ public class MyOrderReturnActivity extends BaseActivity {
                 break;
             case R.id.btn_sure:
 
-                if (TextUtils.isEmpty(tvReason.getText().toString())){
+                if (TextUtils.isEmpty(tvReason.getText().toString())||tvReason.getText().toString().equals("请选择")){
                 ToastUtil.showToast("请选择退款原因");
                 return;
                 }

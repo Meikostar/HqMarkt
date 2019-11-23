@@ -75,6 +75,7 @@ public class MyQRcodeActivity extends BaseActivity {
     @Override
     public void initView() {
         tvTitleText.setText("分销二维码");
+        tvTgm.setText("邀请码:"+ShareUtil.getInstance().get(Constants.USER_PHONE));
         shareUrl = Constants.BASE_URL + "api/package/user/invitation_img?user_id=" + ShareUtil.getInstance().getString(Constants.USER_ID, "");
         GlideUtils.getInstances().loadNormalImg(this, imgQrcode, Constants.BASE_URL + "api/package/user/invitation_img?user_id=" + ShareUtil.getInstance().getString(Constants.USER_ID, ""));
     }
