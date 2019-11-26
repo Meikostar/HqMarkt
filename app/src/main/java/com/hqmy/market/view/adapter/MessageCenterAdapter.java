@@ -18,8 +18,9 @@ public class MessageCenterAdapter extends BaseQuickAdapter<NoticeDto, BaseViewHo
     @Override
     protected void convert(BaseViewHolder helper, NoticeDto item) {
         helper.setText(R.id.tv_message_time, item.created_at)
-                .setText(R.id.tv_message_type, item.getData().subject)
-                .setText(R.id.tv_message_content, item.getData().content);
+                .setText(R.id.tv_message_type, item.title)
+                .setText(R.id.tv_message_content, item.content);
+
 //                .setVisible(R.id.iv_message_point, item.isHasNewMsg());
 //        Glide.with(mContext).load(item.getIcon()).into((ImageView) helper.getView(R.id.iv_message_icon));
     }

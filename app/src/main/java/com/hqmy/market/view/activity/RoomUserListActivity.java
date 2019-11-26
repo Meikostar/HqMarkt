@@ -85,6 +85,7 @@ public class RoomUserListActivity extends BaseActivity {
         Map<String, String> map = new HashMap<>();
         map.put("room_id", roomId);
         map.put("page", mPage + "");
+        map.put("include","user");
         DataManager.getInstance().liveChatter(new DefaultSingleObserver<HttpResult<List<RoomUserBean>>>() {
             @Override
             public void onSuccess(HttpResult<List<RoomUserBean>> httpResult) {
@@ -142,8 +143,14 @@ public class RoomUserListActivity extends BaseActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, RoomUserBean item) {
-            helper.setText(R.id.tv_id,"ID:"+item.getId())
-                    .setText(R.id.tv_time,item.getCreated_at());
+            if (item.user != null && item.user.getData() != null){
+                helper.setText(R.id.tv_id,"ID:"+item.user.getData().name)
+                        .setText(R.id.tv_time,item.user.getData().phone);
+            }else {
+                helper.setText(R.id.tv_id,"ID:")
+                        .setText(R.id.tv_time,"");
+            }
+
         }
     }
 }

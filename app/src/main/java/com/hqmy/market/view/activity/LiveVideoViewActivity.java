@@ -319,6 +319,22 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
     protected void onDestroy() {
         super.onDestroy();
         mVideoView.stopPlayback();
+        Map<String, String> map = new HashMap<>();
+        map.put("room_id", roomId);
+
+        DataManager.getInstance().quitChatter(new DefaultSingleObserver<Object>() {
+            @Override
+            public void onSuccess(Object balanceDto) {
+
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+
+            }
+        },map);
         ChatroomKit.quitChatRoom(new RongIMClient.OperationCallback() {
             @Override
             public void onSuccess() {
@@ -746,6 +762,20 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
                 finish();
             }
         });
+        Map<String, String> map = new HashMap<>();
+        map.put("room_id", roomId);
+        DataManager.getInstance().joinChatter(new DefaultSingleObserver<Object>() {
+            @Override
+            public void onSuccess(Object balanceDto) {
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                Log.e("lg","");
+            }
+        },map);
     }
 
     private void checkWallet(String string, int type, GiftBean giftBean) {
@@ -840,8 +870,8 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
         ChatroomBarrage barrage = new ChatroomBarrage();
         barrage.setContent(text);
         barrage.setType(0);
-        barrage.setName(getUserName());
-        barrage.setUrl(getUserUrl());
+        barrage.setName(getUserUrl());
+        barrage.setUrl(getUserName());
         ChatroomKit.sendMessage(barrage);
     }
 
@@ -917,8 +947,8 @@ public class LiveVideoViewActivity extends BaseActivity implements Handler.Callb
             ChatroomBarrage barrage = (ChatroomBarrage) messageContent;
             DanmuEntity danmuEntity = new DanmuEntity();
             danmuEntity.setContent(barrage.getContent());
-            danmuEntity.setName(barrage.getName());
-            danmuEntity.setUrl(barrage.getUrl());
+            danmuEntity.setName(barrage.getUrl());
+            danmuEntity.setUrl(barrage.getName());
             danmuEntity.setType(barrage.getType());
             danmuContainerView.addDanmu(danmuEntity);
         } else if (messageContent instanceof ChatroomEnd) {

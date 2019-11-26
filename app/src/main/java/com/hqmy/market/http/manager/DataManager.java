@@ -147,6 +147,23 @@ public class DataManager {
         return "Bearer " + ShareUtil.getInstance().getString(Constants.USER_TOKEN, "");
     }
 
+
+    /**
+     * 聊天室成员列表
+     *
+     * @param observer
+     */
+    public void joinChatter(DefaultSingleObserver<Object> observer, Map<String, String> map) {
+        Single<Object> observable = retrofitService.joinChatter(getToken(),map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
+
+    public void quitChatter(DefaultSingleObserver<Object> observer, Map<String, String> map) {
+        Single<Object> observable = retrofitService.quitChatter(getToken(),map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
     /**
      * 登录
      *
@@ -911,7 +928,14 @@ public class DataManager {
                .map(new HttpResultMapper.HttpResultOtheData<>(null));
        subscribe(observable, observer);
    }
-
+    /**
+     * 消息通知列表
+     */
+    public void announcement(DefaultSingleObserver<HttpResult<List<NoticeDto>>> observer, Map<String, String> map) {
+        Single<HttpResult<List<NoticeDto>>> observable = retrofitService.announcement(map)
+                .map(new HttpResultMapper.HttpResultOtheData<>(null));
+        subscribe(observable, observer);
+    }
     /**
      * 获取话题详情
      */

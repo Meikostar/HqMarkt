@@ -11,7 +11,8 @@ public class RoomBean implements Serializable {
     public String rtmp_publish_url;
     public String rtmp_play_url;
     public String hls_play_url;
-
+    public String name;
+    public String phone;
     public String getId() {
         return id;
     }

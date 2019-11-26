@@ -105,7 +105,7 @@ public class StartLiveActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         mTitleText.setText("开播");
         mRightText.setVisibility(View.VISIBLE);
-        mRightText.setText("主播资料");
+        mRightText.setText("关注用户列表");
 
     }
     private String conturyId;
@@ -177,7 +177,7 @@ public class StartLiveActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_title_right:
-                gotoActivity(AnchorInfoActivity.class);
+                gotoActivity(AttentionUserListActivity.class);
                 break;
             case R.id.btn_open_live:
                 if (conturyId==null) {

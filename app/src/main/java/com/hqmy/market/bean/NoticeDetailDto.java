@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class NoticeDetailDto implements Serializable {
     private String send_user_id;
     public String content;
+    public String title;
     private String opt_type;
     private String msg_type;
     public String type;

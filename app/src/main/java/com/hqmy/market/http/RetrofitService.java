@@ -120,6 +120,14 @@ public interface RetrofitService {
     @POST("api/base/authorizations")
     Single<HttpResult<LoginDto>> login(@Body RequestBody body);
 
+
+    @POST("/api/live/chatter/quit")
+    Single<Object> quitChatter(@Header("Authorization") String token,@QueryMap Map<String, String> map);
+    /**
+     * 聊天室成员列表
+     */
+    @POST("api/live/chatter")
+    Single<Object> joinChatter(@Header("Authorization") String token,@QueryMap Map<String, String> map);
     /**
      * 用户注册接口
      */
@@ -553,6 +561,11 @@ public interface RetrofitService {
      */
     @GET("api/base/user/notifications")
     Single<HttpResult<List<NoticeDto>>> getNoticeList(@Header("Authorization") String token, @QueryMap Map<String, String> map);
+    /**
+     * 消息通知列表
+     */
+    @GET("api/package/pages/announcement")
+    Single<HttpResult<List<NoticeDto>>> announcement( @QueryMap Map<String, String> map);
 
     /**
      * 验证好友申请
@@ -915,7 +928,7 @@ public interface RetrofitService {
     /**
      * 聊天室成员列表
      */
-    @GET("api/live/chatter/index")
+    @GET("api/live/chatter")
     Single<HttpResult<List<RoomUserBean>>> liveChatter(@QueryMap Map<String, String> map);
 
     /**

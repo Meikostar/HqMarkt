@@ -15,6 +15,7 @@ public class NoticeDto implements Serializable {
     private String updated_at;
     public String subject;
     public String content;
+    public String title;
 
     public String img;
     public String getId() {

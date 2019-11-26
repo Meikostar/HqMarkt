@@ -100,7 +100,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
     //    @BindView(R.id.tv_room_num)
     //    TextView           tvRoomNum;
     //    @BindView(R.id.iv_icon)
-    //    ImageView          ivIcon;
+    //    ImageView        setData  ivIcon;
     //    @BindView(R.id.giftView)
     //    GiftView           giftView;
     //    @BindView(R.id.recyclerView)
@@ -257,8 +257,8 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
     private void sendDanmuMessage(String text) {
         ChatroomBarrage barrage = new ChatroomBarrage();
         barrage.setContent(text);
-        barrage.setName(getUserName());
-        barrage.setUrl(getUserUrl());
+        barrage.setName(getUserUrl());
+        barrage.setUrl(getUserName());
         barrage.setType(0);
         ChatroomKit.sendMessage(barrage);
     }
@@ -1255,8 +1255,8 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
             ChatroomBarrage barrage = (ChatroomBarrage) messageContent;
             DanmuEntity danmuEntity = new DanmuEntity();
             danmuEntity.setContent(barrage.getContent());
-            danmuEntity.setUrl(barrage.getUrl());
-            danmuEntity.setName(barrage.getName());
+            danmuEntity.setUrl(barrage.getName());
+            danmuEntity.setName(barrage.getUrl());
             danmuEntity.setType(barrage.getType());
             danmuContainerView.addDanmu(danmuEntity);
         } else if (messageContent instanceof ChatroomUser) {

@@ -672,7 +672,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
             tvMinBugNum.setText(commodityDetailDto.labels.get(0));
         }
         WebViewUtil.setWebView(webView, Objects.requireNonNull(this));
-        WebViewUtil.loadHtml(webView, commodityDetailDto.getContent());
+        WebViewUtil.loadHtml(webView,TextUtil.isNotEmpty(commodityDetailDto.getContent())?( commodityDetailDto.getContent().equals("null")?"": commodityDetailDto.getContent()):"");
         dissLoadDialog();
 
         if(commodityDetailDto.brand!=null&&commodityDetailDto.brand.data!=null){

@@ -2,12 +2,18 @@ package com.hqmy.market.bean;
 
 public class RoomUserBean {
     private String id;
-    private String user_id;
-    private String chat_room_id;
-    private String role;
-    private String status;
-    private String created_at;
+    public String user_id;
+    public String chat_room_id;
+    public String role;
+    public String status;
+    public String created_at;
+    public RoomInfo user;
+    public RoomInfo data;
+    public String room_name;
+    public String room_type;
 
+    public String name;
+    public String phone;
     public String getId() {
         return id;
     }

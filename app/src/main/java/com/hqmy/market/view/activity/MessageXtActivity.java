@@ -61,7 +61,7 @@ public class MessageXtActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mTitleText.setText("订单通知");
+        mTitleText.setText("系统消息");
         rvList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAdapter = new MessageCenterAdapter(this);
         rvList.setAdapter(mAdapter);
@@ -95,8 +95,9 @@ public class MessageXtActivity extends BaseActivity {
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("page", mCurrentPage + "");
-        map.put("filter[type]","Modules\\Base\\Notifications\\SystemNotify");
-        DataManager.getInstance().getNoticeList(new DefaultSingleObserver<HttpResult<List<NoticeDto>>>() {
+        map.put("sort",  "-id");
+        map.put("show_content","1");
+        DataManager.getInstance().announcement(new DefaultSingleObserver<HttpResult<List<NoticeDto>>>() {
             @Override
             public void onSuccess(HttpResult<List<NoticeDto>> result) {
                 dissLoadDialog();
