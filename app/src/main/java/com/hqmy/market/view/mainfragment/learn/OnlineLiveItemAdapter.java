@@ -10,6 +10,7 @@ import com.hqmy.market.R;
 import com.hqmy.market.bean.VideoLiveBean;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.GlideUtils;
+import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.activity.LiveVideoViewActivity;
 
 public class OnlineLiveItemAdapter extends BaseQuickAdapter<VideoLiveBean, BaseViewHolder> {
@@ -39,8 +40,12 @@ public class OnlineLiveItemAdapter extends BaseQuickAdapter<VideoLiveBean, BaseV
         if (videoLiveBean.getRoom() != null && videoLiveBean.getRoom().getData() != null) {
             intent.putExtra("roomId", videoLiveBean.getRoom().getData().getId());
         }
-        if (videoLiveBean.apply != null && videoLiveBean.apply.getData() != null) {
+        if (videoLiveBean.apply != null && videoLiveBean.apply.getData() != null&&TextUtil.isEmpty(videoLiveBean.end_at)) {
             intent.putExtra("videoPath", videoLiveBean.apply.getData().rtmp_play_url);
+        }else {
+            if(TextUtil.isNotEmpty(videoLiveBean.end_at)&&TextUtil.isNotEmpty(videoLiveBean.play_url)){
+                intent.putExtra("videoPath", "http://pili-vod.app.b-market.shop/"+videoLiveBean.play_url);
+            }
         }
         intent.putExtra("videoId", videoLiveBean.getId());
         intent.putExtra("liveStreaming", 1);

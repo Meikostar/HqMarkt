@@ -24,6 +24,8 @@ import com.hqmy.market.common.utils.Compressor;
 import com.hqmy.market.common.utils.GlideUtils;
 import com.hqmy.market.common.utils.StringUtil;
 import com.hqmy.market.common.utils.ToastUtil;
+import com.hqmy.market.eventbus.FinishEvent;
+import com.hqmy.market.eventbus.LogoutEvent;
 import com.hqmy.market.http.DefaultSingleObserver;
 import com.hqmy.market.http.error.ApiException;
 import com.hqmy.market.http.manager.DataManager;
@@ -38,6 +40,8 @@ import com.lwkandroid.imagepicker.data.ImagePickType;
 import com.lwkandroid.imagepicker.utils.GlideImagePickerDisplayer;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -590,6 +594,7 @@ public class AfterLoginActivity extends BaseActivity {
             public void onSuccess(HttpResult<Object> result) {
                 dissLoadDialog();
                 if(TextUtil.isNotEmpty(phone)){
+                    EventBus.getDefault().post(new FinishEvent());
                     gotoActivity(MainActivity.class, false);
                 }
 
@@ -602,6 +607,7 @@ public class AfterLoginActivity extends BaseActivity {
                 dissLoadDialog();
                 if (ApiException.getInstance().isSuccess()) {
                     if(TextUtil.isNotEmpty(phone)){
+                        EventBus.getDefault().post(new FinishEvent());
                         gotoActivity(MainActivity.class, false);
                     }
                     ToastUtil.showToast("提交成功，请等待审核");

@@ -634,7 +634,7 @@ public class LiveSearchActivity extends BaseActivity {
 //        }
         showLoadDialog();
         HashMap<String, String> map = new HashMap<>();
-        map.put("filter[live_title]", etSearchRoom.getText().toString());
+        map.put("filter[title]", etSearchRoom.getText().toString());
         if(TextUtil.isNotEmpty(brandId)){
             map.put("filter[mall_brand_id]", brandId);
         }
@@ -645,8 +645,7 @@ public class LiveSearchActivity extends BaseActivity {
             map.put("filter[live_video_cate_id]", TypeId);
         }
 
-
-        map.put("include", "room,user,cate");
+        map.put("include", "room,user,apply,cate");
         DataManager.getInstance().liveVideos(new DefaultSingleObserver<HttpResult<List<VideoLiveBean>>>() {
             @Override
             public void onSuccess(HttpResult<List<VideoLiveBean>> result) {

@@ -110,7 +110,14 @@ public class HotLiveAdapter extends BaseAdapter {
     }
     private void startLiveVideoActivity(VideoLiveBean videoLiveBean) {
         Intent intent = new Intent(context, LiveVideoViewActivity.class);
-        intent.putExtra("videoPath", videoLiveBean.getRtmp_play_url());
+
+        if (videoLiveBean.apply != null && videoLiveBean.apply.getData() != null&&TextUtil.isEmpty(videoLiveBean.end_at)) {
+            intent.putExtra("videoPath", videoLiveBean.apply.getData().rtmp_play_url);
+        }else {
+            if(TextUtil.isNotEmpty(videoLiveBean.end_at)&&TextUtil.isNotEmpty(videoLiveBean.play_url)){
+                intent.putExtra("videoPath", "http://pili-vod.app.b-market.shop/"+videoLiveBean.play_url);
+            }
+        }
         if (videoLiveBean.getRoom() != null && videoLiveBean.getRoom().getData() != null) {
             intent.putExtra("roomId", videoLiveBean.getRoom().getData().getId());
         }

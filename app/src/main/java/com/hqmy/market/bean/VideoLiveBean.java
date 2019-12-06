@@ -20,6 +20,7 @@ public class VideoLiveBean {
     public String               products_count;
     public String               chatter_total;
     public String               images;
+    public String               end_at;
     public String               play_count;
     private VideoLiveUserInfo    user;
     public  RoomInfo             room;
