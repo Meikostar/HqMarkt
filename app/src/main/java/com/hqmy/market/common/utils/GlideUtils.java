@@ -102,8 +102,7 @@ public class GlideUtils {
                         .placeholder(moren) // 预加载图片
                         .error(moren) // 加载失败显示图片
                         .priority(Priority.HIGH) // 优先级
-                        // .diskCacheStrategy(DiskCacheStrategy.NONE) // 缓存策略
-                        .transforms(new CenterCrop(), new RoundCornerTransform(ScreenSizeUtil.dp2px(cornerDp)))) // 转化为圆角
+                         ) // 转化为圆角
                 .into(imageView);
     }
     /**

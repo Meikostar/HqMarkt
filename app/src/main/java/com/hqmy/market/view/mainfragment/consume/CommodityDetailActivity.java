@@ -347,7 +347,7 @@ public class CommodityDetailActivity extends BaseActivity implements BaseActivit
                 @Override
                 public void sureItem(int position) {
                     boolean isTimelineCb = false;
-                    String url = "http://ax.jmlax.com/download?mall_type=" + mall_type + "&id=" + product_id;
+                    String url = "http://app.b-market.shop/download?mall_type=" + mall_type + "&id=" + product_id;
                     String title = commodityDetailInfoDto.getTitle();
                     if (position == ShareModeDialog.SHARE_PYQ) {
                         isTimelineCb = true;

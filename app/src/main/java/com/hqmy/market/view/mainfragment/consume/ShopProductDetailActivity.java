@@ -95,7 +95,7 @@ public class ShopProductDetailActivity extends BaseActivity {
                 @Override
                 public void sureItem(int position) {
                     boolean isTimelineCb = false;
-                    String url = "http://ax.jmlax.com/download?mall_type=" + mall_type + "&id=" + productId + "&from=ShopDetailActivity";
+                    String url = "http://app.b-market.shop/download?mall_type=" + mall_type + "&id=" + productId + "&from=ShopDetailActivity";
                     String title = "实体店铺分享";
                     if (position == ShareModeDialog.SHARE_PYQ) {
                         isTimelineCb = true;

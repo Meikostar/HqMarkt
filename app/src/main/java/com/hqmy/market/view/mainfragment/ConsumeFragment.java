@@ -149,10 +149,7 @@ public class ConsumeFragment extends BaseFragment {
     private Homedapter mHomedapter;
     @Override
     protected void initData() {
-        GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivOne, 8f, "",R.drawable.home_1);
-        GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivTwo, 8f, "",R.drawable.home_2);
-        GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivThree, 8f, "",R.drawable.home_3);
-        GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivFour, 8f, "",R.drawable.home_4);
+
 
 
         refreshLayout.autoRefresh();
@@ -160,7 +157,7 @@ public class ConsumeFragment extends BaseFragment {
         getLocation();
         getHomeCategorie();
         getTopBanner();
-        getMiddleBanner();
+        getFourBanner();
         getHeadLines();
 //        getHomeRecommendList();
 //        findGoodLists();
@@ -515,7 +512,29 @@ public class ConsumeFragment extends BaseFragment {
             }
         }, "index_middle");
     }
+    private void getFourBanner() {
+        //showLoadDialog();
+        DataManager.getInstance().getBannerList(new DefaultSingleObserver<HttpResult<BannerInfoDto>>() {
+            @Override
+            public void onSuccess(HttpResult<BannerInfoDto> result) {
+                //dissLoadDialog();
+                if (result != null) {
+                    if (result.getData() != null) {
+                        List<BannerItemDto> bannerList = result.getData().getIndex_middle();
+                        GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivOne, 0f, Constants.WEB_IMG_URL_UPLOADS+result.getData().index_after_category_1.get(0).getPath(),R.drawable.home_1);
+                        GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivTwo, 0f,Constants.WEB_IMG_URL_UPLOADS+ result.getData().index_after_category_2_left.get(0).getPath(),R.drawable.home_2);
+                        GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivThree, 0f,Constants.WEB_IMG_URL_UPLOADS+ result.getData().index_after_category_2_right_top.get(0).getPath(),R.drawable.home_3);
+                        GlideUtils.getInstances().loadRoundCornerImg(getActivity(), ivFour, 0f, Constants.WEB_IMG_URL_UPLOADS+result.getData().index_after_category_2_right_bottom.get(0).getPath(),R.drawable.home_4);
+                    }
+                }
+            }
 
+            @Override
+            public void onError(Throwable throwable) {
+                //dissLoadDialog();
+            }
+        }, "index_after_category_1,index_after_category_2_left,index_after_category_2_right_top,index_after_category_2_right_bottom");
+    }
     private void getHeadLines() {
         //showLoadDialog();
         Map<String, String> map = new HashMap<>();

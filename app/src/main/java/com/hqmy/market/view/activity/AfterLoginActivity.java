@@ -412,7 +412,7 @@ public class AfterLoginActivity extends BaseActivity {
                 //                ToastUtil.toast(ApiException.getInstance().getErrorMsg());
                 ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));
             }
-        }, "seller", part);
+        }, "image", part);
     }
 
 

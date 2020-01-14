@@ -123,7 +123,7 @@ public class MyQRcodeActivity extends BaseActivity {
                     @Override
                     public void sureItem(int position) {
                         boolean isTimelineCb = false;
-                        //http://ax.jmlax.com/api/package/user/invitation_img?user_id=14
+                        //http://app.b-market.shop/api/package/user/invitation_img?user_id=14
                         String url = "http://app.b-market.shop/register?invite_code=from_id_" + ShareUtil.getInstance().getString(Constants.USER_ID, "");
                         String title = "我的推广码";
                         if (position == ShareModeDialog.SHARE_PYQ) {

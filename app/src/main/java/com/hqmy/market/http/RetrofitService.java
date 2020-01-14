@@ -1146,7 +1146,7 @@ public interface RetrofitService {
     /**
      * 评价完成，推荐列表
      */
-    @GET("api/package/mall/lm/products/random")
+    @GET("api/package/mall/default/products/random")
     Single<HttpResult<List<ProductBean>>> getProductsRandom(@Header("Authorization") String token, @QueryMap Map<String, String> map);
 
     /**
@@ -1281,6 +1281,10 @@ public interface RetrofitService {
     /**
      * 获取红包详情
      */
+
+
+
+
     @GET("api/wallet/cash/coupon")
     Single<HttpResult<RedPacketInfoDto>> getPacketInfo(@Header("Authorization") String token, @Query("cash_coupon_id") String cash_coupon_id, @Query("include") String include);
 

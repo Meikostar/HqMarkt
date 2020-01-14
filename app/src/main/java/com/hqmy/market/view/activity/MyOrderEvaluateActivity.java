@@ -106,7 +106,7 @@ public class MyOrderEvaluateActivity extends BaseActivity {
     private List<String> areadUploadImg = new ArrayList<>();
     private ReasonUploadPicAdapter mAdapter;
 
-    String orderNo, itemId,orderId;
+    String orderNo, itemId,orderId,type;
     @Override
     public void initListener() {
         bindClickEvent(btn_sure, () -> {
@@ -126,6 +126,7 @@ public class MyOrderEvaluateActivity extends BaseActivity {
         if (bundle != null) {
             itemId = bundle.getString(Constants.INTENT_ID);
             orderNo = bundle.getString(Constants.INTENT_ORDER_NO);
+            type = bundle.getString("type");
             tvOrderNo.setText("订单编号："+orderNo);
             orderId = bundle.getString("orderId");
             tvItemOrderStatus.setText(getIntent().getStringExtra(Constants.INTENT_ORDER_STATUS));
@@ -201,9 +202,9 @@ public class MyOrderEvaluateActivity extends BaseActivity {
         }
 
     }
-
+     private String ids;
     private void upLoadFinish() {
-
+        ids="";
         Map<String, Object> map = new HashMap<>();
         map.put("id", itemId);
         map.put("object","SMG\\Mall\\Models\\MallProduct");
@@ -212,15 +213,27 @@ public class MyOrderEvaluateActivity extends BaseActivity {
         map.put("comment", ed_info.getText().toString());
         if (areadUploadImg.size() > 0) {
             for (int i = 0; i < areadUploadImg.size(); i++) {
-                map.put("images[" + i + "]", areadUploadImg.get(i));
+               if(i==0){
+                   ids= areadUploadImg.get(i);
+               }else {
+               ids=ids+","+ areadUploadImg.get(i);
+
             }
         }
+        if(TextUtil.isNotEmpty(ids)){
+            map.put("images",ids);
+            }
+        }
+
         map.put("flag",orderId);
         DataManager.getInstance().toComment(new DefaultSingleObserver<Object>() {
             @Override
             public void onSuccess(Object o) {
                 dissLoadDialog();
-                gotoActivity(MyOrderEvaluateSuccessActivity.class);
+                Intent intent = new Intent(MyOrderEvaluateActivity.this, MyOrderEvaluateSuccessActivity.class);
+                intent.putExtra("type",type);
+                startActivity(intent);
+
                 finish();
             }
 
@@ -228,7 +241,9 @@ public class MyOrderEvaluateActivity extends BaseActivity {
             public void onError(Throwable throwable) {
                 dissLoadDialog();
                 if (ApiException.getInstance().isSuccess()) {
-                    gotoActivity(MyOrderEvaluateSuccessActivity.class);
+                    Intent intent = new Intent(MyOrderEvaluateActivity.this, MyOrderEvaluateSuccessActivity.class);
+                    intent.putExtra("type",type);
+                    startActivity(intent);
                     finish();
                 } else {
                     ToastUtil.showToast(ApiException.getHttpExceptionMessage(throwable));

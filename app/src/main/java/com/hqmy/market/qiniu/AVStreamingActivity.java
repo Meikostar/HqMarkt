@@ -361,7 +361,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Stream
                     @Override
                     public void sureItem(int position) {
                         boolean isTimelineCb = false;
-                        //http://ax.jmlax.com/api/package/user/invitation_img?user_id=14
+                        //http://app.b-market.shop/api/package/user/invitation_img?user_id=14
                         String url = Constants.BASE_URL + "api/package/user/invitation_img?user_id=" + ShareUtil.getInstance().getString(Constants.USER_ID, "");
                         String title = "我的推广码";
                         if (position == ShareModeDialog.SHARE_PYQ) {

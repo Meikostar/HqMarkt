@@ -93,12 +93,22 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".view.WelcomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name=".WelcomeActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:host="com.hqmy.market"
+                    android:scheme="hqmy"
+                    />
 
             </intent-filter>
         </activity>
@@ -116,16 +126,7 @@
                     android:pathPrefix="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="hqmy"
-                    android:host="com.hqmy.market"
-                    android:path="/openPage"/>
-            </intent-filter>
         </activity>
         <activity
             android:name="com.hqmy.market.view.mainfragment.consume.LoveFactoryActivity"

@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">环球贸易</string>
+    <string name="app_name">BMARKET</string>
     <string name="news_channel">新闻频道</string>
     <string name="hot_topic">热门话题</string>
 

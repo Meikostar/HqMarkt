@@ -335,14 +335,14 @@ public class TopicDetailActivity extends BaseActivity {
 
         bindClickEvent(iv_wx, () -> {
             boolean isTimelineCb = false;
-            String url = "http://ax.jmlax.com/download?id=" + bean.getId();
+            String url = "http://app.b-market.shop/download?id=" + bean.getId();
             String title = bean.getContent();
             ShareUtil.sendToWeaChat(TopicDetailActivity.this, isTimelineCb, title, url);
         });
 
         bindClickEvent(iv_pyq, () -> {
             boolean isTimelineCb = true;
-            String url = "http://ax.jmlax.com/download?id=" + bean.getId();
+            String url = "http://app.b-market.shop/download?id=" + bean.getId();
             String title = bean.getContent();
             ShareUtil.sendToWeaChat(TopicDetailActivity.this, isTimelineCb, title, url);
         });

@@ -1,7 +1,6 @@
 package com.hqmy.market.view.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.hqmy.market.bean.PersonalInfoDto;
 import com.hqmy.market.common.Constants;
 import com.hqmy.market.common.utils.LogUtil;
 import com.hqmy.market.common.utils.ToastUtil;
-import com.hqmy.market.db.bean.UserInfo;
 import com.hqmy.market.eventbus.FinishEvent;
 import com.hqmy.market.eventbus.LogoutEvent;
 import com.hqmy.market.http.DefaultSingleObserver;
@@ -28,7 +26,6 @@ import com.hqmy.market.http.request.UserRegister;
 import com.hqmy.market.utils.ShareUtil;
 import com.hqmy.market.utils.TextUtil;
 import com.hqmy.market.view.MainActivity;
-import com.hqmy.market.view.WelcomeActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,7 +33,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.rong.imlib.RongIMClient;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.tv_title_text)
@@ -79,7 +75,12 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initData() {
         isRememberPasswordChecked = ShareUtil.getInstance().getBoolean(Constants.REMEMBER_PASSWORD,false);
-
+//        actionbar.getBackView().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finishAll();
+//            }
+//        });
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             if(bundle.getString("log_out").equals("LOG_OUT")){
@@ -135,7 +136,7 @@ public class LoginActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_title_back:
-                finish();
+                finishAll();
                 break;
             case R.id.tv_login:
                 if (verifyConditionLogin()) {
@@ -189,7 +190,10 @@ public class LoginActivity extends BaseActivity {
         }
         return true;
     }
-
+    @Override
+    public void onBackPressed() {
+        finishAll();
+    }
     private void login(String username, String password) {
         UserRegister userRegister = new UserRegister();
         userRegister.setPhone(username);
@@ -266,7 +270,8 @@ public class LoginActivity extends BaseActivity {
               }else if(loginDto.getUser().getData().userExt.data.status==2) {
                   ToastUtil.showToast("审核失败，请重新提交审核");
                   Intent intent = new Intent(LoginActivity.this, AfterLoginActivity.class);
-
+//                  ShareUtil.getInstance().cleanUserInfo();
+//                  EventBus.getDefault().post(new LogoutEvent());
                   if(TextUtil.isNotEmpty(initvate)){
                       intent.putExtra("phone",initvate);
                   }
@@ -274,12 +279,14 @@ public class LoginActivity extends BaseActivity {
 //                  gotoActivity(AfterLoginActivity.class, false);
               }else if(loginDto.getUser().getData().userExt.data.status==0){
                   ToastUtil.showToast("审核中，请耐心等待审核!");
-
+                  ShareUtil.getInstance().cleanUserInfo();
+                  EventBus.getDefault().post(new LogoutEvent());
               }
 
 
           }else {
               ToastUtil.showToast("审核失败，请重新提交审核");
+
               Intent intent = new Intent(LoginActivity.this, AfterLoginActivity.class);
 
               if(TextUtil.isNotEmpty(initvate)){

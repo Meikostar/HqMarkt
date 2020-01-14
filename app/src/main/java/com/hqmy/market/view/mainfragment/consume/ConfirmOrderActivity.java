@@ -173,7 +173,7 @@ public class ConfirmOrderActivity extends BaseActivity {
                     map.put("product_id", product_id);
 
                 }
-                map.put("address_id", addressId);
+//                map.put("address_id", addressId);
                 map.put("include", "shop_name");
                 getOrderPreInfo(mall_type, map);
             } else {
@@ -413,6 +413,9 @@ public class ConfirmOrderActivity extends BaseActivity {
             if(TextUtil.isNotEmpty(dto.comment)){
                 map.put("comment[" + dto.getShop_id() + "]", dto.comment);
             }
+        }
+        if (TextUtil.isNotEmpty(countBuy)) {
+            map.put("qty", countBuy);
         }
         if (rowList != null) {
             if (products != null) {

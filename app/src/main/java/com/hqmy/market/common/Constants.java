@@ -12,7 +12,7 @@ public class Constants {
      */
     public static final boolean open_log = true;
 
-//    public final static String BASE_URL = "http://ax.jmlax.com/";
+//    public final static String BASE_URL = "http://app.b-market.shop/";
     public final static String BASE_URL = "http://app.b-market.shop/";
     /**
      * 请求http网络图片前缀url。 后台上传

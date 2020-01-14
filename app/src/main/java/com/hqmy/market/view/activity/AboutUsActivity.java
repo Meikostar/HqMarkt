@@ -36,7 +36,7 @@ public class AboutUsActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mVersionName.setText("环球贸易 V"+AppUtils.getVersionName(this));
+        mVersionName.setText("BMARKET V"+AppUtils.getVersionName(this));
     }
 
     @OnClick({R.id.iv_title_back

@@ -201,12 +201,13 @@ public class ShareUtil {
         //editor.putString(Constants.USER_PHONE, "");
         editor.putString(Constants.USER_HEAD, "");
         editor.putString(Constants.USER_ID, "");
+        editor.putInt(Constants.IS_PASS, -1);
         //editor.clear();
         //清空但保存不是一登录
         editor.putBoolean(Constants.NO_LOGIN_SUCCESS, false);
         //设置是否第一次登录的标志
         editor.putBoolean(Constants.IS_FIRST_RUN,true);
-        //清空但保存提示信息
+        //清空但保存提示信息ShareUtil.getInstance().saveInt(Constants.IS_PASS, -1);
         //editor.putBoolean(Constants.NOTFIRST, true);
         editor.commit();
     }
@@ -359,7 +360,7 @@ public class ShareUtil {
         //用WXWebpageObject对象初始化一个WXMediaMessage，天下标题，描述
         WXMediaMessage msg = new WXMediaMessage(webpageObject);
         msg.title = title;
-        msg.description = "环球贸易";
+        msg.description = "BMARKET";
         Bitmap thumb = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_logo);
 
         Bitmap thumbBmp = Bitmap.createScaledBitmap(thumb, 120, 120, true);

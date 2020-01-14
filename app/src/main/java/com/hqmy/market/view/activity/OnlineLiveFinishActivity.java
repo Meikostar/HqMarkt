@@ -68,7 +68,7 @@ public class OnlineLiveFinishActivity extends BaseActivity {
 
 //                    GlideUtils.getInstances().loadRoundImg(OnlineLiveFinishActivity.this,imgUserHeader,Constants.WEB_IMG_URL_STORAGE+result.getData().getImages(),R.drawable.moren_ren);
                     tvHomeNumber.setText("房间号："+result.getData().getLive_title());
-                    tvDianZan.setText(result.getData().getLikers_count());
+                    tvDianZan.setText(result.getData().getFloolwers_count());
                     tvPeopleNumber.setText(result.getData().getPlay_count());
                     tvPlayTime.setText(result.getData().getSpace_time());
                 }

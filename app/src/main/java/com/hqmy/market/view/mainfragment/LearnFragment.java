@@ -216,7 +216,7 @@ public class LearnFragment extends BaseFragment {
 
         bindClickEvent(tv_shop_cart_submit, () -> {
             rowList.clear();
-            if(total > 0) {
+            if(total == 1) {
 //                Iterator<ShopCartListItemDto> items = shopSelectList.iterator();
 //
 //                while (items.hasNext()) {
@@ -259,7 +259,12 @@ public class LearnFragment extends BaseFragment {
                     delShoppingCart(map);
                 }
             }else{
-                ToastUtil.showToast("请先选择商品");
+                if(total>1){
+                    ToastUtil.showToast("只能选择一款商品");
+                }else {
+                    ToastUtil.showToast("请先选择商品");
+                }
+
             }
         });
     }

@@ -271,13 +271,13 @@ public class HuoDonDetailActivity extends BaseActivity {
         bindClickEvent(iv_wx, () -> {
             if(TextUtils.isEmpty(from)) {
                 boolean isTimelineCb = false;
-                String url = "http://ax.jmlax.com/download?id=" + mNewsRecommendListItemDto.getId();
+                String url = "http://app.b-market.shop/download?id=" + mNewsRecommendListItemDto.getId();
                 String title = mNewsRecommendListItemDto.getTitle();
                 ShareUtil.sendToWeaChat(HuoDonDetailActivity.this, isTimelineCb, title, url);
             }else{
                 if("other".equals(from)){
                     boolean isTimelineCb = false;
-                    String url = "http://ax.jmlax.com/download?id=" + mNewsOtherListItemDto.getId();
+                    String url = "http://app.b-market.shop/download?id=" + mNewsOtherListItemDto.getId();
                     String title = mNewsOtherListItemDto.getTitle();
                     ShareUtil.sendToWeaChat(HuoDonDetailActivity.this, isTimelineCb, title, url);
                 }
@@ -287,13 +287,13 @@ public class HuoDonDetailActivity extends BaseActivity {
         bindClickEvent(iv_pyq, () -> {
             if(TextUtils.isEmpty(from)) {
                 boolean isTimelineCb = true;
-                String url = "http://ax.jmlax.com/download?id=" + mNewsRecommendListItemDto.getId();
+                String url = "http://app.b-market.shop/download?id=" + mNewsRecommendListItemDto.getId();
                 String title = mNewsRecommendListItemDto.getTitle();
                 ShareUtil.sendToWeaChat(HuoDonDetailActivity.this, isTimelineCb, title, url);
             }else{
                 if("other".equals(from)){
                     boolean isTimelineCb = true;
-                    String url = "http://ax.jmlax.com/download?id=" + mNewsOtherListItemDto.getId();
+                    String url = "http://app.b-market.shop/download?id=" + mNewsOtherListItemDto.getId();
                     String title = mNewsOtherListItemDto.getTitle();
                     ShareUtil.sendToWeaChat(HuoDonDetailActivity.this, isTimelineCb, title, url);
                 }

@@ -22,8 +22,7 @@ public class OnlineLiveItemAdapter extends BaseQuickAdapter<VideoLiveBean, BaseV
     protected void convert(BaseViewHolder helper, VideoLiveBean item) {
         GlideUtils.getInstances().loadNormalImg(mContext, helper.getView(R.id.iv_icon), Constants.WEB_IMG_URL_UPLOADS + item.getImages());
         helper.setText(R.id.tv_title, item.getTitle())
-                .setText(R.id.tv_play_count, item.getPlay_count())
-                .setText(R.id.tv_chatter_total, item.getChatter_total());
+                .setText(R.id.tv_chatter_total, item.getChatter_total()+"人观看");
         RelativeLayout rlbg=helper.getView(R.id.rl_bg);
         rlbg.setOnClickListener(new View.OnClickListener() {
             @Override

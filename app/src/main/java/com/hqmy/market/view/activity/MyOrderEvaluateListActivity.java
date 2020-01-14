@@ -84,6 +84,7 @@ public class MyOrderEvaluateListActivity extends BaseActivity {
                 bundle.putString(Constants.IMAGEITEM_IMG_URL, myOrderItemDto.getProduct().getData().getCover());
                 bundle.putString("goods_title", myOrderItemDto.getTitle());
                 bundle.putString("goods_price", myOrderItemDto.getPrice());
+                bundle.putString("type", myOrderItemDto.getType());
                 bundle.putString("goods_num", myOrderItemDto.getQty());
                 StringBuilder options = new StringBuilder();
                 if (myOrderItemDto.getOptions() != null && myOrderItemDto.getOptions().get("尺码") != null) {

@@ -51,7 +51,7 @@ public class MyOrderEvaluateSuccessActivity extends BaseActivity {
     RecyclerView rcyclerView;
     private int mPage = 1;
     private MyOrderEvaluateSuccessAdapter mAdapter;
-
+    private String type;
     @Override
     public void initListener() {
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -65,7 +65,7 @@ public class MyOrderEvaluateSuccessActivity extends BaseActivity {
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                ++mPage;
+                mPage = 1;
                 getProductsRandom();
             }
         });
@@ -79,6 +79,7 @@ public class MyOrderEvaluateSuccessActivity extends BaseActivity {
     @Override
     public void initView() {
         tvTitleText.setText("评价结果");
+        type=getIntent().getStringExtra("type");
         rcyclerView.setLayoutManager(new GridLayoutManager(this,2));
         mAdapter = new MyOrderEvaluateSuccessAdapter();
         rcyclerView.setAdapter(mAdapter);
@@ -101,6 +102,7 @@ public class MyOrderEvaluateSuccessActivity extends BaseActivity {
     private void getProductsRandom() {
         Map<String, String> map = new HashMap<>();
         map.put("page",mPage+"");
+
         DataManager.getInstance().getProductsRandom(new DefaultSingleObserver<HttpResult<List<ProductBean>>>() {
             @Override
             public void onSuccess(HttpResult<List<ProductBean>> httpResult) {
@@ -137,12 +139,12 @@ public class MyOrderEvaluateSuccessActivity extends BaseActivity {
             mRefreshLayout.setEnableRefresh(true);
             mAdapter.addData(httpResult.getData());
         }
-
-        if (httpResult.getMeta() != null && httpResult.getMeta().getPagination() != null) {
-            if (httpResult.getMeta().getPagination().getTotal_pages() == httpResult.getMeta().getPagination().getCurrent_page()) {
-                mRefreshLayout.finishLoadMoreWithNoMoreData();
-            }
-        }
+        mRefreshLayout.finishLoadMoreWithNoMoreData();
+//        if (httpResult.getMeta() != null && httpResult.getMeta().getPagination() != null) {
+//            if (httpResult.getMeta().getPagination().getTotal_pages() == httpResult.getMeta().getPagination().getCurrent_page()) {
+//
+//            }
+//        }
     }
     @OnClick({R.id.iv_title_back,R.id.tv_finish})
     public void onClick(View view) {
